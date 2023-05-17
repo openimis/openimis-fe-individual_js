@@ -1,2 +1,36 @@
 {
+  "mainMenuBeneficiary": "Beneficiares and Households",
+  "emptyLabel": " ",
+  "any": "Any",
+  "editButtonTooltip": "Edit",
+  "deleteButtonTooltip": "Delete",
+  "dialog": {
+    "create": "Create",
+    "update": "Save",
+    "cancel": "Cancel"
+  },
+  "menu": {
+    "individuals": "Individuals"
+  },
+  "individual": {
+    "pageTitle": "Individual {firstName} {lastName}",
+    "headPanelTitle": "General Information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "dob": "Day of birth",
+    "dateValidFrom": "From",
+    "dateValidTo": "To",
+    "json_ext": "Additional fields",
+    "delete": {
+      "confirm": {
+        "title": "Delete {firstName} {lastName}?",
+        "message": "Deleting data does not mean erasing it from OpenIMIS database. The data will only be deactivated from the viewed list."
+      },
+      "mutationLabel": "Delete Individual {firstName} {lastName}"
+    }
+  },
+  "individuals": {
+    "pageTitle": "Individuals",
+    "searcherResultsTitle": "{individualsTotalCount} Individuals Found"
+  }
 }
