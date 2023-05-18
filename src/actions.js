@@ -1,4 +1,11 @@
-import { graphql, formatPageQuery, formatPageQueryWithCount, formatMutation, formatGQLString } from "@openimis/fe-core";
+import { 
+  decodeId,
+  graphql, 
+  formatPageQuery, 
+  formatPageQueryWithCount, 
+  formatMutation, 
+  formatGQLString 
+} from "@openimis/fe-core";
 import { ACTION_TYPE } from "./reducer";
 import { ERROR, REQUEST, SUCCESS } from "./util/action-type";
 
@@ -48,11 +55,26 @@ function dateTimeToDate(date) {
 
 function formatIndividualGQL(individual) {
   return `
-    ${!!individual.id ? `id: "${decodeId(individual.id)}"` : ""}
-    ${!!individual.firstName ? `code: "${formatGQLString(individual.firstName)}"` : ""}
-    ${!!individual.lastName ? `tradeName: "${formatGQLString(individual.lastName)}"` : ""}
+    ${!!individual.id ? `id: "${individual.id}"` : ""}
+    ${!!individual.firstName ? `firstName: "${formatGQLString(individual.firstName)}"` : ""}
+    ${!!individual.lastName ? `lastName: "${formatGQLString(individual.lastName)}"` : ""}
     ${!!individual.jsonExt ? `jsonExt: ${JSON.stringify(individual.jsonExt)}` : ""}
     ${!!individual.dob ? `dob: "${dateTimeToDate(individual.dob)}"` : ""}
     ${!!individual.dateValidFrom ? `dateValidFrom: "${dateTimeToDate(individual.dateValidFrom)}"` : ""}
     ${!!individual.dateValidTo ? `dateValidTo: "${dateTimeToDate(individual.dateValidTo)}"` : ""}`;
 }
+
+export function updateIndividual(individual, clientMutationLabel) {
+    const mutation = formatMutation("updateIndividual", formatIndividualGQL(individual), clientMutationLabel);
+    const requestedDateTime = new Date();
+    return graphql(
+      mutation.payload,
+      [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.UPDATE_INDIVIDUAL), ERROR(ACTION_TYPE.MUTATION)],
+      {
+        actionType: ACTION_TYPE.UPDATE_INDIVIDUAL,
+        clientMutationId: mutation.clientMutationId,
+        clientMutationLabel,
+        requestedDateTime,
+      },
+    );
+  }

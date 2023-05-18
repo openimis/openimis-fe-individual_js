@@ -15,6 +15,7 @@ export const ACTION_TYPE = {
   SEARCH_INDIVIDUALS: "INDIVIDUAL_INDIVIDUALS",
   GET_INDIVIDUAL: "INDIVIDUAL_INDIVIDUAL",
   DELETE_INDIVIDUAL: "INDIVIDUAL_DELETE_INDIVIDUAL",
+  UPDATE_INDIVIDUAL: "INDIVIDUAL_UPDATE_INDIVIDUAL"
 };
 
 function reducer(
@@ -95,6 +96,8 @@ function reducer(
       return dispatchMutationErr(state, action);
     case SUCCESS(ACTION_TYPE.DELETE_INDIVIDUAL):
       return dispatchMutationResp(state, "deleteIndividual", action);
+    case SUCCESS(ACTION_TYPE.UPDATE_INDIVIDUAL):
+      return dispatchMutationResp(state, "updateIndividual", action);
     default:
       return state;
   }

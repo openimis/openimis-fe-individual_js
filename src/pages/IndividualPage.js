@@ -13,7 +13,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { withTheme, withStyles } from "@material-ui/core/styles";
 import { RIGHT_INDIVIDUAL_UPDATE } from "../constants";
-import { fetchIndividual, deleteIndividual } from "../actions";
+import { fetchIndividual, deleteIndividual, updateIndividual } from "../actions";
 import IndividualHeadPanel from "../components/IndividualHeadPanel";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { ACTION_TYPE } from "../reducer";
@@ -31,6 +31,7 @@ const IndividualPage = ({
   individual,
   fetchIndividual,
   deleteIndividual,
+  updateIndividual,
   coreConfirm,
   confirmed,
   submittingMutation,
@@ -64,14 +65,26 @@ const IndividualPage = ({
 
   const back = () => history.goBack();
 
-  const onChange = (individual) => setEditedIndividual(individual);
+  const titleParams = (individual) => ({ 
+    firstName: individual?.firstName,
+    lastName: individual?.lastName
+  });
 
-  const titleParams = (individual) => (
-    { 
+  const isMandatoryFieldsEmpty = () => {
+    return true;
+  }
+
+  const canSave = () => isMandatoryFieldsEmpty();
+
+  const handleSave = () => {
+    updateIndividual(
+      editedIndividual,
+      formatMessageWithValues(intl, "individual", "individual.update.mutationLabel", {
         firstName: individual?.firstName,
         lastName: individual?.lastName
-    }
-   );
+      }),
+    );
+  };
 
   const deleteIndividualCallback = () => deleteIndividual(
     individual,
@@ -108,14 +121,19 @@ const IndividualPage = ({
           module="individual"
           title="pageTitle"
           titleParams={titleParams(individual)}
+          openDirty={true}
           individual={editedIndividual}
+          edited={editedIndividual}
+          onEditedChanged={setEditedIndividual}
           back={back}
-          onChange={onChange}
+          canSave={canSave}
+          save={handleSave}
           HeadPanel={IndividualHeadPanel}
           Panels={[]}
           rights={rights}
           actions={actions}
           setConfirmedAction={setConfirmedAction}
+          saveTooltip={formatMessage(intl, "individual", `saveButton.tooltip.${canSave ? 'enabled' : 'disabled'}`)}
         />
       </div>
     )
@@ -136,7 +154,7 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({ fetchIndividual, deleteIndividual, coreConfirm, journalize }, dispatch);
+  return bindActionCreators({ fetchIndividual, deleteIndividual, updateIndividual, coreConfirm, journalize }, dispatch);
 };
 
 export default withHistory(
