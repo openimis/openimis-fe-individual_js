@@ -21,6 +21,7 @@
     "dateValidFrom": "From",
     "dateValidTo": "To",
     "json_ext": "Additional fields",
+    "mandatoryFieldsEmptyError": "* These fields are required",
     "delete": {
       "confirm": {
         "title": "Delete {firstName} {lastName}?",

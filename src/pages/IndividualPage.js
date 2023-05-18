@@ -71,10 +71,21 @@ const IndividualPage = ({
   });
 
   const isMandatoryFieldsEmpty = () => {
+    if (editedIndividual === undefined || editedIndividual === null){ 
+      return false; 
+    }
+    if (
+      !!editedIndividual.firstName &&
+      !!editedIndividual.lastName &&
+      !!editedIndividual.dob &&
+      !!editedIndividual.dateValidFrom
+    ) {
+      return false;
+    }
     return true;
   }
 
-  const canSave = () => isMandatoryFieldsEmpty();
+  const canSave = () => !isMandatoryFieldsEmpty();
 
   const handleSave = () => {
     updateIndividual(
@@ -126,6 +137,7 @@ const IndividualPage = ({
           edited={editedIndividual}
           onEditedChanged={setEditedIndividual}
           back={back}
+          mandatoryFieldsEmpty={isMandatoryFieldsEmpty}
           canSave={canSave}
           save={handleSave}
           HeadPanel={IndividualHeadPanel}

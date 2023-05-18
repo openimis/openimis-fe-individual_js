@@ -10,6 +10,7 @@ import {
 } from "@openimis/fe-core";
 import { injectIntl } from "react-intl";
 import { withTheme, withStyles } from "@material-ui/core/styles";
+import { isJsonString } from "../util/json-validate";
 
 const styles = theme => ({
     tableTitle: theme.table.title,
@@ -36,7 +37,7 @@ class IndividualHeadPanel extends FormPanel {
                         >
                             <Grid item>
                                 <Typography>
-                                    <FormattedMessage module="contributionPlan" id="contributionPlan.headPanel.title" />
+                                    <FormattedMessage module="individual" id="individual.headPanelTitle" />
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -46,7 +47,7 @@ class IndividualHeadPanel extends FormPanel {
                 {mandatoryFieldsEmpty && (
                     <Fragment>
                         <div className={classes.item}>
-                            <FormattedMessage module="contributionPlan" id="mandatoryFieldsEmptyError" />
+                            <FormattedMessage module="individual" id="individual.mandatoryFieldsEmptyError" />
                         </div>
                         <Divider />
                     </Fragment>
@@ -107,6 +108,7 @@ class IndividualHeadPanel extends FormPanel {
                       label="individual.json_ext" 
                       value={individual?.jsonExt} 
                       onChange={v => this.updateAttribute('jsonExt', v)}
+                      error={!isJsonString(individual?.jsonExt)}
                     />
                   </Grid>
                 </Grid>
