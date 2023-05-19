@@ -17,6 +17,7 @@ import { fetchIndividual, deleteIndividual, updateIndividual } from "../actions"
 import IndividualHeadPanel from "../components/IndividualHeadPanel";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { ACTION_TYPE } from "../reducer";
+import { isJsonString } from "../util/json-validate";
 
 const styles = (theme) => ({
   page: theme.page,
@@ -85,7 +86,7 @@ const IndividualPage = ({
     return true;
   }
 
-  const canSave = () => !isMandatoryFieldsEmpty();
+  const canSave = () => !isMandatoryFieldsEmpty() && isJsonString(editedIndividual?.jsonExt);
 
   const handleSave = () => {
     updateIndividual(
