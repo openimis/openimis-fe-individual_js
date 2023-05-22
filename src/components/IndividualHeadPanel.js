@@ -82,27 +82,6 @@ class IndividualHeadPanel extends FormPanel {
                     />
                   </Grid>
                   <Grid item xs={3} className={classes.item}>
-                    <PublishedComponent
-                      pubRef="core.DatePicker"
-                      module="individual"
-                      label="individual.dateValidFrom"
-                      value={individual?.dateValidFrom}
-                      required
-                      maxDate={!!individual && !!individual.dateValidTo && individual.dateValidTo}
-                      onChange={v => this.updateAttribute('dateValidFrom', v)}
-                    />
-                  </Grid>
-                  <Grid item xs={3} className={classes.item}>
-                    <PublishedComponent
-                      pubRef="core.DatePicker"
-                      module="individual"
-                      label="individual.dateValidTo"
-                      value={individual?.dateValidTo}
-                      minDate={!!individual && !!individual.dateValidFrom && individual.dateValidFrom}
-                      onChange={v => this.updateAttribute('dateValidTo', v)}
-                    />
-                  </Grid>
-                  <Grid item xs={3} className={classes.item}>
                     <TextAreaInput 
                       module="individual" 
                       label="individual.json_ext" 

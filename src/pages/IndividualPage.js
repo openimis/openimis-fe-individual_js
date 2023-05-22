@@ -78,8 +78,7 @@ const IndividualPage = ({
     if (
       !!editedIndividual.firstName &&
       !!editedIndividual.lastName &&
-      !!editedIndividual.dob &&
-      !!editedIndividual.dateValidFrom
+      !!editedIndividual.dob
     ) {
       return false;
     }

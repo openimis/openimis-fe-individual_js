@@ -14,9 +14,6 @@ const INDIVIDUAL_FULL_PROJECTION = [
   "isDeleted",
   "dateCreated",
   "dateUpdated",
-  "dateValidFrom",
-  "dateValidTo",
-  "replacementUuid",
   "firstName",
   "lastName",
   "dob",
@@ -59,9 +56,7 @@ function formatIndividualGQL(individual) {
     ${!!individual.firstName ? `firstName: "${formatGQLString(individual.firstName)}"` : ""}
     ${!!individual.lastName ? `lastName: "${formatGQLString(individual.lastName)}"` : ""}
     ${!!individual.jsonExt ? `jsonExt: ${JSON.stringify(individual.jsonExt)}` : ""}
-    ${!!individual.dob ? `dob: "${dateTimeToDate(individual.dob)}"` : ""}
-    ${!!individual.dateValidFrom ? `dateValidFrom: "${dateTimeToDate(individual.dateValidFrom)}"` : ""}
-    ${!!individual.dateValidTo ? `dateValidTo: "${dateTimeToDate(individual.dateValidTo)}"` : ""}`;
+    ${!!individual.dob ? `dob: "${dateTimeToDate(individual.dob)}"` : ""}`;
 }
 
 export function updateIndividual(individual, clientMutationLabel) {
