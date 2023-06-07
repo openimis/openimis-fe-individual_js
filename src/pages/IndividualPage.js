@@ -12,6 +12,7 @@ import {
 import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { RIGHT_INDIVIDUAL_UPDATE } from '../constants';
@@ -91,7 +92,14 @@ function IndividualPage({
     return true;
   };
 
-  const canSave = () => !isMandatoryFieldsEmpty();
+  const doesIndividualChange = () => {
+    if (_.isEqual(individual, editedIndividual)) {
+      return false;
+    }
+    return true;
+  };
+
+  const canSave = () => !isMandatoryFieldsEmpty() && doesIndividualChange();
 
   const handleSave = () => {
     updateIndividual(
