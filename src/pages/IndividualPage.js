@@ -6,6 +6,7 @@ import {
   formatMessage,
   formatMessageWithValues,
   coreConfirm,
+  clearConfirm,
   journalize,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
@@ -33,6 +34,7 @@ function IndividualPage({
   deleteIndividual,
   updateIndividual,
   coreConfirm,
+  clearConfirm,
   confirmed,
   submittingMutation,
   mutation,
@@ -48,7 +50,10 @@ function IndividualPage({
     }
   }, [individualUuid]);
 
-  useEffect(() => confirmed && confirmedAction(), [confirmed]);
+  useEffect(() => {
+    if (confirmed) confirmedAction();
+    return () => confirmed && clearConfirm(null);
+  }, [confirmed]);
 
   const back = () => history.goBack();
 
@@ -166,7 +171,12 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  fetchIndividual, deleteIndividual, updateIndividual, coreConfirm, journalize,
+  fetchIndividual,
+  deleteIndividual,
+  updateIndividual,
+  coreConfirm,
+  clearConfirm,
+  journalize,
 }, dispatch);
 
 export default withHistory(
