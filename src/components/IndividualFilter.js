@@ -14,6 +14,8 @@ function IndividualFilter({
 
   const filterValue = (filterName) => filters?.[filterName]?.value;
 
+  const filterTextFieldValue = (filterName) => filters?.[filterName]?.value ?? '';
+
   const onChangeStringFilter = (filterName, lookup = null) => (value) => {
     if (lookup) {
       debouncedOnChangeFilters([
@@ -40,7 +42,7 @@ function IndividualFilter({
         <TextInput
           module="individual"
           label="individual.firstName"
-          value={filterValue('firstName')}
+          value={filterTextFieldValue('firstName')}
           onChange={onChangeStringFilter('firstName', CONTAINS_LOOKUP)}
         />
       </Grid>
@@ -48,7 +50,7 @@ function IndividualFilter({
         <TextInput
           module="individual"
           label="individual.lastName"
-          value={filterValue('lastName')}
+          value={filterTextFieldValue('lastName')}
           onChange={onChangeStringFilter('lastName', CONTAINS_LOOKUP)}
         />
       </Grid>
