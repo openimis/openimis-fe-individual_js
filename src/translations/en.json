@@ -31,7 +31,22 @@
       "mutationLabel":"Update Individual {firstName} {lastName}"
     },
     "saveButton.tooltip.enabled": "Save changes",
-    "saveButton.tooltip.disabled": "Please fill General Information fields first"
+    "saveButton.tooltip.disabled": "Please fill General Information fields first",
+    "benefitPlansList": {
+      "label": "LIST"
+    },
+    "benefitPlansActive": {
+      "label": "ACTIVE"
+    },
+    "benefitPlansPotential": {
+      "label": "POTENTIAL"
+    },
+    "benefitPlansGraduated": {
+      "label": "GRADUATED"
+    },
+    "benefitPlansSuspended": {
+      "label": "SUSPENDED"
+    }
   },
   "individuals": {
     "pageTitle": "Individuals",
