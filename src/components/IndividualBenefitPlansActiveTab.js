@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tab } from '@material-ui/core';
 import { formatMessage, PublishedComponent } from '@openimis/fe-core';
-import {BENEFICIARY_STATUS, INDIVIDUAL_BENEFIT_PLANS_ACTIVE_TAB_VALUE} from "../constants";
+import { BENEFICIARY_STATUS, INDIVIDUAL_BENEFIT_PLANS_ACTIVE_TAB_VALUE } from '../constants';
 
 function IndividualBenefitPlansActiveTabLabel({
   intl, onChange, tabStyle, isSelected,
@@ -26,10 +26,11 @@ function IndividualBenefitPlansActiveTabPanel({ value, rights, individual }) {
       value={value}
     >
       <PublishedComponent
-          rights={rights}
-          beneficiaryStatus={BENEFICIARY_STATUS.ACTIVE}
-          individualId={individual?.id}
-          pubRef="socialProtection.BenefitPlanSearcher"/>
+        rights={rights}
+        beneficiaryStatus={BENEFICIARY_STATUS.ACTIVE}
+        individualId={individual?.id}
+        pubRef="socialProtection.BenefitPlanSearcher"
+      />
     </PublishedComponent>
   );
 }

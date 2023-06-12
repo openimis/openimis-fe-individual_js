@@ -3,7 +3,7 @@ import { Tab } from '@material-ui/core';
 import { formatMessage, PublishedComponent } from '@openimis/fe-core';
 import {
   BENEFICIARY_STATUS,
-  INDIVIDUAL_BENEFIT_PLANS_POTENTIAL_TAB_VALUE
+  INDIVIDUAL_BENEFIT_PLANS_POTENTIAL_TAB_VALUE,
 } from '../constants';
 
 function IndividualBenefitPlansPotentialTabLabel({
@@ -29,10 +29,11 @@ function IndividualBenefitPlansPotentialTabPanel({ value, rights, individual }) 
       value={value}
     >
       <PublishedComponent
-          rights={rights}
-          beneficiaryStatus={BENEFICIARY_STATUS.POTENTIAL}
-          individualId={individual?.id}
-          pubRef="socialProtection.BenefitPlanSearcher"/>
+        rights={rights}
+        beneficiaryStatus={BENEFICIARY_STATUS.POTENTIAL}
+        individualId={individual?.id}
+        pubRef="socialProtection.BenefitPlanSearcher"
+      />
     </PublishedComponent>
   );
 }
