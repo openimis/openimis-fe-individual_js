@@ -10,7 +10,8 @@
     "cancel": "Cancel"
   },
   "menu": {
-    "individuals": "Individuals"
+    "individuals": "Individuals",
+    "groups": "Groups"
   },
   "individual": {
     "pageTitle": "Individual {firstName} {lastName}",
@@ -51,5 +52,14 @@
   "individuals": {
     "pageTitle": "Individuals",
     "searcherResultsTitle": "{individualsTotalCount} Individuals Found"
+  },
+  "groups": {
+    "pageTitle": "Groups",
+    "searcherResultsTitle": "{groupsTotalCount} Groups Found"
+  },
+  "group": {
+    "id": "ID",
+    "individual.firstName": "First Name",
+    "individual.lastName": "Last Name"
   }
 }

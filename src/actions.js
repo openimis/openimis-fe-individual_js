@@ -19,9 +19,22 @@ const INDIVIDUAL_FULL_PROJECTION = [
   'jsonExt',
 ];
 
+const GROUP_FULL_PROJECTION = [
+  'id',
+  'isDeleted',
+  'dateCreated',
+  'dateUpdated',
+  'jsonExt',
+];
+
 export function fetchIndividuals(params) {
   const payload = formatPageQueryWithCount('individual', params, INDIVIDUAL_FULL_PROJECTION);
   return graphql(payload, ACTION_TYPE.SEARCH_INDIVIDUALS);
+}
+
+export function fetchGroups(params) {
+  const payload = formatPageQueryWithCount('group', params, GROUP_FULL_PROJECTION);
+  return graphql(payload, ACTION_TYPE.SEARCH_GROUPS);
 }
 
 export function fetchIndividual(params) {

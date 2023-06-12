@@ -5,7 +5,7 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
-import { Person } from '@material-ui/icons';
+import { Person, People } from '@material-ui/icons';
 import { formatMessage, MainMenuContribution, withModulesManager } from '@openimis/fe-core';
 import { BENEFICIARY_MAIN_MENU_CONTRIBUTION_KEY } from '../constants';
 
@@ -15,6 +15,11 @@ function BeneficiaryMainMenu(props) {
       text: formatMessage(props.intl, 'individual', 'menu.individuals'),
       icon: <Person />,
       route: '/individuals',
+    },
+    {
+      text: formatMessage(props.intl, 'individual', 'menu.groups'),
+      icon: <People />,
+      route: '/groups',
     },
   ];
   entries.push(
