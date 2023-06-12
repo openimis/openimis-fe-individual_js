@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import { TextInput, PublishedComponent } from '@openimis/fe-core';
+import { TextInput } from '@openimis/fe-core';
 import { Grid } from '@material-ui/core';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import _debounce from 'lodash/debounce';
