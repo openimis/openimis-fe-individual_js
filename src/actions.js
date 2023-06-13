@@ -42,6 +42,11 @@ export function fetchIndividual(params) {
   return graphql(payload, ACTION_TYPE.GET_INDIVIDUAL);
 }
 
+export function fetchGroup(params) {
+  const payload = formatPageQuery('group', params, GROUP_FULL_PROJECTION);
+  return graphql(payload, ACTION_TYPE.GET_GROUP);
+}
+
 export function deleteIndividual(individual, clientMutationLabel) {
   const individualUuids = `ids: ["${individual?.id}"]`;
   const mutation = formatMutation('deleteIndividual', individualUuids, clientMutationLabel);
@@ -51,6 +56,22 @@ export function deleteIndividual(individual, clientMutationLabel) {
     [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.DELETE_INDIVIDUAL), ERROR(ACTION_TYPE.MUTATION)],
     {
       actionType: ACTION_TYPE.DELETE_INDIVIDUAL,
+      clientMutationId: mutation.clientMutationId,
+      clientMutationLabel,
+      requestedDateTime,
+    },
+  );
+}
+
+export function deleteGroup(group, clientMutationLabel) {
+  const groupUuids = `ids: ["${group?.id}"]`;
+  const mutation = formatMutation('deleteGroup', groupUuids, clientMutationLabel);
+  const requestedDateTime = new Date();
+  return graphql(
+    mutation.payload,
+    [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.DELETE_GROUP), ERROR(ACTION_TYPE.MUTATION)],
+    {
+      actionType: ACTION_TYPE.DELETE_GROUP,
       clientMutationId: mutation.clientMutationId,
       clientMutationLabel,
       requestedDateTime,
@@ -79,6 +100,21 @@ export function updateIndividual(individual, clientMutationLabel) {
     [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.UPDATE_INDIVIDUAL), ERROR(ACTION_TYPE.MUTATION)],
     {
       actionType: ACTION_TYPE.UPDATE_INDIVIDUAL,
+      clientMutationId: mutation.clientMutationId,
+      clientMutationLabel,
+      requestedDateTime,
+    },
+  );
+}
+
+export function updateGroup(group, clientMutationLabel) {
+  const mutation = formatMutation('updateGroup', formatIndividualGQL(group), clientMutationLabel);
+  const requestedDateTime = new Date();
+  return graphql(
+    mutation.payload,
+    [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.UPDATE_GROUP), ERROR(ACTION_TYPE.MUTATION)],
+    {
+      actionType: ACTION_TYPE.UPDATE_GROUP,
       clientMutationId: mutation.clientMutationId,
       clientMutationLabel,
       requestedDateTime,
