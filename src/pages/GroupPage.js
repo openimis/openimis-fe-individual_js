@@ -136,17 +136,17 @@ function GroupPage({
   return (
     rights.includes(RIGHT_GROUP_UPDATE) && (
     <div className={classes.page}>
-      <Helmet title={formatMessageWithValues(intl, 'individual', 'pageTitle', titleParams(group))} />
+      <Helmet title={formatMessageWithValues(intl, 'group', 'pageTitle', titleParams(group))} />
       <Form
-        module="individual"
+        module="group"
         title="pageTitle"
         titleParams={titleParams(group)}
         openDirty
-        individual={editedGroup}
+        group={editedGroup}
         edited={editedGroup}
         onEditedChanged={setEditedGroup}
         back={back}
-        mandatoryFieldsEmpty={isMandatoryFieldsEmpty}
+        mandatoryFieldsEmpty={!isMandatoryFieldsEmpty}
         canSave={canSave}
         save={handleSave}
         HeadPanel={GroupHeadPanel}

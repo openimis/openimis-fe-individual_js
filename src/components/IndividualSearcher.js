@@ -46,6 +46,7 @@ function IndividualSearcher({
   individuals,
   individualsPageInfo,
   individualsTotalCount,
+  groupId,
 }) {
   const [individualToDelete, setIndividualToDelete] = useState(null);
   const [deletedIndividualUuids, setDeletedIndividualUuids] = useState([]);
@@ -156,12 +157,21 @@ function IndividualSearcher({
 
   const isRowDisabled = (_, individual) => deletedIndividualUuids.includes(individual.id);
 
-  const defaultFilters = () => ({
-    isDeleted: {
-      value: false,
-      filter: 'isDeleted: false',
-    },
-  });
+  const defaultFilters = () => {
+    const filters = {
+      isDeleted: {
+        value: false,
+        filter: 'isDeleted: false',
+      },
+    };
+    if (groupId !== null && groupId !== undefined) {
+      filters.groupId = {
+        value: groupId,
+        filter: `groupId: "${groupId}"`,
+      };
+    }
+    return filters;
+  };
 
   return (
     <Searcher

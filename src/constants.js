@@ -16,6 +16,7 @@ export const RIGHT_GROUP_UPDATE = 180003;
 export const RIGHT_GROUP_DELETE = 180004;
 
 export const BENEFIT_PLANS_LIST_TAB_VALUE = 'BenefitPlansListTab';
+export const INDIVIDUALS_LIST_TAB_VALUE = 'IndividualsListTab';
 export const INDIVIDUAL_TABS_LABEL_CONTRIBUTION_KEY = 'individual.TabPanel.label';
 export const INDIVIDUAL_TABS_PANEL_CONTRIBUTION_KEY = 'individual.TabPanel.panel';
 

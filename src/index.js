@@ -13,6 +13,8 @@ import {
 } from './components/BenefitPlansListTab';
 import GroupsPage from './pages/GroupsPage';
 import GroupPage from './pages/GroupPage';
+import { IndividualsListTabLabel, IndividualsListTabPanel } from './components/IndividualsListTab';
+import IndividualSearcher from './components/IndividualSearcher';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -32,12 +34,15 @@ const DEFAULT_CONFIG = {
   refs: [
     { key: 'individual.route.individual', ref: ROUTE_INDIVIDUAL },
     { key: 'individual.route.group', ref: ROUTE_GROUP },
+    { key: 'individual.IndividualSearcher', ref: IndividualSearcher },
   ],
   'individual.TabPanel.label': [
     BenefitPlansListTabLabel,
+    IndividualsListTabLabel,
   ],
   'individual.TabPanel.panel': [
     BenefitPlansListTabPanel,
+    IndividualsListTabPanel,
   ],
 };
 

@@ -31,7 +31,7 @@ const styles = (theme) => ({
 });
 
 function IndividualTabPanel({
-  intl, rights, classes, individual, beneficiaryStatus, setConfirmedAction,
+  intl, rights, classes, individual, beneficiaryStatus, setConfirmedAction, group,
 }) {
   const [activeTab, setActiveTab] = useState(BENEFIT_PLANS_LIST_TAB_VALUE);
 
@@ -52,6 +52,8 @@ function IndividualTabPanel({
           onChange={handleChange}
           isSelected={isSelected}
           tabStyle={tabStyle}
+          group={group}
+          individual={individual}
         />
       </Grid>
       <Contributions
@@ -59,6 +61,7 @@ function IndividualTabPanel({
         rights={rights}
         value={activeTab}
         individual={individual}
+        group={group}
         beneficiaryStatus={beneficiaryStatus}
         setConfirmedAction={setConfirmedAction}
       />

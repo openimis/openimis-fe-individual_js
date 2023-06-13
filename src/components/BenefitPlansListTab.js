@@ -17,7 +17,9 @@ function BenefitPlansListTabLabel({
   );
 }
 
-function BenefitPlansListTabPanel({ value, rights, individual }) {
+function BenefitPlansListTabPanel({
+  value, rights, individual, group,
+}) {
   return (
     <PublishedComponent
       pubRef="policyHolder.TabPanel"
@@ -28,6 +30,7 @@ function BenefitPlansListTabPanel({ value, rights, individual }) {
       <PublishedComponent
         rights={rights}
         individualId={individual?.id}
+        groupId={group?.id}
         pubRef="socialProtection.BenefitPlanSearcher"
       />
     </PublishedComponent>

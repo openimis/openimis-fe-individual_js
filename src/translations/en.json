@@ -47,6 +47,9 @@
     },
     "benefitPlansSuspended": {
       "label": "SUSPENDED"
+    },
+    "individualsList": {
+      "label": "MEMBERS"
     }
   },
   "individuals": {
@@ -60,6 +63,8 @@
   "group": {
     "id": "ID",
     "individual.firstName": "First Name",
-    "individual.lastName": "Last Name"
+    "individual.lastName": "Last Name",
+    "pageTitle": "Group {id}",
+    "headPanelTitle": "Group"
   }
 }
