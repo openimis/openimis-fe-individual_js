@@ -34,7 +34,7 @@
     "saveButton.tooltip.enabled": "Save changes",
     "saveButton.tooltip.disabled": "Please fill General Information fields first",
     "benefitPlansList": {
-      "label": "LIST"
+      "label": "BENEFIT PLANS"
     },
     "benefitPlansActive": {
       "label": "ACTIVE"

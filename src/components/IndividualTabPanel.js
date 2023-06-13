@@ -4,7 +4,7 @@ import { Contributions } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import {
-  INDIVIDUAL_BENEFIT_PLANS_LIST_TAB_VALUE,
+  BENEFIT_PLANS_LIST_TAB_VALUE,
   INDIVIDUAL_TABS_LABEL_CONTRIBUTION_KEY,
   INDIVIDUAL_TABS_PANEL_CONTRIBUTION_KEY,
 } from '../constants';
@@ -33,7 +33,7 @@ const styles = (theme) => ({
 function IndividualTabPanel({
   intl, rights, classes, individual, beneficiaryStatus, setConfirmedAction,
 }) {
-  const [activeTab, setActiveTab] = useState(INDIVIDUAL_BENEFIT_PLANS_LIST_TAB_VALUE);
+  const [activeTab, setActiveTab] = useState(BENEFIT_PLANS_LIST_TAB_VALUE);
 
   const isSelected = (tab) => tab === activeTab;
 
