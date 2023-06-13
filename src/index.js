@@ -8,25 +8,9 @@ import BeneficiaryMainMenu from './menus/BeneficiaryMainMenu';
 import IndividualsPage from './pages/IndividualsPage';
 import IndividualPage from './pages/IndividualPage';
 import {
-  IndividualBenefitPlansListTabLabel,
-  IndividualBenefitPlansListTabPanel,
-} from './components/IndividualBenefitPlansListTab';
-import {
-  IndividualBenefitPlansActiveTabLabel,
-  IndividualBenefitPlansActiveTabPanel,
-} from './components/IndividualBenefitPlansActiveTab';
-import {
-  IndividualBenefitPlansGraduatedTabLabel,
-  IndividualBenefitPlansGraduatedTabPanel,
-} from './components/IndividualBenefitPlansGraduatedTab';
-import {
-  IndividualBenefitPlansPotentialTabLabel,
-  IndividualBenefitPlansPotentialTabPanel,
-} from './components/IndividualBenefitPlansPotentialTab';
-import {
-  IndividualBenefitPlansSuspendedTabLabel,
-  IndividualBenefitPlansSuspendedTabPanel,
-} from './components/IndividualBenefitPlansSuspendedTab';
+  BenefitPlansListTabLabel,
+  BenefitPlansListTabPanel,
+} from './components/BenefitPlansListTab';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -43,18 +27,10 @@ const DEFAULT_CONFIG = {
     { key: 'individual.route.individual', ref: ROUTE_INDIVIDUAL },
   ],
   'individual.TabPanel.label': [
-    IndividualBenefitPlansListTabLabel,
-    IndividualBenefitPlansActiveTabLabel,
-    IndividualBenefitPlansGraduatedTabLabel,
-    IndividualBenefitPlansPotentialTabLabel,
-    IndividualBenefitPlansSuspendedTabLabel,
+    BenefitPlansListTabLabel,
   ],
   'individual.TabPanel.panel': [
-    IndividualBenefitPlansListTabPanel,
-    IndividualBenefitPlansActiveTabPanel,
-    IndividualBenefitPlansGraduatedTabPanel,
-    IndividualBenefitPlansPotentialTabPanel,
-    IndividualBenefitPlansSuspendedTabPanel,
+    BenefitPlansListTabPanel,
   ],
 };
 
