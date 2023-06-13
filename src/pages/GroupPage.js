@@ -146,7 +146,7 @@ function GroupPage({
         edited={editedGroup}
         onEditedChanged={setEditedGroup}
         back={back}
-        mandatoryFieldsEmpty={!isMandatoryFieldsEmpty}
+        mandatoryFieldsEmpty={isMandatoryFieldsEmpty}
         canSave={canSave}
         save={handleSave}
         HeadPanel={GroupHeadPanel}

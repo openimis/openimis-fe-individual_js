@@ -37,12 +37,12 @@ const DEFAULT_CONFIG = {
     { key: 'individual.IndividualSearcher', ref: IndividualSearcher },
   ],
   'individual.TabPanel.label': [
-    BenefitPlansListTabLabel,
     IndividualsListTabLabel,
+    BenefitPlansListTabLabel,
   ],
   'individual.TabPanel.panel': [
-    BenefitPlansListTabPanel,
     IndividualsListTabPanel,
+    BenefitPlansListTabPanel,
   ],
 };
 

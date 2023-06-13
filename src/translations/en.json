@@ -50,7 +50,8 @@
     },
     "individualsList": {
       "label": "MEMBERS"
-    }
+    },
+    "any": "ANY"
   },
   "individuals": {
     "pageTitle": "Individuals",
@@ -65,6 +66,7 @@
     "individual.firstName": "First Name",
     "individual.lastName": "Last Name",
     "pageTitle": "Group {id}",
-    "headPanelTitle": "Group"
+    "headPanelTitle": "General information",
+    "mandatoryFieldsEmptyError": "* These fields are required"
   }
 }
