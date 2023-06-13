@@ -19,6 +19,7 @@ export const ACTION_TYPE = {
   GET_INDIVIDUAL: 'INDIVIDUAL_INDIVIDUAL',
   DELETE_INDIVIDUAL: 'INDIVIDUAL_DELETE_INDIVIDUAL',
   UPDATE_INDIVIDUAL: 'INDIVIDUAL_UPDATE_INDIVIDUAL',
+  SEARCH_GROUPS: 'GROUP_GROUPS',
 };
 
 function reducer(
@@ -35,6 +36,12 @@ function reducer(
     errorIndividual: null,
     fetchedIndividual: false,
     individual: null,
+    fetchingGroups: false,
+    errorGroups: null,
+    fetchedGroups: false,
+    groups: [],
+    groupsPageInfo: {},
+    groupsTotalCount: 0,
   },
   action,
 ) {
@@ -48,6 +55,16 @@ function reducer(
         individualsPageInfo: {},
         individualsTotalCount: 0,
         errorIndividuals: null,
+      };
+    case REQUEST(ACTION_TYPE.SEARCH_GROUPS):
+      return {
+        ...state,
+        fetchingGroups: true,
+        fetchedGroups: false,
+        groups: [],
+        groupsPageInfo: {},
+        groupsTotalCount: 0,
+        errorGroups: null,
       };
     case REQUEST(ACTION_TYPE.GET_INDIVIDUAL):
       return {
@@ -70,6 +87,19 @@ function reducer(
         individualsTotalCount: action.payload.data.individual ? action.payload.data.individual.totalCount : null,
         errorIndividuals: formatGraphQLError(action.payload),
       };
+    case SUCCESS(ACTION_TYPE.SEARCH_GROUPS):
+      return {
+        ...state,
+        fetchingGroups: false,
+        fetchedGroups: true,
+        groups: parseData(action.payload.data.group)?.map((group) => ({
+          ...group,
+          id: decodeId(group.id),
+        })),
+        groupsPageInfo: pageInfo(action.payload.data.individual),
+        groupsTotalCount: action.payload.data.group ? action.payload.data.group.totalCount : null,
+        errorGroups: formatGraphQLError(action.payload),
+      };
     case SUCCESS(ACTION_TYPE.GET_INDIVIDUAL):
       return {
         ...state,
@@ -86,6 +116,12 @@ function reducer(
         ...state,
         fetchingIndividuals: false,
         errorIndividuals: formatServerError(action.payload),
+      };
+    case ERROR(ACTION_TYPE.SEARCH_GROUPS):
+      return {
+        ...state,
+        fetchingGroups: false,
+        errorGroups: formatServerError(action.payload),
       };
     case ERROR(ACTION_TYPE.GET_INDIVIDUAL):
       return {

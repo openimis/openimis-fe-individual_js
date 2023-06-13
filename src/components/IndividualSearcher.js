@@ -7,6 +7,7 @@ import {
   Searcher,
   formatDateFromISO,
   coreConfirm,
+  clearConfirm,
   journalize,
   withHistory,
   historyPush,
@@ -32,6 +33,7 @@ function IndividualSearcher({
   history,
   rights,
   coreConfirm,
+  clearConfirm,
   confirmed,
   journalize,
   submittingMutation,
@@ -83,6 +85,7 @@ function IndividualSearcher({
     if (individualToDelete && confirmed !== null) {
       setIndividualToDelete(null);
     }
+    return () => confirmed && clearConfirm(false);
   }, [confirmed]);
 
   useEffect(() => {
@@ -205,6 +208,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     fetchIndividuals,
     deleteIndividual,
     coreConfirm,
+    clearConfirm,
     journalize,
   },
   dispatch,

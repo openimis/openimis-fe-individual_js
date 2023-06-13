@@ -24,6 +24,7 @@ class IndividualHeadPanel extends FormPanel {
       edited, classes, mandatoryFieldsEmpty,
     } = this.props;
     const individual = { ...edited };
+    const currentDate = new Date();
     return (
       <>
         <Grid container className={classes.tableTitle}>
@@ -79,6 +80,7 @@ class IndividualHeadPanel extends FormPanel {
               required
               onChange={(v) => this.updateAttribute('dob', v)}
               value={individual?.dob}
+              maxDate={currentDate}
             />
           </Grid>
         </Grid>

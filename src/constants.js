@@ -10,6 +10,11 @@ export const RIGHT_INDIVIDUAL_CREATE = 159002;
 export const RIGHT_INDIVIDUAL_UPDATE = 159003;
 export const RIGHT_INDIVIDUAL_DELETE = 159004;
 
+export const RIGHT_GROUP_SEARCH = 180001;
+export const RIGHT_GROUP_CREATE = 180002;
+export const RIGHT_GROUP_UPDATE = 180003;
+export const RIGHT_GROUP_DELETE = 180004;
+
 export const BENEFIT_PLANS_LIST_TAB_VALUE = 'BenefitPlansListTab';
 export const INDIVIDUAL_TABS_LABEL_CONTRIBUTION_KEY = 'individual.TabPanel.label';
 export const INDIVIDUAL_TABS_PANEL_CONTRIBUTION_KEY = 'individual.TabPanel.panel';

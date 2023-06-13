@@ -11,9 +11,12 @@ import {
   BenefitPlansListTabLabel,
   BenefitPlansListTabPanel,
 } from './components/BenefitPlansListTab';
+import GroupsPage from './pages/GroupsPage';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
+const ROUTE_GROUPS = 'groups';
+// const ROUTE_GROUP = 'groups/group';
 
 const DEFAULT_CONFIG = {
   translations: [{ key: 'en', messages: flatten(messages_en) }],
@@ -21,7 +24,9 @@ const DEFAULT_CONFIG = {
   'core.MainMenu': [BeneficiaryMainMenu],
   'core.Router': [
     { path: ROUTE_INDIVIDUALS, component: IndividualsPage },
+    { path: ROUTE_GROUPS, component: GroupsPage },
     { path: `${ROUTE_INDIVIDUAL}/:individual_uuid?`, component: IndividualPage },
+    // { path: `${ROUTE_GROUP}/:group_uuid?`, component: GroupPage },
   ],
   refs: [
     { key: 'individual.route.individual', ref: ROUTE_INDIVIDUAL },

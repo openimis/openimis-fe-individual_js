@@ -1,20 +1,18 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import { TextInput, PublishedComponent } from '@openimis/fe-core';
+import { TextInput } from '@openimis/fe-core';
 import { Grid } from '@material-ui/core';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import _debounce from 'lodash/debounce';
 import { CONTAINS_LOOKUP, DEFAULT_DEBOUNCE_TIME } from '../constants';
 import { defaultFilterStyles } from '../util/styles';
 
-function IndividualFilter({
+function GroupFilter({
   classes, filters, onChangeFilters,
 }) {
   const debouncedOnChangeFilters = _debounce(onChangeFilters, DEFAULT_DEBOUNCE_TIME);
 
   const filterValue = (filterName) => filters?.[filterName]?.value;
-
-  const filterTextFieldValue = (filterName) => filters?.[filterName]?.value ?? '';
 
   const onChangeStringFilter = (filterName, lookup = null) => (value) => {
     if (lookup) {
@@ -41,36 +39,29 @@ function IndividualFilter({
       <Grid item xs={2} className={classes.item}>
         <TextInput
           module="individual"
-          label="individual.firstName"
-          value={filterTextFieldValue('firstName')}
-          onChange={onChangeStringFilter('firstName', CONTAINS_LOOKUP)}
+          label="group.id"
+          value={filterValue('id')}
+          onChange={onChangeStringFilter('id', CONTAINS_LOOKUP)}
         />
       </Grid>
       <Grid item xs={2} className={classes.item}>
         <TextInput
           module="individual"
-          label="individual.lastName"
-          value={filterTextFieldValue('lastName')}
-          onChange={onChangeStringFilter('lastName', CONTAINS_LOOKUP)}
+          label="group.individual.firstName"
+          value={filterValue('firstName')}
+          onChange={onChangeStringFilter('firstName')}
         />
       </Grid>
       <Grid item xs={2} className={classes.item}>
-        <PublishedComponent
-          pubRef="core.DatePicker"
+        <TextInput
           module="individual"
-          label="individual.dob"
-          value={filterValue('dob')}
-          onChange={(v) => onChangeFilters([
-            {
-              id: 'dob',
-              value: v,
-              filter: `dob: "${v}"`,
-            },
-          ])}
+          label="group.individual.lastName"
+          value={filterValue('lastName')}
+          onChange={onChangeStringFilter('lastName')}
         />
       </Grid>
     </Grid>
   );
 }
 
-export default injectIntl(withTheme(withStyles(defaultFilterStyles)(IndividualFilter)));
+export default injectIntl(withTheme(withStyles(defaultFilterStyles)(GroupFilter)));
