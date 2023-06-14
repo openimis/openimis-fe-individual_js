@@ -11,8 +11,7 @@ function GroupFilter({
   classes, filters, onChangeFilters,
 }) {
   const debouncedOnChangeFilters = _debounce(onChangeFilters, DEFAULT_DEBOUNCE_TIME);
-
-  const filterValue = (filterName) => filters?.[filterName]?.value;
+  const filterTextFieldValue = (filterName) => filters?.[filterName]?.value ?? '';
 
   const onChangeStringFilter = (filterName, lookup = null) => (value) => {
     if (lookup) {
@@ -40,15 +39,15 @@ function GroupFilter({
         <TextInput
           module="individual"
           label="group.id"
-          value={filterValue('id')}
-          onChange={onChangeStringFilter('id', CONTAINS_LOOKUP)}
+          value={filterTextFieldValue('searchId')}
+          onChange={onChangeStringFilter('searchId')}
         />
       </Grid>
       <Grid item xs={2} className={classes.item}>
         <TextInput
           module="individual"
           label="group.individual.firstName"
-          value={filterValue('firstName')}
+          value={filterTextFieldValue('firstName')}
           onChange={onChangeStringFilter('firstName')}
         />
       </Grid>
@@ -56,7 +55,7 @@ function GroupFilter({
         <TextInput
           module="individual"
           label="group.individual.lastName"
-          value={filterValue('lastName')}
+          value={filterTextFieldValue('lastName')}
           onChange={onChangeStringFilter('lastName')}
         />
       </Grid>
