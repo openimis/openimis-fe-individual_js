@@ -24,6 +24,7 @@ export const ACTION_TYPE = {
   UPDATE_INDIVIDUAL: 'INDIVIDUAL_UPDATE_INDIVIDUAL',
   UPDATE_GROUP: 'GROUP_UPDATE_GROUP',
   GROUP_EXPORT: 'GROUP_EXPORT',
+  INDIVIDUAL_EXPORT: 'INDIVIDUAL_EXPORT',
 };
 
 function reducer(
@@ -50,11 +51,16 @@ function reducer(
     errorGroup: null,
     fetchedGroup: false,
     group: null,
-    fetchingGroupBsExport: true,
+    fetchingGroupsExport: true,
     fetchedGroupsExport: false,
     groupsExport: null,
     groupsExportPageInfo: {},
     errorGroupsExport: null,
+    fetchingIndividualsExport: true,
+    fetchedIndividualsExport: false,
+    individualsExport: null,
+    individualsExportPageInfo: {},
+    errorIndividualsExport: null,
   },
   action,
 ) {
@@ -190,6 +196,30 @@ function reducer(
         ...state,
         fetchingGroupsExport: false,
         errorGroupsExport: formatServerError(action.payload),
+      };
+    case REQUEST(ACTION_TYPE.INDIVIDUAL_EXPORT):
+      return {
+        ...state,
+        fetchingIndividualsExport: true,
+        fetchedIndividualsExport: false,
+        individualsExport: null,
+        individualsExportPageInfo: {},
+        errorIndividualsExport: null,
+      };
+    case SUCCESS(ACTION_TYPE.INDIVIDUAL_EXPORT):
+      return {
+        ...state,
+        fetchingIndividualsExport: false,
+        fetchedIndividualsExport: true,
+        individualsExport: action.payload.data.individualsExport,
+        individualsExportPageInfo: pageInfo(action.payload.data.individualsExportPageInfo),
+        errorIndividualsExport: formatGraphQLError(action.payload),
+      };
+    case ERROR(ACTION_TYPE.INDIVIDUAL_EXPORT):
+      return {
+        ...state,
+        fetchingIndividualsExport: false,
+        errorIndividualsExport: formatServerError(action.payload),
       };
     case REQUEST(ACTION_TYPE.MUTATION):
       return dispatchMutationReq(state, action);

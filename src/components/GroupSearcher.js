@@ -102,7 +102,7 @@ function GroupSearcher({
 
   useEffect(() => {
     if (groupsExport) {
-      downloadExport(groupsExport, `${formatMessage(intl, 'socialProtection', 'export.filename')}.csv`)();
+      downloadExport(groupsExport, `${formatMessage(intl, 'individual', 'export.filename')}.csv`)();
     }
   }, [groupsExport]);
 
@@ -159,7 +159,7 @@ function GroupSearcher({
           <DialogTitle>{errorGroupsExport}</DialogTitle>
           <DialogActions>
             <Button onClick={setFailedExport(false)} variant="contained">
-              {formatMessage(intl, 'socialProtection', 'ok')}
+              {formatMessage(intl, 'individual', 'ok')}
             </Button>
           </DialogActions>
         </Dialog>

@@ -51,7 +51,8 @@
     "individualsList": {
       "label": "MEMBERS"
     },
-    "any": "ANY"
+    "any": "ANY",
+    "ok": "ok"
   },
   "individuals": {
     "pageTitle": "Individuals",
@@ -68,5 +69,11 @@
     "pageTitle": "Group {id}",
     "headPanelTitle": "General information",
     "mandatoryFieldsEmptyError": "* These fields are required"
+  },
+  "export": {
+    "label": "DOWNLOAD",
+    "dateCreated": "Date Created",
+    "id": "id",
+    "filename": "filename"
   }
 }
