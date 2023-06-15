@@ -121,3 +121,11 @@ export function updateGroup(group, clientMutationLabel) {
     },
   );
 }
+
+export function downloadGroups(params) {
+  const payload = `
+    {
+      groupsExport${!!params && params.length ? `(${params.join(',')})` : ''}
+    }`;
+  return graphql(payload, ACTION_TYPE.GROUP_EXPORT);
+}

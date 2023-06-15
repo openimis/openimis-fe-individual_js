@@ -78,24 +78,9 @@ function GroupPage({
     id: group?.id,
   });
 
-  const isMandatoryFieldsEmpty = () => {
-    if (editedGroup === undefined || editedGroup === null) {
-      return false;
-    }
-    if (
-      editedGroup.id
-    ) {
-      return false;
-    }
-    return true;
-  };
+  const isMandatoryFieldsEmpty = () => !editedGroup || !editedGroup.id;
 
-  const doesGroupChange = () => {
-    if (_.isEqual(group, editedGroup)) {
-      return false;
-    }
-    return true;
-  };
+  const doesGroupChange = () => !_.isEqual(group, editedGroup);
 
   const canSave = () => !isMandatoryFieldsEmpty() && doesGroupChange();
 

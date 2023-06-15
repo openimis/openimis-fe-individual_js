@@ -23,6 +23,7 @@ export const ACTION_TYPE = {
   DELETE_GROUP: 'GROUP_DELETE_GROUP',
   UPDATE_INDIVIDUAL: 'INDIVIDUAL_UPDATE_INDIVIDUAL',
   UPDATE_GROUP: 'GROUP_UPDATE_GROUP',
+  GROUP_EXPORT: 'GROUP_EXPORT',
 };
 
 function reducer(
@@ -49,6 +50,11 @@ function reducer(
     errorGroup: null,
     fetchedGroup: false,
     group: null,
+    fetchingGroupBsExport: true,
+    fetchedGroupsExport: false,
+    groupsExport: null,
+    groupsExportPageInfo: {},
+    errorGroupsExport: null,
   },
   action,
 ) {
@@ -160,6 +166,30 @@ function reducer(
         ...state,
         fetchingGroup: false,
         errorGroup: formatServerError(action.payload),
+      };
+    case REQUEST(ACTION_TYPE.GROUP_EXPORT):
+      return {
+        ...state,
+        fetchingGroupsExport: true,
+        fetchedGroupsExport: false,
+        groupsExport: null,
+        groupsExportPageInfo: {},
+        errorGroupsExport: null,
+      };
+    case SUCCESS(ACTION_TYPE.GROUP_EXPORT):
+      return {
+        ...state,
+        fetchingGroupsExport: false,
+        fetchedGroupsExport: true,
+        groupsExport: action.payload.data.groupsExport,
+        groupsExportPageInfo: pageInfo(action.payload.data.groupsExportPageInfo),
+        errorGroupsExport: formatGraphQLError(action.payload),
+      };
+    case ERROR(ACTION_TYPE.GROUP_EXPORT):
+      return {
+        ...state,
+        fetchingGroupsExport: false,
+        errorGroupsExport: formatServerError(action.payload),
       };
     case REQUEST(ACTION_TYPE.MUTATION):
       return dispatchMutationReq(state, action);

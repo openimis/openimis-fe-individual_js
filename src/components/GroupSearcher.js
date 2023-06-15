@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { injectIntl } from 'react-intl';
 import {
   withModulesManager,
@@ -7,12 +7,18 @@ import {
   Searcher,
   withHistory,
   historyPush,
+  downloadExport,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { IconButton, Tooltip } from '@material-ui/core';
+import {
+  IconButton, Tooltip, Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+} from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import { fetchGroups } from '../actions';
+import { downloadGroups, fetchGroups } from '../actions';
 import {
   DEFAULT_PAGE_SIZE,
   ROWS_PER_PAGE_OPTIONS,
@@ -32,6 +38,10 @@ function GroupSearcher({
   groups,
   groupsPageInfo,
   groupsTotalCount,
+  downloadGroups,
+  groupsExport,
+  errorGroupsExport,
+
 }) {
   function groupUpdatePageUrl(group) {
     return `${modulesManager.getRef('individual.route.group')}/${group?.id}`;
@@ -84,29 +94,77 @@ function GroupSearcher({
     },
   });
 
-  return (
-    <Searcher
-      module="individual"
-      FilterPane={GroupFilter}
-      fetch={fetch}
-      items={groups}
-      itemsPageInfo={groupsPageInfo}
-      fetchingItems={fetchingGroups}
-      fetchedItems={fetchedGroups}
-      errorItems={errorGroups}
-      tableTitle={formatMessageWithValues(intl, 'individual', 'groups.searcherResultsTitle', {
-        groupsTotalCount,
-      })}
-      headers={headers}
-      itemFormatters={itemFormatters}
-      sorts={sorts}
-      rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
-      defaultPageSize={DEFAULT_PAGE_SIZE}
-      defaultOrderBy="id"
-      rowIdentifier={rowIdentifier}
-      onDoubleClick={onDoubleClick}
-      defaultFilters={defaultFilters()}
+  const [failedExport, setFailedExport] = useState(false);
+
+  useEffect(() => {
+    setFailedExport(true);
+  }, [errorGroupsExport]);
+
+  useEffect(() => {
+    if (groupsExport) {
+      downloadExport(groupsExport, `${formatMessage(intl, 'socialProtection', 'export.filename')}.csv`)();
+    }
+  }, [groupsExport]);
+
+  const groupBeneficiaryFilter = (props) => (
+    <GroupFilter
+      intl={props.intl}
+      classes={props.classes}
+      filters={props.filters}
+      onChangeFilters={props.onChangeFilters}
     />
+  );
+
+  return (
+    <div>
+      <Searcher
+        module="individual"
+        FilterPane={groupBeneficiaryFilter}
+        fetch={fetch}
+        items={groups}
+        itemsPageInfo={groupsPageInfo}
+        fetchingItems={fetchingGroups}
+        fetchedItems={fetchedGroups}
+        errorItems={errorGroups}
+        tableTitle={formatMessageWithValues(intl, 'individual', 'groups.searcherResultsTitle', {
+          groupsTotalCount,
+        })}
+        headers={headers}
+        itemFormatters={itemFormatters}
+        sorts={sorts}
+        rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
+        defaultPageSize={DEFAULT_PAGE_SIZE}
+        defaultOrderBy="id"
+        rowIdentifier={rowIdentifier}
+        onDoubleClick={onDoubleClick}
+        defaultFilters={defaultFilters()}
+        exportable
+        exportFetch={downloadGroups}
+        exportFields={[
+          'id',
+          'group.id',
+          'group.date_created',
+          'json_ext', // Unfolded by backend and removed from csv
+        ]}
+        exportFieldsColumns={{
+          id: 'ID',
+          group__id: formatMessage(intl, 'individual', 'export.id'),
+          group__date_created: formatMessage(intl, 'individual', 'export.dateCreated'),
+        }}
+        exportFieldLabel={formatMessage(intl, 'individual', 'export.label')}
+        cacheFiltersKey="groupsFilterCache"
+      />
+      {failedExport && (
+        <Dialog fullWidth maxWidth="sm">
+          <DialogTitle>{errorGroupsExport}</DialogTitle>
+          <DialogActions>
+            <Button onClick={setFailedExport(false)} variant="contained">
+              {formatMessage(intl, 'socialProtection', 'ok')}
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
+    </div>
   );
 }
 
@@ -116,12 +174,19 @@ const mapStateToProps = (state) => ({
   errorGroups: state.individual.errorGroups,
   groups: state.individual.groups,
   groupsPageInfo: state.individual.groupsPageInfo,
-  groupsTotalCount: state.groupsTotalCount,
+  groupsTotalCount: state.individual.groupsTotalCount,
+  selectedFilters: state.core.filtersCache.groupsFilterCache,
+  fetchingGroupsExport: state.individual.fetchingGroupsExport,
+  fetchedGroupsExport: state.individual.fetchedGroupsExport,
+  groupsExport: state.individual.groupsExport,
+  groupsExportPageInfo: state.individual.groupsExportPageInfo,
+  errorGroupsExport: state.individual.errorGroupsExport,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     fetchGroups,
+    downloadGroups,
   },
   dispatch,
 );
