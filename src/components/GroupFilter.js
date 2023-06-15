@@ -4,7 +4,7 @@ import { TextInput } from '@openimis/fe-core';
 import { Grid } from '@material-ui/core';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import _debounce from 'lodash/debounce';
-import { CONTAINS_LOOKUP, DEFAULT_DEBOUNCE_TIME } from '../constants';
+import { CONTAINS_LOOKUP, DEFAULT_DEBOUNCE_TIME, EMPTY_STRING } from '../constants';
 import { defaultFilterStyles } from '../util/styles';
 
 function GroupFilter({
@@ -12,26 +12,16 @@ function GroupFilter({
 }) {
   const debouncedOnChangeFilters = _debounce(onChangeFilters, DEFAULT_DEBOUNCE_TIME);
 
-  const filterValue = (filterName) => filters?.[filterName]?.value;
+  const filterTextFieldValue = (filterName) => filters?.[filterName]?.value ?? EMPTY_STRING;
 
-  const onChangeStringFilter = (filterName, lookup = null) => (value) => {
-    if (lookup) {
-      debouncedOnChangeFilters([
-        {
-          id: filterName,
-          value,
-          filter: `${filterName}_${lookup}: "${value}"`,
-        },
-      ]);
-    } else {
-      onChangeFilters([
-        {
-          id: filterName,
-          value,
-          filter: `${filterName}: "${value}"`,
-        },
-      ]);
-    }
+  const onChangeStringFilter = (filterName) => (value) => {
+    debouncedOnChangeFilters([
+      {
+        id: filterName,
+        value,
+        filter: `${filterName}: "${value}"`,
+      },
+    ]);
   };
 
   return (
@@ -39,16 +29,8 @@ function GroupFilter({
       <Grid item xs={2} className={classes.item}>
         <TextInput
           module="individual"
-          label="group.id"
-          value={filterValue('id')}
-          onChange={onChangeStringFilter('id', CONTAINS_LOOKUP)}
-        />
-      </Grid>
-      <Grid item xs={2} className={classes.item}>
-        <TextInput
-          module="individual"
           label="group.individual.firstName"
-          value={filterValue('firstName')}
+          value={filterTextFieldValue('firstName')}
           onChange={onChangeStringFilter('firstName')}
         />
       </Grid>
@@ -56,7 +38,7 @@ function GroupFilter({
         <TextInput
           module="individual"
           label="group.individual.lastName"
-          value={filterValue('lastName')}
+          value={filterTextFieldValue('lastName')}
           onChange={onChangeStringFilter('lastName')}
         />
       </Grid>
