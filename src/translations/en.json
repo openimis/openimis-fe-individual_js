@@ -51,7 +51,8 @@
     "individualsList": {
       "label": "MEMBERS"
     },
-    "any": "ANY"
+    "any": "ANY",
+    "ok": "ok"
   },
   "individuals": {
     "pageTitle": "Individuals",
@@ -63,10 +64,23 @@
   },
   "group": {
     "id": "ID",
-    "individual.firstName": "First Name",
-    "individual.lastName": "Last Name",
+    "individual.firstName": "Individual First Name",
+    "individual.lastName": "Individual Last Name",
     "pageTitle": "Group {id}",
     "headPanelTitle": "General information",
-    "mandatoryFieldsEmptyError": "* These fields are required"
+    "mandatoryFieldsEmptyError": "* These fields are required",
+    "delete": {
+      "confirm": {
+        "title": "Delete {id}?",
+        "message": "Deleting data does not mean erasing it from OpenIMIS database. The data will only be deactivated from the viewed list."
+      },
+      "mutationLabel": "Delete Group {id}"
+    }
+  },
+  "export": {
+    "label": "DOWNLOAD",
+    "dateCreated": "Date Created",
+    "id": "id",
+    "filename": "filename"
   }
 }

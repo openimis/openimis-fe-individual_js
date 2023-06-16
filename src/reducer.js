@@ -23,6 +23,8 @@ export const ACTION_TYPE = {
   DELETE_GROUP: 'GROUP_DELETE_GROUP',
   UPDATE_INDIVIDUAL: 'INDIVIDUAL_UPDATE_INDIVIDUAL',
   UPDATE_GROUP: 'GROUP_UPDATE_GROUP',
+  GROUP_EXPORT: 'GROUP_EXPORT',
+  INDIVIDUAL_EXPORT: 'INDIVIDUAL_EXPORT',
 };
 
 function reducer(
@@ -49,6 +51,16 @@ function reducer(
     errorGroup: null,
     fetchedGroup: false,
     group: null,
+    fetchingGroupsExport: true,
+    fetchedGroupsExport: false,
+    groupsExport: null,
+    groupsExportPageInfo: {},
+    errorGroupsExport: null,
+    fetchingIndividualsExport: true,
+    fetchedIndividualsExport: false,
+    individualsExport: null,
+    individualsExportPageInfo: {},
+    errorIndividualsExport: null,
   },
   action,
 ) {
@@ -111,7 +123,7 @@ function reducer(
           ...group,
           id: decodeId(group.id),
         })),
-        groupsPageInfo: pageInfo(action.payload.data.individual),
+        groupsPageInfo: pageInfo(action.payload.data.group),
         groupsTotalCount: action.payload.data.group ? action.payload.data.group.totalCount : null,
         errorGroups: formatGraphQLError(action.payload),
       };
@@ -160,6 +172,54 @@ function reducer(
         ...state,
         fetchingGroup: false,
         errorGroup: formatServerError(action.payload),
+      };
+    case REQUEST(ACTION_TYPE.GROUP_EXPORT):
+      return {
+        ...state,
+        fetchingGroupsExport: true,
+        fetchedGroupsExport: false,
+        groupsExport: null,
+        groupsExportPageInfo: {},
+        errorGroupsExport: null,
+      };
+    case SUCCESS(ACTION_TYPE.GROUP_EXPORT):
+      return {
+        ...state,
+        fetchingGroupsExport: false,
+        fetchedGroupsExport: true,
+        groupsExport: action.payload.data.groupsExport,
+        groupsExportPageInfo: pageInfo(action.payload.data.groupsExportPageInfo),
+        errorGroupsExport: formatGraphQLError(action.payload),
+      };
+    case ERROR(ACTION_TYPE.GROUP_EXPORT):
+      return {
+        ...state,
+        fetchingGroupsExport: false,
+        errorGroupsExport: formatServerError(action.payload),
+      };
+    case REQUEST(ACTION_TYPE.INDIVIDUAL_EXPORT):
+      return {
+        ...state,
+        fetchingIndividualsExport: true,
+        fetchedIndividualsExport: false,
+        individualsExport: null,
+        individualsExportPageInfo: {},
+        errorIndividualsExport: null,
+      };
+    case SUCCESS(ACTION_TYPE.INDIVIDUAL_EXPORT):
+      return {
+        ...state,
+        fetchingIndividualsExport: false,
+        fetchedIndividualsExport: true,
+        individualsExport: action.payload.data.individualsExport,
+        individualsExportPageInfo: pageInfo(action.payload.data.individualsExportPageInfo),
+        errorIndividualsExport: formatGraphQLError(action.payload),
+      };
+    case ERROR(ACTION_TYPE.INDIVIDUAL_EXPORT):
+      return {
+        ...state,
+        fetchingIndividualsExport: false,
+        errorIndividualsExport: formatServerError(action.payload),
       };
     case REQUEST(ACTION_TYPE.MUTATION):
       return dispatchMutationReq(state, action);
