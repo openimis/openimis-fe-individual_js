@@ -123,7 +123,7 @@ function reducer(
           ...group,
           id: decodeId(group.id),
         })),
-        groupsPageInfo: pageInfo(action.payload.data.individual),
+        groupsPageInfo: pageInfo(action.payload.data.group),
         groupsTotalCount: action.payload.data.group ? action.payload.data.group.totalCount : null,
         errorGroups: formatGraphQLError(action.payload),
       };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { injectIntl } from 'react-intl';
 import {
   withModulesManager,
@@ -8,6 +8,9 @@ import {
   withHistory,
   historyPush,
   downloadExport,
+  coreConfirm,
+  clearConfirm,
+  journalize,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -18,11 +21,12 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
-import { downloadGroups, fetchGroups } from '../actions';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { deleteGroup, downloadGroups, fetchGroups } from '../actions';
 import {
   DEFAULT_PAGE_SIZE,
   ROWS_PER_PAGE_OPTIONS,
-  RIGHT_GROUP_UPDATE,
+  RIGHT_GROUP_UPDATE, RIGHT_GROUP_DELETE,
 } from '../constants';
 import GroupFilter from './GroupFilter';
 
@@ -41,14 +45,62 @@ function GroupSearcher({
   downloadGroups,
   groupsExport,
   errorGroupsExport,
-
+  deleteGroup,
+  confirmed,
+  submittingMutation,
+  mutation,
+  coreConfirm,
+  clearConfirm,
+  journalize,
 }) {
+  const [groupToDelete, setGroupToDelete] = useState(null);
+  const [deletedGroupUuids, setDeletedGroupUuids] = useState([]);
+  const prevSubmittingMutationRef = useRef();
+
   function groupUpdatePageUrl(group) {
     return `${modulesManager.getRef('individual.route.group')}/${group?.id}`;
   }
 
+  const openDeleteGroupConfirmDialog = () => coreConfirm(
+    formatMessageWithValues(intl, 'individual', 'group.delete.confirm.title', {
+      id: groupToDelete.id,
+    }),
+    formatMessage(intl, 'individual', 'group.delete.confirm.message'),
+  );
+
   const onDoubleClick = (group, newTab = false) => rights.includes(RIGHT_GROUP_UPDATE)
-        && historyPush(modulesManager, history, 'individual.route.group', [group?.id], newTab);
+  && !deletedGroupUuids.includes(group.id)
+  && historyPush(modulesManager, history, 'individual.route.group', [group?.id], newTab);
+
+  const onDelete = (group) => setGroupToDelete(group);
+
+  useEffect(() => groupToDelete && openDeleteGroupConfirmDialog(), [groupToDelete]);
+
+  useEffect(() => {
+    if (groupToDelete && confirmed) {
+      deleteGroup(
+        groupToDelete,
+        formatMessageWithValues(intl, 'individual', 'individual.delete.mutationLabel', {
+          id: groupToDelete.id,
+        }),
+      );
+      setDeletedGroupUuids([...deletedGroupUuids, groupToDelete.id]);
+    }
+    if (groupToDelete && confirmed !== null) {
+      setGroupToDelete(null);
+    }
+    return () => confirmed && clearConfirm(false);
+  }, [confirmed]);
+
+  useEffect(() => {
+    if (prevSubmittingMutationRef.current && !submittingMutation) {
+      journalize(mutation);
+    }
+  }, [submittingMutation]);
+
+  useEffect(() => {
+    prevSubmittingMutationRef.current = submittingMutation;
+  });
 
   const fetch = (params) => fetchGroups(params);
 
@@ -78,6 +130,18 @@ function GroupSearcher({
         </Tooltip>
       ));
     }
+    if (rights.includes(RIGHT_GROUP_DELETE)) {
+      formatters.push((group) => (
+        <Tooltip title={formatMessage(intl, 'individual', 'deleteButtonTooltip')}>
+          <IconButton
+            onClick={() => onDelete(group)}
+            disabled={deletedGroupUuids.includes(group.id)}
+          >
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
+      ));
+    }
     return formatters;
   };
 
@@ -86,6 +150,8 @@ function GroupSearcher({
   const sorts = () => [
     ['id', false],
   ];
+
+  const isRowDisabled = (_, group) => deletedGroupUuids.includes(group.id);
 
   const defaultFilters = () => ({
     isDeleted: {
@@ -106,7 +172,7 @@ function GroupSearcher({
     }
   }, [groupsExport]);
 
-  const groupBeneficiaryFilter = (props) => (
+  const groupFilter = (props) => (
     <GroupFilter
       intl={props.intl}
       classes={props.classes}
@@ -119,7 +185,7 @@ function GroupSearcher({
     <div>
       <Searcher
         module="individual"
-        FilterPane={groupBeneficiaryFilter}
+        FilterPane={groupFilter}
         fetch={fetch}
         items={groups}
         itemsPageInfo={groupsPageInfo}
@@ -153,6 +219,8 @@ function GroupSearcher({
         }}
         exportFieldLabel={formatMessage(intl, 'individual', 'export.label')}
         cacheFiltersKey="groupsFilterCache"
+        rowDisabled={isRowDisabled}
+        rowLocked={isRowDisabled}
       />
       {failedExport && (
         <Dialog fullWidth maxWidth="sm">
@@ -181,12 +249,19 @@ const mapStateToProps = (state) => ({
   groupsExport: state.individual.groupsExport,
   groupsExportPageInfo: state.individual.groupsExportPageInfo,
   errorGroupsExport: state.individual.errorGroupsExport,
+  confirmed: state.core.confirmed,
+  submittingMutation: state.individual.submittingMutation,
+  mutation: state.individual.mutation,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     fetchGroups,
     downloadGroups,
+    deleteGroup,
+    coreConfirm,
+    clearConfirm,
+    journalize,
   },
   dispatch,
 );
