@@ -15,7 +15,7 @@ import GroupsPage from './pages/GroupsPage';
 import GroupPage from './pages/GroupPage';
 import { IndividualsListTabLabel, IndividualsListTabPanel } from './components/IndividualsListTab';
 import IndividualSearcher from './components/IndividualSearcher';
-import { fetchIndividuals } from './actions';
+import { downloadIndividuals, fetchIndividuals } from './actions';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -37,6 +37,7 @@ const DEFAULT_CONFIG = {
     { key: 'individual.route.group', ref: ROUTE_GROUP },
     { key: 'individual.IndividualSearcher', ref: IndividualSearcher },
     { key: 'individual.actions.fetchIndividuals', ref: fetchIndividuals },
+    { key: 'individual.actions.downloadIndividuals', ref: downloadIndividuals },
   ],
   'individual.TabPanel.label': [
     IndividualsListTabLabel,

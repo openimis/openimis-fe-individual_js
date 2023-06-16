@@ -133,7 +133,7 @@ export function downloadGroups(params) {
 export function downloadIndividuals(params) {
   const payload = `
     {
-      individualsExport${!!params && params.length ? `(${params.join(',')})` : ''}
+      individualExport${!!params && params.length ? `(${params.join(',')})` : ''}
     }`;
   return graphql(payload, ACTION_TYPE.INDIVIDUAL_EXPORT);
 }
