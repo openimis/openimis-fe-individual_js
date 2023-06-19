@@ -125,7 +125,15 @@ export function updateGroup(group, clientMutationLabel) {
 export function downloadGroups(params) {
   const payload = `
     {
-      groupsExport${!!params && params.length ? `(${params.join(',')})` : ''}
+      groupExport${!!params && params.length ? `(${params.join(',')})` : ''}
     }`;
   return graphql(payload, ACTION_TYPE.GROUP_EXPORT);
+}
+
+export function downloadIndividuals(params) {
+  const payload = `
+    {
+      individualExport${!!params && params.length ? `(${params.join(',')})` : ''}
+    }`;
+  return graphql(payload, ACTION_TYPE.INDIVIDUAL_EXPORT);
 }

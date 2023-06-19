@@ -11,13 +11,19 @@ import {
   journalize,
   withHistory,
   historyPush,
+  downloadExport,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { IconButton, Tooltip } from '@material-ui/core';
+import {
+  IconButton, Tooltip, Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+} from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { fetchIndividuals, deleteIndividual } from '../actions';
+import { fetchIndividuals, deleteIndividual, downloadIndividuals } from '../actions';
 import {
   DEFAULT_PAGE_SIZE,
   ROWS_PER_PAGE_OPTIONS,
@@ -47,6 +53,9 @@ function IndividualSearcher({
   individualsPageInfo,
   individualsTotalCount,
   groupId,
+  downloadIndividuals,
+  individualsExport,
+  errorIndividualsExport,
 }) {
   const [individualToDelete, setIndividualToDelete] = useState(null);
   const [deletedIndividualUuids, setDeletedIndividualUuids] = useState([]);
@@ -157,6 +166,18 @@ function IndividualSearcher({
 
   const isRowDisabled = (_, individual) => deletedIndividualUuids.includes(individual.id);
 
+  const [failedExport, setFailedExport] = useState(false);
+
+  useEffect(() => {
+    setFailedExport(true);
+  }, [errorIndividualsExport]);
+
+  useEffect(() => {
+    if (individualsExport) {
+      downloadExport(individualsExport, `${formatMessage(intl, 'individual', 'export.filename')}.csv`)();
+    }
+  }, [individualsExport]);
+
   const defaultFilters = () => {
     const filters = {
       isDeleted: {
@@ -174,30 +195,59 @@ function IndividualSearcher({
   };
 
   return (
-    <Searcher
-      module="individual"
-      FilterPane={IndividualFilter}
-      fetch={fetch}
-      items={individuals}
-      itemsPageInfo={individualsPageInfo}
-      fetchingItems={fetchingIndividuals}
-      fetchedItems={fetchedIndividuals}
-      errorItems={errorIndividuals}
-      tableTitle={formatMessageWithValues(intl, 'individual', 'individuals.searcherResultsTitle', {
-        individualsTotalCount,
-      })}
-      headers={headers}
-      itemFormatters={itemFormatters}
-      sorts={sorts}
-      rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
-      defaultPageSize={DEFAULT_PAGE_SIZE}
-      defaultOrderBy="lastName"
-      rowIdentifier={rowIdentifier}
-      onDoubleClick={onDoubleClick}
-      defaultFilters={defaultFilters()}
-      rowDisabled={isRowDisabled}
-      rowLocked={isRowDisabled}
-    />
+    <div>
+      <Searcher
+        module="individual"
+        FilterPane={IndividualFilter}
+        fetch={fetch}
+        items={individuals}
+        itemsPageInfo={individualsPageInfo}
+        fetchingItems={fetchingIndividuals}
+        fetchedItems={fetchedIndividuals}
+        errorItems={errorIndividuals}
+        tableTitle={formatMessageWithValues(intl, 'individual', 'individuals.searcherResultsTitle', {
+          individualsTotalCount,
+        })}
+        headers={headers}
+        itemFormatters={itemFormatters}
+        sorts={sorts}
+        rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
+        defaultPageSize={DEFAULT_PAGE_SIZE}
+        defaultOrderBy="lastName"
+        rowIdentifier={rowIdentifier}
+        onDoubleClick={onDoubleClick}
+        defaultFilters={defaultFilters()}
+        rowDisabled={isRowDisabled}
+        rowLocked={isRowDisabled}
+        exportable
+        exportFetch={downloadIndividuals}
+        exportFields={[
+          'id',
+          'first_name',
+          'last_name',
+          'dob',
+          'json_ext', // Unfolded by backend and removed from csv
+        ]}
+        exportFieldsColumns={{
+          id: 'ID',
+          first_name: formatMessage(intl, 'individual', 'export.firstName'),
+          last_name: formatMessage(intl, 'individual', 'export.lastName'),
+          dob: formatMessage(intl, 'individual', 'export.dob'),
+        }}
+        exportFieldLabel={formatMessage(intl, 'individual', 'export.label')}
+        cacheFiltersKey="individualsFilterCache"
+      />
+      {failedExport && (
+        <Dialog fullWidth maxWidth="sm">
+          <DialogTitle>{errorIndividualsExport}</DialogTitle>
+          <DialogActions>
+            <Button onClick={setFailedExport(false)} variant="contained">
+              {formatMessage(intl, 'individual', 'ok')}
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
+    </div>
   );
 }
 
@@ -211,12 +261,19 @@ const mapStateToProps = (state) => ({
   confirmed: state.core.confirmed,
   submittingMutation: state.individual.submittingMutation,
   mutation: state.individual.mutation,
+  selectedFilters: state.core.filtersCache.individualsFilterCache,
+  fetchingIndividualsExport: state.individual.fetchingIndividualsExport,
+  fetchedIndividualsExport: state.individual.fetchedIndividualsExport,
+  individualsExport: state.individual.individualsExport,
+  individualsExportPageInfo: state.individual.individualsExportPageInfo,
+  errorIndividualsExport: state.individual.errorIndividualsExport,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     fetchIndividuals,
     deleteIndividual,
+    downloadIndividuals,
     coreConfirm,
     clearConfirm,
     journalize,

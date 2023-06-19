@@ -54,6 +54,7 @@ class GroupHeadPanel extends FormPanel {
         <Grid container className={classes.item}>
           <Grid item xs={3} className={classes.item}>
             <TextInput
+              readOnly
               module="individual"
               label="group.id"
               required
