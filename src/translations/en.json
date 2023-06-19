@@ -82,8 +82,8 @@
     "dateCreated": "Date Created",
     "id": "id",
     "filename": {
-      "individuals": "individuals",
-      "groups": "groups"
+      "individuals": "individuals_export",
+      "groups": "groups_export"
     },
     "firstName": "first_name",
     "lastName": "last_name",
