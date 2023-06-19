@@ -236,6 +236,7 @@ function IndividualSearcher({
         }}
         exportFieldLabel={formatMessage(intl, 'individual', 'export.label')}
         cacheFiltersKey="individualsFilterCache"
+        resetFiltersOnUnmount
       />
       {failedExport && (
         <Dialog fullWidth maxWidth="sm">

@@ -219,6 +219,7 @@ function GroupSearcher({
         }}
         exportFieldLabel={formatMessage(intl, 'individual', 'export.label')}
         cacheFiltersKey="groupsFilterCache"
+        resetFiltersOnUnmount
         rowDisabled={isRowDisabled}
         rowLocked={isRowDisabled}
       />
