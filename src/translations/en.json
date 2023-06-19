@@ -81,6 +81,12 @@
     "label": "DOWNLOAD",
     "dateCreated": "Date Created",
     "id": "id",
-    "filename": "filename"
+    "filename": {
+      "individuals": "individuals",
+      "groups": "groups"
+    },
+    "firstName": "first_name",
+    "lastName": "last_name",
+    "dob": "date_of_birth"
   }
 }

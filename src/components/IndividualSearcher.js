@@ -54,8 +54,8 @@ function IndividualSearcher({
   individualsTotalCount,
   groupId,
   downloadIndividuals,
-  individualsExport,
-  errorIndividualsExport,
+  individualExport,
+  errorIndividualExport,
 }) {
   const [individualToDelete, setIndividualToDelete] = useState(null);
   const [deletedIndividualUuids, setDeletedIndividualUuids] = useState([]);
@@ -170,13 +170,13 @@ function IndividualSearcher({
 
   useEffect(() => {
     setFailedExport(true);
-  }, [errorIndividualsExport]);
+  }, [errorIndividualExport]);
 
   useEffect(() => {
-    if (individualsExport) {
-      downloadExport(individualsExport, `${formatMessage(intl, 'individual', 'export.filename')}.csv`)();
+    if (individualExport) {
+      downloadExport(individualExport, `${formatMessage(intl, 'individual', 'export.filename.individuals')}.csv`)();
     }
-  }, [individualsExport]);
+  }, [individualExport]);
 
   const defaultFilters = () => {
     const filters = {
@@ -239,7 +239,7 @@ function IndividualSearcher({
       />
       {failedExport && (
         <Dialog fullWidth maxWidth="sm">
-          <DialogTitle>{errorIndividualsExport}</DialogTitle>
+          <DialogTitle>{errorIndividualExport}</DialogTitle>
           <DialogActions>
             <Button onClick={setFailedExport(false)} variant="contained">
               {formatMessage(intl, 'individual', 'ok')}
@@ -262,11 +262,11 @@ const mapStateToProps = (state) => ({
   submittingMutation: state.individual.submittingMutation,
   mutation: state.individual.mutation,
   selectedFilters: state.core.filtersCache.individualsFilterCache,
-  fetchingIndividualsExport: state.individual.fetchingIndividualsExport,
-  fetchedIndividualsExport: state.individual.fetchedIndividualsExport,
-  individualsExport: state.individual.individualsExport,
-  individualsExportPageInfo: state.individual.individualsExportPageInfo,
-  errorIndividualsExport: state.individual.errorIndividualsExport,
+  fetchingIndividualExport: state.individual.fetchingIndividualsExport,
+  fetchedIndividualExport: state.individual.fetchedIndividualExport,
+  individualExport: state.individual.individualExport,
+  individualExportPageInfo: state.individual.individualExportPageInfo,
+  errorIndividualExport: state.individual.errorIndividualExport,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(

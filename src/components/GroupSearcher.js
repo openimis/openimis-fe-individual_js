@@ -43,8 +43,8 @@ function GroupSearcher({
   groupsPageInfo,
   groupsTotalCount,
   downloadGroups,
-  groupsExport,
-  errorGroupsExport,
+  groupExport,
+  errorGroupExport,
   deleteGroup,
   confirmed,
   submittingMutation,
@@ -164,13 +164,13 @@ function GroupSearcher({
 
   useEffect(() => {
     setFailedExport(true);
-  }, [errorGroupsExport]);
+  }, [errorGroupExport]);
 
   useEffect(() => {
-    if (groupsExport) {
-      downloadExport(groupsExport, `${formatMessage(intl, 'individual', 'export.filename')}.csv`)();
+    if (groupExport) {
+      downloadExport(groupExport, `${formatMessage(intl, 'individual', 'export.filename.groups')}.csv`)();
     }
-  }, [groupsExport]);
+  }, [groupExport]);
 
   const groupFilter = (props) => (
     <GroupFilter
@@ -208,14 +208,10 @@ function GroupSearcher({
         exportFetch={downloadGroups}
         exportFields={[
           'id',
-          'group.id',
-          'group.date_created',
           'json_ext', // Unfolded by backend and removed from csv
         ]}
         exportFieldsColumns={{
           id: 'ID',
-          group__id: formatMessage(intl, 'individual', 'export.id'),
-          group__date_created: formatMessage(intl, 'individual', 'export.dateCreated'),
         }}
         exportFieldLabel={formatMessage(intl, 'individual', 'export.label')}
         cacheFiltersKey="groupsFilterCache"
@@ -224,7 +220,7 @@ function GroupSearcher({
       />
       {failedExport && (
         <Dialog fullWidth maxWidth="sm">
-          <DialogTitle>{errorGroupsExport}</DialogTitle>
+          <DialogTitle>{errorGroupExport}</DialogTitle>
           <DialogActions>
             <Button onClick={setFailedExport(false)} variant="contained">
               {formatMessage(intl, 'individual', 'ok')}
@@ -244,11 +240,11 @@ const mapStateToProps = (state) => ({
   groupsPageInfo: state.individual.groupsPageInfo,
   groupsTotalCount: state.individual.groupsTotalCount,
   selectedFilters: state.core.filtersCache.groupsFilterCache,
-  fetchingGroupsExport: state.individual.fetchingGroupsExport,
-  fetchedGroupsExport: state.individual.fetchedGroupsExport,
-  groupsExport: state.individual.groupsExport,
-  groupsExportPageInfo: state.individual.groupsExportPageInfo,
-  errorGroupsExport: state.individual.errorGroupsExport,
+  fetchingGroupExport: state.individual.fetchingGroupExport,
+  fetchedGroupExport: state.individual.fetchedGroupExport,
+  groupExport: state.individual.groupExport,
+  groupExportPageInfo: state.individual.groupExportPageInfo,
+  errorGroupExport: state.individual.errorGroupExport,
   confirmed: state.core.confirmed,
   submittingMutation: state.individual.submittingMutation,
   mutation: state.individual.mutation,

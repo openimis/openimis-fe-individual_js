@@ -176,50 +176,50 @@ function reducer(
     case REQUEST(ACTION_TYPE.GROUP_EXPORT):
       return {
         ...state,
-        fetchingGroupsExport: true,
-        fetchedGroupsExport: false,
-        groupsExport: null,
-        groupsExportPageInfo: {},
-        errorGroupsExport: null,
+        fetchingGroupExport: true,
+        fetchedGroupExport: false,
+        groupExport: null,
+        groupExportPageInfo: {},
+        errorGroupExport: null,
       };
     case SUCCESS(ACTION_TYPE.GROUP_EXPORT):
       return {
         ...state,
-        fetchingGroupsExport: false,
-        fetchedGroupsExport: true,
-        groupsExport: action.payload.data.groupsExport,
-        groupsExportPageInfo: pageInfo(action.payload.data.groupsExportPageInfo),
-        errorGroupsExport: formatGraphQLError(action.payload),
+        fetchingGroupExport: false,
+        fetchedGroupExport: true,
+        groupExport: action.payload.data.groupExport,
+        groupExportPageInfo: pageInfo(action.payload.data.groupExportPageInfo),
+        errorGroupExport: formatGraphQLError(action.payload),
       };
     case ERROR(ACTION_TYPE.GROUP_EXPORT):
       return {
         ...state,
-        fetchingGroupsExport: false,
-        errorGroupsExport: formatServerError(action.payload),
+        fetchingGroupExport: false,
+        errorGroupExport: formatServerError(action.payload),
       };
     case REQUEST(ACTION_TYPE.INDIVIDUAL_EXPORT):
       return {
         ...state,
-        fetchingIndividualsExport: true,
-        fetchedIndividualsExport: false,
-        individualsExport: null,
-        individualsExportPageInfo: {},
-        errorIndividualsExport: null,
+        fetchingIndividualExport: true,
+        fetchedIndividualExport: false,
+        individualExport: null,
+        individualExportPageInfo: {},
+        errorIndividualExport: null,
       };
     case SUCCESS(ACTION_TYPE.INDIVIDUAL_EXPORT):
       return {
         ...state,
         fetchingIndividualsExport: false,
         fetchedIndividualsExport: true,
-        individualsExport: action.payload.data.individualsExport,
-        individualsExportPageInfo: pageInfo(action.payload.data.individualsExportPageInfo),
-        errorIndividualsExport: formatGraphQLError(action.payload),
+        individualExport: action.payload.data.individualExport,
+        individualExportPageInfo: pageInfo(action.payload.data.individualExportPageInfo),
+        errorIndividualExport: formatGraphQLError(action.payload),
       };
     case ERROR(ACTION_TYPE.INDIVIDUAL_EXPORT):
       return {
         ...state,
-        fetchingIndividualsExport: false,
-        errorIndividualsExport: formatServerError(action.payload),
+        fetchingIndividualExport: false,
+        errorIndividualExport: formatServerError(action.payload),
       };
     case REQUEST(ACTION_TYPE.MUTATION):
       return dispatchMutationReq(state, action);
