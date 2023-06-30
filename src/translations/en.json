@@ -87,6 +87,19 @@
     },
     "firstName": "first_name",
     "lastName": "last_name",
-    "dob": "date_of_birth"
+    "dob": "date_of_birth",
+    "role": "role"
+  },
+  "groupIndividual": {
+    "individual": {
+      "role": "Role"
+    },
+    "update": {
+      "label": "Update Individual",
+      "mutationLabel":"Update Individual {firstName} {lastName}"
+    },
+    "groupIndividualRolePicker.HEAD":  "HEAD",
+    "groupIndividualRolePicker.RECIPIENT": "RECIPIENT",
+    "groupIndividualRolePicker": "Role"
   }
 }

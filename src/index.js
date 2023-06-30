@@ -14,11 +14,12 @@ import {
 import GroupsPage from './pages/GroupsPage';
 import GroupPage from './pages/GroupPage';
 import { IndividualsListTabLabel, IndividualsListTabPanel } from './components/IndividualsListTab';
-import IndividualSearcher from './components/IndividualSearcher';
+import GroupIndividualSearcher from './components/GroupIndividualSearcher';
 import { downloadIndividuals, fetchIndividuals } from './actions';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
+const ROUTE_INDIVIDUAL_FROM_GROUP = 'groups/group/individuals/individual';
 const ROUTE_GROUPS = 'groups';
 const ROUTE_GROUP = 'groups/group';
 
@@ -30,12 +31,13 @@ const DEFAULT_CONFIG = {
     { path: ROUTE_INDIVIDUALS, component: IndividualsPage },
     { path: ROUTE_GROUPS, component: GroupsPage },
     { path: `${ROUTE_INDIVIDUAL}/:individual_uuid?`, component: IndividualPage },
+    { path: `${ROUTE_INDIVIDUAL_FROM_GROUP}/:individual_uuid?`, component: IndividualPage },
     { path: `${ROUTE_GROUP}/:group_uuid?`, component: GroupPage },
   ],
   refs: [
     { key: 'individual.route.individual', ref: ROUTE_INDIVIDUAL },
     { key: 'individual.route.group', ref: ROUTE_GROUP },
-    { key: 'individual.IndividualSearcher', ref: IndividualSearcher },
+    { key: 'individual.GroupIndividualSearcher', ref: GroupIndividualSearcher },
     { key: 'individual.actions.fetchIndividuals', ref: fetchIndividuals },
     { key: 'individual.actions.downloadIndividuals', ref: downloadIndividuals },
   ],

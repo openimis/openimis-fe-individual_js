@@ -53,7 +53,7 @@ function GroupPage({
   }, [groupUuid]);
 
   useEffect(() => {
-    if (confirmed) confirmedAction();
+    if (confirmed && confirmedAction) confirmedAction();
     return () => confirmed && clearConfirm(null);
   }, [confirmed]);
 

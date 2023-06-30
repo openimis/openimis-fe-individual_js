@@ -16,15 +16,19 @@ import { REQUEST, SUCCESS, ERROR } from './util/action-type';
 export const ACTION_TYPE = {
   MUTATION: 'INDIVIDUAL_MUTATION',
   SEARCH_INDIVIDUALS: 'INDIVIDUAL_INDIVIDUALS',
+  SEARCH_GROUP_INDIVIDUALS: 'GROUP_INDIVIDUAL_GROUP_INDIVIDUALS',
   SEARCH_GROUPS: 'GROUP_GROUPS',
   GET_INDIVIDUAL: 'INDIVIDUAL_INDIVIDUAL',
   GET_GROUP: 'GROUP_GROUP',
   DELETE_INDIVIDUAL: 'INDIVIDUAL_DELETE_INDIVIDUAL',
+  DELETE_GROUP_INDIVIDUAL: 'GROUP_INDIVIDUAL_DELETE_GROUP_INDIVIDUAL',
   DELETE_GROUP: 'GROUP_DELETE_GROUP',
   UPDATE_INDIVIDUAL: 'INDIVIDUAL_UPDATE_INDIVIDUAL',
+  UPDATE_GROUP_INDIVIDUAL: 'GROUP_INDIVIDUAL_UPDATE_GROUP_INDIVIDUAL',
   UPDATE_GROUP: 'GROUP_UPDATE_GROUP',
   GROUP_EXPORT: 'GROUP_EXPORT',
   INDIVIDUAL_EXPORT: 'INDIVIDUAL_EXPORT',
+  GROUP_INDIVIDUAL_EXPORT: 'GROUP_INDIVIDUAL_EXPORT',
 };
 
 function reducer(
@@ -37,6 +41,12 @@ function reducer(
     individuals: [],
     individualsPageInfo: {},
     individualsTotalCount: 0,
+    fetchingGroupIndividuals: false,
+    errorGroupIndividuals: null,
+    fetchedGroupIndividuals: false,
+    groupIndividuals: [],
+    groupIndividualsPageInfo: {},
+    groupIndividualsTotalCount: 0,
     fetchingIndividual: false,
     errorIndividual: null,
     fetchedIndividual: false,
@@ -61,6 +71,11 @@ function reducer(
     individualsExport: null,
     individualsExportPageInfo: {},
     errorIndividualsExport: null,
+    fetchingGroupIndividualsExport: true,
+    fetchedGroupIndividualsExport: false,
+    groupIndividualsExport: null,
+    groupIndividualsExportPageInfo: {},
+    errorGroupIndividualsExport: null,
   },
   action,
 ) {
@@ -74,6 +89,16 @@ function reducer(
         individualsPageInfo: {},
         individualsTotalCount: 0,
         errorIndividuals: null,
+      };
+    case REQUEST(ACTION_TYPE.SEARCH_GROUP_INDIVIDUALS):
+      return {
+        ...state,
+        fetchingGroupIndividuals: true,
+        fetchedGroupIndividuals: false,
+        groupIndividuals: [],
+        groupIndividualsPageInfo: {},
+        groupIndividualsTotalCount: 0,
+        errorGroupIndividuals: null,
       };
     case REQUEST(ACTION_TYPE.SEARCH_GROUPS):
       return {
@@ -113,6 +138,36 @@ function reducer(
         individualsPageInfo: pageInfo(action.payload.data.individual),
         individualsTotalCount: action.payload.data.individual ? action.payload.data.individual.totalCount : null,
         errorIndividuals: formatGraphQLError(action.payload),
+      };
+    case SUCCESS(ACTION_TYPE.SEARCH_GROUP_INDIVIDUALS):
+      return {
+        ...state,
+        fetchingGroupIndividuals: false,
+        fetchedGroupIndividuals: true,
+        groupIndividuals: parseData(action.payload.data.groupIndividual)?.map((groupIndividual) => {
+          const response = ({
+            ...groupIndividual,
+            id: decodeId(groupIndividual.id),
+          });
+          if (response?.individual?.id) {
+            response.individual = ({
+              ...response.individual,
+              id: decodeId(response.individual.id),
+            });
+          }
+          if (response?.group?.id) {
+            response.group = ({
+              ...response.group,
+              id: decodeId(response.group.id),
+            });
+          }
+          return response;
+        }),
+        groupIndividualsPageInfo: pageInfo(action.payload.data.groupIndividual),
+        groupIndividualsTotalCount: action.payload.data.groupIndividual
+          ? action.payload.data.groupIndividual.totalCount
+          : null,
+        errorGroupIndividuals: formatGraphQLError(action.payload),
       };
     case SUCCESS(ACTION_TYPE.SEARCH_GROUPS):
       return {
@@ -154,6 +209,12 @@ function reducer(
         ...state,
         fetchingIndividuals: false,
         errorIndividuals: formatServerError(action.payload),
+      };
+    case ERROR(ACTION_TYPE.SEARCH_GROUP_INDIVIDUALS):
+      return {
+        ...state,
+        fetchingGroupIndividuals: false,
+        errorGroupIndividuals: formatServerError(action.payload),
       };
     case ERROR(ACTION_TYPE.SEARCH_GROUPS):
       return {
@@ -206,6 +267,16 @@ function reducer(
         individualExportPageInfo: {},
         errorIndividualExport: null,
       };
+    case REQUEST(ACTION_TYPE.GROUP_INDIVIDUAL_EXPORT):
+      console.log('aaaaaaaaaa1111111111111111');
+      return {
+        ...state,
+        fetchingGroupIndividualExport: true,
+        fetchedGroupIndividualExport: false,
+        groupIndividualExport: null,
+        groupIndividualExportPageInfo: {},
+        errorGroupIndividualExport: null,
+      };
     case SUCCESS(ACTION_TYPE.INDIVIDUAL_EXPORT):
       return {
         ...state,
@@ -215,11 +286,27 @@ function reducer(
         individualExportPageInfo: pageInfo(action.payload.data.individualExportPageInfo),
         errorIndividualExport: formatGraphQLError(action.payload),
       };
+    case SUCCESS(ACTION_TYPE.GROUP_INDIVIDUAL_EXPORT):
+      console.log(action.payload.data, 'aaaaaaaaaaaaaaa');
+      return {
+        ...state,
+        fetchingGroupIndividualsExport: false,
+        fetchedGroupIndividualsExport: true,
+        groupIndividualExport: action.payload.data.groupIndividualExport,
+        groupIndividualExportPageInfo: pageInfo(action.payload.data.groupIndividualExportPageInfo),
+        errorGroupIndividualExport: formatGraphQLError(action.payload),
+      };
     case ERROR(ACTION_TYPE.INDIVIDUAL_EXPORT):
       return {
         ...state,
         fetchingIndividualExport: false,
         errorIndividualExport: formatServerError(action.payload),
+      };
+    case ERROR(ACTION_TYPE.GROUP_INDIVIDUAL_EXPORT):
+      return {
+        ...state,
+        fetchingGroupIndividualExport: false,
+        errorGroupIndividualExport: formatServerError(action.payload),
       };
     case REQUEST(ACTION_TYPE.MUTATION):
       return dispatchMutationReq(state, action);
@@ -229,6 +316,11 @@ function reducer(
       return dispatchMutationResp(state, 'deleteIndividual', action);
     case SUCCESS(ACTION_TYPE.UPDATE_INDIVIDUAL):
       return dispatchMutationResp(state, 'updateIndividual', action);
+    case SUCCESS(ACTION_TYPE.DELETE_GROUP_INDIVIDUAL):
+      return dispatchMutationResp(state, 'removeIndividualFromGroup', action);
+    case SUCCESS(ACTION_TYPE.UPDATE_GROUP_INDIVIDUAL):
+      console.log('success');
+      return dispatchMutationResp(state, 'editIndividualInGroup', action);
     case SUCCESS(ACTION_TYPE.DELETE_GROUP):
       return dispatchMutationResp(state, 'deleteGroup', action);
     case SUCCESS(ACTION_TYPE.UPDATE_GROUP):

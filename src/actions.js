@@ -19,6 +19,17 @@ const INDIVIDUAL_FULL_PROJECTION = [
   'jsonExt',
 ];
 
+const GROUP_INDIVIDUAL_FULL_PROJECTION = [
+  'id',
+  'individual {id, firstName, lastName, dob}',
+  'group {id}',
+  'role',
+  'isDeleted',
+  'dateCreated',
+  'dateUpdated',
+  'jsonExt',
+];
+
 const GROUP_FULL_PROJECTION = [
   'id',
   'isDeleted',
@@ -30,6 +41,11 @@ const GROUP_FULL_PROJECTION = [
 export function fetchIndividuals(params) {
   const payload = formatPageQueryWithCount('individual', params, INDIVIDUAL_FULL_PROJECTION);
   return graphql(payload, ACTION_TYPE.SEARCH_INDIVIDUALS);
+}
+
+export function fetchGroupIndividuals(params) {
+  const payload = formatPageQueryWithCount('groupIndividual', params, GROUP_INDIVIDUAL_FULL_PROJECTION);
+  return graphql(payload, ACTION_TYPE.SEARCH_GROUP_INDIVIDUALS);
 }
 
 export function fetchGroups(params) {
@@ -56,6 +72,22 @@ export function deleteIndividual(individual, clientMutationLabel) {
     [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.DELETE_INDIVIDUAL), ERROR(ACTION_TYPE.MUTATION)],
     {
       actionType: ACTION_TYPE.DELETE_INDIVIDUAL,
+      clientMutationId: mutation.clientMutationId,
+      clientMutationLabel,
+      requestedDateTime,
+    },
+  );
+}
+
+export function deleteGroupIndividual(groupIndividual, clientMutationLabel) {
+  const groupIndividualUuids = `ids: ["${groupIndividual?.id}"]`;
+  const mutation = formatMutation('removeIndividualFromGroup', groupIndividualUuids, clientMutationLabel);
+  const requestedDateTime = new Date();
+  return graphql(
+    mutation.payload,
+    [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.DELETE_GROUP_INDIVIDUAL), ERROR(ACTION_TYPE.MUTATION)],
+    {
+      actionType: ACTION_TYPE.DELETE_GROUP_INDIVIDUAL,
       clientMutationId: mutation.clientMutationId,
       clientMutationLabel,
       requestedDateTime,
@@ -92,6 +124,14 @@ function formatIndividualGQL(individual) {
     ${individual.dob ? `dob: "${dateTimeToDate(individual.dob)}"` : ''}`;
 }
 
+function formatGroupIndividualGQL(groupIndividual) {
+  return `
+    ${groupIndividual.id ? `id: "${groupIndividual.id}"` : ''}
+    ${groupIndividual.role ? `role: ${groupIndividual.role}` : ''}
+    ${groupIndividual.individual.id ? `individualId: "${groupIndividual.individual.id}"` : ''}
+    ${groupIndividual.group.id ? `groupId: "${groupIndividual.group.id}"` : ''}`;
+}
+
 export function updateIndividual(individual, clientMutationLabel) {
   const mutation = formatMutation('updateIndividual', formatIndividualGQL(individual), clientMutationLabel);
   const requestedDateTime = new Date();
@@ -100,6 +140,25 @@ export function updateIndividual(individual, clientMutationLabel) {
     [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.UPDATE_INDIVIDUAL), ERROR(ACTION_TYPE.MUTATION)],
     {
       actionType: ACTION_TYPE.UPDATE_INDIVIDUAL,
+      clientMutationId: mutation.clientMutationId,
+      clientMutationLabel,
+      requestedDateTime,
+    },
+  );
+}
+
+export function updateGroupIndividual(groupIndividual, clientMutationLabel) {
+  const mutation = formatMutation(
+    'editIndividualInGroup',
+    formatGroupIndividualGQL(groupIndividual),
+    clientMutationLabel,
+  );
+  const requestedDateTime = new Date();
+  return graphql(
+    mutation.payload,
+    [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.UPDATE_GROUP_INDIVIDUAL), ERROR(ACTION_TYPE.MUTATION)],
+    {
+      actionType: ACTION_TYPE.UPDATE_GROUP_INDIVIDUAL,
       clientMutationId: mutation.clientMutationId,
       clientMutationLabel,
       requestedDateTime,
@@ -136,4 +195,12 @@ export function downloadIndividuals(params) {
       individualExport${!!params && params.length ? `(${params.join(',')})` : ''}
     }`;
   return graphql(payload, ACTION_TYPE.INDIVIDUAL_EXPORT);
+}
+
+export function downloadGroupIndividuals(params) {
+  const payload = `
+    {
+      groupIndividualExport${!!params && params.length ? `(${params.join(',')})` : ''}
+    }`;
+  return graphql(payload, ACTION_TYPE.GROUP_INDIVIDUAL_EXPORT);
 }

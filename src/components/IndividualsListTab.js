@@ -37,7 +37,7 @@ function IndividualsListTabPanel({
       <PublishedComponent
         rights={rights}
         groupId={group?.id}
-        pubRef="individual.IndividualSearcher"
+        pubRef="individual.GroupIndividualSearcher"
       />
     </PublishedComponent>
   );
