@@ -268,7 +268,6 @@ function reducer(
         errorIndividualExport: null,
       };
     case REQUEST(ACTION_TYPE.GROUP_INDIVIDUAL_EXPORT):
-      console.log('aaaaaaaaaa1111111111111111');
       return {
         ...state,
         fetchingGroupIndividualExport: true,
@@ -287,7 +286,6 @@ function reducer(
         errorIndividualExport: formatGraphQLError(action.payload),
       };
     case SUCCESS(ACTION_TYPE.GROUP_INDIVIDUAL_EXPORT):
-      console.log(action.payload.data, 'aaaaaaaaaaaaaaa');
       return {
         ...state,
         fetchingGroupIndividualsExport: false,
@@ -319,7 +317,6 @@ function reducer(
     case SUCCESS(ACTION_TYPE.DELETE_GROUP_INDIVIDUAL):
       return dispatchMutationResp(state, 'removeIndividualFromGroup', action);
     case SUCCESS(ACTION_TYPE.UPDATE_GROUP_INDIVIDUAL):
-      console.log('success');
       return dispatchMutationResp(state, 'editIndividualInGroup', action);
     case SUCCESS(ACTION_TYPE.DELETE_GROUP):
       return dispatchMutationResp(state, 'deleteGroup', action);
