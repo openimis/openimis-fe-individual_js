@@ -294,7 +294,6 @@ function GroupIndividualSearcher({
         }}
         exportFieldLabel={formatMessage(intl, 'individual', 'export.label')}
         cacheFiltersKey="groupIndividualsFilterCache"
-        resetFiltersOnUnmount
       />
       {failedExport && (
         <Dialog fullWidth maxWidth="sm">

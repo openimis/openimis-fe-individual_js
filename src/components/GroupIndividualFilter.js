@@ -79,7 +79,7 @@ function GroupIndividualFilter({
             {
               id: 'role',
               value,
-              filter: `role: "${value}"`,
+              filter: `role: ${value}`,
             },
           ])}
         />
