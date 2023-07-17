@@ -31,7 +31,7 @@ function BenefitPlansListTabPanel({
         rights={rights}
         individualId={individual?.id}
         groupId={group?.id}
-        pubRef="socialProtection.BenefitPlanSearcher"
+        pubRef="socialProtection.BenefitPlanSearcherForEntities"
       />
     </PublishedComponent>
   );
