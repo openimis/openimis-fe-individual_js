@@ -6,7 +6,9 @@ import {
   formatGQLString,
 } from '@openimis/fe-core';
 import { ACTION_TYPE } from './reducer';
-import { ERROR, REQUEST, SUCCESS } from './util/action-type';
+import {
+  CLEAR, ERROR, REQUEST, SUCCESS,
+} from './util/action-type';
 
 const INDIVIDUAL_FULL_PROJECTION = [
   'id',
@@ -204,3 +206,21 @@ export function downloadGroupIndividuals(params) {
     }`;
   return graphql(payload, ACTION_TYPE.GROUP_INDIVIDUAL_EXPORT);
 }
+
+export const clearGroupIndividualExport = () => (dispatch) => {
+  dispatch({
+    type: CLEAR(ACTION_TYPE.GROUP_INDIVIDUAL_EXPORT),
+  });
+};
+
+export const clearIndividualExport = () => (dispatch) => {
+  dispatch({
+    type: CLEAR(ACTION_TYPE.INDIVIDUAL_EXPORT),
+  });
+};
+
+export const clearGroupExport = () => (dispatch) => {
+  dispatch({
+    type: CLEAR(ACTION_TYPE.GROUP_EXPORT),
+  });
+};

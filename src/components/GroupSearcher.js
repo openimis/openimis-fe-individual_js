@@ -22,7 +22,9 @@ import {
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { deleteGroup, downloadGroups, fetchGroups } from '../actions';
+import {
+  deleteGroup, downloadGroups, fetchGroups, clearGroupExport,
+} from '../actions';
 import {
   DEFAULT_PAGE_SIZE,
   ROWS_PER_PAGE_OPTIONS,
@@ -48,6 +50,7 @@ function GroupSearcher({
   deleteGroup,
   confirmed,
   submittingMutation,
+  clearGroupExport,
   mutation,
   coreConfirm,
   clearConfirm,
@@ -169,6 +172,7 @@ function GroupSearcher({
   useEffect(() => {
     if (groupExport) {
       downloadExport(groupExport, `${formatMessage(intl, 'individual', 'export.filename.groups')}.csv`)();
+      clearGroupExport();
     }
   }, [groupExport]);
 
@@ -255,6 +259,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     fetchGroups,
     downloadGroups,
+    clearGroupExport,
     deleteGroup,
     coreConfirm,
     clearConfirm,

@@ -24,7 +24,11 @@ import {
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {
-  fetchGroupIndividuals, deleteGroupIndividual, downloadGroupIndividuals, updateGroupIndividual,
+  fetchGroupIndividuals,
+  deleteGroupIndividual,
+  clearGroupIndividualExport,
+  downloadGroupIndividuals,
+  updateGroupIndividual,
 } from '../actions';
 import {
   DEFAULT_PAGE_SIZE,
@@ -56,6 +60,7 @@ function GroupIndividualSearcher({
   updateGroupIndividual,
   groupIndividualsPageInfo,
   groupIndividualsTotalCount,
+  clearGroupIndividualExport,
   groupId,
   downloadGroupIndividuals,
   groupIndividualExport,
@@ -231,6 +236,7 @@ function GroupIndividualSearcher({
         groupIndividualExport,
         `${formatMessage(intl, 'individual', 'export.filename.individuals')}.csv`,
       )();
+      clearGroupIndividualExport();
     }
   }, [groupIndividualExport]);
 
@@ -332,6 +338,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     fetchGroupIndividuals,
     updateGroupIndividual,
     deleteGroupIndividual,
+    clearGroupIndividualExport,
     downloadGroupIndividuals,
     coreConfirm,
     clearConfirm,

@@ -11,7 +11,7 @@ import {
   pageInfo,
   decodeId,
 } from '@openimis/fe-core';
-import { REQUEST, SUCCESS, ERROR } from './util/action-type';
+import {REQUEST, SUCCESS, ERROR, CLEAR} from './util/action-type';
 
 export const ACTION_TYPE = {
   MUTATION: 'INDIVIDUAL_MUTATION',
@@ -305,6 +305,33 @@ function reducer(
         ...state,
         fetchingGroupIndividualExport: false,
         errorGroupIndividualExport: formatServerError(action.payload),
+      };
+    case CLEAR(ACTION_TYPE.GROUP_EXPORT):
+      return {
+        ...state,
+        fetchingGroupExport: false,
+        fetchedGroupExport: false,
+        groupExport: null,
+        groupExportPageInfo: {},
+        errorGroupExport: null,
+      };
+    case CLEAR(ACTION_TYPE.GROUP_INDIVIDUAL_EXPORT):
+      return {
+        ...state,
+        fetchingGroupIndividualExport: false,
+        fetchedGroupIndividualExport: false,
+        groupIndividualExport: null,
+        groupIndividualExportPageInfo: {},
+        errorGroupIndividualExport: null,
+      };
+    case CLEAR(ACTION_TYPE.INDIVIDUAL_EXPORT):
+      return {
+        ...state,
+        fetchingIndividualExport: false,
+        fetchedIndividualExport: false,
+        individualExport: null,
+        individualExportPageInfo: {},
+        errorIndividualExport: null,
       };
     case REQUEST(ACTION_TYPE.MUTATION):
       return dispatchMutationReq(state, action);

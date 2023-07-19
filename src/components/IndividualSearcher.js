@@ -23,7 +23,9 @@ import {
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { fetchIndividuals, deleteIndividual, downloadIndividuals } from '../actions';
+import {
+  fetchIndividuals, deleteIndividual, downloadIndividuals, clearIndividualExport,
+} from '../actions';
 import {
   DEFAULT_PAGE_SIZE,
   ROWS_PER_PAGE_OPTIONS,
@@ -52,6 +54,7 @@ function IndividualSearcher({
   individuals,
   individualsPageInfo,
   individualsTotalCount,
+  clearIndividualExport,
   groupId,
   downloadIndividuals,
   individualExport,
@@ -175,6 +178,7 @@ function IndividualSearcher({
   useEffect(() => {
     if (individualExport) {
       downloadExport(individualExport, `${formatMessage(intl, 'individual', 'export.filename.individuals')}.csv`)();
+      clearIndividualExport();
     }
   }, [individualExport]);
 
@@ -275,6 +279,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     fetchIndividuals,
     deleteIndividual,
     downloadIndividuals,
+    clearIndividualExport,
     coreConfirm,
     clearConfirm,
     journalize,
