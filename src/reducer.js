@@ -11,7 +11,9 @@ import {
   pageInfo,
   decodeId,
 } from '@openimis/fe-core';
-import {REQUEST, SUCCESS, ERROR, CLEAR} from './util/action-type';
+import {
+  REQUEST, SUCCESS, ERROR, CLEAR,
+} from './util/action-type';
 
 export const ACTION_TYPE = {
   MUTATION: 'INDIVIDUAL_MUTATION',
