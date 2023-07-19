@@ -1,4 +1,4 @@
-export const BENEFICIARY_MAIN_MENU_CONTRIBUTION_KEY = 'beneficiary.MainMenu';
+export const INDIVIDUALS_MAIN_MENU_CONTRIBUTION_KEY = 'individuals.MainMenu';
 export const CONTAINS_LOOKUP = 'Icontains';
 export const DEFAULT_DEBOUNCE_TIME = 500;
 export const DEFAULT_PAGE_SIZE = 10;
@@ -24,6 +24,9 @@ export const BENEFIT_PLANS_LIST_TAB_VALUE = 'BenefitPlansListTab';
 export const INDIVIDUALS_LIST_TAB_VALUE = 'IndividualsListTab';
 export const INDIVIDUAL_TABS_LABEL_CONTRIBUTION_KEY = 'individual.TabPanel.label';
 export const INDIVIDUAL_TABS_PANEL_CONTRIBUTION_KEY = 'individual.TabPanel.panel';
+
+export const BENEFIT_PLAN_TABS_LABEL_CONTRIBUTION_KEY = 'individual.BenefitPlansListTabLabel';
+export const BENEFIT_PLAN_TABS_PANEL_CONTRIBUTION_KEY = 'individual.BenefitPlansListTabPanel';
 
 export const BENEFICIARY_STATUS = {
   POTENTIAL: 'POTENTIAL',

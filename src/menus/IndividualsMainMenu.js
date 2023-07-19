@@ -7,9 +7,9 @@ import { injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Person, People } from '@material-ui/icons';
 import { formatMessage, MainMenuContribution, withModulesManager } from '@openimis/fe-core';
-import { BENEFICIARY_MAIN_MENU_CONTRIBUTION_KEY } from '../constants';
+import { INDIVIDUALS_MAIN_MENU_CONTRIBUTION_KEY } from '../constants';
 
-function BeneficiaryMainMenu(props) {
+function IndividualsMainMenu(props) {
   const entries = [
     {
       text: formatMessage(props.intl, 'individual', 'menu.individuals'),
@@ -24,14 +24,14 @@ function BeneficiaryMainMenu(props) {
   ];
   entries.push(
     ...props.modulesManager
-      .getContribs(BENEFICIARY_MAIN_MENU_CONTRIBUTION_KEY)
+      .getContribs(INDIVIDUALS_MAIN_MENU_CONTRIBUTION_KEY)
       .filter((c) => !c.filter || c.filter(props.rights)),
   );
 
   return (
     <MainMenuContribution
       {...props}
-      header={formatMessage(props.intl, 'individual', 'mainMenuBeneficiary')}
+      header={formatMessage(props.intl, 'individual', 'mainMenuIndividuals')}
       entries={entries}
     />
   );
@@ -41,4 +41,4 @@ const mapStateToProps = (state) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
 });
 
-export default injectIntl(withModulesManager(connect(mapStateToProps)(BeneficiaryMainMenu)));
+export default injectIntl(withModulesManager(connect(mapStateToProps)(IndividualsMainMenu)));
