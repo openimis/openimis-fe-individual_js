@@ -106,8 +106,7 @@ function IndividualPage({
     updateIndividual(
       editedIndividual,
       formatMessageWithValues(intl, 'individual', 'individual.update.mutationLabel', {
-        firstName: individual?.firstName,
-        lastName: individual?.lastName,
+        id: individual?.id,
       }),
     );
   };
@@ -115,8 +114,7 @@ function IndividualPage({
   const deleteIndividualCallback = () => deleteIndividual(
     individual,
     formatMessageWithValues(intl, 'individual', 'individual.delete.mutationLabel', {
-      firstName: individual?.firstName,
-      lastName: individual?.lastName,
+      id: individual?.id,
     }),
   );
 

@@ -25,11 +25,11 @@
         "title": "Delete {firstName} {lastName}?",
         "message": "Deleting data does not mean erasing it from OpenIMIS database. The data will only be deactivated from the viewed list."
       },
-      "mutationLabel": "Delete Individual {firstName} {lastName}"
+      "mutationLabel": "Delete Individual {id}"
     },
     "update": {
       "label": "Update Individual",
-      "mutationLabel":"Update Individual {firstName} {lastName}"
+      "mutationLabel":"Update Individual {id}"
     },
     "saveButton.tooltip.enabled": "Save changes",
     "saveButton.tooltip.disabled": "Please fill General Information fields first",
@@ -96,7 +96,7 @@
     },
     "update": {
       "label": "Update Individual",
-      "mutationLabel":"Update Individual {firstName} {lastName}"
+      "mutationLabel":"Update Individual {id}"
     },
     "groupIndividualRolePicker.HEAD":  "HEAD",
     "groupIndividualRolePicker.RECIPIENT": "RECIPIENT",

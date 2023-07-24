@@ -86,8 +86,7 @@ function IndividualSearcher({
       deleteIndividual(
         individualToDelete,
         formatMessageWithValues(intl, 'individual', 'individual.delete.mutationLabel', {
-          firstName: individualToDelete.firstName,
-          lastName: individualToDelete.lastName,
+          id: individualToDelete?.id,
         }),
       );
       setDeletedIndividualUuids([...deletedIndividualUuids, individualToDelete.id]);
