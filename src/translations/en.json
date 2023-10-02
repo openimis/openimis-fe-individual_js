@@ -49,6 +49,8 @@
   },
   "group": {
     "id": "ID",
+    "head": "Head",
+    "noHeadSpecified": "head not specified",
     "individual.firstName": "Individual First Name",
     "individual.lastName": "Individual Last Name",
     "pageTitle": "Group {id}",

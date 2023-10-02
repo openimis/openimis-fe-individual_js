@@ -35,6 +35,7 @@ const GROUP_INDIVIDUAL_FULL_PROJECTION = [
 const GROUP_FULL_PROJECTION = [
   'id',
   'isDeleted',
+  'head {firstName, lastName}',
   'dateCreated',
   'dateUpdated',
   'jsonExt',
