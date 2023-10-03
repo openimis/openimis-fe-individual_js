@@ -1,41 +1,38 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { injectIntl } from 'react-intl';
 import {
-  withModulesManager,
+  clearConfirm,
+  coreConfirm,
+  downloadExport,
+  formatDateFromISO,
   formatMessage,
   formatMessageWithValues,
-  Searcher,
-  formatDateFromISO,
-  coreConfirm,
-  clearConfirm,
-  journalize,
-  withHistory,
   historyPush,
-  downloadExport,
+  journalize,
+  Searcher,
+  withHistory,
+  withModulesManager,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-  IconButton, Tooltip, Button,
-  Dialog,
-  DialogActions,
-  DialogTitle,
+  Button, Dialog, DialogActions, DialogTitle, IconButton, Tooltip,
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {
-  fetchGroupIndividuals,
-  deleteGroupIndividual,
   clearGroupIndividualExport,
+  deleteGroupIndividual,
   downloadGroupIndividuals,
+  fetchGroupIndividuals,
   updateGroupIndividual,
 } from '../actions';
 import {
   DEFAULT_PAGE_SIZE,
-  ROWS_PER_PAGE_OPTIONS,
   EMPTY_STRING,
-  RIGHT_GROUP_INDIVIDUAL_UPDATE,
   RIGHT_GROUP_INDIVIDUAL_DELETE,
+  RIGHT_GROUP_INDIVIDUAL_UPDATE,
+  ROWS_PER_PAGE_OPTIONS,
 } from '../constants';
 import GroupIndividualFilter from './GroupIndividualFilter';
 import GroupIndividualRolePicker from '../pickers/GroupIndividualRolePicker';
@@ -255,11 +252,21 @@ function GroupIndividualSearcher({
     return filters;
   };
 
+  const groupBeneficiaryFilter = (props) => (
+    <GroupIndividualFilter
+      intl={props.intl}
+      classes={props.classes}
+      filters={props.filters}
+      onChangeFilters={props.onChangeFilters}
+      groupId={groupId}
+    />
+  );
+
   return (
     <div>
       <Searcher
         module="individual"
-        FilterPane={GroupIndividualFilter}
+        FilterPane={groupBeneficiaryFilter}
         fetch={fetch}
         items={groupIndividuals}
         itemsPageInfo={groupIndividualsPageInfo}
