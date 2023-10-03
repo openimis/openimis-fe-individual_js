@@ -43,3 +43,7 @@ export const GROUP_INDIVIDUAL_ROLES = {
 export const GROUP_INDIVIDUAL_ROLES_LIST = [
   GROUP_INDIVIDUAL_ROLES.HEAD, GROUP_INDIVIDUAL_ROLES.RECIPIENT,
 ];
+
+export const BENEFIT_PLAN_LABEL = 'BenefitPlan';
+
+export const SOCIAL_PROTECTION_MODULE_NAME = 'social_protection';

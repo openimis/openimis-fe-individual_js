@@ -12,6 +12,7 @@ import {
   withHistory,
   historyPush,
   downloadExport,
+  CLEARED_STATE_FILTER,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -31,8 +32,9 @@ import {
   ROWS_PER_PAGE_OPTIONS,
   EMPTY_STRING,
   RIGHT_INDIVIDUAL_UPDATE,
-  RIGHT_INDIVIDUAL_DELETE,
+  RIGHT_INDIVIDUAL_DELETE, BENEFIT_PLAN_LABEL, SOCIAL_PROTECTION_MODULE_NAME,
 } from '../constants';
+import { applyNumberCircle } from '../util/searcher-utils';
 import IndividualFilter from './IndividualFilter';
 
 function IndividualSearcher({
@@ -61,6 +63,8 @@ function IndividualSearcher({
   errorIndividualExport,
 }) {
   const [individualToDelete, setIndividualToDelete] = useState(null);
+  const [appliedCustomFilters, setAppliedCustomFilters] = useState([CLEARED_STATE_FILTER]);
+  const [appliedFiltersRowStructure, setAppliedFiltersRowStructure] = useState([CLEARED_STATE_FILTER]);
   const [deletedIndividualUuids, setDeletedIndividualUuids] = useState([]);
   const prevSubmittingMutationRef = useRef();
 
@@ -197,6 +201,10 @@ function IndividualSearcher({
     return filters;
   };
 
+  useEffect(() => {
+    // refresh when appliedCustomFilters is changed
+  }, [appliedCustomFilters]);
+
   return (
     <div>
       <Searcher
@@ -224,6 +232,15 @@ function IndividualSearcher({
         rowLocked={isRowDisabled}
         exportable
         exportFetch={downloadIndividuals}
+        isCustomFiltering
+        moduleName={SOCIAL_PROTECTION_MODULE_NAME}
+        objectType={BENEFIT_PLAN_LABEL}
+        additionalCustomFilterParams={{ type: 'INDIVIDUAL' }}
+        appliedCustomFilters={appliedCustomFilters}
+        setAppliedCustomFilters={setAppliedCustomFilters}
+        appliedFiltersRowStructure={appliedFiltersRowStructure}
+        setAppliedFiltersRowStructure={setAppliedFiltersRowStructure}
+        applyNumberCircle={applyNumberCircle}
         exportFields={[
           'id',
           'first_name',

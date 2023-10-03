@@ -28,9 +28,10 @@ import {
 import {
   DEFAULT_PAGE_SIZE,
   ROWS_PER_PAGE_OPTIONS,
-  RIGHT_GROUP_UPDATE, RIGHT_GROUP_DELETE,
+  RIGHT_GROUP_UPDATE, RIGHT_GROUP_DELETE, SOCIAL_PROTECTION_MODULE_NAME, BENEFIT_PLAN_LABEL,
 } from '../constants';
 import GroupFilter from './GroupFilter';
+import {applyNumberCircle} from "../util/searcher-utils";
 
 function GroupSearcher({
   intl,
@@ -55,9 +56,12 @@ function GroupSearcher({
   coreConfirm,
   clearConfirm,
   journalize,
+  CLEARED_STATE_FILTER,
 }) {
   const [groupToDelete, setGroupToDelete] = useState(null);
   const [deletedGroupUuids, setDeletedGroupUuids] = useState([]);
+  const [appliedCustomFilters, setAppliedCustomFilters] = useState([CLEARED_STATE_FILTER]);
+  const [appliedFiltersRowStructure, setAppliedFiltersRowStructure] = useState([CLEARED_STATE_FILTER]);
   const prevSubmittingMutationRef = useRef();
 
   function groupUpdatePageUrl(group) {
@@ -224,6 +228,15 @@ function GroupSearcher({
         exportFieldLabel={formatMessage(intl, 'individual', 'export.label')}
         cacheFiltersKey="groupsFilterCache"
         resetFiltersOnUnmount
+        isCustomFiltering
+        moduleName={SOCIAL_PROTECTION_MODULE_NAME}
+        objectType={BENEFIT_PLAN_LABEL}
+        additionalCustomFilterParams={{ type: 'GROUP' }}
+        appliedCustomFilters={appliedCustomFilters}
+        setAppliedCustomFilters={setAppliedCustomFilters}
+        appliedFiltersRowStructure={appliedFiltersRowStructure}
+        setAppliedFiltersRowStructure={setAppliedFiltersRowStructure}
+        applyNumberCircle={applyNumberCircle}
         rowDisabled={isRowDisabled}
         rowLocked={isRowDisabled}
       />
