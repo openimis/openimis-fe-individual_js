@@ -31,7 +31,7 @@ import {
   RIGHT_GROUP_UPDATE, RIGHT_GROUP_DELETE, SOCIAL_PROTECTION_MODULE_NAME, BENEFIT_PLAN_LABEL,
 } from '../constants';
 import GroupFilter from './GroupFilter';
-import {applyNumberCircle} from "../util/searcher-utils";
+import { applyNumberCircle } from '../util/searcher-utils';
 
 function GroupSearcher({
   intl,
