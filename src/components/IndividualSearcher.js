@@ -255,6 +255,7 @@ function IndividualSearcher({
           dob: formatMessage(intl, 'individual', 'export.dob'),
         }}
         exportFieldLabel={formatMessage(intl, 'individual', 'export.label')}
+        chooseExportableColumns
         cacheFiltersKey="individualsFilterCache"
         resetFiltersOnUnmount
       />
