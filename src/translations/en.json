@@ -36,6 +36,11 @@
     "individualsList": {
       "label": "MEMBERS"
     },
+    "tasks": {
+      "update": {
+        "title": "Individual Update Tasks"
+      }
+    },
     "any": "ANY",
     "ok": "ok"
   },
