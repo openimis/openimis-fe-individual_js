@@ -39,6 +39,7 @@ const GROUP_FULL_PROJECTION = [
   'dateCreated',
   'dateUpdated',
   'jsonExt',
+  'version',
 ];
 
 export function fetchIndividuals(params) {
@@ -64,6 +65,11 @@ export function fetchIndividual(params) {
 export function fetchGroup(params) {
   const payload = formatPageQuery('group', params, GROUP_FULL_PROJECTION);
   return graphql(payload, ACTION_TYPE.GET_GROUP);
+}
+
+export function fetchGroupHistory(params) {
+  const payload = formatPageQueryWithCount('groupHistory', params, GROUP_FULL_PROJECTION);
+  return graphql(payload, ACTION_TYPE.SEARCH_GROUP_HISTORY);
 }
 
 export function deleteIndividual(individual, clientMutationLabel) {

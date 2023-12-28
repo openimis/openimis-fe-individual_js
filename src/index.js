@@ -19,6 +19,8 @@ import {
   IndividualUpdateTaskItemFormatters,
   IndividualUpdateTaskTableHeaders,
 } from './components/tasks/IndividualUpdateTasks';
+import GroupHistorySearcher from './components/GroupHistorySearcher';
+import { GroupChangelogTabLabel, GroupChangelogTabPanel } from './components/GroupChangelogTab';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -48,14 +50,17 @@ const DEFAULT_CONFIG = {
     { key: 'individual.actions.fetchIndividuals', ref: fetchIndividuals },
     { key: 'individual.actions.downloadIndividuals', ref: downloadIndividuals },
     { key: 'individual.actions.clearIndividualExport', ref: clearIndividualExport },
+    { key: 'individual.GroupHistorySearcher', ref: GroupHistorySearcher },
   ],
   'individual.TabPanel.label': [
     IndividualsListTabLabel,
     BenefitPlansListTabLabel,
+    GroupChangelogTabLabel,
   ],
   'individual.TabPanel.panel': [
     IndividualsListTabPanel,
     BenefitPlansListTabPanel,
+    GroupChangelogTabPanel,
   ],
   'individual.BenefitPlansListTabLabel': [BENEFIT_PLAN_TABS_LABEL_REF_KEY],
   'individual.BenefitPlansListTabPanel': [BENEFIT_PLAN_TABS_PANEL_REF_KEY],

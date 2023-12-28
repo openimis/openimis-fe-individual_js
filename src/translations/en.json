@@ -69,6 +69,21 @@
       "mutationLabel": "Delete Group {id}"
     }
   },
+  "groupHistory": {
+    "pageTitle": "Group {id}",
+    "headPanelTitle": "General Information",
+    "id": "ID",
+    "head": "head",
+    "dateUpdated": "Date Updated",
+    "version": "Version",
+    "any": "ANY",
+    "ok": "ok",
+    "jsonExt": "Additional fields"
+  },
+  "groupHistoryList": {
+    "pageTitle": "Groups History",
+    "searcherResultsTitle": "{groupHistoryTotalCount} Historical Records Found"
+  },
   "export": {
     "label": "DOWNLOAD",
     "dateCreated": "Date Created",
@@ -93,5 +108,6 @@
     "groupIndividualRolePicker.HEAD":  "HEAD",
     "groupIndividualRolePicker.RECIPIENT": "RECIPIENT",
     "groupIndividualRolePicker": "Role"
-  }
+  },
+  "groupChangelog.label": "Change Log"
 }
