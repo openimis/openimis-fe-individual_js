@@ -31,6 +31,7 @@ export const ACTION_TYPE = {
   GROUP_EXPORT: 'GROUP_EXPORT',
   INDIVIDUAL_EXPORT: 'INDIVIDUAL_EXPORT',
   GROUP_INDIVIDUAL_EXPORT: 'GROUP_INDIVIDUAL_EXPORT',
+  SEARCH_INDIVIDUAL_HISTORY: 'SEARCH_INDIVIDUAL_HISTORY',
   SEARCH_GROUP_HISTORY: 'SEARCH_GROUP_HISTORY',
 };
 
@@ -79,6 +80,12 @@ function reducer(
     groupIndividualsExport: null,
     groupIndividualsExportPageInfo: {},
     errorGroupIndividualsExport: null,
+    fetchingIndividualHistory: false,
+    errorIndividualHistory: null,
+    fetchedIndividualHistory: false,
+    individualHistory: [],
+    individualHistoryPageInfo: {},
+    individualHistoryTotalCount: 0,
     fetchingGroupHistory: false,
     errorGroupHistory: null,
     fetchedGroupHistory: false,
@@ -98,6 +105,16 @@ function reducer(
         individualsPageInfo: {},
         individualsTotalCount: 0,
         errorIndividuals: null,
+      };
+    case REQUEST(ACTION_TYPE.SEARCH_INDIVIDUAL_HISTORY):
+      return {
+        ...state,
+        fetchingIndividualHistory: true,
+        fetchedIndividualHistory: false,
+        individualHistory: [],
+        individualHistoryPageInfo: {},
+        individualHistoryTotalCount: 0,
+        errorIndividualHistory: null,
       };
     case REQUEST(ACTION_TYPE.SEARCH_GROUP_INDIVIDUALS):
       return {
@@ -157,6 +174,20 @@ function reducer(
         individualsPageInfo: pageInfo(action.payload.data.individual),
         individualsTotalCount: action.payload.data.individual ? action.payload.data.individual.totalCount : null,
         errorIndividuals: formatGraphQLError(action.payload),
+      };
+    case SUCCESS(ACTION_TYPE.SEARCH_INDIVIDUAL_HISTORY):
+      return {
+        ...state,
+        fetchingIndividualHistory: false,
+        fetchedIndividualHistory: true,
+        individualHistory: parseData(action.payload.data.individualHistory)?.map((individualHistory) => ({
+          ...individualHistory,
+          id: decodeId(individualHistory.id),
+        })),
+        individualHistoryPageInfo: pageInfo(action.payload.data.individualHistory),
+        individualHistoryTotalCount: action.payload.data.individualHistory
+          ? action.payload.data.individualHistory.totalCount : null,
+        errorIndividualHistory: formatGraphQLError(action.payload),
       };
     case SUCCESS(ACTION_TYPE.SEARCH_GROUP_INDIVIDUALS):
       return {
@@ -242,6 +273,12 @@ function reducer(
         ...state,
         fetchingIndividuals: false,
         errorIndividuals: formatServerError(action.payload),
+      };
+    case ERROR(ACTION_TYPE.SEARCH_INDIVIDUAL_HISTORY):
+      return {
+        ...state,
+        fetchingIndividualHistory: false,
+        errorIndividualHistory: formatServerError(action.payload),
       };
     case ERROR(ACTION_TYPE.SEARCH_GROUP_INDIVIDUALS):
       return {

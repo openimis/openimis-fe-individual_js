@@ -37,7 +37,7 @@ function GroupHistorySearcher({
 
   const itemFormatters = () => [
     (groupHistory) => groupHistory.id,
-    (groupHistory) => groupHistory.head,
+    (groupHistory) => `${groupHistory?.head?.firstName} ${groupHistory?.head?.lastName}`,
     (groupHistory) => (groupHistory.dateUpdated
       ? formatDateFromISO(groupHistory.dateUpdated) : EMPTY_STRING
     ),
@@ -49,7 +49,7 @@ function GroupHistorySearcher({
 
   const sorts = () => [
     ['id', false],
-    ['head', true],
+    ['head', false],
     ['dateUpdated', true],
     ['version', true],
   ];

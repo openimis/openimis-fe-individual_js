@@ -4,8 +4,9 @@ import { formatMessage, PublishedComponent } from '@openimis/fe-core';
 import { GROUP_CHANGELOG_TAB_VALUE } from '../constants';
 
 function GroupChangelogTabLabel({
-  intl, onChange, tabStyle, isSelected,
+  intl, onChange, tabStyle, isSelected, group,
 }) {
+  if (!group) return null;
   return (
     <Tab
       onChange={onChange}
@@ -20,6 +21,7 @@ function GroupChangelogTabLabel({
 function GroupChangelogTabPanel({
   value, group,
 }) {
+  if (!group) return null;
   return (
     <PublishedComponent
       pubRef="policyHolder.TabPanel"
