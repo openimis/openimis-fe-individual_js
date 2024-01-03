@@ -98,7 +98,8 @@
     "version": "Version",
     "any": "ANY",
     "ok": "ok",
-    "jsonExt": "Additional fields"
+    "jsonExt": "Additional fields",
+    "members": "Members"
   },
   "groupHistoryList": {
     "pageTitle": "Groups History",

@@ -32,24 +32,29 @@ function GroupHistorySearcher({
     'groupHistory.head',
     'groupHistory.dateUpdated',
     'groupHistory.version',
-    'groupHistory.jsonExt',
+    'groupHistory.members',
   ];
 
   const itemFormatters = () => [
-    (groupHistory) => groupHistory.id,
-    (groupHistory) => `${groupHistory?.head?.firstName} ${groupHistory?.head?.lastName}`,
-    (groupHistory) => (groupHistory.dateUpdated
-      ? formatDateFromISO(groupHistory.dateUpdated) : EMPTY_STRING
-    ),
-    (groupHistory) => groupHistory.version,
-    (groupHistory) => groupHistory.jsonExt,
+    (groupHistory) => groupHistory?.id || EMPTY_STRING,
+    (groupHistory) => {
+      const jsonExt = groupHistory?.jsonExt ? JSON.parse(groupHistory.jsonExt) : null;
+      return jsonExt?.head ?? EMPTY_STRING;
+    },
+    (groupHistory) => (groupHistory?.dateUpdated
+      ? formatDateFromISO(groupHistory.dateUpdated)
+      : EMPTY_STRING),
+    (groupHistory) => groupHistory?.version || EMPTY_STRING,
+    (groupHistory) => {
+      const jsonExt = groupHistory?.jsonExt ? JSON.parse(groupHistory.jsonExt) : null;
+      return jsonExt?.members ?? EMPTY_STRING;
+    },
   ];
 
   const rowIdentifier = (groupHistory) => groupHistory.id;
 
   const sorts = () => [
-    ['id', false],
-    ['head', false],
+    ['id', true],
     ['dateUpdated', true],
     ['version', true],
   ];
