@@ -67,6 +67,7 @@ function GroupIndividualSearcher({
   const [deletedGroupIndividualUuids, setDeletedGroupIndividualUuids] = useState([]);
   const prevSubmittingMutationRef = useRef();
   const [updatedGroupIndividuals, setUpdatedGroupIndividuals] = useState([]);
+  const [refetch, setRefetch] = useState(null);
 
   function groupIndividualUpdatePageUrl(groupIndividual) {
     return `${modulesManager.getRef('individual.route.individual')}/${groupIndividual.individual?.id}`;
@@ -156,6 +157,7 @@ function GroupIndividualSearcher({
           id: editedGroupIndividual?.individual?.id,
         }),
       );
+      setRefetch(editedGroupIndividual?.individual?.id);
     }
   };
 
@@ -265,6 +267,7 @@ function GroupIndividualSearcher({
   return (
     <div>
       <Searcher
+        key={refetch}
         module="individual"
         FilterPane={groupBeneficiaryFilter}
         fetch={fetch}
