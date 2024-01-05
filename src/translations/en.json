@@ -43,7 +43,12 @@
     },
     "any": "ANY",
     "ok": "ok",
-    "individualChangelog.label": "Change Log"
+    "individualChangelog.label": "Change Log",
+    "groupChange": {
+      "confirm": {
+        "message": "Individual {individualId} moved to Group {groupId}"
+      }
+    }
   },
   "individualHistory": {
     "pageTitle": "Individual {firstName} {lastName}",
@@ -130,5 +135,14 @@
     "groupIndividualRolePicker.RECIPIENT": "RECIPIENT",
     "groupIndividualRolePicker": "Role"
   },
-  "groupChangelog.label": "Change Log"
+  "groupChangelog.label": "Change Log",
+  "groupPicker": {
+    "label": "Select a group."
+  },
+  "groupChangeDialog": {
+    "confirmTitle": "Move {firstName} {lastName} to a different group."
+  },
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "changeGroupButtonTooltip": "Move to another group."
 }

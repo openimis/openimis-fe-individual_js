@@ -19,6 +19,7 @@ import {
   Button, Dialog, DialogActions, DialogTitle, IconButton, Tooltip,
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
+import GroupIcon from '@material-ui/icons/Group';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {
   clearGroupIndividualExport,
@@ -29,13 +30,14 @@ import {
 } from '../actions';
 import {
   DEFAULT_PAGE_SIZE,
-  EMPTY_STRING,
+  EMPTY_STRING, GROUP_INDIVIDUAL_ROLES,
   RIGHT_GROUP_INDIVIDUAL_DELETE,
   RIGHT_GROUP_INDIVIDUAL_UPDATE,
   ROWS_PER_PAGE_OPTIONS,
 } from '../constants';
 import GroupIndividualFilter from './GroupIndividualFilter';
 import GroupIndividualRolePicker from '../pickers/GroupIndividualRolePicker';
+import GroupChangeDialog from './GroupChangeDialog';
 
 function GroupIndividualSearcher({
   intl,
@@ -68,6 +70,8 @@ function GroupIndividualSearcher({
   const prevSubmittingMutationRef = useRef();
   const [updatedGroupIndividuals, setUpdatedGroupIndividuals] = useState([]);
   const [refetch, setRefetch] = useState(null);
+  const [isChangeGroupModalOpen, setIsChangeGroupModalOpen] = useState(false);
+  const [groupIndividualToGroupChange, setGroupIndividualToGroupChange] = useState(null);
 
   function groupIndividualUpdatePageUrl(groupIndividual) {
     return `${modulesManager.getRef('individual.route.individual')}/${groupIndividual.individual?.id}`;
@@ -124,6 +128,7 @@ function GroupIndividualSearcher({
       'individual.lastName',
       'individual.dob',
       'groupIndividual.individual.role',
+      'emptyLabel',
     ];
     if (rights.includes(RIGHT_GROUP_INDIVIDUAL_UPDATE)) {
       headers.push('emptyLabel');
@@ -161,12 +166,33 @@ function GroupIndividualSearcher({
     }
   };
 
+  const handleGroupChange = (groupIndividual) => {
+    setIsChangeGroupModalOpen(true);
+    setGroupIndividualToGroupChange(groupIndividual);
+  };
+
   const isRowUpdated = (groupIndividual) => (
     updatedGroupIndividuals.some((item) => item.id === groupIndividual.id));
 
   const isRowDeleted = (groupIndividual) => deletedGroupIndividualUuids.includes(groupIndividual.id);
 
   const isRowDisabled = (_, groupIndividual) => isRowDeleted(groupIndividual) || isRowUpdated(groupIndividual);
+
+  const onChangeGroupConfirm = (groupToBeChanged) => {
+    const updateIndividual = {
+      ...groupIndividualToGroupChange,
+      group: groupToBeChanged,
+      role: GROUP_INDIVIDUAL_ROLES.RECIPIENT,
+    };
+    updateGroupIndividual(
+      updateIndividual,
+      formatMessageWithValues(intl, 'individual', 'individual.groupChange.confirm.message', {
+        individualId: updateIndividual?.individual?.id,
+        groupId: groupToBeChanged?.id,
+      }),
+    );
+    setRefetch(groupToBeChanged?.id);
+  };
 
   const itemFormatters = () => {
     const formatters = [
@@ -185,6 +211,18 @@ function GroupIndividualSearcher({
           onChange={(role) => handleRoleOnChange(groupIndividual, role)}
         />
       ) : groupIndividual.role),
+      (groupIndividual) => (rights.includes(RIGHT_GROUP_INDIVIDUAL_UPDATE) ? (
+        (
+          <Tooltip title={formatMessage(intl, 'individual', 'changeGroupButtonTooltip')}>
+            <IconButton
+              onClick={() => handleGroupChange(groupIndividual)}
+              disabled={isRowDeleted(groupIndividual)}
+            >
+              <GroupIcon />
+            </IconButton>
+          </Tooltip>
+        )
+      ) : null),
     ];
     if (rights.includes(RIGHT_GROUP_INDIVIDUAL_UPDATE)) {
       formatters.push((groupIndividual) => (
@@ -266,6 +304,12 @@ function GroupIndividualSearcher({
 
   return (
     <div>
+      <GroupChangeDialog
+        confirmState={isChangeGroupModalOpen}
+        onClose={() => setIsChangeGroupModalOpen(false)}
+        onConfirm={onChangeGroupConfirm}
+        groupIndividual={groupIndividualToGroupChange}
+      />
       <Searcher
         key={refetch}
         module="individual"
