@@ -28,8 +28,8 @@ import GroupHistorySearcher from './components/GroupHistorySearcher';
 import { GroupChangelogTabLabel, GroupChangelogTabPanel } from './components/GroupChangelogTab';
 import {
   GroupIndividualUpdateTaskItemFormatters,
-  GroupIndividualUpdateTaskTableHeaders
-} from "./components/tasks/GroupIndividualUpdateTasks";
+  GroupIndividualUpdateTaskTableHeaders,
+} from './components/tasks/GroupIndividualUpdateTasks';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
