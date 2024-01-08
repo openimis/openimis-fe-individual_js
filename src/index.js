@@ -26,6 +26,10 @@ import {
 } from './components/tasks/IndividualUpdateTasks';
 import GroupHistorySearcher from './components/GroupHistorySearcher';
 import { GroupChangelogTabLabel, GroupChangelogTabPanel } from './components/GroupChangelogTab';
+import {
+  GroupIndividualUpdateTaskItemFormatters,
+  GroupIndividualUpdateTaskTableHeaders
+} from "./components/tasks/GroupIndividualUpdateTasks";
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -77,7 +81,14 @@ const DEFAULT_CONFIG = {
     tableHeaders: IndividualUpdateTaskTableHeaders,
     itemFormatters: IndividualUpdateTaskItemFormatters,
     taskSource: ['IndividualService'],
-  }],
+  },
+  {
+    text: <FormattedMessage module="individual" id="groupIndividual.tasks.update.title" />,
+    tableHeaders: GroupIndividualUpdateTaskTableHeaders,
+    itemFormatters: GroupIndividualUpdateTaskItemFormatters,
+    taskSource: ['GroupIndividualService'],
+  },
+  ],
 };
 
 export const IndividualModule = (cfg) => ({ ...DEFAULT_CONFIG, ...cfg });

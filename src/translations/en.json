@@ -125,11 +125,18 @@
   },
   "groupIndividual": {
     "individual": {
-      "role": "Role"
+      "role": "Role",
+      "groupId": "Group ID",
+      "individualId": "Individual ID"
     },
     "update": {
       "label": "Update Individual",
       "mutationLabel":"Update Individual {id}"
+    },
+    "tasks": {
+      "update": {
+        "title": "Group Update Tasks"
+      }
     },
     "groupIndividualRolePicker.HEAD":  "HEAD",
     "groupIndividualRolePicker.RECIPIENT": "RECIPIENT",
