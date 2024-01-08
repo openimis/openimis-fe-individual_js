@@ -9,7 +9,7 @@ const GroupIndividualUpdateTaskTableHeaders = () => [
 
 const GroupIndividualUpdateTaskItemFormatters = () => [
   (groupIndividual) => groupIndividual?.group ?? groupIndividual?.group_id,
-  (groupIndividual) => groupIndividual?.individual,
+  (groupIndividual, jsonExt) => jsonExt?.individual_identity ?? groupIndividual?.individual,
   (groupIndividual) => groupIndividual?.role,
 ];
 
