@@ -47,7 +47,7 @@ function GroupHistorySearcher({
     (groupHistory) => groupHistory?.version || EMPTY_STRING,
     (groupHistory) => {
       const jsonExt = groupHistory?.jsonExt ? JSON.parse(groupHistory.jsonExt) : null;
-      return jsonExt?.members ?? EMPTY_STRING;
+      return jsonExt?.members ? Object.values(jsonExt?.members).map((value) => `${value}, `) : EMPTY_STRING;
     },
   ];
 
