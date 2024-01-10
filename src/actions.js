@@ -20,6 +20,7 @@ const INDIVIDUAL_FULL_PROJECTION = [
   'dob',
   'jsonExt',
   'version',
+  'userUpdated {username}',
 ];
 
 const GROUP_INDIVIDUAL_FULL_PROJECTION = [
@@ -41,7 +42,12 @@ const GROUP_FULL_PROJECTION = [
   'dateUpdated',
   'jsonExt',
   'version',
+  'userUpdated {username}',
 ];
+
+const GROUP_HISTORY_FULL_PROJECTION = GROUP_FULL_PROJECTION.filter(
+  (item) => item !== 'head {firstName, lastName}',
+);
 
 export function fetchIndividuals(params) {
   const payload = formatPageQueryWithCount('individual', params, INDIVIDUAL_FULL_PROJECTION);
@@ -74,7 +80,7 @@ export function fetchGroup(params) {
 }
 
 export function fetchGroupHistory(params) {
-  const payload = formatPageQueryWithCount('groupHistory', params, GROUP_FULL_PROJECTION);
+  const payload = formatPageQueryWithCount('groupHistory', params, GROUP_HISTORY_FULL_PROJECTION);
   return graphql(payload, ACTION_TYPE.SEARCH_GROUP_HISTORY);
 }
 

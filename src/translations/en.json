@@ -63,7 +63,8 @@
     },
     "any": "ANY",
     "ok": "ok",
-    "jsonExt": "Additional fields"
+    "jsonExt": "Additional fields",
+    "userUpdated": "User Updated"
   },
   "individuals": {
     "pageTitle": "Individuals",
@@ -104,7 +105,8 @@
     "any": "ANY",
     "ok": "ok",
     "jsonExt": "Additional fields",
-    "members": "Members"
+    "members": "Members",
+    "userUpdated": "User Updated"
   },
   "groupHistoryList": {
     "pageTitle": "Groups History",

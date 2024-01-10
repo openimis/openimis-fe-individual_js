@@ -1,20 +1,16 @@
 import React from 'react';
-import { injectIntl } from 'react-intl';
+import {injectIntl} from 'react-intl';
 import {
-  withModulesManager,
+  formatDateFromISO,
   formatMessageWithValues,
   Searcher,
-  formatDateFromISO,
   withHistory,
+  withModulesManager,
 } from '@openimis/fe-core';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { fetchIndividualHistory } from '../actions';
-import {
-  DEFAULT_PAGE_SIZE,
-  ROWS_PER_PAGE_OPTIONS,
-  EMPTY_STRING,
-} from '../constants';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+import {fetchIndividualHistory} from '../actions';
+import {DEFAULT_PAGE_SIZE, EMPTY_STRING, ROWS_PER_PAGE_OPTIONS,} from '../constants';
 import IndividualHistoryFilter from './IndividualHistoryFilter';
 
 function IndividualHistorySearcher({
@@ -32,31 +28,31 @@ function IndividualHistorySearcher({
   const fetch = (params) => fetchIndividualHistory(params);
 
   const headers = () => {
-    const headers = [
+    return [
       'individualHistory.firstName',
       'individualHistory.lastName',
       'individualHistory.dob',
       'individualHistory.dateUpdated',
       'individualHistory.version',
       'individualHistory.jsonExt',
+        'individualHistory.userUpdated',
     ];
-    return headers;
   };
 
   const itemFormatters = () => {
-    const formatters = [
+    return [
       (individualHistory) => individualHistory.firstName,
       (individualHistory) => individualHistory.lastName,
       (individualHistory) => (individualHistory.dob
-        ? formatDateFromISO(modulesManager, intl, individualHistory.dob) : EMPTY_STRING
+              ? formatDateFromISO(modulesManager, intl, individualHistory.dob) : EMPTY_STRING
       ),
       (individualHistory) => (individualHistory.dateUpdated
-        ? formatDateFromISO(modulesManager, intl, individualHistory.dateUpdated) : EMPTY_STRING
+              ? formatDateFromISO(modulesManager, intl, individualHistory.dateUpdated) : EMPTY_STRING
       ),
       (individualHistory) => individualHistory.version,
       (individualHistory) => individualHistory.jsonExt,
+      (individualHistory) => individualHistory?.userUpdated?.username,
     ];
-    return formatters;
   };
 
   const rowIdentifier = (individualHistory) => individualHistory.id;

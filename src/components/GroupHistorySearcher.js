@@ -28,15 +28,14 @@ function GroupHistorySearcher({
   const fetch = (params) => dispatch(fetchGroupHistory(params));
 
   const headers = () => [
-    'groupHistory.id',
     'groupHistory.head',
     'groupHistory.dateUpdated',
     'groupHistory.version',
     'groupHistory.members',
+    'groupHistory.userUpdated',
   ];
 
   const itemFormatters = () => [
-    (groupHistory) => groupHistory?.id || EMPTY_STRING,
     (groupHistory) => {
       const jsonExt = groupHistory?.jsonExt ? JSON.parse(groupHistory.jsonExt) : null;
       return jsonExt?.head ?? EMPTY_STRING;
@@ -49,6 +48,7 @@ function GroupHistorySearcher({
       const jsonExt = groupHistory?.jsonExt ? JSON.parse(groupHistory.jsonExt) : null;
       return jsonExt?.members ? Object.values(jsonExt?.members).map((value) => `${value}, `) : EMPTY_STRING;
     },
+    (groupHistory) => groupHistory?.userUpdated?.username,
   ];
 
   const rowIdentifier = (groupHistory) => groupHistory.id;
