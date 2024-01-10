@@ -1,5 +1,5 @@
 import React from 'react';
-import {injectIntl} from 'react-intl';
+import { injectIntl } from 'react-intl';
 import {
   formatDateFromISO,
   formatMessageWithValues,
@@ -7,10 +7,10 @@ import {
   withHistory,
   withModulesManager,
 } from '@openimis/fe-core';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {fetchIndividualHistory} from '../actions';
-import {DEFAULT_PAGE_SIZE, EMPTY_STRING, ROWS_PER_PAGE_OPTIONS,} from '../constants';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { fetchIndividualHistory } from '../actions';
+import { DEFAULT_PAGE_SIZE, EMPTY_STRING, ROWS_PER_PAGE_OPTIONS } from '../constants';
 import IndividualHistoryFilter from './IndividualHistoryFilter';
 
 function IndividualHistorySearcher({
@@ -27,33 +27,29 @@ function IndividualHistorySearcher({
 }) {
   const fetch = (params) => fetchIndividualHistory(params);
 
-  const headers = () => {
-    return [
-      'individualHistory.firstName',
-      'individualHistory.lastName',
-      'individualHistory.dob',
-      'individualHistory.dateUpdated',
-      'individualHistory.version',
-      'individualHistory.jsonExt',
-        'individualHistory.userUpdated',
-    ];
-  };
+  const headers = () => [
+    'individualHistory.firstName',
+    'individualHistory.lastName',
+    'individualHistory.dob',
+    'individualHistory.dateUpdated',
+    'individualHistory.version',
+    'individualHistory.jsonExt',
+    'individualHistory.userUpdated',
+  ];
 
-  const itemFormatters = () => {
-    return [
-      (individualHistory) => individualHistory.firstName,
-      (individualHistory) => individualHistory.lastName,
-      (individualHistory) => (individualHistory.dob
-              ? formatDateFromISO(modulesManager, intl, individualHistory.dob) : EMPTY_STRING
-      ),
-      (individualHistory) => (individualHistory.dateUpdated
-              ? formatDateFromISO(modulesManager, intl, individualHistory.dateUpdated) : EMPTY_STRING
-      ),
-      (individualHistory) => individualHistory.version,
-      (individualHistory) => individualHistory.jsonExt,
-      (individualHistory) => individualHistory?.userUpdated?.username,
-    ];
-  };
+  const itemFormatters = () => [
+    (individualHistory) => individualHistory.firstName,
+    (individualHistory) => individualHistory.lastName,
+    (individualHistory) => (individualHistory.dob
+      ? formatDateFromISO(modulesManager, intl, individualHistory.dob) : EMPTY_STRING
+    ),
+    (individualHistory) => (individualHistory.dateUpdated
+      ? formatDateFromISO(modulesManager, intl, individualHistory.dateUpdated) : EMPTY_STRING
+    ),
+    (individualHistory) => individualHistory.version,
+    (individualHistory) => individualHistory.jsonExt,
+    (individualHistory) => individualHistory?.userUpdated?.username,
+  ];
 
   const rowIdentifier = (individualHistory) => individualHistory.id;
 
