@@ -85,11 +85,6 @@ export function fetchGroupHistory(params) {
   return graphql(payload, ACTION_TYPE.SEARCH_GROUP_HISTORY);
 }
 
-export function fetchBenefitPlanSchemaFields(params) {
-  const payload = formatQuery('benefitPlanSchemaField', params, ['schemaFields']);
-  return graphql(payload, ACTION_TYPE.GET_FIELDS_FROM_BF_SCHEMA);
-}
-
 export function deleteIndividual(individual, clientMutationLabel) {
   const individualUuids = `ids: ["${individual?.id}"]`;
   const mutation = formatMutation('deleteIndividual', individualUuids, clientMutationLabel);

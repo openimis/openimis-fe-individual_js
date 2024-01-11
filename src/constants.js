@@ -51,3 +51,5 @@ export const GROUP_INDIVIDUAL_ROLES_LIST = [
 export const BENEFIT_PLAN_LABEL = 'BenefitPlan';
 
 export const SOCIAL_PROTECTION_MODULE_NAME = 'social_protection';
+
+export const FETCH_BENEFIT_PLAN_SCHEMA_FIELDS_REF = 'socialProtection.fetchBenefitPlanSchemaFields';

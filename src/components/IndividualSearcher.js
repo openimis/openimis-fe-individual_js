@@ -15,7 +15,7 @@ import {
   CLEARED_STATE_FILTER,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import {
   IconButton, Tooltip, Button,
   Dialog,
@@ -25,14 +25,18 @@ import {
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {
-  fetchIndividuals, deleteIndividual, downloadIndividuals, clearIndividualExport, fetchBenefitPlanSchemaFields,
+  fetchIndividuals, deleteIndividual, downloadIndividuals, clearIndividualExport,
 } from '../actions';
 import {
   DEFAULT_PAGE_SIZE,
   ROWS_PER_PAGE_OPTIONS,
   EMPTY_STRING,
   RIGHT_INDIVIDUAL_UPDATE,
-  RIGHT_INDIVIDUAL_DELETE, BENEFIT_PLAN_LABEL, SOCIAL_PROTECTION_MODULE_NAME, RIGHT_SCHEMA_SEARCH,
+  RIGHT_INDIVIDUAL_DELETE,
+  BENEFIT_PLAN_LABEL,
+  SOCIAL_PROTECTION_MODULE_NAME,
+  RIGHT_SCHEMA_SEARCH,
+  FETCH_BENEFIT_PLAN_SCHEMA_FIELDS_REF,
 } from '../constants';
 import { applyNumberCircle } from '../util/searcher-utils';
 import IndividualFilter from './IndividualFilter';
@@ -64,8 +68,8 @@ function IndividualSearcher({
   fieldsFromBfSchema,
   fetchingFieldsFromBfSchema,
   fetchedFieldsFromBfSchema,
-  fetchBenefitPlanSchemaFields,
 }) {
+  const dispatch = useDispatch();
   const [individualToDelete, setIndividualToDelete] = useState(null);
   const [appliedCustomFilters, setAppliedCustomFilters] = useState([CLEARED_STATE_FILTER]);
   const [appliedFiltersRowStructure, setAppliedFiltersRowStructure] = useState([CLEARED_STATE_FILTER]);
@@ -85,11 +89,21 @@ function IndividualSearcher({
   const prevSubmittingMutationRef = useRef();
 
   useEffect(() => {
-    if (!fetchedFieldsFromBfSchema && !fetchingFieldsFromBfSchema && rights.includes(RIGHT_SCHEMA_SEARCH)) {
-      fetchBenefitPlanSchemaFields(['bfType: INDIVIDUAL']);
+    const canFetchBenefitPlanSchemaFields = !fetchedFieldsFromBfSchema
+        && !fetchingFieldsFromBfSchema
+        && rights.includes(RIGHT_SCHEMA_SEARCH);
+
+    if (canFetchBenefitPlanSchemaFields) {
+      const fetchBenefitPlanSchemaFields = modulesManager.getRef(FETCH_BENEFIT_PLAN_SCHEMA_FIELDS_REF);
+      if (fetchBenefitPlanSchemaFields) {
+        dispatch(fetchBenefitPlanSchemaFields(['bfType: INDIVIDUAL']));
+      }
     }
-    setExportFields([...exportFields, ...fieldsFromBfSchema]);
-  }, [fetchedFieldsFromBfSchema, fetchingFieldsFromBfSchema]);
+
+    if (!canFetchBenefitPlanSchemaFields) {
+      setExportFields([...exportFields, ...fieldsFromBfSchema]);
+    }
+  }, [fetchedFieldsFromBfSchema, fetchingFieldsFromBfSchema, rights, modulesManager]);
 
   function individualUpdatePageUrl(individual) {
     return `${modulesManager.getRef('individual.route.individual')}/${individual?.id}`;
@@ -301,10 +315,10 @@ const mapStateToProps = (state) => ({
   individualExport: state.individual.individualExport,
   individualExportPageInfo: state.individual.individualExportPageInfo,
   errorIndividualExport: state.individual.errorIndividualExport,
-  fieldsFromBfSchema: state.individual.fieldsFromBfSchema,
-  fetchingFieldsFromBfSchema: state.individual.fetchingFieldsFromBfSchema,
-  fetchedFieldsFromBfSchema: state.individual.fetchedFieldsFromBfSchema,
-  errorFieldsFromBfSchema: state.individual.errorFieldsFromBfSchema,
+  fieldsFromBfSchema: state?.socialProtection?.fieldsFromBfSchema,
+  fetchingFieldsFromBfSchema: state?.socialProtection?.fetchingFieldsFromBfSchema,
+  fetchedFieldsFromBfSchema: state?.socialProtection?.fetchedFieldsFromBfSchema,
+  errorFieldsFromBfSchema: state?.socialProtection?.errorFieldsFromBfSchema,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
@@ -313,7 +327,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     deleteIndividual,
     downloadIndividuals,
     clearIndividualExport,
-    fetchBenefitPlanSchemaFields,
     coreConfirm,
     clearConfirm,
     journalize,

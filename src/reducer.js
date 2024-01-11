@@ -33,7 +33,6 @@ export const ACTION_TYPE = {
   GROUP_INDIVIDUAL_EXPORT: 'GROUP_INDIVIDUAL_EXPORT',
   SEARCH_INDIVIDUAL_HISTORY: 'SEARCH_INDIVIDUAL_HISTORY',
   SEARCH_GROUP_HISTORY: 'SEARCH_GROUP_HISTORY',
-  GET_FIELDS_FROM_BF_SCHEMA: 'GET_FIELDS_FROM_BF_SCHEMA',
 };
 
 function reducer(
@@ -93,22 +92,10 @@ function reducer(
     groupHistory: [],
     groupHistoryPageInfo: {},
     groupHistoryTotalCount: 0,
-    fieldsFromBfSchema: [],
-    fetchingFieldsFromBfSchema: false,
-    fetchedFieldsFromBfSchema: false,
-    errorFieldsFromBfSchema: null,
   },
   action,
 ) {
   switch (action.type) {
-    case REQUEST(ACTION_TYPE.GET_FIELDS_FROM_BF_SCHEMA):
-      return {
-        ...state,
-        fieldsFromBfSchema: [],
-        fetchingFieldsFromBfSchema: true,
-        fetchedFieldsFromBfSchema: false,
-        errorFieldsFromBfSchema: null,
-      };
     case REQUEST(ACTION_TYPE.SEARCH_INDIVIDUALS):
       return {
         ...state,
@@ -174,14 +161,6 @@ function reducer(
         groupHistoryPageInfo: {},
         groupHistoryTotalCount: 0,
         errorGroupHistory: null,
-      };
-    case SUCCESS(ACTION_TYPE.GET_FIELDS_FROM_BF_SCHEMA):
-      return {
-        ...state,
-        fieldsFromBfSchema: action?.payload?.data?.benefitPlanSchemaField?.schemaFields || [],
-        fetchingFieldsFromBfSchema: false,
-        fetchedFieldsFromBfSchema: true,
-        errorFieldsFromBfSchema: formatGraphQLError(action.payload),
       };
     case SUCCESS(ACTION_TYPE.SEARCH_INDIVIDUALS):
       return {
@@ -288,12 +267,6 @@ function reducer(
           id: decodeId(group.id),
         }))?.[0],
         errorGroup: null,
-      };
-    case ERROR(ACTION_TYPE.GET_FIELDS_FROM_BF_SCHEMA):
-      return {
-        ...state,
-        fetchingFieldsFromBfSchema: false,
-        errorFieldsFromBfSchema: formatGraphQLError(action.payload),
       };
     case ERROR(ACTION_TYPE.SEARCH_INDIVIDUALS):
       return {
