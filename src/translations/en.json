@@ -64,7 +64,9 @@
     "any": "ANY",
     "ok": "ok",
     "jsonExt": "Additional fields",
-    "userUpdated": "User Updated"
+    "userUpdated": "Changed by",
+    "dateUpdated_Gte": "Date updated after",
+    "dateUpdated_Lte": "Date updated before"
   },
   "individuals": {
     "pageTitle": "Individuals",
@@ -99,14 +101,16 @@
     "pageTitle": "Group {id}",
     "headPanelTitle": "General Information",
     "id": "ID",
-    "head": "head",
+    "head": "Head",
     "dateUpdated": "Date Updated",
     "version": "Version",
     "any": "ANY",
     "ok": "ok",
     "jsonExt": "Additional fields",
     "members": "Members",
-    "userUpdated": "User Updated"
+    "userUpdated": "Changed by",
+    "dateUpdated_Gte": "Date updated after",
+    "dateUpdated_Lte": "Date updated before"
   },
   "groupHistoryList": {
     "pageTitle": "Groups History",

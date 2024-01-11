@@ -69,6 +69,44 @@ function IndividualHistoryFilter({
           ])}
         />
       </Grid>
+      <Grid item xs={2} className={classes.item}>
+        <PublishedComponent
+          pubRef="core.DatePicker"
+          module="individual"
+          label="groupHistory.dateUpdated_Gte"
+          value={filterValue('dateUpdated_Gte')}
+          onChange={(v) => onChangeFilters([
+            {
+              id: 'dateUpdated_Gte',
+              value: v,
+              filter: `dateUpdated_Gte: "${v}T00:00:00.000Z"`,
+            },
+          ])}
+        />
+      </Grid>
+      <Grid item xs={2} className={classes.item}>
+        <PublishedComponent
+          pubRef="core.DatePicker"
+          module="individual"
+          label="groupHistory.dateUpdated_Lte"
+          value={filterValue('dateUpdated_Lte')}
+          onChange={(v) => onChangeFilters([
+            {
+              id: 'dateUpdated_Lte',
+              value: v,
+              filter: `dateUpdated_Lte: "${v}T00:00:00.000Z"`,
+            },
+          ])}
+        />
+      </Grid>
+      <Grid item xs={2} className={classes.item}>
+        <TextInput
+          module="individual"
+          label="groupHistory.userUpdated"
+          value={filterTextFieldValue('userUpdated_Username')}
+          onChange={onChangeStringFilter('userUpdated_Username', CONTAINS_LOOKUP)}
+        />
+      </Grid>
     </Grid>
   );
 }
