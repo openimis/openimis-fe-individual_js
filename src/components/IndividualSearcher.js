@@ -25,14 +25,14 @@ import {
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {
-  fetchIndividuals, deleteIndividual, downloadIndividuals, clearIndividualExport,
+  fetchIndividuals, deleteIndividual, downloadIndividuals, clearIndividualExport, fetchBenefitPlanSchemaFields,
 } from '../actions';
 import {
   DEFAULT_PAGE_SIZE,
   ROWS_PER_PAGE_OPTIONS,
   EMPTY_STRING,
   RIGHT_INDIVIDUAL_UPDATE,
-  RIGHT_INDIVIDUAL_DELETE, BENEFIT_PLAN_LABEL, SOCIAL_PROTECTION_MODULE_NAME,
+  RIGHT_INDIVIDUAL_DELETE, BENEFIT_PLAN_LABEL, SOCIAL_PROTECTION_MODULE_NAME, RIGHT_SCHEMA_SEARCH,
 } from '../constants';
 import { applyNumberCircle } from '../util/searcher-utils';
 import IndividualFilter from './IndividualFilter';
@@ -61,12 +61,35 @@ function IndividualSearcher({
   downloadIndividuals,
   individualExport,
   errorIndividualExport,
+  fieldsFromBfSchema,
+  fetchingFieldsFromBfSchema,
+  fetchedFieldsFromBfSchema,
+  fetchBenefitPlanSchemaFields,
 }) {
   const [individualToDelete, setIndividualToDelete] = useState(null);
   const [appliedCustomFilters, setAppliedCustomFilters] = useState([CLEARED_STATE_FILTER]);
   const [appliedFiltersRowStructure, setAppliedFiltersRowStructure] = useState([CLEARED_STATE_FILTER]);
   const [deletedIndividualUuids, setDeletedIndividualUuids] = useState([]);
+  const [exportFields, setExportFields] = useState([
+    'id',
+    'first_name',
+    'last_name',
+    'dob',
+  ]);
+  const exportFieldsColumns = {
+    id: 'ID',
+    first_name: formatMessage(intl, 'individual', 'export.firstName'),
+    last_name: formatMessage(intl, 'individual', 'export.lastName'),
+    dob: formatMessage(intl, 'individual', 'export.dob'),
+  };
   const prevSubmittingMutationRef = useRef();
+
+  useEffect(() => {
+    if (!fetchedFieldsFromBfSchema && !fetchingFieldsFromBfSchema && rights.includes(RIGHT_SCHEMA_SEARCH)) {
+      fetchBenefitPlanSchemaFields(['bfType: INDIVIDUAL']);
+    }
+    setExportFields([...exportFields, ...fieldsFromBfSchema]);
+  }, [fetchedFieldsFromBfSchema, fetchingFieldsFromBfSchema]);
 
   function individualUpdatePageUrl(individual) {
     return `${modulesManager.getRef('individual.route.individual')}/${individual?.id}`;
@@ -241,19 +264,8 @@ function IndividualSearcher({
         appliedFiltersRowStructure={appliedFiltersRowStructure}
         setAppliedFiltersRowStructure={setAppliedFiltersRowStructure}
         applyNumberCircle={applyNumberCircle}
-        exportFields={[
-          'id',
-          'first_name',
-          'last_name',
-          'dob',
-          'json_ext', // Unfolded by backend and removed from csv
-        ]}
-        exportFieldsColumns={{
-          id: 'ID',
-          first_name: formatMessage(intl, 'individual', 'export.firstName'),
-          last_name: formatMessage(intl, 'individual', 'export.lastName'),
-          dob: formatMessage(intl, 'individual', 'export.dob'),
-        }}
+        exportFields={exportFields}
+        exportFieldsColumns={exportFieldsColumns}
         exportFieldLabel={formatMessage(intl, 'individual', 'export.label')}
         chooseExportableColumns
         cacheFiltersKey="individualsFilterCache"
@@ -289,6 +301,10 @@ const mapStateToProps = (state) => ({
   individualExport: state.individual.individualExport,
   individualExportPageInfo: state.individual.individualExportPageInfo,
   errorIndividualExport: state.individual.errorIndividualExport,
+  fieldsFromBfSchema: state.individual.fieldsFromBfSchema,
+  fetchingFieldsFromBfSchema: state.individual.fetchingFieldsFromBfSchema,
+  fetchedFieldsFromBfSchema: state.individual.fetchedFieldsFromBfSchema,
+  errorFieldsFromBfSchema: state.individual.errorFieldsFromBfSchema,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(
@@ -297,6 +313,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     deleteIndividual,
     downloadIndividuals,
     clearIndividualExport,
+    fetchBenefitPlanSchemaFields,
     coreConfirm,
     clearConfirm,
     journalize,

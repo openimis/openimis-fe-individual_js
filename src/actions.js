@@ -4,6 +4,7 @@ import {
   formatPageQueryWithCount,
   formatMutation,
   formatGQLString,
+  formatQuery,
 } from '@openimis/fe-core';
 import { ACTION_TYPE } from './reducer';
 import {
@@ -82,6 +83,11 @@ export function fetchGroup(params) {
 export function fetchGroupHistory(params) {
   const payload = formatPageQueryWithCount('groupHistory', params, GROUP_HISTORY_FULL_PROJECTION);
   return graphql(payload, ACTION_TYPE.SEARCH_GROUP_HISTORY);
+}
+
+export function fetchBenefitPlanSchemaFields(params) {
+  const payload = formatQuery('benefitPlanSchemaField', params, ['schemaFields']);
+  return graphql(payload, ACTION_TYPE.GET_FIELDS_FROM_BF_SCHEMA);
 }
 
 export function deleteIndividual(individual, clientMutationLabel) {
