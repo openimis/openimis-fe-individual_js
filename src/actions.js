@@ -4,7 +4,6 @@ import {
   formatPageQueryWithCount,
   formatMutation,
   formatGQLString,
-  formatQuery,
 } from '@openimis/fe-core';
 import { ACTION_TYPE } from './reducer';
 import {
