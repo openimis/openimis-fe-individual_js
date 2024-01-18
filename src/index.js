@@ -36,6 +36,7 @@ import {
   GroupIndividualUpdateTaskTableHeaders,
 } from './components/tasks/GroupIndividualUpdateTasks';
 import { GROUP_LABEL, INDIVIDUAL_LABEL } from './constants';
+import {GroupCreateTaskItemFormatters, GroupCreateTaskTableHeaders} from "./components/tasks/GroupCreateTasks";
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -98,6 +99,13 @@ const DEFAULT_CONFIG = {
     tableHeaders: GroupIndividualUpdateTaskTableHeaders,
     itemFormatters: GroupIndividualUpdateTaskItemFormatters,
     taskSource: ['GroupIndividualService'],
+    taskCode: GROUP_LABEL,
+  },
+  {
+    text: <FormattedMessage module="individual" id="group.tasks.create.title" />,
+    tableHeaders: GroupCreateTaskTableHeaders,
+    itemFormatters: GroupCreateTaskItemFormatters,
+    taskSource: ['CreateGroupAndMoveIndividualService'],
     taskCode: GROUP_LABEL,
   },
   ],

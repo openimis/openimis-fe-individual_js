@@ -8,6 +8,7 @@ import {
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
 import { withTheme, withStyles } from '@material-ui/core/styles';
+import { EMPTY_STRING } from '../constants';
 
 const styles = (theme) => ({
   tableTitle: theme.table.title,
@@ -57,9 +58,8 @@ class GroupHeadPanel extends FormPanel {
               readOnly
               module="individual"
               label="group.id"
-              required
               onChange={(v) => this.updateAttribute('id', v)}
-              value={group?.id}
+              value={group?.id ?? EMPTY_STRING}
             />
           </Grid>
         </Grid>

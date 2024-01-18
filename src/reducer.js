@@ -12,7 +12,7 @@ import {
   decodeId,
 } from '@openimis/fe-core';
 import {
-  REQUEST, SUCCESS, ERROR, CLEAR,
+  REQUEST, SUCCESS, ERROR, CLEAR, SET,
 } from './util/action-type';
 
 export const ACTION_TYPE = {
@@ -28,11 +28,13 @@ export const ACTION_TYPE = {
   UPDATE_INDIVIDUAL: 'INDIVIDUAL_UPDATE_INDIVIDUAL',
   UPDATE_GROUP_INDIVIDUAL: 'GROUP_INDIVIDUAL_UPDATE_GROUP_INDIVIDUAL',
   UPDATE_GROUP: 'GROUP_UPDATE_GROUP',
+  CREATE_GROUP_AND_MOVE_INDIVIDUAL: 'CREATE_GROUP_AND_MOVE_INDIVIDUAL',
   GROUP_EXPORT: 'GROUP_EXPORT',
   INDIVIDUAL_EXPORT: 'INDIVIDUAL_EXPORT',
   GROUP_INDIVIDUAL_EXPORT: 'GROUP_INDIVIDUAL_EXPORT',
   SEARCH_INDIVIDUAL_HISTORY: 'SEARCH_INDIVIDUAL_HISTORY',
   SEARCH_GROUP_HISTORY: 'SEARCH_GROUP_HISTORY',
+  SET_GROUP_INDIVIDUAL: 'SET_GROUP_INDIVIDUAL',
 };
 
 function reducer(
@@ -382,6 +384,24 @@ function reducer(
         fetchingGroupIndividualExport: false,
         errorGroupIndividualExport: formatServerError(action.payload),
       };
+    case CLEAR(ACTION_TYPE.GET_GROUP):
+      return {
+        ...state,
+        fetchingGroup: false,
+        fetchedGroup: false,
+        group: null,
+        errorGroup: null,
+      };
+    case CLEAR(ACTION_TYPE.SEARCH_GROUP_INDIVIDUALS):
+      return {
+        ...state,
+        fetchingGroupIndividuals: false,
+        fetchedGroupIndividuals: false,
+        groupIndividuals: [],
+        groupIndividualsPageInfo: {},
+        groupIndividualsTotalCount: 0,
+        errorGroupIndividuals: null,
+      };
     case CLEAR(ACTION_TYPE.GROUP_EXPORT):
       return {
         ...state,
@@ -409,6 +429,16 @@ function reducer(
         individualExportPageInfo: {},
         errorIndividualExport: null,
       };
+    case SET(ACTION_TYPE.SET_GROUP_INDIVIDUAL):
+      return {
+        ...state,
+        fetchingGroupIndividuals: false,
+        fetchedGroupIndividuals: false,
+        groupIndividuals: [action?.payload],
+        groupIndividualsPageInfo: {},
+        groupIndividualsTotalCount: 1,
+        errorGroupIndividuals: null,
+      };
     case REQUEST(ACTION_TYPE.MUTATION):
       return dispatchMutationReq(state, action);
     case ERROR(ACTION_TYPE.MUTATION):
@@ -425,6 +455,8 @@ function reducer(
       return dispatchMutationResp(state, 'deleteGroup', action);
     case SUCCESS(ACTION_TYPE.UPDATE_GROUP):
       return dispatchMutationResp(state, 'updateGroup', action);
+    case SUCCESS(ACTION_TYPE.CREATE_GROUP_AND_MOVE_INDIVIDUAL):
+      return dispatchMutationResp(state, 'createGroupAndMoveIndividual', action);
     default:
       return state;
   }

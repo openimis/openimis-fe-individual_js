@@ -96,7 +96,16 @@
         "message": "Deleting data does not mean erasing it from OpenIMIS database. The data will only be deactivated from the viewed list."
       },
       "mutationLabel": "Delete Group {id}"
-    }
+    },
+    "createGroupAndMoveIndividual": {
+      "mutationLabel": "Create group and move individual."
+    },
+    "tasks" : {
+      "create": {
+        "title": "Group Create Tasks"
+      }
+    },
+    "members": "Members"
   },
   "groupHistory": {
     "pageTitle": "Group {id}",
@@ -159,5 +168,6 @@
   },
   "confirm": "Confirm",
   "cancel": "Cancel",
-  "changeGroupButtonTooltip": "Move to another group."
+  "changeGroupButtonTooltip": "Move to another group.",
+  "moveToNewGroup": "New Group"
 }

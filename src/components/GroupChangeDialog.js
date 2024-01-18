@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@material-ui/core';
-import { useTranslations, useModulesManager } from '@openimis/fe-core';
+import { useTranslations, useModulesManager, useHistory } from '@openimis/fe-core';
 import GroupPicker from '../pickers/GroupPicker';
+import { setNewGroupIndividual } from '../actions';
 
 const styles = (theme) => ({
   primaryButton: theme.dialog.primaryButton,
@@ -19,14 +21,28 @@ function GroupChangeDialog({
   onClose,
   onConfirm,
   groupIndividual,
+  setEditedGroupIndividual,
 }) {
   const modulesManager = useModulesManager();
+  const history = useHistory();
+  const dispatch = useDispatch();
   const { formatMessage, formatMessageWithValues } = useTranslations('individual', modulesManager);
   const [groupToBeChanged, setGroupToBeChanged] = useState(null);
 
-  const handleConfirm = (groupToBeChanged) => {
+  const handleConfirm = () => {
     onConfirm(groupToBeChanged);
     onClose();
+  };
+
+  const onMoveToNewGroup = () => {
+    history.push(`/${modulesManager.getRef('individual.route.group')}`);
+    onClose();
+    dispatch(setNewGroupIndividual(groupIndividual));
+  };
+
+  const onCancel = () => {
+    onClose();
+    setEditedGroupIndividual(null);
   };
 
   return (
@@ -43,15 +59,18 @@ function GroupChangeDialog({
         />
       </DialogContent>
       <DialogActions>
+        <Button onClick={onMoveToNewGroup} className={classes.secondaryButton} disabled={groupToBeChanged}>
+          {formatMessage('moveToNewGroup')}
+        </Button>
         <Button
-          onClick={() => handleConfirm(groupToBeChanged)}
+          onClick={handleConfirm}
           autoFocus
           className={classes.primaryButton}
           disabled={!groupToBeChanged}
         >
           {formatMessage('confirm')}
         </Button>
-        <Button onClick={onClose} className={classes.secondaryButton}>
+        <Button onClick={onCancel} className={classes.secondaryButton}>
           {formatMessage('cancel')}
         </Button>
       </DialogActions>

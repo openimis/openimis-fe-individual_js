@@ -22,7 +22,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import GroupIcon from '@material-ui/icons/Group';
 import DeleteIcon from '@material-ui/icons/Delete';
 import {
-  clearGroupIndividualExport,
+  clearGroupIndividualExport, clearGroupIndividuals,
   deleteGroupIndividual,
   downloadGroupIndividuals,
   fetchGroupIndividuals,
@@ -64,6 +64,10 @@ function GroupIndividualSearcher({
   downloadGroupIndividuals,
   groupIndividualExport,
   errorGroupIndividualExport,
+  clearGroupIndividuals,
+  setEditedGroupIndividual,
+  editedGroupIndividual,
+
 }) {
   const [groupIndividualToDelete, setGroupIndividualToDelete] = useState(null);
   const [deletedGroupIndividualUuids, setDeletedGroupIndividualUuids] = useState([]);
@@ -71,7 +75,6 @@ function GroupIndividualSearcher({
   const [updatedGroupIndividuals, setUpdatedGroupIndividuals] = useState([]);
   const [refetch, setRefetch] = useState(null);
   const [isChangeGroupModalOpen, setIsChangeGroupModalOpen] = useState(false);
-  const [groupIndividualToGroupChange, setGroupIndividualToGroupChange] = useState(null);
 
   function groupIndividualUpdatePageUrl(groupIndividual) {
     return `${modulesManager.getRef('individual.route.individual')}/${groupIndividual.individual?.id}`;
@@ -120,7 +123,9 @@ function GroupIndividualSearcher({
     prevSubmittingMutationRef.current = submittingMutation;
   });
 
-  const fetch = (params) => fetchGroupIndividuals(params);
+  useEffect(() => () => (editedGroupIndividual ? clearGroupIndividuals() : null), [groupId]);
+
+  const fetch = (params) => (groupId ? fetchGroupIndividuals(params) : null);
 
   const headers = () => {
     const headers = [
@@ -168,7 +173,7 @@ function GroupIndividualSearcher({
 
   const handleGroupChange = (groupIndividual) => {
     setIsChangeGroupModalOpen(true);
-    setGroupIndividualToGroupChange(groupIndividual);
+    setEditedGroupIndividual(groupIndividual);
   };
 
   const isRowUpdated = (groupIndividual) => (
@@ -180,7 +185,7 @@ function GroupIndividualSearcher({
 
   const onChangeGroupConfirm = (groupToBeChanged) => {
     const updateIndividual = {
-      ...groupIndividualToGroupChange,
+      ...editedGroupIndividual,
       group: groupToBeChanged,
       role: GROUP_INDIVIDUAL_ROLES.RECIPIENT,
     };
@@ -308,7 +313,8 @@ function GroupIndividualSearcher({
         confirmState={isChangeGroupModalOpen}
         onClose={() => setIsChangeGroupModalOpen(false)}
         onConfirm={onChangeGroupConfirm}
-        groupIndividual={groupIndividualToGroupChange}
+        groupIndividual={editedGroupIndividual}
+        setEditedGroupIndividual={setEditedGroupIndividual}
       />
       <Searcher
         key={refetch}
@@ -393,6 +399,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     deleteGroupIndividual,
     clearGroupIndividualExport,
     downloadGroupIndividuals,
+    clearGroupIndividuals,
     coreConfirm,
     clearConfirm,
     journalize,

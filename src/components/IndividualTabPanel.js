@@ -31,7 +31,7 @@ const styles = (theme) => ({
 });
 
 function IndividualTabPanel({
-  intl, rights, classes, individual, setConfirmedAction, group,
+  intl, rights, classes, individual, setConfirmedAction, group, editedGroupIndividual, setEditedGroupIndividual
 }) {
   const [activeTab, setActiveTab] = useState(individual ? BENEFIT_PLANS_LIST_TAB_VALUE : INDIVIDUALS_LIST_TAB_VALUE);
 
@@ -54,6 +54,8 @@ function IndividualTabPanel({
           tabStyle={tabStyle}
           group={group}
           individual={individual}
+          editedGroupIndividual={editedGroupIndividual}
+          setEditedGroupIndividual={setEditedGroupIndividual}
         />
       </Grid>
       <Contributions
@@ -63,6 +65,8 @@ function IndividualTabPanel({
         individual={individual}
         group={group}
         setConfirmedAction={setConfirmedAction}
+        editedGroupIndividual={editedGroupIndividual}
+        setEditedGroupIndividual={setEditedGroupIndividual}
       />
     </Paper>
   );

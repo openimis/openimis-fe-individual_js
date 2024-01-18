@@ -15,14 +15,17 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { RIGHT_GROUP_UPDATE } from '../constants';
-import { fetchGroup, deleteGroup, updateGroup } from '../actions';
+import { RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH } from '../constants';
+import {
+  fetchGroup, deleteGroup, updateGroup, clearGroup, createGroupAndMoveIndividual,
+} from '../actions';
 import GroupHeadPanel from '../components/GroupHeadPanel';
 import IndividualTabPanel from '../components/IndividualTabPanel';
 import { ACTION_TYPE } from '../reducer';
 
 const styles = (theme) => ({
   page: theme.page,
+  lockedPage: theme.page.locked,
 });
 
 function GroupPage({
@@ -41,15 +44,22 @@ function GroupPage({
   submittingMutation,
   mutation,
   journalize,
+  clearGroup,
+  createGroupAndMoveIndividual,
 }) {
   const [editedGroup, setEditedGroup] = useState({});
+  const [editedGroupIndividual, setEditedGroupIndividual] = useState(null);
   const [confirmedAction, setConfirmedAction] = useState(() => null);
+  const [readOnly, setReadOnly] = useState(null);
   const prevSubmittingMutationRef = useRef();
 
   useEffect(() => {
     if (groupUuid) {
       fetchGroup([`id: "${groupUuid}"`]);
     }
+    return () => {
+      clearGroup();
+    };
   }, [groupUuid]);
 
   useEffect(() => {
@@ -57,7 +67,10 @@ function GroupPage({
     return () => confirmed && clearConfirm(null);
   }, [confirmed]);
 
-  const back = () => history.goBack();
+  const back = () => {
+    setEditedGroupIndividual(null);
+    return history.goBack();
+  };
 
   useEffect(() => {
     if (prevSubmittingMutationRef.current && !submittingMutation) {
@@ -85,12 +98,21 @@ function GroupPage({
   const canSave = () => !isMandatoryFieldsEmpty() && doesGroupChange();
 
   const handleSave = () => {
-    updateGroup(
-      editedGroup,
-      formatMessageWithValues(intl, 'individual', 'group.update.mutationLabel', {
-        id: group?.id,
-      }),
-    );
+    setReadOnly(true);
+    if (editedGroup?.id) {
+      updateGroup(
+        editedGroup,
+        formatMessageWithValues(intl, 'individual', 'group.update.mutationLabel', {
+          id: group?.id,
+        }),
+      );
+    } else if (editedGroupIndividual?.id) {
+      createGroupAndMoveIndividual(
+        editedGroup,
+        editedGroupIndividual.id,
+        formatMessageWithValues(intl, 'individual', 'group.createGroupAndMoveIndividual.mutationLabel'),
+      );
+    }
   };
 
   const deleteGroupCallback = () => deleteGroup(
@@ -110,6 +132,8 @@ function GroupPage({
     );
   };
 
+  const canAdd = () => rights.includes(RIGHT_GROUP_CREATE) && editedGroupIndividual && !readOnly;
+
   const actions = [
     !!group && {
       doIt: openDeleteGroupConfirmDialog,
@@ -119,8 +143,8 @@ function GroupPage({
   ];
 
   return (
-    rights.includes(RIGHT_GROUP_UPDATE) && (
-    <div className={classes.page}>
+    rights.includes(RIGHT_GROUP_SEARCH) && (
+    <div className={readOnly && !groupUuid ? classes.lockedPage : classes.page}>
       <Helmet title={formatMessageWithValues(intl, 'group', 'pageTitle', titleParams(group))} />
       <Form
         module="group"
@@ -133,13 +157,17 @@ function GroupPage({
         back={back}
         mandatoryFieldsEmpty={isMandatoryFieldsEmpty}
         canSave={canSave}
-        save={handleSave}
+        save={groupUuid ? handleSave : null}
         HeadPanel={GroupHeadPanel}
         Panels={[IndividualTabPanel]}
         rights={rights}
         actions={actions}
         setConfirmedAction={setConfirmedAction}
         saveTooltip={formatMessage(intl, 'individual', `saveButton.tooltip.${canSave ? 'enabled' : 'disabled'}`)}
+        add={canAdd() ? handleSave : null}
+        setEditedGroupIndividual={setEditedGroupIndividual}
+        editedGroupIndividual={editedGroupIndividual}
+        readOnly={readOnly}
       />
     </div>
     )
@@ -162,6 +190,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   fetchGroup,
   deleteGroup,
   updateGroup,
+  clearGroup,
+  createGroupAndMoveIndividual,
   coreConfirm,
   clearConfirm,
   journalize,

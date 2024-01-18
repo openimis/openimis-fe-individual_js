@@ -7,7 +7,7 @@ import {
 } from '@openimis/fe-core';
 import { ACTION_TYPE } from './reducer';
 import {
-  CLEAR, ERROR, REQUEST, SUCCESS,
+  CLEAR, ERROR, REQUEST, SET, SUCCESS,
 } from './util/action-type';
 
 const INDIVIDUAL_FULL_PROJECTION = [
@@ -136,21 +136,27 @@ function dateTimeToDate(date) {
   return date.split('T')[0];
 }
 
+function formatGroupGQL(group, groupIndividualId = null) {
+  return `
+    ${group?.id ? `id: "${group.id}"` : ''}
+    ${groupIndividualId ? `groupIndividualId: "${groupIndividualId}"` : ''}`;
+}
+
 function formatIndividualGQL(individual) {
   return `
-    ${individual.id ? `id: "${individual.id}"` : ''}
-    ${individual.firstName ? `firstName: "${formatGQLString(individual.firstName)}"` : ''}
-    ${individual.lastName ? `lastName: "${formatGQLString(individual.lastName)}"` : ''}
-    ${individual.jsonExt ? `jsonExt: ${JSON.stringify(individual.jsonExt)}` : ''}
-    ${individual.dob ? `dob: "${dateTimeToDate(individual.dob)}"` : ''}`;
+    ${individual?.id ? `id: "${individual.id}"` : ''}
+    ${individual?.firstName ? `firstName: "${formatGQLString(individual.firstName)}"` : ''}
+    ${individual?.lastName ? `lastName: "${formatGQLString(individual.lastName)}"` : ''}
+    ${individual?.jsonExt ? `jsonExt: ${JSON.stringify(individual.jsonExt)}` : ''}
+    ${individual?.dob ? `dob: "${dateTimeToDate(individual.dob)}"` : ''}`;
 }
 
 function formatGroupIndividualGQL(groupIndividual) {
   return `
-    ${groupIndividual.id ? `id: "${groupIndividual.id}"` : ''}
-    ${groupIndividual.role ? `role: ${groupIndividual.role}` : ''}
-    ${groupIndividual.individual.id ? `individualId: "${groupIndividual.individual.id}"` : ''}
-    ${groupIndividual.group.id ? `groupId: "${groupIndividual.group.id}"` : ''}`;
+    ${groupIndividual?.id ? `id: "${groupIndividual.id}"` : ''}
+    ${groupIndividual?.role ? `role: ${groupIndividual.role}` : ''}
+    ${groupIndividual?.individual.id ? `individualId: "${groupIndividual.individual.id}"` : ''}
+    ${groupIndividual?.group.id ? `groupId: "${groupIndividual.group.id}"` : ''}`;
 }
 
 export function updateIndividual(individual, clientMutationLabel) {
@@ -187,8 +193,27 @@ export function updateGroupIndividual(groupIndividual, clientMutationLabel) {
   );
 }
 
+export function createGroupAndMoveIndividual(group, individualIds, clientMutationLabel) {
+  const mutation = formatMutation(
+    'createGroupAndMoveIndividual',
+    formatGroupGQL(group, individualIds),
+    clientMutationLabel,
+  );
+  const requestedDateTime = new Date();
+  return graphql(
+    mutation.payload,
+    [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.CREATE_GROUP_AND_MOVE_INDIVIDUAL), ERROR(ACTION_TYPE.MUTATION)],
+    {
+      actionType: ACTION_TYPE.CREATE_GROUP_AND_MOVE_INDIVIDUAL,
+      clientMutationId: mutation.clientMutationId,
+      clientMutationLabel,
+      requestedDateTime,
+    },
+  );
+}
+
 export function updateGroup(group, clientMutationLabel) {
-  const mutation = formatMutation('updateGroup', formatIndividualGQL(group), clientMutationLabel);
+  const mutation = formatMutation('updateGroup', formatGroupGQL(group), clientMutationLabel);
   const requestedDateTime = new Date();
   return graphql(
     mutation.payload,
@@ -226,6 +251,12 @@ export function downloadGroupIndividuals(params) {
   return graphql(payload, ACTION_TYPE.GROUP_INDIVIDUAL_EXPORT);
 }
 
+export const setNewGroupIndividual = (groupIndividual) => (dispatch) => {
+  dispatch({
+    type: SET(ACTION_TYPE.SET_GROUP_INDIVIDUAL), payload: groupIndividual,
+  });
+};
+
 export const clearGroupIndividualExport = () => (dispatch) => {
   dispatch({
     type: CLEAR(ACTION_TYPE.GROUP_INDIVIDUAL_EXPORT),
@@ -241,5 +272,17 @@ export const clearIndividualExport = () => (dispatch) => {
 export const clearGroupExport = () => (dispatch) => {
   dispatch({
     type: CLEAR(ACTION_TYPE.GROUP_EXPORT),
+  });
+};
+
+export const clearGroup = () => (dispatch) => {
+  dispatch({
+    type: CLEAR(ACTION_TYPE.GET_GROUP),
+  });
+};
+
+export const clearGroupIndividuals = () => (dispatch) => {
+  dispatch({
+    type: CLEAR(ACTION_TYPE.SEARCH_GROUP_INDIVIDUALS),
   });
 };
