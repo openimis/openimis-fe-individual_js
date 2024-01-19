@@ -36,7 +36,7 @@ import {
   GroupIndividualUpdateTaskTableHeaders,
 } from './components/tasks/GroupIndividualUpdateTasks';
 import { GROUP_LABEL, INDIVIDUAL_LABEL } from './constants';
-import {GroupCreateTaskItemFormatters, GroupCreateTaskTableHeaders} from "./components/tasks/GroupCreateTasks";
+import { GroupCreateTaskItemFormatters, GroupCreateTaskTableHeaders } from './components/tasks/GroupCreateTasks';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
