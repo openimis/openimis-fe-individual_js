@@ -7,8 +7,8 @@ const GroupCreateTaskTableHeaders = () => [
 ];
 
 const GroupCreateTaskItemFormatters = () => [
-  (group) => group?.id ?? 'NEW_GROUP',
-  (group, jsonExt) => jsonExt?.members ?? group?.group_individual_id,
+  (group) => group?.id,
+  (group) => group?.group_individual_id,
 ];
 
 export { GroupCreateTaskTableHeaders, GroupCreateTaskItemFormatters };
