@@ -55,6 +55,6 @@ export const BENEFIT_PLAN_LABEL = 'BenefitPlan';
 export const INDIVIDUAL_LABEL = 'Individual';
 export const GROUP_LABEL = 'Group';
 
-export const SOCIAL_PROTECTION_MODULE_NAME = 'social_protection';
+export const INDIVIDUAL_MODULE_NAME = 'individual';
 
 export const FETCH_BENEFIT_PLAN_SCHEMA_FIELDS_REF = 'socialProtection.fetchBenefitPlanSchemaFields';

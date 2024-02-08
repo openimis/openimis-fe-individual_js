@@ -33,10 +33,10 @@ import {
   EMPTY_STRING,
   RIGHT_INDIVIDUAL_UPDATE,
   RIGHT_INDIVIDUAL_DELETE,
-  BENEFIT_PLAN_LABEL,
-  SOCIAL_PROTECTION_MODULE_NAME,
   RIGHT_SCHEMA_SEARCH,
   FETCH_BENEFIT_PLAN_SCHEMA_FIELDS_REF,
+  INDIVIDUAL_MODULE_NAME,
+  INDIVIDUAL_LABEL,
 } from '../constants';
 import { applyNumberCircle } from '../util/searcher-utils';
 import IndividualFilter from './IndividualFilter';
@@ -270,8 +270,8 @@ function IndividualSearcher({
         exportable
         exportFetch={downloadIndividuals}
         isCustomFiltering
-        moduleName={SOCIAL_PROTECTION_MODULE_NAME}
-        objectType={BENEFIT_PLAN_LABEL}
+        moduleName={INDIVIDUAL_MODULE_NAME}
+        objectType={INDIVIDUAL_LABEL}
         additionalCustomFilterParams={{ type: 'INDIVIDUAL' }}
         appliedCustomFilters={appliedCustomFilters}
         setAppliedCustomFilters={setAppliedCustomFilters}

@@ -28,7 +28,7 @@ import {
 import {
   DEFAULT_PAGE_SIZE,
   ROWS_PER_PAGE_OPTIONS,
-  RIGHT_GROUP_UPDATE, RIGHT_GROUP_DELETE, SOCIAL_PROTECTION_MODULE_NAME, BENEFIT_PLAN_LABEL,
+  RIGHT_GROUP_UPDATE, RIGHT_GROUP_DELETE, INDIVIDUAL_MODULE_NAME, INDIVIDUAL_LABEL,
 } from '../constants';
 import GroupFilter from './GroupFilter';
 import { applyNumberCircle } from '../util/searcher-utils';
@@ -229,8 +229,8 @@ function GroupSearcher({
         cacheFiltersKey="groupsFilterCache"
         resetFiltersOnUnmount
         isCustomFiltering
-        moduleName={SOCIAL_PROTECTION_MODULE_NAME}
-        objectType={BENEFIT_PLAN_LABEL}
+        moduleName={INDIVIDUAL_MODULE_NAME}
+        objectType={INDIVIDUAL_LABEL}
         additionalCustomFilterParams={{ type: 'GROUP' }}
         appliedCustomFilters={appliedCustomFilters}
         setAppliedCustomFilters={setAppliedCustomFilters}
