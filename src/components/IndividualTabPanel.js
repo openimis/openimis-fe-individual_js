@@ -31,7 +31,14 @@ const styles = (theme) => ({
 });
 
 function IndividualTabPanel({
-  intl, rights, classes, individual, setConfirmedAction, group, editedGroupIndividual, setEditedGroupIndividual,
+  intl,
+  rights,
+  classes,
+  individual,
+  setConfirmedAction,
+  group, editedGroupIndividual,
+  setEditedGroupIndividual,
+  groupIndividualIds,
 }) {
   const [activeTab, setActiveTab] = useState(individual ? BENEFIT_PLANS_LIST_TAB_VALUE : INDIVIDUALS_LIST_TAB_VALUE);
 
@@ -64,6 +71,7 @@ function IndividualTabPanel({
         value={activeTab}
         individual={individual}
         group={group}
+        groupIndividualIds={groupIndividualIds}
         setConfirmedAction={setConfirmedAction}
         editedGroupIndividual={editedGroupIndividual}
         setEditedGroupIndividual={setEditedGroupIndividual}

@@ -22,7 +22,7 @@ function GroupTaskTabLabel({
 }
 
 function GroupTaskTabPanel({
-  value, group, rights, classes,
+  value, group, rights, classes, groupIndividualIds,
 }) {
   if (!group) return null;
   const modulesManager = useModulesManager();
@@ -43,7 +43,7 @@ function GroupTaskTabPanel({
     >
       <PublishedComponent
         pubRef="tasksManagement.taskSearcher"
-        entityId={group?.id}
+        entityIds={groupIndividualIds}
         rights={rights}
         classes={classes}
         contribution={filteredContribution}

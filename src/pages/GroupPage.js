@@ -46,10 +46,12 @@ function GroupPage({
   journalize,
   clearGroup,
   createGroupAndMoveIndividual,
+  groupIndividuals,
 }) {
   const [editedGroup, setEditedGroup] = useState({});
   const [editedGroupIndividual, setEditedGroupIndividual] = useState(null);
   const [confirmedAction, setConfirmedAction] = useState(() => null);
+  const [groupIndividualIds, setGroupIndividualIds] = useState([]);
   const [readOnly, setReadOnly] = useState(null);
   const prevSubmittingMutationRef = useRef();
 
@@ -61,6 +63,13 @@ function GroupPage({
       clearGroup();
     };
   }, [groupUuid]);
+
+  useEffect(() => {
+    if (groupIndividuals) {
+      const ids = groupIndividuals.map((groupIndividual) => groupIndividual.id);
+      setGroupIndividualIds(ids);
+    }
+  }, [groupIndividuals]);
 
   useEffect(() => {
     if (confirmed && confirmedAction) confirmedAction();
@@ -168,6 +177,7 @@ function GroupPage({
         setEditedGroupIndividual={setEditedGroupIndividual}
         editedGroupIndividual={editedGroupIndividual}
         readOnly={readOnly}
+        groupIndividualIds={groupIndividualIds}
       />
     </div>
     )
@@ -184,6 +194,7 @@ const mapStateToProps = (state, props) => ({
   errorGroup: state.individual.errorGroup,
   submittingMutation: state.individual.submittingMutation,
   mutation: state.individual.mutation,
+  groupIndividuals: state?.individual?.groupIndividuals,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
