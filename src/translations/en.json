@@ -35,7 +35,17 @@
       "buttonLabel": "UPLOAD",
       "label": "Upload Individuals",
       "workflowPicker": "Workflow",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "uploadHistoryTable": {
+        "workflow": "Workflow",
+        "dateCreated": "Date Created",
+        "sourceType": "Source Type",
+        "sourceName": "Source Name",
+        "status": "Status",
+        "error": "Error",
+        "buttonLabel": "UPLOAD HISTORY",
+        "label": "Upload History Table"
+      }
     },
     "enrollment": {
       "buttonLabel": "ENROLLMENT",

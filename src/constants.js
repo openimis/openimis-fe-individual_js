@@ -72,3 +72,12 @@ export const BOOL_OPTIONS = [
   { value: 'True', label: 'True' },
   { value: 'False', label: 'False' },
 ];
+export const UPLOAD_STATUS = {
+  PENDING: 'PENDING',
+  TRIGGERED: 'TRIGGERED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  SUCCESS: 'SUCCESS',
+  PARTIAL_SUCCESS: 'PARTIAL_SUCCESS',
+  WAITING_FOR_VERIFICATION: 'WAITING_FOR_VERIFICATION',
+  FAIL: 'FAIL',
+};

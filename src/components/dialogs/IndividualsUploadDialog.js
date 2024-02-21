@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import WorkflowsPicker from '../../pickers/WorkflowsPicker';
 import { fetchWorkflows } from '../../actions';
+import IndividualsHistoryUploadDialog from './IndividualsHistoryUploadDialog';
 
 const styles = (theme) => ({
   item: theme.paper.item,
@@ -105,6 +106,7 @@ function IndividualsUploadDialog({
       >
         {formatMessage(intl, 'individual', 'individual.upload.buttonLabel')}
       </MenuItem>
+      <IndividualsHistoryUploadDialog />
       <Dialog
         open={isOpen}
         onClose={handleClose}

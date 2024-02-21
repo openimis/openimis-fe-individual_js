@@ -72,6 +72,13 @@ const GROUP_HISTORY_FULL_PROJECTION = GROUP_FULL_PROJECTION.filter(
   (item) => item !== 'head {firstName, lastName}',
 );
 
+const UPLOAD_HISTORY_FULL_PROJECTION = () => [
+  'id',
+  'uuid',
+  'workflow',
+  'dataUpload {uuid, dateCreated, dateUpdated, sourceName, sourceType, status, error }',
+];
+
 export function fetchIndividualEnrollmentSummary(params) {
   const payload = formatQuery(
     'individualEnrollmentSummary',
@@ -114,6 +121,11 @@ export function fetchGroup(params) {
 export function fetchGroupHistory(params) {
   const payload = formatPageQueryWithCount('groupHistory', params, GROUP_HISTORY_FULL_PROJECTION);
   return graphql(payload, ACTION_TYPE.SEARCH_GROUP_HISTORY);
+}
+
+export function fetchUploadHistory(params) {
+  const payload = formatPageQueryWithCount('individualDataUploadHistory', params, UPLOAD_HISTORY_FULL_PROJECTION());
+  return graphql(payload, ACTION_TYPE.GET_INDIVIDUAL_UPLOAD_HISTORY);
 }
 
 export function deleteIndividual(individual, clientMutationLabel) {

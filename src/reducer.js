@@ -38,6 +38,7 @@ export const ACTION_TYPE = {
   GET_WORKFLOWS: 'GET_WORKFLOWS',
   ENROLLMENT_SUMMARY: 'ENROLLMENT_SUMMARY',
   CONFIRM_ENROLLMENT: 'CONFIRM_ENROLLMENT',
+  GET_INDIVIDUAL_UPLOAD_HISTORY: 'GET_INDIVIDUAL_UPLOAD_HISTORY',
 };
 
 function reducer(
@@ -107,6 +108,12 @@ function reducer(
     enrollmentSummaryError: null,
     fetchingEnrollmentSummary: true,
     fetchedEnrollmentSummary: false,
+
+    fetchingIndividualDataUploadHistory: true,
+    fetchedIndividualDataUploadHistory: false,
+    individualDataUploadHistory: [],
+    individualDataUploadHistoryPageInfo: {},
+    errorIndividualDataUploadHistory: null,
   },
   action,
 ) {
@@ -497,6 +504,34 @@ function reducer(
         ...state,
         fetchingEnrollmentSummary: false,
         enrollmentSummaryError: formatServerError(action.payload),
+      };
+    case REQUEST(ACTION_TYPE.GET_INDIVIDUAL_UPLOAD_HISTORY):
+      return {
+        ...state,
+        fetchingIndividualDataUploadHistory: true,
+        fetchedIndividualDataUploadHistory: false,
+        individualDataUploadHistory: [],
+        individualDataUploadHistoryPageInfo: {},
+        errorIndividualDataUploadHistory: null,
+      };
+    case SUCCESS(ACTION_TYPE.GET_INDIVIDUAL_UPLOAD_HISTORY):
+      return {
+        ...state,
+        fetchingIndividualDataUploadHistory: false,
+        fetchedIndividualDataUploadHistory: true,
+        individualDataUploadHistory: parseData(action.payload.data.individualDataUploadHistory)?.map((data) => ({
+          ...data,
+          id: decodeId(data.id),
+          dataUpload: { ...data.dataUpload, error: JSON.parse(data.dataUpload.error) },
+        })) || [],
+        individualDataUploadHistoryPageInfo: pageInfo(action.payload.data.individualDataUploadHistory),
+        errorIndividualDataUploadHistory: formatGraphQLError(action.payload),
+      };
+    case ERROR(ACTION_TYPE.GET_INDIVIDUAL_UPLOAD_HISTORY):
+      return {
+        ...state,
+        fetchingIndividualDataUploadHistory: false,
+        errorIndividualDataUploadHistory: formatServerError(action.payload),
       };
     case REQUEST(ACTION_TYPE.MUTATION):
       return dispatchMutationReq(state, action);
