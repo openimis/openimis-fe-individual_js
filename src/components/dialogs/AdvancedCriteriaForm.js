@@ -264,7 +264,7 @@ function AdvancedCriteriaForm({
         </div>
         <Divider />
         <Grid container spacing={2}>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Paper elevation={3} style={{ padding: '20px' }}>
               <Typography variant="h6" gutterBottom>
                 {formatMessage(intl, 'individual', 'individual.enrollment.totalNumberOfIndividuals')}
@@ -274,7 +274,7 @@ function AdvancedCriteriaForm({
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Paper elevation={3} style={{ padding: '20px' }}>
               <Typography variant="h6" gutterBottom>
                 {formatMessage(intl, 'individual', 'individual.enrollment.numberOfSelectedIndividuals')}
@@ -284,7 +284,7 @@ function AdvancedCriteriaForm({
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Paper elevation={3} style={{ padding: '20px' }}>
               <Typography variant="h6" gutterBottom>
                 {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsAssignedToProgramme')}
@@ -294,7 +294,7 @@ function AdvancedCriteriaForm({
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Paper elevation={3} style={{ padding: '20px' }}>
               <Typography variant="h6" gutterBottom>
                 {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsNotAssignedToProgramme')}
@@ -304,7 +304,7 @@ function AdvancedCriteriaForm({
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6}>
             <Paper elevation={3} style={{ padding: '20px' }}>
               <Typography variant="h6" gutterBottom>
                 {/* eslint-disable-next-line max-len */}
@@ -312,6 +312,17 @@ function AdvancedCriteriaForm({
               </Typography>
               <Typography variant="body1">
                 {enrollmentSummary.numberOfIndividualsAssignedToSelectedProgramme}
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper elevation={3} style={{ padding: '20px' }}>
+              <Typography variant="h6" gutterBottom>
+                {/* eslint-disable-next-line max-len */}
+                {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsToBeUploaded')}
+              </Typography>
+              <Typography variant="body1">
+                {enrollmentSummary.numberOfIndividualsToUpload}
               </Typography>
             </Paper>
           </Grid>

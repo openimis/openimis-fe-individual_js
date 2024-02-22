@@ -22,6 +22,7 @@ const ENROLLMENT_SUMMARY_FULL_PROJECTION = () => [
   'numberOfIndividualsAssignedToProgramme',
   'numberOfIndividualsNotAssignedToProgramme',
   'numberOfIndividualsAssignedToSelectedProgramme',
+  'numberOfIndividualsToUpload',
 ];
 
 export function fetchWorkflows() {

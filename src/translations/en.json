@@ -62,9 +62,10 @@
       "mutationLabel": "Enrollment has been confirmed",
       "numberOfSelectedIndividuals": "Total Number Of Selected Individuals",
       "totalNumberOfIndividuals": "Total Number of Individuals",
-      "numberOfIndividualsAssignedToProgramme": "Number of Individuals Assigned To Any Programme",
-      "numberOfIndividualsNotAssignedToProgramme": "Number of Individuals Unassigned to Any Program",
-      "numberOfIndividualsAssignedToSelectedProgramme": "Number Of Individuals Assigned to Selected Programme",
+      "numberOfIndividualsAssignedToProgramme": "Number of Individuals Already Assigned To Any Programme",
+      "numberOfIndividualsNotAssignedToProgramme": "Number of Individuals Without Assignment to Program",
+      "numberOfIndividualsAssignedToSelectedProgramme": "Number Of Individuals Already Assigned to Selected Programme",
+      "numberOfIndividualsToBeUploaded": "Number Of Individuals to be Uploaded",
       "confirmMessageDialog": "Are you sure you want to confirm the enrollment of the selected individuals into the {benefitPlanName} Programme?"
     },
     "saveButton.tooltip.enabled": "Save changes",
