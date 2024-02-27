@@ -60,7 +60,9 @@ function IndividualsUploadHistoryDialog({
 
   useEffect(() => {
     if (isOpen) {
-      const params = [];
+      const params = [
+        'orderBy: ["-dateCreated"]',
+      ];
       fetchUploadHistory(params);
     }
   }, [isOpen]);
@@ -85,8 +87,8 @@ function IndividualsUploadHistoryDialog({
             top: '50%',
             left: '50%',
             transform: 'translate(-50%,-50%)',
-            width: '75%',
-            maxWidth: '75%',
+            width: '85%',
+            maxWidth: '85%',
           },
         }}
       >
@@ -145,6 +147,13 @@ function IndividualsUploadHistoryDialog({
                       {formatMessage(
                         intl,
                         'individual',
+                        'individual.upload.uploadHistoryTable.userCreated',
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {formatMessage(
+                        intl,
+                        'individual',
                         'individual.upload.uploadHistoryTable.error',
                       )}
                     </TableCell>
@@ -169,6 +178,9 @@ function IndividualsUploadHistoryDialog({
                       </TableCell>
                       <TableCell>
                         { item.dataUpload.status}
+                      </TableCell>
+                      <TableCell>
+                        {item.userCreated.username}
                       </TableCell>
                       <TableCell>
                         <CollapsableErrorList errors={item.dataUpload.error} />

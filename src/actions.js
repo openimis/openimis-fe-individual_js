@@ -78,6 +78,7 @@ const UPLOAD_HISTORY_FULL_PROJECTION = () => [
   'uuid',
   'workflow',
   'dataUpload {uuid, dateCreated, dateUpdated, sourceName, sourceType, status, error }',
+  'userCreated {username}',
 ];
 
 export function fetchIndividualEnrollmentSummary(params) {

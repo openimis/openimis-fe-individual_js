@@ -44,7 +44,8 @@
         "status": "Status",
         "error": "Error",
         "buttonLabel": "UPLOAD HISTORY",
-        "label": "Upload History Table"
+        "label": "Upload History Table",
+        "userCreated": "User Created"
       }
     },
     "enrollment": {
