@@ -117,6 +117,7 @@ class EnrollmentHeadPanel extends FormPanel {
                 updateAttributes={this.updateJsonExt}
                 getDefaultAppliedCustomFilters={this.getDefaultAppliedCustomFilters}
                 additionalParams={enrollment?.benefitPlan ? { benefitPlan: `${decodeId(enrollment.benefitPlan.id)}` } : null}
+                edited={this.props.edited}
               />
             </Grid>
           </>

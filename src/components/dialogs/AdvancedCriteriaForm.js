@@ -48,12 +48,29 @@ function AdvancedCriteriaForm({
   confirmed,
   clearConfirm,
   coreConfirm,
+  edited,
 }) {
   // eslint-disable-next-line no-unused-vars
   const [currentFilter, setCurrentFilter] = useState({
     field: '', filter: '', type: '', value: '', amount: '',
   });
   const [filters, setFilters] = useState(getDefaultAppliedCustomFilters());
+
+  const getBenefitPlanDefaultCriteria = () => {
+    const { jsonExt } = edited?.benefitPlan ?? {};
+    try {
+      const jsonData = JSON.parse(jsonExt);
+      return jsonData.advanced_criteria || [];
+    } catch (error) {
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    if (!getDefaultAppliedCustomFilters().length) {
+      setFilters(getBenefitPlanDefaultCriteria());
+    }
+  }, [edited]);
 
   const createParams = (moduleName, objectTypeName, uuidOfObject = null, additionalParams = null) => {
     const params = [
