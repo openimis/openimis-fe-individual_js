@@ -40,6 +40,7 @@ import { GROUP_LABEL, INDIVIDUAL_LABEL } from './constants';
 import { GroupCreateTaskItemFormatters, GroupCreateTaskTableHeaders } from './components/tasks/GroupCreateTasks';
 import IndividualsUploadDialog from './components/dialogs/IndividualsUploadDialog';
 import { BenefitsTabLabel, BenefitsTabPanel } from './components/BenefitsTab';
+import AdvancedCriteriaRowValue from './components/dialogs/AdvancedCriteriaRowValue';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -75,6 +76,7 @@ const DEFAULT_CONFIG = {
     { key: 'individual.IndividualHistorySearcher', ref: IndividualHistorySearcher },
     { key: 'individual.GroupHistorySearcher', ref: GroupHistorySearcher },
     { key: 'individual.IndividualsUploadDialog', ref: IndividualsUploadDialog },
+    { key: 'individual.AdvancedCriteriaRowValue', ref: AdvancedCriteriaRowValue },
   ],
   'individual.IndividualsUploadDialog': IndividualsUploadDialog,
   'individual.TabPanel.label': [
