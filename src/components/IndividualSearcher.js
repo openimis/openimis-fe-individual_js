@@ -13,6 +13,7 @@ import {
   historyPush,
   downloadExport,
   CLEARED_STATE_FILTER,
+  decodeId,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect, useDispatch } from 'react-redux';
@@ -69,6 +70,9 @@ function IndividualSearcher({
   fieldsFromBfSchema,
   fetchingFieldsFromBfSchema,
   fetchedFieldsFromBfSchema,
+  isModalEnrollment,
+  advancedCriteria,
+  benefitPlanToEnroll,
 }) {
   const dispatch = useDispatch();
   const [individualToDelete, setIndividualToDelete] = useState(null);
@@ -172,7 +176,7 @@ function IndividualSearcher({
       (individual) => individual.lastName,
       (individual) => (individual.dob ? formatDateFromISO(modulesManager, intl, individual.dob) : EMPTY_STRING),
     ];
-    if (rights.includes(RIGHT_INDIVIDUAL_UPDATE)) {
+    if (rights.includes(RIGHT_INDIVIDUAL_UPDATE) && isModalEnrollment === false) {
       formatters.push((individual) => (
         <Tooltip title={formatMessage(intl, 'individual', 'editButtonTooltip')}>
           <IconButton
@@ -185,7 +189,7 @@ function IndividualSearcher({
         </Tooltip>
       ));
     }
-    if (rights.includes(RIGHT_INDIVIDUAL_DELETE)) {
+    if (rights.includes(RIGHT_INDIVIDUAL_DELETE) && isModalEnrollment === false) {
       formatters.push((individual) => (
         <Tooltip title={formatMessage(intl, 'individual', 'deleteButtonTooltip')}>
           <IconButton
@@ -234,6 +238,16 @@ function IndividualSearcher({
       filters.groupId = {
         value: groupId,
         filter: `groupId: "${groupId}"`,
+      };
+    }
+    if (isModalEnrollment && advancedCriteria !== null && advancedCriteria !== undefined) {
+      filters.customFilters = {
+        value: advancedCriteria,
+        filter: `customFilters: [${advancedCriteria}]`,
+      };
+      filters.benefitPlanToEnroll = {
+        value: benefitPlanToEnroll,
+        filter: `benefitPlanToEnroll: "${decodeId(benefitPlanToEnroll)}"`,
       };
     }
     return filters;
@@ -285,7 +299,10 @@ function IndividualSearcher({
         chooseExportableColumns
         cacheFiltersKey="individualsFilterCache"
         resetFiltersOnUnmount
-        actionsContributionKey={INDIVIDUALS_UPLOAD_FORM_CONTRIBUTION_KEY}
+        // eslint-disable-next-line react/jsx-props-no-spreading, max-len
+        {...(isModalEnrollment === false ? {
+          actionsContributionKey: INDIVIDUALS_UPLOAD_FORM_CONTRIBUTION_KEY, isCustomFiltering: true,
+        } : { isCustomFiltering: false })}
       />
       {failedExport && (
         <Dialog fullWidth maxWidth="sm">

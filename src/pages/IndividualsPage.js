@@ -18,7 +18,7 @@ function IndividualsPage(props) {
     rights.includes(RIGHT_INDIVIDUAL_SEARCH) && (
       <div className={classes.page}>
         <Helmet title={formatMessage(intl, 'individual', 'individuals.pageTitle')} />
-        <IndividualSearcher rights={rights} />
+        <IndividualSearcher rights={rights} isModalEnrollment={false} />
       </div>
     )
   );

@@ -70,7 +70,9 @@
       "numberOfIndividualsNotAssignedToProgramme": "Number of Individuals Without Assignment to Program",
       "numberOfIndividualsAssignedToSelectedProgramme": "Number Of Individuals Already Assigned to Selected Programme",
       "numberOfIndividualsToBeUploaded": "Number Of Individuals to be Uploaded",
-      "confirmMessageDialog": "Are you sure you want to confirm the enrollment of the selected individuals into the {benefitPlanName} Programme?"
+      "confirmMessageDialog": "Are you sure you want to confirm the enrollment of the selected individuals into the {benefitPlanName} Programme?",
+      "previewIndividuals": "Preview Individuals",
+      "close": "Close"
     },
     "saveButton.tooltip.enabled": "Save changes",
     "saveButton.tooltip.disabled": "Please fill General Information fields first",
