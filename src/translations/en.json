@@ -37,6 +37,8 @@
     "upload": {
       "buttonLabel": "UPLOAD",
       "label": "Upload Individuals",
+      "alert.sameFileName": "Filename exists for given Benefit Plan. Please change the filename.",
+      "alert.header": "Error during file upload.",
       "workflowPicker": "Workflow",
       "cancel": "Cancel",
       "uploadHistoryTable": {
@@ -48,7 +50,9 @@
         "error": "Error",
         "buttonLabel": "UPLOAD HISTORY",
         "label": "Upload History Table",
-        "userCreated": "User Created"
+        "userCreated": "User Created",
+        "downloadInvalidItems": "Download Invalid Items",
+        "downloadUploadFile": "Download Upload File"
       }
     },
     "enrollment": {

@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {
   formatMessage,
-  formatDateFromISO,
+  formatDateTimeFromISO,
   ProgressOrError,
   withModulesManager,
 } from '@openimis/fe-core';
@@ -27,7 +27,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import CollapsableErrorList from '../CollapsableErrorList';
 import { fetchUploadHistory } from '../../actions';
-import { downloadInvalidItems } from '../../utils';
+import {downloadIndividualUploadFile, downloadInvalidItems} from '../../utils';
 import { UPLOAD_STATUS } from '../../constants';
 
 const styles = (theme) => ({
@@ -56,6 +56,10 @@ function IndividualsUploadHistoryDialog({
 
   const downloadInvalidItemsFromUpload = (uploadId) => {
     downloadInvalidItems(uploadId);
+  };
+
+  const downloadFile = (filename) => {
+    downloadIndividualUploadFile(filename);
   };
 
   useEffect(() => {
@@ -168,7 +172,7 @@ function IndividualsUploadHistoryDialog({
                         { item.workflow }
                       </TableCell>
                       <TableCell>
-                        { formatDateFromISO(modulesManager, intl, item.dataUpload.dateCreated) }
+                        { formatDateTimeFromISO(modulesManager, intl, item.dataUpload.dateCreated) }
                       </TableCell>
                       <TableCell>
                         { item.dataUpload.sourceType}
@@ -188,7 +192,8 @@ function IndividualsUploadHistoryDialog({
                       <TableCell>
                         {[
                           UPLOAD_STATUS.WAITING_FOR_VERIFICATION,
-                          UPLOAD_STATUS.PARTIAL_SUCCESS].includes(item.dataUpload.status) && (
+                          UPLOAD_STATUS.PARTIAL_SUCCESS,
+                        ].includes(item.dataUpload.status) ? (
                           <Button
                             onClick={() => downloadInvalidItemsFromUpload(item.dataUpload.uuid)}
                             variant="outlined"
@@ -198,9 +203,32 @@ function IndividualsUploadHistoryDialog({
                               marginBottom: '15px',
                             }}
                           >
-                            Download Invalid Items
+                            {formatMessage(
+                              intl,
+                              'individual',
+                              'individual.upload.uploadHistoryTable.downloadInvalidItems',
+                            )}
                           </Button>
-                        )}
+                          ) : (
+                            <div style={{ width: '120px' }} /> // Render a blank placeholder
+                          )}
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          onClick={() => downloadFile(item.dataUpload.sourceName)}
+                          variant="outlined"
+                          autoFocus
+                          style={{
+                            margin: '0 16px',
+                            marginBottom: '15px',
+                          }}
+                        >
+                          {formatMessage(
+                            intl,
+                            'individual',
+                            'individual.upload.uploadHistoryTable.uploadHistoryTable.downloadUploadFile',
+                          )}
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}

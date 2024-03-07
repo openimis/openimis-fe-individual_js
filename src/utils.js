@@ -10,21 +10,33 @@ export function isEmptyObject(obj) {
   return Object.keys(obj).length === 0;
 }
 
-export function downloadInvalidItems(uploadId) {
-  const url = new URL(
-    `${window.location.origin}${baseApiUrl}/individual/download_invalid_items/?upload_id=${uploadId}`,
-  );
+function downloadFile(url, filename) {
   fetch(url)
     .then((response) => response.blob())
     .then((blob) => {
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = 'individuals_invalid_items.csv';
+      link.download = filename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     })
     .catch((error) => {
-      console.error('Export failed, reason: ', error);
+      // eslint-disable-next-line no-console
+      console.error('Download failed, reason: ', error);
     });
+}
+
+export function downloadInvalidItems(uploadId) {
+  const baseUrl = new URL(`${window.location.origin}${baseApiUrl}/individual/download_invalid_items/`);
+  const queryParams = new URLSearchParams({ upload_id: uploadId });
+  const url = `${baseUrl}?${queryParams.toString()}`;
+  downloadFile(url, 'individuals_invalid_items.csv');
+}
+
+export function downloadIndividualUploadFile(filename) {
+  const baseUrl = `${window.location.origin}${baseApiUrl}/individual/download_individual_upload_file/`;
+  const queryParams = new URLSearchParams({ filename });
+  const url = `${baseUrl}?${queryParams.toString()}`;
+  downloadFile(url, filename);
 }

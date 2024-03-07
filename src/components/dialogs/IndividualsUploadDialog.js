@@ -11,6 +11,7 @@ import {
   baseApiUrl,
   useModulesManager,
   formatMessage,
+  coreAlert,
 } from '@openimis/fe-core';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
@@ -18,6 +19,7 @@ import { bindActionCreators } from 'redux';
 import WorkflowsPicker from '../../pickers/WorkflowsPicker';
 import { fetchWorkflows } from '../../actions';
 import IndividualsHistoryUploadDialog from './IndividualsHistoryUploadDialog';
+import { EMPTY_STRING } from '../../constants';
 
 const styles = (theme) => ({
   item: theme.paper.item,
@@ -27,6 +29,7 @@ function IndividualsUploadDialog({
   intl,
   workflows,
   fetchWorkflows,
+  coreAlert,
 }) {
   const modulesManager = useModulesManager();
   const [isOpen, setIsOpen] = useState(false);
@@ -78,13 +81,17 @@ function IndividualsUploadDialog({
         credentials: 'same-origin',
       });
 
-      await response.json();
-
-      if (response.status >= 400) {
+      if (response.ok) {
         handleClose();
         return;
       }
-      handleClose();
+
+      const errorHeader = formatMessage(intl, 'individual', 'individual.upload.alert.header');
+      const errorMessage = response.status === 409
+        ? formatMessage(intl, 'individual', 'individual.upload.alert.sameFileName')
+        : EMPTY_STRING;
+
+      coreAlert(errorHeader, errorMessage);
     } catch (error) {
       handleClose();
     }
@@ -209,6 +216,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   fetchWorkflows,
+  coreAlert,
 }, dispatch);
 
 export default injectIntl(
