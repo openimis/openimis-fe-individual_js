@@ -90,7 +90,8 @@ function GroupIndividualSearcher({
 
   const onDoubleClick = (groupIndividual, newTab = false) => rights.includes(RIGHT_GROUP_INDIVIDUAL_UPDATE)
         && !deletedGroupIndividualUuids.includes(groupIndividual.id)
-        && historyPush(modulesManager, history, 'individual.route.individual', [groupIndividual?.id], newTab);
+        // eslint-disable-next-line max-len
+        && historyPush(modulesManager, history, 'individual.route.individual', [groupIndividual?.individual?.id], newTab);
 
   const onDelete = (groupIndividual) => setGroupIndividualToDelete(groupIndividual);
 
