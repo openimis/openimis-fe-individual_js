@@ -15,7 +15,7 @@ function WorkflowsPicker({
 }) {
   const options = Array.isArray(workflows) && workflows !== undefined ? [
     ...workflows
-      .filter((workflow) => workflow.group === 'individual')
+      .filter((workflow) => workflow.group === 'individual' && !workflow.name.includes('Valid'))
       .map((workflow) => ({
         value: { name: workflow.name, group: workflow.group },
         label: workflow.name,
