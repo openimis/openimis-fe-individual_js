@@ -14,10 +14,12 @@ function WorkflowsPicker({
   withLabel = true,
 }) {
   const options = Array.isArray(workflows) && workflows !== undefined ? [
-    ...workflows.map((workflows) => ({
-      value: { name: workflows.name, group: workflows.group },
-      label: workflows.name,
-    })),
+    ...workflows
+      .filter((workflow) => workflow.group === 'individual')
+      .map((workflow) => ({
+        value: { name: workflow.name, group: workflow.group },
+        label: workflow.name,
+      })),
   ] : [];
 
   useEffect(() => {
