@@ -28,7 +28,7 @@ const ENROLLMENT_SUMMARY_FULL_PROJECTION = () => [
 export function fetchWorkflows() {
   const payload = formatQuery(
     'workflow',
-    [],
+    ['group: "individual"'],
     WORKFLOWS_FULL_PROJECTION(),
   );
   return graphql(payload, ACTION_TYPE.GET_WORKFLOWS);
