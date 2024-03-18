@@ -58,7 +58,7 @@ function AdditionalFieldsDialog({
           style: {
             width: 1200,
             maxWidth: 1200,
-            maxHeight: 1200,
+            maxHeight: 900,
           },
         }}
       >
