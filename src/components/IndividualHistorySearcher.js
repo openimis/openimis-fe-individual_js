@@ -105,7 +105,7 @@ function IndividualHistorySearcher({
         sorts={sorts}
         rowsPerPageOptions={ROWS_PER_PAGE_OPTIONS}
         defaultPageSize={DEFAULT_PAGE_SIZE}
-        defaultOrderBy="lastName"
+        defaultOrderBy="-version"
         rowIdentifier={rowIdentifier}
         defaultFilters={defaultFilters()}
         cacheFiltersKey="individualHistoryFilterChache"
