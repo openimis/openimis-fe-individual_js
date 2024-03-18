@@ -26,7 +26,6 @@ class IndividualHeadPanel extends FormPanel {
     } = this.props;
     const individual = { ...edited };
     const currentDate = new Date();
-    console.log(individual);
     return (
       <>
         <Grid container className={classes.tableTitle}>

@@ -56,9 +56,9 @@ function AdditionalFieldsDialog({
         onClose={handleClose}
         PaperProps={{
           style: {
-            width: 600,
-            maxWidth: 600,
-            maxHeight: 1000,
+            width: 1200,
+            maxWidth: 1200,
+            maxHeight: 1200,
           },
         }}
       >
@@ -74,9 +74,9 @@ function AdditionalFieldsDialog({
             <div
               style={{ backgroundColor: '#DFEDEF', paddingLeft: '10px', paddingBottom: '10px' }}
             >
-              <Grid item>
+              <Grid container className={classes.item}>
                 {jsonExtFields?.map((jsonExtField) => (
-                  <Grid item xs={3} className={classes.item}>
+                  <Grid item xs={6} className={classes.item}>
                     {renderInputComponent(INDIVIDUAL_MODULE_NAME, jsonExtField)}
                   </Grid>
                 ))}
