@@ -19,6 +19,11 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "dob": "Day of birth",
+    "additonalFields": {
+        "label": "Additional Fields",
+        "showAdditionalFields": "Show Additional Fields",
+        "close": "Close"
+    },
     "mandatoryFieldsEmptyError": "* These fields are required",
     "benefits": {
       "label": "Benefits"
