@@ -52,7 +52,7 @@
         "sourceType": "Source Type",
         "sourceName": "Source Name",
         "status": "Status",
-        "error": "Error",
+        "error": "Workflow Errors",
         "buttonLabel": "UPLOAD HISTORY",
         "label": "Upload History Table",
         "userCreated": "User Created",
