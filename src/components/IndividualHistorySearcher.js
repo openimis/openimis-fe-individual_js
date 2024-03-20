@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { fetchIndividualHistory } from '../actions';
 import { DEFAULT_PAGE_SIZE, EMPTY_STRING, ROWS_PER_PAGE_OPTIONS } from '../constants';
 import IndividualHistoryFilter from './IndividualHistoryFilter';
+import AdditionalFieldsDialog from './dialogs/AdditionalFieldsDialog';
 
 function IndividualHistorySearcher({
   intl,
@@ -47,7 +48,11 @@ function IndividualHistorySearcher({
       ? formatDateFromISO(modulesManager, intl, individualHistory.dateUpdated) : EMPTY_STRING
     ),
     (individualHistory) => individualHistory.version,
-    (individualHistory) => individualHistory.jsonExt,
+    (individualHistory) => (
+      <AdditionalFieldsDialog
+        individualJsonExt={individualHistory?.jsonExt}
+      />
+    ),
     (individualHistory) => individualHistory?.userUpdated?.username,
   ];
 
