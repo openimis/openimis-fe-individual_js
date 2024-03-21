@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {injectIntl} from 'react-intl';
+import React, { useEffect, useRef, useState } from 'react';
+import { injectIntl } from 'react-intl';
 import {
   clearConfirm,
   coreConfirm,
@@ -13,9 +13,11 @@ import {
   withHistory,
   withModulesManager,
 } from '@openimis/fe-core';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {Button, Dialog, DialogActions, DialogTitle, IconButton, Tooltip,} from '@material-ui/core';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import {
+  Button, Dialog, DialogActions, DialogTitle, IconButton, Tooltip,
+} from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import GroupIcon from '@material-ui/icons/Group';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -282,18 +284,16 @@ function GroupIndividualSearcher({
     }
   }, [groupIndividualExport]);
 
-  const defaultFilters = () => {
-    return {
-      isDeleted: {
-        value: false,
-        filter: 'isDeleted: false',
-      },
-      group_Id: {
-        value: groupId,
-        filter: `group_Id: "${groupId}"`,
-      },
-    };
-  };
+  const defaultFilters = () => ({
+    isDeleted: {
+      value: false,
+      filter: 'isDeleted: false',
+    },
+    group_Id: {
+      value: groupId,
+      filter: `group_Id: "${groupId}"`,
+    },
+  });
 
   const groupBeneficiaryFilter = (props) => (
     <GroupIndividualFilter

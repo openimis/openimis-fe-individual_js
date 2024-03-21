@@ -27,7 +27,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import CollapsableErrorList from '../CollapsableErrorList';
 import { fetchUploadHistory } from '../../actions';
-import {downloadIndividualUploadFile, downloadInvalidItems} from '../../utils';
+import { downloadIndividualUploadFile, downloadInvalidItems } from '../../utils';
 import { UPLOAD_STATUS } from '../../constants';
 
 const styles = (theme) => ({
