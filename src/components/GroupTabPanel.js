@@ -39,6 +39,7 @@ function GroupTabPanel({
   group, editedGroupIndividual,
   setEditedGroupIndividual,
   groupIndividualIds,
+  groupId,
 }) {
   const [activeTab, setActiveTab] = useState(individual ? BENEFIT_PLANS_LIST_TAB_VALUE : INDIVIDUALS_LIST_TAB_VALUE);
 
@@ -60,6 +61,7 @@ function GroupTabPanel({
           isSelected={isSelected}
           tabStyle={tabStyle}
           group={group}
+          groupId={groupId}
           individual={individual}
           editedGroupIndividual={editedGroupIndividual}
           setEditedGroupIndividual={setEditedGroupIndividual}
@@ -71,6 +73,7 @@ function GroupTabPanel({
         value={activeTab}
         individual={individual}
         group={group}
+        groupId={groupId}
         groupIndividualIds={groupIndividualIds}
         setConfirmedAction={setConfirmedAction}
         editedGroupIndividual={editedGroupIndividual}

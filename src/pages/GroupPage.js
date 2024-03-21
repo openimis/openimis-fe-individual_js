@@ -178,6 +178,7 @@ function GroupPage({
         editedGroupIndividual={editedGroupIndividual}
         readOnly={readOnly}
         groupIndividualIds={groupIndividualIds}
+        groupId={groupUuid}
       />
     </div>
     )
