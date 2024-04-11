@@ -4,9 +4,9 @@
 import flatten from 'flat';
 import { FormattedMessage } from '@openimis/fe-core';
 import React from 'react';
+import { Person, People } from '@material-ui/icons';
 import messages_en from './translations/en.json';
 import reducer from './reducer';
-import IndividualsMainMenu from './menus/IndividualsMainMenu';
 import IndividualsPage from './pages/IndividualsPage';
 import IndividualPage from './pages/IndividualPage';
 import EnrollmentPage from './pages/EnrollmentPage';
@@ -36,7 +36,7 @@ import {
   GroupIndividualUpdateTaskItemFormatters,
   GroupIndividualUpdateTaskTableHeaders,
 } from './components/tasks/GroupIndividualUpdateTasks';
-import { GROUP_LABEL, INDIVIDUAL_LABEL } from './constants';
+import {GROUP_LABEL, INDIVIDUAL_LABEL, INDIVIDUAL_MODULE_NAME} from './constants';
 import { GroupCreateTaskItemFormatters, GroupCreateTaskTableHeaders } from './components/tasks/GroupCreateTasks';
 import IndividualsUploadDialog from './components/dialogs/IndividualsUploadDialog';
 import { BenefitsTabLabel, BenefitsTabPanel } from './components/BenefitsTab';
@@ -61,7 +61,6 @@ const { BenefitPlansListTabLabel, BenefitPlansListTabPanel } = getBenefitPlansLi
 const DEFAULT_CONFIG = {
   translations: [{ key: 'en', messages: flatten(messages_en) }],
   reducers: [{ key: 'individual', reducer }],
-  'core.MainMenu': [IndividualsMainMenu],
   'core.Router': [
     { path: ROUTE_INDIVIDUALS, component: IndividualsPage },
     { path: ROUTE_GROUPS, component: GroupsPage },
@@ -69,6 +68,18 @@ const DEFAULT_CONFIG = {
     { path: `${ROUTE_INDIVIDUAL}/:individual_uuid?`, component: IndividualPage },
     { path: `${ROUTE_INDIVIDUAL_FROM_GROUP}/:individual_uuid?`, component: IndividualPage },
     { path: `${ROUTE_GROUP}/:group_uuid?`, component: GroupPage },
+  ],
+  'socialProtection.MainMenu': [
+    {
+      text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="menu.individuals" />,
+      icon: <Person />,
+      route: '/individuals',
+    },
+    {
+      text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="menu.groups" />,
+      icon: <People />,
+      route: '/groups',
+    },
   ],
   refs: [
     { key: 'individual.route.individual', ref: ROUTE_INDIVIDUAL },
@@ -114,21 +125,21 @@ const DEFAULT_CONFIG = {
   'individual.BenefitPlansListTabLabel': [BENEFIT_PLAN_TABS_LABEL_REF_KEY],
   'individual.BenefitPlansListTabPanel': [BENEFIT_PLAN_TABS_PANEL_REF_KEY],
   'tasksManagement.tasks': [{
-    text: <FormattedMessage module="individual" id="individual.tasks.update.title" />,
+    text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="individual.tasks.update.title" />,
     tableHeaders: IndividualUpdateTaskTableHeaders,
     itemFormatters: IndividualUpdateTaskItemFormatters,
     taskSource: ['IndividualService'],
     taskCode: INDIVIDUAL_LABEL,
   },
   {
-    text: <FormattedMessage module="individual" id="groupIndividual.tasks.update.title" />,
+    text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="groupIndividual.tasks.update.title" />,
     tableHeaders: GroupIndividualUpdateTaskTableHeaders,
     itemFormatters: GroupIndividualUpdateTaskItemFormatters,
     taskSource: ['GroupIndividualService'],
     taskCode: GROUP_LABEL,
   },
   {
-    text: <FormattedMessage module="individual" id="group.tasks.create.title" />,
+    text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="group.tasks.create.title" />,
     tableHeaders: GroupCreateTaskTableHeaders,
     itemFormatters: GroupCreateTaskItemFormatters,
     taskSource: ['CreateGroupAndMoveIndividualService'],

@@ -1,4 +1,3 @@
-export const INDIVIDUALS_MAIN_MENU_CONTRIBUTION_KEY = 'individuals.MainMenu';
 export const CONTAINS_LOOKUP = 'Icontains';
 export const DEFAULT_DEBOUNCE_TIME = 500;
 export const DEFAULT_PAGE_SIZE = 10;
