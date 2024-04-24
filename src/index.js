@@ -36,7 +36,13 @@ import {
   GroupIndividualUpdateTaskItemFormatters,
   GroupIndividualUpdateTaskTableHeaders,
 } from './components/tasks/GroupIndividualUpdateTasks';
-import {GROUP_LABEL, INDIVIDUAL_LABEL, INDIVIDUAL_MODULE_NAME} from './constants';
+import {
+  GROUP_LABEL,
+  INDIVIDUAL_LABEL,
+  INDIVIDUAL_MODULE_NAME,
+  RIGHT_GROUP_SEARCH,
+  RIGHT_INDIVIDUAL_SEARCH
+} from './constants';
 import { GroupCreateTaskItemFormatters, GroupCreateTaskTableHeaders } from './components/tasks/GroupCreateTasks';
 import IndividualsUploadDialog from './components/dialogs/IndividualsUploadDialog';
 import { BenefitsTabLabel, BenefitsTabPanel } from './components/BenefitsTab';
@@ -46,6 +52,7 @@ import {
   GroupIndividualHistoryTabPanel,
 } from './components/GroupIndividualHistoryTab';
 import AdvancedCriteriaRowValue from './components/dialogs/AdvancedCriteriaRowValue';
+import IndividualPicker from './pickers/IndividualPicker';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -73,12 +80,14 @@ const DEFAULT_CONFIG = {
     {
       text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="menu.individuals" />,
       icon: <Person />,
-      route: '/individuals',
+      route: `/${ROUTE_INDIVIDUALS}`,
+      filter: (rights) => rights.includes(RIGHT_INDIVIDUAL_SEARCH),
     },
     {
       text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="menu.groups" />,
       icon: <People />,
-      route: '/groups',
+      route: `/${ROUTE_GROUPS}`,
+      filter: (rights) => rights.includes(RIGHT_GROUP_SEARCH),
     },
   ],
   refs: [
@@ -94,6 +103,7 @@ const DEFAULT_CONFIG = {
     { key: 'individual.IndividualsUploadDialog', ref: IndividualsUploadDialog },
     { key: 'individual.GroupIndividualHistorySearcher', ref: GroupIndividualHistorySearcher },
     { key: 'individual.AdvancedCriteriaRowValue', ref: AdvancedCriteriaRowValue },
+    { key: 'individual.IndividualPicker', ref: IndividualPicker },
   ],
   'individual.IndividualsUploadDialog': IndividualsUploadDialog,
   'individual.TabPanel.label': [
