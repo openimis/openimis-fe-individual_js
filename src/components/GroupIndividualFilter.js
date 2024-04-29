@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { injectIntl } from 'react-intl';
 import { TextInput, PublishedComponent, formatMessage } from '@openimis/fe-core';
 import { Grid } from '@material-ui/core';
@@ -9,7 +9,7 @@ import { defaultFilterStyles } from '../util/styles';
 import GroupIndividualRolePicker from '../pickers/GroupIndividualRolePicker';
 
 function GroupIndividualFilter({
-  intl, classes, filters, onChangeFilters, groupId,
+  intl, classes, filters, onChangeFilters,
 }) {
   const debouncedOnChangeFilters = _debounce(onChangeFilters, DEFAULT_DEBOUNCE_TIME);
 
@@ -36,13 +36,6 @@ function GroupIndividualFilter({
       ]);
     }
   };
-
-  const handleGroupId = onChangeStringFilter('group_Id');
-  useEffect(() => {
-    if (filters?.group_Id?.value !== groupId) {
-      handleGroupId(groupId);
-    }
-  }, [groupId]);
 
   return (
     <Grid container className={classes.form}>

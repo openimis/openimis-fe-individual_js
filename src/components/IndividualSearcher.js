@@ -26,8 +26,9 @@ import {
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import UndoIcon from '@material-ui/icons/Undo';
 import {
-  fetchIndividuals, deleteIndividual, downloadIndividuals, clearIndividualExport,
+  fetchIndividuals, deleteIndividual, downloadIndividuals, clearIndividualExport, undoDeleteIndividual,
 } from '../actions';
 import {
   DEFAULT_PAGE_SIZE,
@@ -74,12 +75,15 @@ function IndividualSearcher({
   isModalEnrollment,
   advancedCriteria,
   benefitPlanToEnroll,
+  undoDeleteIndividual,
 }) {
   const dispatch = useDispatch();
   const [individualToDelete, setIndividualToDelete] = useState(null);
+  const [individualToUndo, setIndividualToUndo] = useState(null);
   const [appliedCustomFilters, setAppliedCustomFilters] = useState([CLEARED_STATE_FILTER]);
   const [appliedFiltersRowStructure, setAppliedFiltersRowStructure] = useState([CLEARED_STATE_FILTER]);
   const [deletedIndividualUuids, setDeletedIndividualUuids] = useState([]);
+  const [undoIndividualUuids, setUndoIndividualUuids] = useState([]);
   const [exportFields, setExportFields] = useState([
     'id',
     'first_name',
@@ -123,13 +127,23 @@ function IndividualSearcher({
     formatMessage(intl, 'individual', 'individual.delete.confirm.message'),
   );
 
+  const openUndoIndividualConfirmDialog = () => coreConfirm(
+    formatMessageWithValues(intl, 'individual', 'individual.undo.confirm.title', {
+      firstName: individualToUndo.firstName,
+      lastName: individualToUndo.lastName,
+    }),
+    formatMessage(intl, 'individual', 'individual.undo.confirm.message'),
+  );
+
   const onDoubleClick = (individual, newTab = false) => rights.includes(RIGHT_INDIVIDUAL_UPDATE)
   && !deletedIndividualUuids.includes(individual.id)
   && historyPush(modulesManager, history, 'individual.route.individual', [individual?.id], newTab);
 
   const onDelete = (individual) => setIndividualToDelete(individual);
+  const onUndo = (individual) => setIndividualToUndo(individual);
 
   useEffect(() => individualToDelete && openDeleteIndividualConfirmDialog(), [individualToDelete]);
+  useEffect(() => individualToUndo && openUndoIndividualConfirmDialog(), [individualToUndo]);
 
   useEffect(() => {
     if (individualToDelete && confirmed) {
@@ -141,8 +155,20 @@ function IndividualSearcher({
       );
       setDeletedIndividualUuids([...deletedIndividualUuids, individualToDelete.id]);
     }
+    if (individualToUndo && confirmed) {
+      undoDeleteIndividual(
+        individualToUndo,
+        formatMessageWithValues(intl, 'individual', 'individual.undo.mutationLabel', {
+          id: individualToUndo?.id,
+        }),
+      );
+      setUndoIndividualUuids([...undoIndividualUuids, individualToUndo.id]);
+    }
     if (individualToDelete && confirmed !== null) {
       setIndividualToDelete(null);
+    }
+    if (individualToUndo && confirmed !== null) {
+      setIndividualToUndo(null);
     }
     return () => confirmed && clearConfirm(false);
   }, [confirmed]);
@@ -168,6 +194,9 @@ function IndividualSearcher({
     if (rights.includes(RIGHT_INDIVIDUAL_UPDATE)) {
       headers.push('emptyLabel');
     }
+    if (rights.includes(RIGHT_INDIVIDUAL_DELETE)) {
+      headers.push('emptyLabel');
+    }
     return headers;
   };
 
@@ -191,8 +220,8 @@ function IndividualSearcher({
       ));
     }
     if (rights.includes(RIGHT_INDIVIDUAL_DELETE) && isModalEnrollment === false) {
-      formatters.push((individual) => (
-        <Tooltip title={formatMessage(intl, 'individual', 'deleteButtonTooltip')}>
+      formatters.push((individual) => (!individual?.isDeleted ? (
+        <Tooltip title={formatMessage(intl, INDIVIDUAL_MODULE_NAME, 'deleteButtonTooltip')}>
           <IconButton
             onClick={() => onDelete(individual)}
             disabled={deletedIndividualUuids.includes(individual.id)}
@@ -200,7 +229,16 @@ function IndividualSearcher({
             <DeleteIcon />
           </IconButton>
         </Tooltip>
-      ));
+      ) : (
+        <Tooltip title={formatMessage(intl, INDIVIDUAL_MODULE_NAME, 'undoButtonTooltip')}>
+          <IconButton
+            onClick={() => onUndo(individual)}
+            disabled={undoIndividualUuids.includes(individual.id)}
+          >
+            <UndoIcon />
+          </IconButton>
+        </Tooltip>
+      )));
     }
     return formatters;
   };
@@ -213,7 +251,8 @@ function IndividualSearcher({
     ['dob', true],
   ];
 
-  const isRowDisabled = (_, individual) => deletedIndividualUuids.includes(individual.id);
+  const isRowDisabled = (_, individual) => deletedIndividualUuids.includes(individual.id)
+      || undoIndividualUuids.includes(individual.id);
 
   const [failedExport, setFailedExport] = useState(false);
 
@@ -355,6 +394,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     deleteIndividual,
     downloadIndividuals,
     clearIndividualExport,
+    undoDeleteIndividual,
     coreConfirm,
     clearConfirm,
     journalize,

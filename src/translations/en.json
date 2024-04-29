@@ -4,6 +4,7 @@
   "any": "Any",
   "editButtonTooltip": "Edit",
   "deleteButtonTooltip": "Delete",
+  "undoButtonTooltip": "Undo Delete",
   "dialog": {
     "create": "Create",
     "update": "Save",
@@ -19,6 +20,7 @@
     "firstName": "First Name",
     "lastName": "Last Name",
     "dob": "Day of birth",
+    "isDeleted": "Show Deleted",
     "additonalFields": {
         "label": "Additional Fields",
         "showAdditionalFields": "Show Additional Fields",
@@ -34,6 +36,13 @@
         "message": "Deleting data does not mean erasing it from OpenIMIS database. The data will only be deactivated from the viewed list."
       },
       "mutationLabel": "Delete Individual {id}"
+    },
+    "undo": {
+      "confirm": {
+        "title": "Undo delete {firstName} {lastName}?",
+        "message": "Undoing deletion of individual."
+      },
+      "mutationLabel": "Undo delete Individual {id}"
     },
     "update": {
       "label": "Update Individual",
@@ -89,9 +98,7 @@
       "label": "MEMBERS"
     },
     "tasks": {
-      "update": {
-        "title": "Individual Update Tasks"
-      }
+        "title": "Individual Tasks"
     },
     "any": "ANY",
     "ok": "ok",

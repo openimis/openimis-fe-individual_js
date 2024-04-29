@@ -23,6 +23,7 @@ export const ACTION_TYPE = {
   GET_INDIVIDUAL: 'INDIVIDUAL_INDIVIDUAL',
   GET_GROUP: 'GROUP_GROUP',
   DELETE_INDIVIDUAL: 'INDIVIDUAL_DELETE_INDIVIDUAL',
+  UNDO_DELETE_INDIVIDUAL: 'INDIVIDUAL_UNDO_DELETE_INDIVIDUAL',
   DELETE_GROUP_INDIVIDUAL: 'GROUP_INDIVIDUAL_DELETE_GROUP_INDIVIDUAL',
   DELETE_GROUP: 'GROUP_DELETE_GROUP',
   UPDATE_INDIVIDUAL: 'INDIVIDUAL_UPDATE_INDIVIDUAL',
@@ -578,6 +579,8 @@ function reducer(
       return dispatchMutationErr(state, action);
     case SUCCESS(ACTION_TYPE.DELETE_INDIVIDUAL):
       return dispatchMutationResp(state, 'deleteIndividual', action);
+    case SUCCESS(ACTION_TYPE.UNDO_DELETE_INDIVIDUAL):
+      return dispatchMutationResp(state, 'undoDeleteIndividual', action);
     case SUCCESS(ACTION_TYPE.UPDATE_INDIVIDUAL):
       return dispatchMutationResp(state, 'updateIndividual', action);
     case SUCCESS(ACTION_TYPE.DELETE_GROUP_INDIVIDUAL):
