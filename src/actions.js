@@ -163,6 +163,22 @@ export function deleteIndividual(individual, clientMutationLabel) {
   );
 }
 
+export function undoDeleteIndividual(individual, clientMutationLabel) {
+  const individualUuids = `ids: ["${individual?.id}"]`;
+  const mutation = formatMutation('undoDeleteIndividual', individualUuids, clientMutationLabel);
+  const requestedDateTime = new Date();
+  return graphql(
+    mutation.payload,
+    [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.UNDO_DELETE_INDIVIDUAL), ERROR(ACTION_TYPE.MUTATION)],
+    {
+      actionType: ACTION_TYPE.UNDO_DELETE_INDIVIDUAL,
+      clientMutationId: mutation.clientMutationId,
+      clientMutationLabel,
+      requestedDateTime,
+    },
+  );
+}
+
 export function deleteGroupIndividual(groupIndividual, clientMutationLabel) {
   const groupIndividualUuids = `ids: ["${groupIndividual?.id}"]`;
   const mutation = formatMutation('removeIndividualFromGroup', groupIndividualUuids, clientMutationLabel);

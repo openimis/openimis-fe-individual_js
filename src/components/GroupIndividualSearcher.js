@@ -288,16 +288,25 @@ function GroupIndividualSearcher({
     return setFailedExport(false);
   }, [groupIndividualExport]);
 
-  const defaultFilters = () => ({
-    isDeleted: {
-      value: false,
-      filter: 'isDeleted: false',
-    },
-    group_Id: {
-      value: groupId,
-      filter: `group_Id: "${groupId}"`,
-    },
-  });
+  const defaultFilters = () => {
+    const filters = {
+      isDeleted: {
+        value: false,
+        filter: 'isDeleted: false',
+      },
+      individual_IsDeleted: {
+        value: false,
+        filter: 'individual_IsDeleted: false',
+      },
+    };
+    if (groupId) {
+      filters.group_Id = {
+        value: groupId,
+        filter: `group_Id: "${groupId}"`,
+      };
+    }
+    return filters;
+  };
 
   const groupBeneficiaryFilter = (props) => (
     <GroupIndividualFilter
@@ -361,6 +370,7 @@ function GroupIndividualSearcher({
         }}
         exportFieldLabel={formatMessage(intl, 'individual', 'export.label')}
         cacheFiltersKey="groupIndividualsFilterCache"
+        resetFiltersOnUnmount
       />
       {failedExport && (
         <Dialog open={failedExport} fullWidth maxWidth="sm">

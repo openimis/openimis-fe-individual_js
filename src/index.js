@@ -26,9 +26,9 @@ import GroupIndividualSearcher from './components/GroupIndividualSearcher';
 import { clearIndividualExport, downloadIndividuals, fetchIndividuals } from './actions';
 import IndividualHistorySearcher from './components/IndividualHistorySearcher';
 import {
-  IndividualUpdateTaskItemFormatters,
-  IndividualUpdateTaskTableHeaders,
-} from './components/tasks/IndividualUpdateTasks';
+  IndividualTaskItemFormatters,
+  IndividualTaskTableHeaders,
+} from './components/tasks/IndividualTasks';
 import GroupHistorySearcher from './components/GroupHistorySearcher';
 import { GroupChangelogTabLabel, GroupChangelogTabPanel } from './components/GroupChangelogTab';
 import { GroupTaskTabLabel, GroupTaskTabPanel } from './components/GroupTaskTab';
@@ -135,9 +135,9 @@ const DEFAULT_CONFIG = {
   'individual.BenefitPlansListTabLabel': [BENEFIT_PLAN_TABS_LABEL_REF_KEY],
   'individual.BenefitPlansListTabPanel': [BENEFIT_PLAN_TABS_PANEL_REF_KEY],
   'tasksManagement.tasks': [{
-    text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="individual.tasks.update.title" />,
-    tableHeaders: IndividualUpdateTaskTableHeaders,
-    itemFormatters: IndividualUpdateTaskItemFormatters,
+    text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="individual.tasks.title" />,
+    tableHeaders: IndividualTaskTableHeaders,
+    itemFormatters: IndividualTaskItemFormatters,
     taskSource: ['IndividualService'],
     taskCode: INDIVIDUAL_LABEL,
   },

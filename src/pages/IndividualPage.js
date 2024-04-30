@@ -15,8 +15,11 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
+import UndoIcon from '@material-ui/icons/Undo';
 import { RIGHT_INDIVIDUAL_UPDATE } from '../constants';
-import { fetchIndividual, deleteIndividual, updateIndividual } from '../actions';
+import {
+  fetchIndividual, deleteIndividual, updateIndividual, undoDeleteIndividual,
+} from '../actions';
 import IndividualHeadPanel from '../components/IndividualHeadPanel';
 import IndividualTabPanel from '../components/IndividualTabPanel';
 import { ACTION_TYPE } from '../reducer';
@@ -41,6 +44,7 @@ function IndividualPage({
   submittingMutation,
   mutation,
   journalize,
+  undoDeleteIndividual,
 }) {
   const [editedIndividual, setEditedIndividual] = useState({});
   const [confirmedAction, setConfirmedAction] = useState(() => null);
@@ -64,6 +68,9 @@ function IndividualPage({
       journalize(mutation);
       if (mutation?.actionType === ACTION_TYPE.DELETE_INDIVIDUAL) {
         back();
+      }
+      if (mutation?.actionType === ACTION_TYPE.UNDO_DELETE_INDIVIDUAL) {
+        window.location.reload();
       }
     }
   }, [submittingMutation]);
@@ -118,6 +125,13 @@ function IndividualPage({
     }),
   );
 
+  const undoDeleteIndividualCallback = () => undoDeleteIndividual(
+    individual,
+    formatMessageWithValues(intl, 'individual', 'individual.undo.mutationLabel', {
+      id: individual?.id,
+    }),
+  );
+
   const openDeleteIndividualConfirmDialog = () => {
     setConfirmedAction(() => deleteIndividualCallback);
     coreConfirm(
@@ -129,11 +143,29 @@ function IndividualPage({
     );
   };
 
+  const openUndoIndividualConfirmDialog = () => {
+    setConfirmedAction(() => undoDeleteIndividualCallback);
+    coreConfirm(
+      formatMessageWithValues(intl, 'individual', 'individual.undo.confirm.title', {
+        firstName: individual?.firstName,
+        lastName: individual?.lastName,
+      }),
+      formatMessage(intl, 'individual', 'individual.undo.confirm.message'),
+    );
+  };
+
   const actions = [
-    !!individual && {
+    {
       doIt: openDeleteIndividualConfirmDialog,
       icon: <DeleteIcon />,
       tooltip: formatMessage(intl, 'individual', 'deleteButtonTooltip'),
+      disabled: individual?.isDeleted,
+    },
+    {
+      doIt: openUndoIndividualConfirmDialog,
+      icon: <UndoIcon />,
+      tooltip: formatMessage(intl, 'individual', 'undoButtonTooltip'),
+      disabled: !individual?.isDeleted,
     },
   ];
 
@@ -181,6 +213,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   fetchIndividual,
   deleteIndividual,
   updateIndividual,
+  undoDeleteIndividual,
   coreConfirm,
   clearConfirm,
   journalize,
