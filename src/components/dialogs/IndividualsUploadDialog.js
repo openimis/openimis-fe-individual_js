@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Grid, MenuItem } from '@material-ui/core';
+import {
+  Input, Grid, MenuItem, Typography, Select,
+} from '@material-ui/core';
 import { injectIntl } from 'react-intl';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -12,6 +14,7 @@ import {
   useModulesManager,
   formatMessage,
   coreAlert,
+  FormattedMessage,
 } from '@openimis/fe-core';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
@@ -19,7 +22,7 @@ import { bindActionCreators } from 'redux';
 import WorkflowsPicker from '../../pickers/WorkflowsPicker';
 import { fetchWorkflows } from '../../actions';
 import IndividualsHistoryUploadDialog from './IndividualsHistoryUploadDialog';
-import { EMPTY_STRING } from '../../constants';
+import {EMPTY_STRING, INDIVIDUAL_MODULE_NAME, PYTHON_DEFAULT_IMPORT_WORKFLOW} from '../../constants';
 
 const styles = (theme) => ({
   item: theme.paper.item,
@@ -34,6 +37,39 @@ function IndividualsUploadDialog({
   const modulesManager = useModulesManager();
   const [isOpen, setIsOpen] = useState(false);
   const [forms, setForms] = useState({});
+  const [headers, setHeaders] = useState([]);
+  const [groupAggregationHeader, setGroupAggregationHeader] = useState(null);
+
+  const getHeadersFromCSV = async (file) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const csvData = event.target.result;
+      const firstLine = csvData.substring(0, csvData.indexOf('\n')); // Get only the first line
+      const headers = firstLine.split(',');
+      if (headers.length && !headers.some((item) => !item)) {
+        headers.unshift('');
+      }
+      resolve(headers);
+    };
+
+    reader.onerror = (error) => {
+      reject(error);
+    };
+
+    reader.readAsText(file);
+  });
+
+  const handleFileInputChange = async (selectedFile) => {
+    if (selectedFile) {
+      try {
+        const fileHeaders = await getHeadersFromCSV(selectedFile);
+        setHeaders(fileHeaders);
+      } catch (error) {
+        setHeaders([]);
+      }
+    }
+  };
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -41,6 +77,7 @@ function IndividualsUploadDialog({
 
   const handleClose = () => {
     setForms({});
+    setHeaders([]);
     setIsOpen(false);
   };
 
@@ -48,7 +85,8 @@ function IndividualsUploadDialog({
     fetchWorkflows();
   }, []);
 
-  const handleFieldChange = (formName, fieldName, value) => {
+  const handleFieldChange = async (formName, fieldName, value) => {
+    await handleFileInputChange(value);
     setForms({
       ...forms,
       [formName]: {
@@ -58,7 +96,7 @@ function IndividualsUploadDialog({
     });
   };
 
-  const getFieldValue = () => forms?.workflows?.values?.workflow?.label ?? {};
+  const getFieldValue = () => forms?.workflows?.workflow?.name ?? {};
 
   const onSubmit = async (values) => {
     const fileFormat = values.file.type;
@@ -70,6 +108,7 @@ function IndividualsUploadDialog({
     if (fileFormat.includes('/csv')) {
       formData.append('workflow_name', values.workflow.name);
       formData.append('workflow_group', values.workflow.group);
+      formData.append('group_aggregation_column', groupAggregationHeader);
       urlImport = `${baseApiUrl}/individual/import_individuals/`;
     }
 
@@ -151,7 +190,7 @@ function IndividualsUploadDialog({
                   </Grid>
                   <Grid item>
                     <WorkflowsPicker
-                      module="individual"
+                      module={INDIVIDUAL_MODULE_NAME}
                       label="workflowPicker"
                       onChange={(value) => handleFieldChange('workflows', 'workflow', value)}
                       value={() => getFieldValue()}
@@ -160,6 +199,39 @@ function IndividualsUploadDialog({
                     />
                   </Grid>
                 </Grid>
+                {getFieldValue() === PYTHON_DEFAULT_IMPORT_WORKFLOW ? (
+                  <Grid container direction="row" alignItems="center">
+                    <Grid container spacing={4} direction="row" alignItems="center">
+                      <Grid item>
+                        <Typography>
+                          <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="createGroupFromColumns" />
+                        </Typography>
+                      </Grid>
+                      <Grid item md={5}>
+                        <Select
+                          id="select"
+                          value={groupAggregationHeader}
+                          onChange={(v) => setGroupAggregationHeader(v.target.value)}
+                          fullWidth
+                        >
+                          {headers.map((header, index) => (
+                          // eslint-disable-next-line react/no-array-index-key
+                            <MenuItem key={index} value={header}>
+                              {header}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </Grid>
+                    </Grid>
+                    <Grid spacing={4} item>
+                      <Typography style={{ fontSize: '12px' }}>
+                        *
+                        {' '}
+                        <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="groupAggregationInfo" />
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                ) : null}
               </Grid>
             </div>
           </DialogContent>

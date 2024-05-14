@@ -88,3 +88,4 @@ export const UPLOAD_STATUS = {
   FAIL: 'FAIL',
 };
 export const INDIVIDUALS_QUANTITY_LIMIT = 15;
+export const PYTHON_DEFAULT_IMPORT_WORKFLOW = 'Python Import Individuals';
