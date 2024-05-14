@@ -22,7 +22,7 @@ import { bindActionCreators } from 'redux';
 import WorkflowsPicker from '../../pickers/WorkflowsPicker';
 import { fetchWorkflows } from '../../actions';
 import IndividualsHistoryUploadDialog from './IndividualsHistoryUploadDialog';
-import {EMPTY_STRING, INDIVIDUAL_MODULE_NAME, PYTHON_DEFAULT_IMPORT_WORKFLOW} from '../../constants';
+import { EMPTY_STRING, INDIVIDUAL_MODULE_NAME, PYTHON_DEFAULT_IMPORT_WORKFLOW } from '../../constants';
 
 const styles = (theme) => ({
   item: theme.paper.item,
@@ -64,7 +64,8 @@ function IndividualsUploadDialog({
     if (selectedFile) {
       try {
         const fileHeaders = await getHeadersFromCSV(selectedFile);
-        setHeaders(fileHeaders);
+        const filteredHeaders = fileHeaders.filter((header) => header !== 'recipient_info');
+        setHeaders(filteredHeaders);
       } catch (error) {
         setHeaders([]);
       }
@@ -86,7 +87,7 @@ function IndividualsUploadDialog({
   }, []);
 
   const handleFieldChange = async (formName, fieldName, value) => {
-    await handleFileInputChange(value);
+    if (fieldName === 'file') await handleFileInputChange(value);
     setForms({
       ...forms,
       [formName]: {
