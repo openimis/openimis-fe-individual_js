@@ -64,7 +64,9 @@ function IndividualsUploadDialog({
     if (selectedFile) {
       try {
         const fileHeaders = await getHeadersFromCSV(selectedFile);
-        const filteredHeaders = fileHeaders.filter((header) => header !== 'recipient_info');
+        const filteredHeaders = fileHeaders.filter(
+          (header) => header !== 'recipient_info' && header !== 'group_id',
+        );
         setHeaders(filteredHeaders);
       } catch (error) {
         setHeaders([]);
