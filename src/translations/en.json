@@ -246,5 +246,5 @@
   "changeGroupButtonTooltip": "Move to another group.",
   "moveToNewGroup": "New Group",
   "createGroupFromColumns": "Create groups from column:",
-  "groupAggregationInfo": "To specify recipients include header 'recipient_info' with possible values: '1' - head, '2' - recipient, '0' or empty - not a recipient."
+  "groupAggregationInfo": "To specify recipients include header 'recipient_info' with possible values: '1' - head, '0' or empty - recipient."
 }
