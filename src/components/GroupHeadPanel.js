@@ -57,9 +57,9 @@ class GroupHeadPanel extends FormPanel {
             <TextInput
               readOnly
               module="individual"
-              label="group.id"
-              onChange={(v) => this.updateAttribute('id', v)}
-              value={group?.id ?? EMPTY_STRING}
+              label="group.code"
+              onChange={(v) => this.updateAttribute('code', v)}
+              value={group?.code ?? EMPTY_STRING}
             />
           </Grid>
         </Grid>

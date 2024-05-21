@@ -114,7 +114,7 @@ function GroupSearcher({
 
   const headers = () => {
     const headers = [
-      'group.id',
+      'group.code',
       'group.head',
     ];
     if (rights.includes(RIGHT_GROUP_UPDATE)) {
@@ -125,7 +125,7 @@ function GroupSearcher({
 
   const itemFormatters = () => {
     const formatters = [
-      (group) => group.id,
+      (group) => group.code,
       (group) => (group?.head
         ? `${group?.head?.firstName} ${group?.head?.lastName}`
         : formatMessage(intl, 'group', 'noHeadSpecified')),

@@ -143,6 +143,7 @@
   "group": {
     "id": "ID",
     "head": "Head",
+    "code": "Code",
     "noHeadSpecified": "head not specified",
     "individual.firstName": "Individual First Name",
     "individual.lastName": "Individual Last Name",

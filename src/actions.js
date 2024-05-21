@@ -50,7 +50,7 @@ const INDIVIDUAL_FULL_PROJECTION = [
 const GROUP_INDIVIDUAL_FULL_PROJECTION = [
   'id',
   'individual {id, firstName, lastName, dob}',
-  'group {id}',
+  'group {id, code}',
   'role',
   'isDeleted',
   'dateCreated',
@@ -60,6 +60,7 @@ const GROUP_INDIVIDUAL_FULL_PROJECTION = [
 
 const GROUP_FULL_PROJECTION = [
   'id',
+  'code',
   'isDeleted',
   'head {firstName, lastName}',
   'dateCreated',
