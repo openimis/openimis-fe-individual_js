@@ -135,7 +135,7 @@ function GroupSearcher({
         ? `${group?.head?.firstName} ${group?.head?.lastName}`
         : formatMessage(intl, 'group', 'noHeadSpecified')),
     ];
-    if (rights.includes(RIGHT_GROUP_UPDATE)) {
+    if (rights.includes(RIGHT_GROUP_UPDATE) && isModalEnrollment === false) {
       formatters.push((group) => (
         <Tooltip title={formatMessage(intl, 'individual', 'editButtonTooltip')}>
           <IconButton
@@ -147,7 +147,7 @@ function GroupSearcher({
         </Tooltip>
       ));
     }
-    if (rights.includes(RIGHT_GROUP_DELETE)) {
+    if (rights.includes(RIGHT_GROUP_DELETE) && isModalEnrollment === false) {
       formatters.push((group) => (
         <Tooltip title={formatMessage(intl, 'individual', 'deleteButtonTooltip')}>
           <IconButton
