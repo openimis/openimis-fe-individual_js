@@ -41,7 +41,7 @@ import {
   INDIVIDUAL_LABEL,
   INDIVIDUAL_MODULE_NAME,
   RIGHT_GROUP_SEARCH,
-  RIGHT_INDIVIDUAL_SEARCH
+  RIGHT_INDIVIDUAL_SEARCH,
 } from './constants';
 import { GroupCreateTaskItemFormatters, GroupCreateTaskTableHeaders } from './components/tasks/GroupCreateTasks';
 import IndividualsUploadDialog from './components/dialogs/IndividualsUploadDialog';
@@ -53,6 +53,8 @@ import {
 } from './components/GroupIndividualHistoryTab';
 import AdvancedCriteriaRowValue from './components/dialogs/AdvancedCriteriaRowValue';
 import IndividualPicker from './pickers/IndividualPicker';
+import EnrollmentGroupPage from './pages/EnrollmentGroupPage';
+import GroupMenu from './components/dialogs/GroupMenu';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -60,6 +62,7 @@ const ROUTE_INDIVIDUAL_FROM_GROUP = 'groups/group/individuals/individual';
 const ROUTE_GROUPS = 'groups';
 const ROUTE_GROUP = 'groups/group';
 const ROUTE_ENROLLMENT = 'individuals/enrollment';
+const ROUTE_GROUP_ENROLLMENT = 'groups/enrollment';
 
 const BENEFIT_PLAN_TABS_LABEL_REF_KEY = 'socialProtection.BenefitPlansListTabLabel';
 const BENEFIT_PLAN_TABS_PANEL_REF_KEY = 'socialProtection.BenefitPlansListTabPanel';
@@ -72,6 +75,7 @@ const DEFAULT_CONFIG = {
     { path: ROUTE_INDIVIDUALS, component: IndividualsPage },
     { path: ROUTE_GROUPS, component: GroupsPage },
     { path: ROUTE_ENROLLMENT, component: EnrollmentPage },
+    { path: ROUTE_GROUP_ENROLLMENT, component: EnrollmentGroupPage },
     { path: `${ROUTE_INDIVIDUAL}/:individual_uuid?`, component: IndividualPage },
     { path: `${ROUTE_INDIVIDUAL_FROM_GROUP}/:individual_uuid?`, component: IndividualPage },
     { path: `${ROUTE_GROUP}/:group_uuid?`, component: GroupPage },
@@ -93,6 +97,7 @@ const DEFAULT_CONFIG = {
   refs: [
     { key: 'individual.route.individual', ref: ROUTE_INDIVIDUAL },
     { key: 'individual.route.enrollment', ref: ROUTE_ENROLLMENT },
+    { key: 'individual.route.groupEnrollment', ref: ROUTE_GROUP_ENROLLMENT },
     { key: 'individual.route.group', ref: ROUTE_GROUP },
     { key: 'individual.GroupIndividualSearcher', ref: GroupIndividualSearcher },
     { key: 'individual.actions.fetchIndividuals', ref: fetchIndividuals },
@@ -104,8 +109,10 @@ const DEFAULT_CONFIG = {
     { key: 'individual.GroupIndividualHistorySearcher', ref: GroupIndividualHistorySearcher },
     { key: 'individual.AdvancedCriteriaRowValue', ref: AdvancedCriteriaRowValue },
     { key: 'individual.IndividualPicker', ref: IndividualPicker },
+    { key: 'individual.group.GroupMenu', ref: GroupMenu },
   ],
   'individual.IndividualsUploadDialog': IndividualsUploadDialog,
+  'individual.group.GroupMenu': GroupMenu,
   'individual.TabPanel.label': [
     BenefitPlansListTabLabel,
     IndividalChangelogTabLabel,

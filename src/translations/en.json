@@ -72,6 +72,7 @@
     "enrollment": {
       "buttonLabel": "ENROLLMENT",
       "title": "Enrollment of Individuals to the Programme",
+      "titleGroup": "Enrollment of Groups to the Programme",
       "label": "Enroll Individuals to the program",
       "cancel": "Cancel",
       "summary": "Preview Summary of Enrollment",
@@ -89,8 +90,17 @@
       "numberOfIndividualsAssignedToSelectedProgramme": "Number Of Individuals Already Assigned to Selected Programme",
       "numberOfIndividualsToBeUploaded": "Number Of Individuals to be Uploaded",
       "confirmMessageDialog": "Are you sure you want to confirm the enrollment of the selected individuals into the {benefitPlanName} Programme?",
+      "confirmGroupMessageDialog": "Are you sure you want to confirm the enrollment of the selected groups into the {benefitPlanName} Programme?",
       "previewIndividuals": "Preview Individuals",
-      "close": "Close"
+      "previewGroups": "Preview Groups",
+      "close": "Close",
+      "totalNumberOfGroups": "Total Number of Groups",
+      "numberOfSelectedGroups": "Number Of Selected Groups",
+      "numberOfGroupsAssignedToProgramme": "Number Of Groups Assigned to Programme",
+      "numberOfGroupsNotAssignedToProgramme": "Number Of Groups not Assigned To Programme",
+      "numberOfGroupsAssignedToSelectedProgramme": "Number of Groups Assigned to Selected Programme",
+      "numberOfGroupsToUpload": "Number of Groups to Upload"
+
     },
     "saveButton.tooltip.enabled": "Save changes",
     "saveButton.tooltip.disabled": "Please fill General Information fields first",

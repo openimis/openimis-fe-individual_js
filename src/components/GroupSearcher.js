@@ -11,6 +11,7 @@ import {
   coreConfirm,
   clearConfirm,
   journalize,
+  decodeId,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -30,6 +31,7 @@ import {
   DEFAULT_PAGE_SIZE,
   ROWS_PER_PAGE_OPTIONS,
   RIGHT_GROUP_UPDATE, RIGHT_GROUP_DELETE, INDIVIDUAL_MODULE_NAME, INDIVIDUAL_LABEL,
+  INDIVIDUAL_GROUP_MENU_CONTRIBUTION_KEY,
 } from '../constants';
 import GroupFilter from './GroupFilter';
 import { applyNumberCircle } from '../util/searcher-utils';
@@ -53,11 +55,14 @@ function GroupSearcher({
   confirmed,
   submittingMutation,
   clearGroupExport,
+  isModalEnrollment,
   mutation,
   coreConfirm,
   clearConfirm,
   journalize,
   CLEARED_STATE_FILTER,
+  benefitPlanToEnroll,
+  advancedCriteria,
 }) {
   const [groupToDelete, setGroupToDelete] = useState(null);
   const [deletedGroupUuids, setDeletedGroupUuids] = useState([]);
@@ -165,12 +170,25 @@ function GroupSearcher({
 
   const isRowDisabled = (_, group) => deletedGroupUuids.includes(group.id);
 
-  const defaultFilters = () => ({
-    isDeleted: {
-      value: false,
-      filter: 'isDeleted: false',
-    },
-  });
+  const defaultFilters = () => {
+    const filters = {
+      isDeleted: {
+        value: false,
+        filter: 'isDeleted: false',
+      },
+    };
+    if (isModalEnrollment && advancedCriteria !== null && advancedCriteria !== undefined) {
+      filters.customFilters = {
+        value: advancedCriteria,
+        filter: `customFilters: [${advancedCriteria}]`,
+      };
+      filters.benefitPlanToEnroll = {
+        value: benefitPlanToEnroll,
+        filter: `benefitPlanToEnroll: "${decodeId(benefitPlanToEnroll)}"`,
+      };
+    }
+    return filters;
+  };
 
   const [failedExport, setFailedExport] = useState(false);
 
@@ -244,6 +262,10 @@ function GroupSearcher({
         applyNumberCircle={applyNumberCircle}
         rowDisabled={isRowDisabled}
         rowLocked={isRowDisabled}
+        // eslint-disable-next-line react/jsx-props-no-spreading, max-len
+        {...(isModalEnrollment === false ? {
+          actionsContributionKey: INDIVIDUAL_GROUP_MENU_CONTRIBUTION_KEY, isCustomFiltering: true,
+        } : { isCustomFiltering: false })}
       />
       {failedExport && (
         <Dialog open={failedExport} fullWidth maxWidth="sm">

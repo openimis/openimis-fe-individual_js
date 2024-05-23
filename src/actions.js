@@ -25,6 +25,15 @@ const ENROLLMENT_SUMMARY_FULL_PROJECTION = () => [
   'numberOfIndividualsToUpload',
 ];
 
+const ENROLLMENT_GROUP_SUMMARY_FULL_PROJECTION = () => [
+  'totalNumberOfGroups',
+  'numberOfSelectedGroups',
+  'numberOfGroupsAssignedToProgramme',
+  'numberOfGroupsNotAssignedToProgramme',
+  'numberOfGroupsAssignedToSelectedProgramme',
+  'numberOfGroupsToUpload',
+];
+
 export function fetchWorkflows() {
   const payload = formatQuery(
     'workflow',
@@ -100,6 +109,15 @@ export function fetchIndividualEnrollmentSummary(params) {
     ENROLLMENT_SUMMARY_FULL_PROJECTION(),
   );
   return graphql(payload, ACTION_TYPE.ENROLLMENT_SUMMARY);
+}
+
+export function fetchGroupEnrollmentSummary(params) {
+  const payload = formatQuery(
+    'groupEnrollmentSummary',
+    params,
+    ENROLLMENT_GROUP_SUMMARY_FULL_PROJECTION(),
+  );
+  return graphql(payload, ACTION_TYPE.ENROLLMENT_GROUP_SUMMARY);
 }
 
 export function fetchIndividuals(params) {
@@ -269,6 +287,22 @@ export function confirmEnrollment(params, clientMutationLabel) {
     [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.CONFIRM_ENROLLMENT), ERROR(ACTION_TYPE.MUTATION)],
     {
       actionType: ACTION_TYPE.UPDATE_INDIVIDUAL,
+      clientMutationId: mutation.clientMutationId,
+      clientMutationLabel,
+      requestedDateTime,
+    },
+  );
+}
+
+export function confirmGroupEnrollment(params, clientMutationLabel) {
+  // eslint-disable-next-line max-len
+  const mutation = formatMutation('confirmGroupEnrollment', formatConfirmEnrollmentGQL(params), clientMutationLabel);
+  const requestedDateTime = new Date();
+  return graphql(
+    mutation.payload,
+    [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.CONFIRM_GROUP_ENROLLMENT), ERROR(ACTION_TYPE.MUTATION)],
+    {
+      actionType: ACTION_TYPE.UPDATE_GROUP,
       clientMutationId: mutation.clientMutationId,
       clientMutationLabel,
       requestedDateTime,
