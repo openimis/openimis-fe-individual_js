@@ -31,7 +31,13 @@ function GroupFilter({
           module="individual"
           label="group.code"
           value={filterTextFieldValue('code')}
-          onChange={onChangeStringFilter('code')}
+          onChange={(value) => onChangeFilters([
+            {
+              id: 'code',
+              value,
+              filter: `code_Icontains: "${value}"`,
+            },
+          ])}
         />
       </Grid>
       <Grid item xs={2} className={classes.item}>
