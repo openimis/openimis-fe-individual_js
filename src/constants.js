@@ -66,10 +66,12 @@ export const INDIVIDUAL_MODULE_NAME = 'individual';
 export const FETCH_BENEFIT_PLAN_SCHEMA_FIELDS_REF = 'socialProtection.fetchBenefitPlanSchemaFields';
 export const INDIVIDUAL_ENROLMENT_DIALOG_CONTRIBUTION_KEY = 'individual.IndividualsEnrolmentDialog';
 export const INDIVIDUALS_UPLOAD_FORM_CONTRIBUTION_KEY = 'individual.IndividualsUploadDialog';
+export const INDIVIDUAL_GROUP_MENU_CONTRIBUTION_KEY = 'individual.group.GroupMenu';
 export const CLEARED_STATE_FILTER = {
   field: '', filter: '', type: '', value: '',
 };
 export const INDIVIDUAL = 'Individual';
+export const GROUP = 'Group';
 export const INTEGER = 'integer';
 export const STRING = 'string';
 export const BOOLEAN = 'boolean';

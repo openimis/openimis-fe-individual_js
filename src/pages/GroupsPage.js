@@ -18,7 +18,7 @@ function GroupsPage(props) {
     rights.includes(RIGHT_GROUP_SEARCH) && (
     <div className={classes.page}>
       <Helmet title={formatMessage(intl, 'individual', 'groups.pageTitle')} />
-      <GroupSearcher rights={rights} />
+      <GroupSearcher rights={rights} isModalEnrollment={false} />
     </div>
     )
   );

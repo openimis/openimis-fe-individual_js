@@ -30,8 +30,8 @@ function GroupFilter({
         <TextInput
           module="individual"
           label="group.code"
-          value={filterTextFieldValue('code')}
-          onChange={onChangeStringFilter('code')}
+          value={filterTextFieldValue('code_Icontains')}
+          onChange={onChangeStringFilter('code_Icontains')}
         />
       </Grid>
       <Grid item xs={2} className={classes.item}>
