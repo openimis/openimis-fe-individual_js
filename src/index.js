@@ -41,7 +41,7 @@ import {
   INDIVIDUAL_LABEL,
   INDIVIDUAL_MODULE_NAME,
   RIGHT_GROUP_SEARCH,
-  RIGHT_INDIVIDUAL_SEARCH
+  RIGHT_INDIVIDUAL_SEARCH,
 } from './constants';
 import { GroupCreateTaskItemFormatters, GroupCreateTaskTableHeaders } from './components/tasks/GroupCreateTasks';
 import IndividualsUploadDialog from './components/dialogs/IndividualsUploadDialog';
@@ -53,6 +53,11 @@ import {
 } from './components/GroupIndividualHistoryTab';
 import AdvancedCriteriaRowValue from './components/dialogs/AdvancedCriteriaRowValue';
 import IndividualPicker from './pickers/IndividualPicker';
+import {
+  GroupUploadConfirmationPanel,
+  GroupUploadResolutionItemFormatters,
+  GroupUploadResolutionTaskTableHeaders
+} from "./components/tasks/GroupImportTasks";
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -154,6 +159,13 @@ const DEFAULT_CONFIG = {
     itemFormatters: GroupCreateTaskItemFormatters,
     taskSource: ['CreateGroupAndMoveIndividualService'],
     taskCode: GROUP_LABEL,
+  },
+  {
+    text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="validation_import_group_valid_items.tasks.title" />,
+    tableHeaders: GroupUploadResolutionTaskTableHeaders,
+    itemFormatters: GroupUploadResolutionItemFormatters,
+    taskSource: ['import_group_valid_items'],
+    confirmationPanel: GroupUploadConfirmationPanel,
   },
   ],
 };

@@ -89,3 +89,13 @@ export const UPLOAD_STATUS = {
 };
 export const INDIVIDUALS_QUANTITY_LIMIT = 15;
 export const PYTHON_DEFAULT_IMPORT_WORKFLOW = 'Python Import Individuals';
+
+export const TASK_STATUS = {
+  RECEIVED: 'RECEIVED',
+  ACCEPTED: 'ACCEPTED',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+};
+
+export const APPROVED = 'APPROVED';
+export const FAILED = 'FAILED';

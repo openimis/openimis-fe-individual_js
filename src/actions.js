@@ -5,6 +5,9 @@ import {
   formatPageQueryWithCount,
   formatMutation,
   formatGQLString,
+  graphqlWithVariables,
+  useModulesManager,
+  prepareMutation,
 } from '@openimis/fe-core';
 import { ACTION_TYPE } from './reducer';
 import {
@@ -326,6 +329,129 @@ export function updateGroup(group, clientMutationLabel) {
       clientMutationId: mutation.clientMutationId,
       clientMutationLabel,
       requestedDateTime,
+    },
+  );
+}
+
+export function fetchPendingGroupUploads(variables) {
+  return graphqlWithVariables(
+    `
+      query (
+        $upload_Id: ID, $group_Id_Isnull: Boolean
+        ${variables.after ? ',$after: String' : ''} 
+        ${variables.before ? ',$before: String' : ''}
+        ${variables.pageSize ? ',$pageSize: Int' : ''}
+        ${variables.isDeleted !== undefined ? ',$isDeleted: Boolean' : ''}
+      ) {
+        groupDataSource(
+          upload_Id: $upload_Id, group_Id_Isnull:$group_Id_Isnull, 
+          ${variables.isDeleted !== undefined ? ',isDeleted: $isDeleted' : ''}
+          ${variables.before ? ',before:$before, last:$pageSize' : ''}
+          ${!variables.before ? ',first:$pageSize' : ''}
+          ${variables.after ? ',after:$after' : ''}
+        )
+        {
+          totalCount
+          pageInfo { hasNextPage, hasPreviousPage, startCursor, endCursor}
+          edges
+          {
+            node
+            {
+              id, uuid, jsonExt, group { code }
+              
+            }
+          }
+        }
+      }
+    `,
+    variables,
+    ACTION_TYPE.GET_PENDING_GROUPS_UPLOAD,
+  );
+}
+
+export const formatTaskResolveGQL = (task, user, approveOrFail, additionalData) => `
+  ${task?.id ? `id: "${task.id}"` : ''}
+  ${user && approveOrFail ? `businessStatus: "{\\"${user.id}\\": \\"${approveOrFail}\\"}"` : ''}
+  ${additionalData ? `additionalData: "${additionalData}"` : ''}
+  `;
+
+export function resolveTask(task, clientMutationLabel, user, approveOrFail, additionalData = null) {
+  const mutationType = 'resolveTask';
+  const mutationInput = formatTaskResolveGQL(task, user, approveOrFail, additionalData);
+  const mutation = formatMutation(mutationType, mutationInput, clientMutationLabel);
+  const requestedDateTime = new Date();
+
+  const userId = user?.id;
+
+  const mutation2 = prepareMutation(
+    `mutation ($clientMutationLabel:String, $clientMutationId: String, $id:UUID!, 
+      $businessStatus: JSONString!, ${additionalData ? '$additionalData: JSONString!' : ''}
+    ) {
+      resolveTask(
+      input: {
+        clientMutationId: $clientMutationId
+        clientMutationLabel: $clientMutationLabel
+  
+        id: $id
+        businessStatus: $businessStatus
+        ${additionalData ? 'additionalData: $additionalData' : ''}
+              }
+            ) {
+              clientMutationId
+              internalId
+            }
+          }`,
+    {
+      id: task?.id,
+      businessStatus: (() => {
+        if (!userId) return undefined;
+
+        switch (approveOrFail) {
+          case 'APPROVED':
+          case 'FAILED':
+            return JSON.stringify({ [userId]: approveOrFail });
+          case 'ACCEPT':
+          case 'REJECT':
+            return JSON.stringify({ [userId]: { [approveOrFail]: additionalData } });
+          default:
+            throw new Error('Invalid approveOrFail value');
+        }
+      })(),
+      // eslint-disable-next-line max-len
+      additionalData: additionalData ? JSON.stringify({ entries: additionalData, decision: additionalData }) : undefined,
+    },
+    {
+      id: task?.id,
+      businessStatus: (() => {
+        if (!userId) return undefined;
+
+        switch (approveOrFail) {
+          case 'APPROVED':
+          case 'FAILED':
+            return JSON.stringify({ [userId]: approveOrFail });
+          case 'ACCEPT':
+          case 'REJECT':
+            return JSON.stringify({ [userId]: { [approveOrFail]: additionalData } });
+          default:
+            throw new Error('Invalid approveOrFail value');
+        }
+      })(),
+      // eslint-disable-next-line max-len
+      additionalData: additionalData ? JSON.stringify({ entries: additionalData, decision: additionalData }) : undefined,
+    },
+  );
+
+  // eslint-disable-next-line no-param-reassign
+  user.clientMutationId = mutation.clientMutationId;
+
+  return graphqlWithVariables(
+    mutation2.operation,
+    {
+      ...mutation2.variables.input,
+    },
+    ['TASK_MANAGEMENT_MUTATION_REQ', 'TASK_MANAGEMENT_MUTATION_RESP', 'TASK_MANAGEMENT_MUTATION_ERR'],
+    {
+      requestedDateTime, clientMutationId: mutation.clientMutationId, clientMutationLabel, userId: user.id,
     },
   );
 }
