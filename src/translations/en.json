@@ -258,5 +258,8 @@
   "moveToNewGroup": "New Group",
   "createGroupFromColumns": "Create groups from column:",
   "groupAggregationInfo": "To specify recipients include header 'recipient_info' with possible values: '1' - head, '0' or empty - recipient.",
-  "validation_import_group_valid_items.tasks.title": "Import Group Valid Items"
+  "validation_import_group_valid_items.tasks.title": "Import Group Valid Items",
+  "groupTaskConfirmation.title": "Group Upload Confirmation",
+  "dialogActions.continue": "Continue",
+  "dialogActions.goBack": "Cancel"
 }

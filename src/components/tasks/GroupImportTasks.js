@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function GroupUploadTaskDisplay({
+  // eslint-disable-next-line no-unused-vars
   businessData, setAdditionalData, jsonExt,
 }) {
   const {
@@ -259,7 +260,7 @@ function GroupUploadTaskDisplay({
         onConfirm={onConfirm}
         onClose={onClose}
         module="individual"
-        confirmTitle="taskConfirmation.title"
+        confirmTitle="groupTaskConfirmation.title"
         confirmMessage={
           formatMessageWithValues(intl, 'socialProtection', 'atomicApprove', { count: selectedRecords.length })
         }
@@ -345,6 +346,7 @@ const GroupUploadResolutionItemFormatters = () => [
   ),
 ];
 
+// eslint-disable-next-line no-unused-vars
 function GroupUploadConfirmationPanel({ defaultAction, defaultDisabled }) {
   const intl = useIntl();
   const classes = useStyles();
