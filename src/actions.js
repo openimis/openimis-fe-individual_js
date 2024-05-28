@@ -6,7 +6,6 @@ import {
   formatMutation,
   formatGQLString,
   graphqlWithVariables,
-  useModulesManager,
   prepareMutation,
 } from '@openimis/fe-core';
 import { ACTION_TYPE } from './reducer';
@@ -64,6 +63,7 @@ const GROUP_INDIVIDUAL_FULL_PROJECTION = [
   'individual {id, firstName, lastName, dob}',
   'group {id, code}',
   'role',
+  'recipientType',
   'isDeleted',
   'dateCreated',
   'dateUpdated',
@@ -87,6 +87,7 @@ const GROUP_INDIVIDUAL_HISTORY_FULL_PROJECTION = [
   'individual {id, firstName, lastName, dob}',
   'group {id}',
   'role',
+  'recipientType',
   'isDeleted',
   'dateCreated',
   'dateUpdated',
@@ -256,6 +257,7 @@ function formatGroupIndividualGQL(groupIndividual) {
   return `
     ${groupIndividual?.id ? `id: "${groupIndividual.id}"` : ''}
     ${groupIndividual?.role ? `role: ${groupIndividual.role}` : ''}
+    ${groupIndividual?.recipientType ? `recipientType: ${groupIndividual.recipientType}` : ''}
     ${groupIndividual?.individual.id ? `individualId: "${groupIndividual.individual.id}"` : ''}
     ${groupIndividual?.group.id ? `groupId: "${groupIndividual.group.id}"` : ''}`;
 }

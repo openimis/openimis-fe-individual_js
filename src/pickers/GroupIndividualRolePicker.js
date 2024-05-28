@@ -6,7 +6,7 @@ import {
 
 function GroupIndividualRolePicker(props) {
   const {
-    required, withNull, readOnly, onChange, value, nullLabel, withLabel,
+    required, readOnly, onChange, value, nullLabel, withLabel,
   } = props;
   return (
     <ConstantBasedPicker
@@ -17,7 +17,7 @@ function GroupIndividualRolePicker(props) {
       value={value}
       required={required}
       readOnly={readOnly}
-      withNull={withNull}
+      withNull
       nullLabel={nullLabel}
       withLabel={withLabel}
     />

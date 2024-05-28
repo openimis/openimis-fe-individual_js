@@ -169,8 +169,10 @@ function GroupUploadTaskDisplay({
       items.push((pending) => {
         if (Object.prototype.hasOwnProperty.call(pending, key)) {
           const value = pending[key];
-          // Check if the value is an array and join it into a comma-separated string
-          return Array.isArray(value) ? value.join(', ') : value;
+          if (Array.isArray(value)) {
+            return value.map((item) => JSON.stringify(item)).join(', ');
+          }
+          return JSON.stringify(value);
         }
         return '-';
       });

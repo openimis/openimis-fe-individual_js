@@ -212,6 +212,7 @@
   "groupIndividual": {
     "individual": {
       "role": "Role",
+      "recipientType": "Recipient Type",
       "groupId": "Group ID",
       "individualId": "Individual ID"
     },
@@ -225,7 +226,17 @@
       }
     },
     "groupIndividualRolePicker.HEAD":  "HEAD",
-    "groupIndividualRolePicker.RECIPIENT": "RECIPIENT",
+    "groupIndividualRolePicker.SPOUSE": "SPOUSE",
+    "groupIndividualRolePicker.SON": "SON",
+    "groupIndividualRolePicker.DAUGHTER": "DAUGHTER",
+    "groupIndividualRolePicker.GRANDFATHER": "GRANDFATHER",
+    "groupIndividualRolePicker.GRANDMOTHER": "GRANDMOTHER",
+    "groupIndividualRolePicker.MOTHER": "MOTHER",
+    "groupIndividualRolePicker.FATHER": "FATHER",
+    "groupIndividualRolePicker.null": " ",
+    "groupIndividualRecipientTypePicker.PRIMARY": "PRIMARY",
+    "groupIndividualRecipientTypePicker.SECONDARY": "SECONDARY",
+    "groupIndividualRecipientTypePicker.null": " ",
     "groupIndividualRolePicker": "Role",
     "dateJoined": "Joining Date",
     "statusOfMembership": "Status Of Membership"

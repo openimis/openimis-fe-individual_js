@@ -40,6 +40,7 @@ import {
 import GroupIndividualFilter from './GroupIndividualFilter';
 import GroupIndividualRolePicker from '../pickers/GroupIndividualRolePicker';
 import GroupChangeDialog from './GroupChangeDialog';
+import GroupIndividualRecipientTypePicker from '../pickers/GroupIndividualRecipientTypePicker';
 
 function GroupIndividualSearcher({
   intl,
@@ -136,6 +137,7 @@ function GroupIndividualSearcher({
       'individual.lastName',
       'individual.dob',
       'groupIndividual.individual.role',
+      'groupIndividual.individual.recipientType',
       'emptyLabel',
     ];
     if (rights.includes(RIGHT_GROUP_INDIVIDUAL_UPDATE)) {
@@ -147,7 +149,7 @@ function GroupIndividualSearcher({
   const addUpdatedGroupIndividual = (groupIndividual, role) => {
     setUpdatedGroupIndividuals((prevState) => {
       const updatedBeneficiaryExists = prevState.some(
-        (item) => item.id === groupIndividual.id && item.role === role,
+        (item) => item.id === groupIndividual.id && (item.role === role || item.recipient_type),
       );
 
       if (!updatedBeneficiaryExists) {
@@ -155,7 +157,7 @@ function GroupIndividualSearcher({
       }
 
       return prevState.filter(
-        (item) => !(item.id === groupIndividual.id && item.role === role),
+        (item) => !(item.id === groupIndividual.id && (item.role === role || item.recipient_type)),
       );
     });
   };
@@ -164,6 +166,20 @@ function GroupIndividualSearcher({
     if (groupIndividual && role) {
       addUpdatedGroupIndividual(groupIndividual, role);
       const editedGroupIndividual = { ...groupIndividual, role };
+      updateGroupIndividual(
+        editedGroupIndividual,
+        formatMessageWithValues(intl, 'individual', 'groupIndividual.update.mutationLabel', {
+          id: editedGroupIndividual?.individual?.id,
+        }),
+      );
+      setRefetch(editedGroupIndividual?.individual?.id);
+    }
+  };
+
+  const handleRecipientTypeOnChange = (groupIndividual, recipientType) => {
+    if (groupIndividual && recipientType) {
+      addUpdatedGroupIndividual(groupIndividual, recipientType);
+      const editedGroupIndividual = { ...groupIndividual, recipientType };
       updateGroupIndividual(
         editedGroupIndividual,
         formatMessageWithValues(intl, 'individual', 'groupIndividual.update.mutationLabel', {
@@ -190,7 +206,7 @@ function GroupIndividualSearcher({
     const updateIndividual = {
       ...editedGroupIndividual,
       group: groupToBeChanged,
-      role: GROUP_INDIVIDUAL_ROLES.RECIPIENT,
+      role: GROUP_INDIVIDUAL_ROLES.HEAD,
     };
     updateGroupIndividual(
       updateIndividual,
@@ -214,11 +230,17 @@ function GroupIndividualSearcher({
       (groupIndividual) => (rights.includes(RIGHT_GROUP_INDIVIDUAL_UPDATE) && !isRowDeleted(groupIndividual) ? (
         <GroupIndividualRolePicker
           withLabel={false}
-          withNull={false}
           value={groupIndividual.role}
           onChange={(role) => handleRoleOnChange(groupIndividual, role)}
         />
       ) : groupIndividual.role),
+      (groupIndividual) => (rights.includes(RIGHT_GROUP_INDIVIDUAL_UPDATE) && !isRowDeleted(groupIndividual) ? (
+        <GroupIndividualRecipientTypePicker
+          withLabel={false}
+          value={groupIndividual.recipientType}
+          onChange={(recipientType) => handleRecipientTypeOnChange(groupIndividual, recipientType)}
+        />
+      ) : groupIndividual.recipientType),
       (groupIndividual) => (rights.includes(RIGHT_GROUP_INDIVIDUAL_UPDATE) ? (
         (
           <Tooltip title={formatMessage(intl, 'individual', 'changeGroupButtonTooltip')}>
