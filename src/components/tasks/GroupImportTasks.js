@@ -16,7 +16,9 @@ import ClearIcon from '@material-ui/icons/Clear';
 import CheckIcon from '@material-ui/icons/Check';
 
 import { useIntl } from 'react-intl';
-import { TASK_STATUS, APPROVED, FAILED } from '../../constants';
+import {
+  TASK_STATUS, APPROVED, FAILED, ACCEPT, REJECT,
+} from '../../constants';
 import { fetchPendingGroupUploads, resolveTask } from '../../actions';
 
 const useStyles = makeStyles((theme) => ({
@@ -272,13 +274,11 @@ function GroupUploadTaskDisplay({
       <Table
         module="socialProtection"
         headers={headers()}
-                // headerActions={headerActions}
         itemFormatters={itemFormatters()}
         items={(!!pending && pending) || []}
         fetching={fetchingPendingGroups}
         error={errorPendingGroups}
         fetched={fetchedPendingGroups}
-                // onDoubleClick={this.onDoubleClick}
         withSelection={!isRowDisabled() ? 'multiple' : ''}
         onChangeSelection={onChangeSelection}
         withPagination
@@ -309,7 +309,7 @@ function GroupUploadTaskDisplay({
                               || task?.status === TASK_STATUS.RECEIVED
                               || isRowDisabled()
                               || selectedRecords.length === 0}
-                          onClick={() => handleButtonClick('ACCEPT')}
+                          onClick={() => handleButtonClick(ACCEPT)}
                         >
                           <CheckIcon />
                         </Fab>
@@ -322,7 +322,7 @@ function GroupUploadTaskDisplay({
                               || task?.status === TASK_STATUS.RECEIVED
                               || isRowDisabled()
                               || selectedRecords.length === 0}
-                          onClick={() => handleButtonClick('REJECT')}
+                          onClick={() => handleButtonClick(REJECT)}
                         >
                           <ClearIcon />
                         </Fab>
@@ -384,7 +384,6 @@ function GroupUploadConfirmationPanel({ defaultAction, defaultDisabled }) {
   };
 
   const handleButtonClick = (choiceString) => {
-    // () => defaultAction(APPROVED)
     if (task?.id && currentUser?.id) {
       setApproveOrFail(choiceString);
       setOpenModal(true);
