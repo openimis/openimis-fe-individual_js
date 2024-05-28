@@ -182,6 +182,8 @@
     "headPanelTitle": "General Information",
     "id": "ID",
     "head": "Head",
+    "primaryRecipient": "Primary Recipient",
+    "secondaryRecipient": "Secondary Recipient",
     "dateUpdated": "Date Updated",
     "version": "Version",
     "any": "ANY",

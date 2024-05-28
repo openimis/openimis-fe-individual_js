@@ -28,7 +28,9 @@ function GroupHistorySearcher({
   const fetch = (params) => dispatch(fetchGroupHistory(params));
 
   const headers = () => [
+    'groupHistory.primaryRecipient',
     'groupHistory.head',
+    'groupHistory.secondaryRecipient',
     'groupHistory.dateUpdated',
     'groupHistory.version',
     'groupHistory.members',
@@ -38,7 +40,15 @@ function GroupHistorySearcher({
   const itemFormatters = () => [
     (groupHistory) => {
       const jsonExt = groupHistory?.jsonExt ? JSON.parse(groupHistory.jsonExt) : null;
+      return jsonExt?.primary_recipient ?? EMPTY_STRING;
+    },
+    (groupHistory) => {
+      const jsonExt = groupHistory?.jsonExt ? JSON.parse(groupHistory.jsonExt) : null;
       return jsonExt?.head ?? EMPTY_STRING;
+    },
+    (groupHistory) => {
+      const jsonExt = groupHistory?.jsonExt ? JSON.parse(groupHistory.jsonExt) : null;
+      return jsonExt?.secondary_recipient ?? EMPTY_STRING;
     },
     (groupHistory) => (groupHistory?.dateUpdated
       ? formatDateFromISO(groupHistory.dateUpdated)
