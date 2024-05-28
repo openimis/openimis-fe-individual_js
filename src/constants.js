@@ -124,3 +124,5 @@ export const TASK_STATUS = {
 
 export const APPROVED = 'APPROVED';
 export const FAILED = 'FAILED';
+export const ACCEPT = 'ACCEPT';
+export const REJECT = 'REJECT';

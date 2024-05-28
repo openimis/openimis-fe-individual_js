@@ -12,6 +12,7 @@ import { ACTION_TYPE } from './reducer';
 import {
   CLEAR, ERROR, REQUEST, SET, SUCCESS,
 } from './util/action-type';
+import {ACCEPT, APPROVED, FAILED, REJECT} from "./constants";
 
 const WORKFLOWS_FULL_PROJECTION = () => [
   'name',
@@ -443,11 +444,11 @@ export function resolveTask(task, clientMutationLabel, user, approveOrFail, addi
         if (!userId) return undefined;
 
         switch (approveOrFail) {
-          case 'APPROVED':
-          case 'FAILED':
+          case APPROVED:
+          case FAILED:
             return JSON.stringify({ [userId]: approveOrFail });
-          case 'ACCEPT':
-          case 'REJECT':
+          case ACCEPT:
+          case REJECT:
             return JSON.stringify({ [userId]: { [approveOrFail]: additionalData } });
           default:
             throw new Error('Invalid approveOrFail value');
@@ -462,11 +463,11 @@ export function resolveTask(task, clientMutationLabel, user, approveOrFail, addi
         if (!userId) return undefined;
 
         switch (approveOrFail) {
-          case 'APPROVED':
-          case 'FAILED':
+          case APPROVED:
+          case FAILED:
             return JSON.stringify({ [userId]: approveOrFail });
-          case 'ACCEPT':
-          case 'REJECT':
+          case ACCEPT:
+          case REJECT:
             return JSON.stringify({ [userId]: { [approveOrFail]: additionalData } });
           default:
             throw new Error('Invalid approveOrFail value');
