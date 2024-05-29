@@ -22,17 +22,18 @@ function GroupPicker(props) {
   const errorGroups = useSelector((state) => state.individual.errorGroups);
   const groups = useSelector((state) => state.individual.groups);
   const [group, setGroup] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [currentString, setCurrentString] = useState('');
+  const [filters, setFilters] = useState(['isDeleted: false']);
 
   useEffect(() => {
-    if (!fetchingGroups && !fetchedGroups) {
-      dispatch(fetchGroups({}));
-    }
-  }, []);
+    dispatch(fetchGroups(filters));
+  }, [filters]);
 
-  const groupLabel = (option) => option.id;
+  const groupLabel = (option) => option.code;
 
   const getGroupsWithoutCurrentGroup = (options) => options.filter(
-    (option) => option?.id !== groupIndividual?.group?.id,
+    (option) => option?.code !== groupIndividual?.group?.code,
   );
 
   const handleChange = (group) => {
@@ -48,11 +49,16 @@ function GroupPicker(props) {
       withPlaceholder={withPlaceholder}
       options={getGroupsWithoutCurrentGroup(groups)}
       isLoading={fetchingGroups}
+      setCurrentString={setCurrentString}
       isFetched={fetchedGroups}
       value={group}
       getOptionLabel={groupLabel}
       onChange={handleChange}
-      onInputChange={() => null}
+      onInputChange={
+        (search) => {
+          if (search !== undefined) setFilters([`code_Icontains: "${search}"`, 'isDeleted: false']);
+        }
+      }
     />
   );
 }

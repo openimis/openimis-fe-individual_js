@@ -12,7 +12,9 @@ import { ACTION_TYPE } from './reducer';
 import {
   CLEAR, ERROR, REQUEST, SET, SUCCESS,
 } from './util/action-type';
-import {ACCEPT, APPROVED, FAILED, REJECT} from "./constants";
+import {
+  ACCEPT, APPROVED, FAILED, REJECT,
+} from './constants';
 
 const WORKFLOWS_FULL_PROJECTION = () => [
   'name',
@@ -245,6 +247,13 @@ function formatGroupGQL(group, groupIndividualId = null) {
     ${groupIndividualId ? `groupIndividualId: "${groupIndividualId}"` : ''}`;
 }
 
+function formatCreateGroupGQL(group) {
+  return `
+    ${group?.code ? `code: "${group.code}"` : ''}
+    ${'individualsData: []'}
+  `;
+}
+
 function formatIndividualGQL(individual) {
   return `
     ${individual?.id ? `id: "${individual.id}"` : ''}
@@ -363,6 +372,21 @@ export function updateGroup(group, clientMutationLabel) {
     [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.UPDATE_GROUP), ERROR(ACTION_TYPE.MUTATION)],
     {
       actionType: ACTION_TYPE.UPDATE_GROUP,
+      clientMutationId: mutation.clientMutationId,
+      clientMutationLabel,
+      requestedDateTime,
+    },
+  );
+}
+
+export function createGroup(group, clientMutationLabel) {
+  const mutation = formatMutation('createGroup', formatCreateGroupGQL(group), clientMutationLabel);
+  const requestedDateTime = new Date();
+  return graphql(
+    mutation.payload,
+    [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.CREATE_GROUP), ERROR(ACTION_TYPE.MUTATION)],
+    {
+      actionType: ACTION_TYPE.CREATE_GROUP,
       clientMutationId: mutation.clientMutationId,
       clientMutationLabel,
       requestedDateTime,

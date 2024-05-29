@@ -8,7 +8,6 @@ function GroupIndividualRecipientTypePicker(props) {
   const {
     required, readOnly, onChange, value, nullLabel, withLabel,
   } = props;
-  console.log(value)
   return (
     <ConstantBasedPicker
       module="individual"

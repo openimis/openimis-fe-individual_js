@@ -39,6 +39,7 @@ export const BENEFIT_PLAN_TABS_LABEL_CONTRIBUTION_KEY = 'individual.BenefitPlans
 export const BENEFIT_PLAN_TABS_PANEL_CONTRIBUTION_KEY = 'individual.BenefitPlansListTabPanel';
 export const TASK_CONTRIBUTION_KEY = 'tasksManagement.tasks';
 export const BENEFITS_CONTRIBUTION_KEY = 'payroll.benefitConsumptionPayrollSearcher';
+export const GROUP_ROUTE_GROUP = 'individual.route.group';
 
 export const BENEFICIARY_STATUS = {
   POTENTIAL: 'POTENTIAL',

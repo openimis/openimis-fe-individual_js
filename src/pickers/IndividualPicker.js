@@ -4,7 +4,7 @@ import { TextField, Tooltip } from '@material-ui/core';
 import {
   Autocomplete, useModulesManager,
   useTranslations, useGraphqlQuery,
-  decodeId
+  decodeId,
 } from '@openimis/fe-core';
 import { INDIVIDUALS_QUANTITY_LIMIT } from '../constants';
 

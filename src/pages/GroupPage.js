@@ -18,6 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH } from '../constants';
 import {
   fetchGroup, deleteGroup, updateGroup, clearGroup, createGroupAndMoveIndividual,
+  createGroup,
 } from '../actions';
 import GroupHeadPanel from '../components/GroupHeadPanel';
 import { ACTION_TYPE } from '../reducer';
@@ -37,6 +38,7 @@ function GroupPage({
   group,
   fetchGroup,
   deleteGroup,
+  createGroup,
   updateGroup,
   coreConfirm,
   clearConfirm,
@@ -108,18 +110,25 @@ function GroupPage({
 
   const handleSave = () => {
     setReadOnly(true);
-    if (editedGroup?.id) {
-      updateGroup(
+    if (groupUuid) {
+      if (editedGroup?.id) {
+        updateGroup(
+          editedGroup,
+          formatMessageWithValues(intl, 'individual', 'group.update.mutationLabel', {
+            id: group?.id,
+          }),
+        );
+      } else if (editedGroupIndividual?.id) {
+        createGroupAndMoveIndividual(
+          editedGroup,
+          editedGroupIndividual.id,
+          formatMessageWithValues(intl, 'individual', 'group.createGroupAndMoveIndividual.mutationLabel'),
+        );
+      }
+    } else {
+      createGroup(
         editedGroup,
-        formatMessageWithValues(intl, 'individual', 'group.update.mutationLabel', {
-          id: group?.id,
-        }),
-      );
-    } else if (editedGroupIndividual?.id) {
-      createGroupAndMoveIndividual(
-        editedGroup,
-        editedGroupIndividual.id,
-        formatMessageWithValues(intl, 'individual', 'group.createGroupAndMoveIndividual.mutationLabel'),
+        formatMessageWithValues(intl, 'socialProtection', 'group.create.mutationLabel', titleParams(editedGroup)),
       );
     }
   };
@@ -141,7 +150,10 @@ function GroupPage({
     );
   };
 
-  const canAdd = () => rights.includes(RIGHT_GROUP_CREATE) && editedGroupIndividual && !readOnly;
+  const canAdd = () => {
+    if (groupUuid) return rights.includes(RIGHT_GROUP_CREATE) && editedGroupIndividual && !readOnly;
+    return rights.includes(RIGHT_GROUP_CREATE) && !!editedGroup?.code;
+  };
 
   const actions = [
     !!group && {
@@ -165,8 +177,8 @@ function GroupPage({
         onEditedChanged={setEditedGroup}
         back={back}
         mandatoryFieldsEmpty={isMandatoryFieldsEmpty}
-        canSave={canSave}
-        save={groupUuid ? handleSave : null}
+        canSave={groupUuid ? canSave : canAdd}
+        save={handleSave}
         HeadPanel={GroupHeadPanel}
         Panels={[GroupTabPanel]}
         rights={rights}
@@ -176,7 +188,7 @@ function GroupPage({
         add={canAdd() ? handleSave : null}
         setEditedGroupIndividual={setEditedGroupIndividual}
         editedGroupIndividual={editedGroupIndividual}
-        readOnly={readOnly}
+        readOnly={!!groupUuid}
         groupIndividualIds={groupIndividualIds}
         groupId={groupUuid}
       />
@@ -201,6 +213,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   fetchGroup,
   deleteGroup,
+  createGroup,
   updateGroup,
   clearGroup,
   createGroupAndMoveIndividual,

@@ -56,8 +56,8 @@ import IndividualPicker from './pickers/IndividualPicker';
 import {
   GroupUploadConfirmationPanel,
   GroupUploadResolutionItemFormatters,
-  GroupUploadResolutionTaskTableHeaders
-} from "./components/tasks/GroupImportTasks";
+  GroupUploadResolutionTaskTableHeaders,
+} from './components/tasks/GroupImportTasks';
 import EnrollmentGroupPage from './pages/EnrollmentGroupPage';
 import GroupMenu from './components/dialogs/GroupMenu';
 

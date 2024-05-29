@@ -41,6 +41,8 @@ function GroupTabPanel({
   groupIndividualIds,
   groupId,
 }) {
+  if (!groupId) return null;
+
   const [activeTab, setActiveTab] = useState(individual ? BENEFIT_PLANS_LIST_TAB_VALUE : INDIVIDUALS_LIST_TAB_VALUE);
 
   const isSelected = (tab) => tab === activeTab;

@@ -154,6 +154,9 @@
     "id": "ID",
     "head": "Head",
     "code": "Code",
+    "create": {
+      "mutationLabel": "Created Group {id}"
+    },
     "noHeadSpecified": "head not specified",
     "individual.firstName": "Individual First Name",
     "individual.lastName": "Individual Last Name",

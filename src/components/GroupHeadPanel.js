@@ -21,7 +21,7 @@ const styles = (theme) => ({
 class GroupHeadPanel extends FormPanel {
   render() {
     const {
-      edited, classes, mandatoryFieldsEmpty,
+      edited, classes, mandatoryFieldsEmpty, readOnly,
     } = this.props;
     const group = { ...edited };
     return (
@@ -55,7 +55,7 @@ class GroupHeadPanel extends FormPanel {
         <Grid container className={classes.item}>
           <Grid item xs={3} className={classes.item}>
             <TextInput
-              readOnly
+              readOnly={readOnly}
               module="individual"
               label="group.code"
               onChange={(v) => this.updateAttribute('code', v)}

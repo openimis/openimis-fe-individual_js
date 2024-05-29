@@ -29,6 +29,7 @@ export const ACTION_TYPE = {
   UPDATE_INDIVIDUAL: 'INDIVIDUAL_UPDATE_INDIVIDUAL',
   UPDATE_GROUP_INDIVIDUAL: 'GROUP_INDIVIDUAL_UPDATE_GROUP_INDIVIDUAL',
   UPDATE_GROUP: 'GROUP_UPDATE_GROUP',
+  CREATE_GROUP: 'CREATE_GROUP',
   CREATE_GROUP_AND_MOVE_INDIVIDUAL: 'CREATE_GROUP_AND_MOVE_INDIVIDUAL',
   GROUP_EXPORT: 'GROUP_EXPORT',
   INDIVIDUAL_EXPORT: 'INDIVIDUAL_EXPORT',
@@ -654,6 +655,8 @@ function reducer(
       return dispatchMutationResp(state, 'deleteGroup', action);
     case SUCCESS(ACTION_TYPE.UPDATE_GROUP):
       return dispatchMutationResp(state, 'updateGroup', action);
+    case SUCCESS(ACTION_TYPE.CREATE_GROUP):
+      return dispatchMutationResp(state, 'createGroup', action);
     case SUCCESS(ACTION_TYPE.CREATE_GROUP_AND_MOVE_INDIVIDUAL):
       return dispatchMutationResp(state, 'createGroupAndMoveIndividual', action);
     case SUCCESS(ACTION_TYPE.RESOLVE_TASK):
