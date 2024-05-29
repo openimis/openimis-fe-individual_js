@@ -206,7 +206,8 @@ function GroupIndividualSearcher({
     const updateIndividual = {
       ...editedGroupIndividual,
       group: groupToBeChanged,
-      role: GROUP_INDIVIDUAL_ROLES.HEAD,
+      role: null,
+      recipientType: null,
     };
     updateGroupIndividual(
       updateIndividual,
