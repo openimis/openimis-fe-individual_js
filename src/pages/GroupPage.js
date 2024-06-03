@@ -14,15 +14,17 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { withTheme, withStyles } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH } from '../constants';
 import {
   fetchGroup, deleteGroup, updateGroup, clearGroup, createGroupAndMoveIndividual,
-  createGroup,
+  createGroup, creteGroupIndividual,
 } from '../actions';
 import GroupHeadPanel from '../components/GroupHeadPanel';
 import { ACTION_TYPE } from '../reducer';
 import GroupTabPanel from '../components/GroupTabPanel';
+import IndividualAddToGroupDialog from '../components/dialogs/IndividualAddToGroupDialog';
 
 const styles = (theme) => ({
   page: theme.page,
@@ -49,11 +51,13 @@ function GroupPage({
   clearGroup,
   createGroupAndMoveIndividual,
   groupIndividuals,
+  creteGroupIndividual,
 }) {
   const [editedGroup, setEditedGroup] = useState({});
   const [editedGroupIndividual, setEditedGroupIndividual] = useState(null);
   const [confirmedAction, setConfirmedAction] = useState(() => null);
   const [groupIndividualIds, setGroupIndividualIds] = useState([]);
+  const [isAddIndividualToGroupModalOpen, setIsAddIndividualToGroupModalOpen] = useState(false);
   const [readOnly, setReadOnly] = useState(null);
   const prevSubmittingMutationRef = useRef();
 
@@ -160,12 +164,39 @@ function GroupPage({
       doIt: openDeleteGroupConfirmDialog,
       icon: <DeleteIcon />,
       tooltip: formatMessage(intl, 'individual', 'deleteButtonTooltip'),
+    }, {
+      doIt: setIsAddIndividualToGroupModalOpen,
+      icon: <AddIcon />,
+      tooltip: formatMessage(intl, 'individual', 'addButtonTooltip'),
     },
   ];
+
+  const onAddIndividualConfirm = (individualToBeChanged) => {
+    const addIndividualToGroup = {
+      ...editedGroupIndividual,
+      group: editedGroup,
+      individual: individualToBeChanged,
+      role: null,
+      recipientType: null,
+    };
+    creteGroupIndividual(
+      addIndividualToGroup,
+      formatMessageWithValues(intl, 'individual', 'individual.groupChange.confirm.message', {
+        individualId: addIndividualToGroup?.individual?.id,
+        groupId: editedGroup?.id,
+      }),
+    );
+  };
 
   return (
     rights.includes(RIGHT_GROUP_SEARCH) && (
     <div className={readOnly && !groupUuid ? classes.lockedPage : classes.page}>
+      <IndividualAddToGroupDialog
+        confirmState={isAddIndividualToGroupModalOpen}
+        onClose={() => setIsAddIndividualToGroupModalOpen(false)}
+        onConfirm={onAddIndividualConfirm}
+        setEditedGroupIndividual={setEditedGroupIndividual}
+      />
       <Helmet title={formatMessageWithValues(intl, 'group', 'pageTitle', titleParams(group))} />
       <Form
         module="group"
@@ -217,6 +248,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   updateGroup,
   clearGroup,
   createGroupAndMoveIndividual,
+  creteGroupIndividual,
   coreConfirm,
   clearConfirm,
   journalize,

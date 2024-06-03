@@ -272,6 +272,15 @@ function formatGroupIndividualGQL(groupIndividual) {
     ${groupIndividual?.group.id ? `groupId: "${groupIndividual.group.id}"` : ''}`;
 }
 
+function formatCreateGroupIndividualGQL(groupIndividual) {
+  return `
+    ${groupIndividual?.id ? `id: "${groupIndividual.id}"` : ''}
+    ${groupIndividual?.role ? `role: ${groupIndividual.role}` : ''}
+    ${groupIndividual?.recipientType ? `recipientType: ${groupIndividual.recipientType}` : ''}
+    ${groupIndividual?.individual.id ? `individualId: "${groupIndividual.individual.id}"` : ''}
+    ${groupIndividual?.group.id ? `groupId: "${groupIndividual.group.id}"` : ''}`;
+}
+
 function formatConfirmEnrollmentGQL(params) {
   return `
     ${params?.customFilters ? `customFilters: ${params.customFilters}` : ''}
@@ -338,6 +347,25 @@ export function updateGroupIndividual(groupIndividual, clientMutationLabel) {
     [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.UPDATE_GROUP_INDIVIDUAL), ERROR(ACTION_TYPE.MUTATION)],
     {
       actionType: ACTION_TYPE.UPDATE_GROUP_INDIVIDUAL,
+      clientMutationId: mutation.clientMutationId,
+      clientMutationLabel,
+      requestedDateTime,
+    },
+  );
+}
+
+export function creteGroupIndividual(groupIndividual, clientMutationLabel) {
+  const mutation = formatMutation(
+    'addIndividualToGroup',
+    formatCreateGroupIndividualGQL(groupIndividual),
+    clientMutationLabel,
+  );
+  const requestedDateTime = new Date();
+  return graphql(
+    mutation.payload,
+    [REQUEST(ACTION_TYPE.MUTATION), SUCCESS(ACTION_TYPE.CREATE_GROUP_INDIVIDUAL), ERROR(ACTION_TYPE.MUTATION)],
+    {
+      actionType: ACTION_TYPE.CREATE_GROUP_INDIVIDUAL,
       clientMutationId: mutation.clientMutationId,
       clientMutationLabel,
       requestedDateTime,
