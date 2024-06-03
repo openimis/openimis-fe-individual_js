@@ -21,6 +21,7 @@
     "lastName": "Last Name",
     "dob": "Day of birth",
     "isDeleted": "Show Deleted",
+    "addButtonTooltip": "Add Individual to Group",
     "additonalFields": {
         "label": "Additional Fields",
         "showAdditionalFields": "Show Additional Fields",
