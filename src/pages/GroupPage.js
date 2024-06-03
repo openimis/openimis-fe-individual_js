@@ -103,7 +103,7 @@ function GroupPage({
   useEffect(() => setEditedGroup(group), [group]);
 
   const titleParams = (group) => ({
-    id: group?.id,
+    id: group?.code,
   });
 
   const isMandatoryFieldsEmpty = () => !editedGroup || !editedGroup.id;
