@@ -293,6 +293,10 @@ function IndividualSearcher({
         value: benefitPlanToEnroll,
         filter: `benefitPlanToEnroll: "${decodeId(benefitPlanToEnroll)}"`,
       };
+      filters.filterNotAttachedToGroup = {
+        value: true,
+        filter: `filterNotAttachedToGroup: true`,
+      };
     }
     return filters;
   };
