@@ -60,6 +60,7 @@ import {
 } from './components/tasks/GroupImportTasks';
 import EnrollmentGroupPage from './pages/EnrollmentGroupPage';
 import GroupMenu from './components/dialogs/GroupMenu';
+import { BenefitsGroupTabLabel, BenefitsGroupTabPanel } from './components/BenefitsGroupTab';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -136,12 +137,14 @@ const DEFAULT_CONFIG = {
     IndividualsListTabLabel,
     BenefitPlansListTabLabel,
     GroupChangelogTabLabel,
+    BenefitsGroupTabLabel,
     GroupTaskTabLabel,
   ],
   'group.TabPanel.panel': [
     IndividualsListTabPanel,
     BenefitPlansListTabPanel,
     GroupChangelogTabPanel,
+    BenefitsGroupTabPanel,
     GroupTaskTabPanel,
   ],
   'individual.BenefitPlansListTabLabel': [BENEFIT_PLAN_TABS_LABEL_REF_KEY],

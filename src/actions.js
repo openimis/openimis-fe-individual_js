@@ -77,7 +77,7 @@ const GROUP_FULL_PROJECTION = [
   'id',
   'code',
   'isDeleted',
-  'head {firstName, lastName}',
+  'head {firstName, lastName, uuid}',
   'dateCreated',
   'dateUpdated',
   'jsonExt',
