@@ -1,0 +1,248 @@
+{
+  "mainMenuIndividuals": "Beneficiares and Households",
+  "emptyLabel": " ",
+  "any": "Any",
+  "editButtonTooltip": "Edit",
+  "deleteButtonTooltip": "Delete",
+  "undoButtonTooltip": "Undo Delete",
+  "dialog": {
+    "create": "Create",
+    "update": "Save",
+    "cancel": "Cancel"
+  },
+  "menu": {
+    "individuals": "Individuals",
+    "groups": "Groups"
+  },
+  "individual": {
+    "pageTitle": "Individual {firstName} {lastName}",
+    "headPanelTitle": "General Information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "dob": "Day of birth",
+    "isDeleted": "Show Deleted",
+    "additonalFields": {
+        "label": "Additional Fields",
+        "showAdditionalFields": "Show Additional Fields",
+        "close": "Close"
+    },
+    "mandatoryFieldsEmptyError": "* These fields are required",
+    "benefits": {
+      "label": "Benefits"
+    },
+    "delete": {
+      "confirm": {
+        "title": "Delete {firstName} {lastName}?",
+        "message": "Deleting data does not mean erasing it from OpenIMIS database. The data will only be deactivated from the viewed list."
+      },
+      "mutationLabel": "Delete Individual {id}"
+    },
+    "undo": {
+      "confirm": {
+        "title": "Undo delete {firstName} {lastName}?",
+        "message": "Undoing deletion of individual."
+      },
+      "mutationLabel": "Undo delete Individual {id}"
+    },
+    "update": {
+      "label": "Update Individual",
+      "mutationLabel":"Update Individual {id}"
+    },
+    "upload": {
+      "buttonLabel": "UPLOAD",
+      "label": "Upload Individuals",
+      "alert.sameFileName": "Filename exists for given Benefit Plan. Please change the filename.",
+      "alert.header": "Error during file upload.",
+      "workflowPicker": "Workflow",
+      "cancel": "Cancel",
+      "uploadHistoryTable": {
+        "workflow": "Workflow",
+        "dateCreated": "Date Created",
+        "sourceType": "Source Type",
+        "sourceName": "Source Name",
+        "status": "Status",
+        "error": "Workflow Errors",
+        "buttonLabel": "UPLOAD HISTORY",
+        "label": "Upload History Table",
+        "userCreated": "User Created",
+        "downloadInvalidItems": "Download Invalid Items",
+        "downloadUploadFile": "Download Upload File"
+      }
+    },
+    "enrollment": {
+      "buttonLabel": "ENROLLMENT",
+      "title": "Enrollment of Individuals to the Programme",
+      "label": "Enroll Individuals to the program",
+      "cancel": "Cancel",
+      "summary": "Preview Summary of Enrollment",
+      "addFilters": "Add Filters",
+      "criteria": "Enrollment Criteria",
+      "clearAllFilters": "Clear All Filters",
+      "previewEnrollment": "Preview Enrollment Process", 
+      "confirmEnrollment": "Confirm Enrollment Process",
+      "confirmTitle": "Confirm Enrollment Process",
+      "mutationLabel": "Enrollment has been confirmed",
+      "numberOfSelectedIndividuals": "Total Number Of Selected Individuals",
+      "totalNumberOfIndividuals": "Total Number of Individuals",
+      "numberOfIndividualsAssignedToProgramme": "Number of Individuals Already Assigned To Any Programme",
+      "numberOfIndividualsNotAssignedToProgramme": "Number of Individuals Without Assignment to Program",
+      "numberOfIndividualsAssignedToSelectedProgramme": "Number Of Individuals Already Assigned to Selected Programme",
+      "numberOfIndividualsToBeUploaded": "Number Of Individuals to be Uploaded",
+      "confirmMessageDialog": "Are you sure you want to confirm the enrollment of the selected individuals into the {benefitPlanName} Programme?",
+      "previewIndividuals": "Preview Individuals",
+      "close": "Close"
+    },
+    "saveButton.tooltip.enabled": "Save changes",
+    "saveButton.tooltip.disabled": "Please fill General Information fields first",
+    "individualsList": {
+      "label": "MEMBERS"
+    },
+    "tasks": {
+        "title": "Individual Tasks"
+    },
+    "any": "ANY",
+    "ok": "ok",
+    "individualChangelog.label": "Change Log",
+    "individualTasks.label": "Tasks",
+    "groupChange": {
+      "confirm": {
+        "message": "Individual {individualId} moved to Group {groupId}"
+      }
+    }
+  },
+  "individualHistory": {
+    "pageTitle": "Individual {firstName} {lastName}",
+    "headPanelTitle": "General Information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "dob": "Day of birth",
+    "dateUpdated": "Date Updated",
+    "version": "Version",
+    "individualsList": {
+      "label": "MEMBERS"
+    },
+    "any": "ANY",
+    "ok": "ok",
+    "jsonExt": "Additional fields",
+    "userUpdated": "Changed by",
+    "dateUpdated_Gte": "Date updated after",
+    "dateUpdated_Lte": "Date updated before"
+  },
+  "individuals": {
+    "pageTitle": "Individuals",
+    "searcherResultsTitle": "{individualsTotalCount} Individuals Found"
+  },
+  "individualHistoryList": {
+    "pageTitle": "Individuals History",
+    "searcherResultsTitle": "{individualHistoryTotalCount} Historical Records Found"
+  },
+  "groups": {
+    "pageTitle": "Groups",
+    "searcherResultsTitle": "{groupsTotalCount} Groups Found"
+  },
+  "group": {
+    "id": "ID",
+    "head": "Head",
+    "noHeadSpecified": "head not specified",
+    "individual.firstName": "Individual First Name",
+    "individual.lastName": "Individual Last Name",
+    "pageTitle": "Group {id}",
+    "headPanelTitle": "General information",
+    "mandatoryFieldsEmptyError": "* These fields are required",
+    "delete": {
+      "confirm": {
+        "title": "Delete {id}?",
+        "message": "Deleting data does not mean erasing it from OpenIMIS database. The data will only be deactivated from the viewed list."
+      },
+      "mutationLabel": "Delete Group {id}"
+    },
+    "createGroupAndMoveIndividual": {
+      "mutationLabel": "Create group and move individual."
+    },
+    "tasks" : {
+      "create": {
+        "title": "Group Create Tasks"
+      }
+    },
+    "members": "Members"
+  },
+  "groupHistory": {
+    "pageTitle": "Group {id}",
+    "headPanelTitle": "General Information",
+    "id": "ID",
+    "head": "Head",
+    "dateUpdated": "Date Updated",
+    "version": "Version",
+    "any": "ANY",
+    "ok": "ok",
+    "jsonExt": "Additional fields",
+    "members": "Members",
+    "userUpdated": "Changed by",
+    "dateUpdated_Gte": "Date updated after",
+    "dateUpdated_Lte": "Date updated before"
+  },
+  "groupHistoryList": {
+    "pageTitle": "Groups History",
+    "searcherResultsTitle": "{groupHistoryTotalCount} Historical Records Found"
+  },
+  "export": {
+    "label": "DOWNLOAD",
+    "dateCreated": "Date Created",
+    "id": "id",
+    "filename": {
+      "individuals": "individuals_export",
+      "groups": "groups_export"
+    },
+    "firstName": "first_name",
+    "lastName": "last_name",
+    "dob": "date_of_birth",
+    "role": "role"
+  },
+  "groupIndividual": {
+    "individual": {
+      "role": "Role",
+      "groupId": "Group ID",
+      "individualId": "Individual ID"
+    },
+    "update": {
+      "label": "Update Individual",
+      "mutationLabel":"Update Individual {id}"
+    },
+    "tasks": {
+      "update": {
+        "title": "Group Update Tasks"
+      }
+    },
+    "groupIndividualRolePicker.HEAD":  "HEAD",
+    "groupIndividualRolePicker.RECIPIENT": "RECIPIENT",
+    "groupIndividualRolePicker": "Role",
+    "dateJoined": "Joining Date",
+    "statusOfMembership": "Status Of Membership"
+  },
+  "groupIndividualHistoryList": {
+    "searcherResultsTitle": "{groupIndividualHistoryTotalCount} Historical Records Found" 
+  },
+  "groupIndividualHistory": {
+    "individual": {
+      "role": "Role",
+      "groupId": "Group ID",
+      "individualId": "Individual ID"
+    },
+    "label": "Group History",
+    "groupIndividualRolePicker.HEAD":  "HEAD",
+    "groupIndividualRolePicker.RECIPIENT": "RECIPIENT",
+    "groupIndividualRolePicker": "Role"
+  },
+  "groupChangelog.label": "Change Log",
+  "groupTasks.label": "Tasks",
+  "groupPicker": {
+    "label": "Select a group."
+  },
+  "groupChangeDialog": {
+    "confirmTitle": "Move {firstName} {lastName} to a different group."
+  },
+  "confirm": "Confirm",
+  "cancel": "Cancel",
+  "changeGroupButtonTooltip": "Move to another group.",
+  "moveToNewGroup": "New Group"
+}
