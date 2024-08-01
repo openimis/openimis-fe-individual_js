@@ -56,6 +56,7 @@
       "alert.header": "Error during file upload.",
       "workflowPicker": "Workflow",
       "cancel": "Cancel",
+      "template": "Template",
       "uploadHistoryTable": {
         "workflow": "Workflow",
         "dateCreated": "Date Created",

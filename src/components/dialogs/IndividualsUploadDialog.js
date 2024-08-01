@@ -23,6 +23,7 @@ import WorkflowsPicker from '../../pickers/WorkflowsPicker';
 import { fetchWorkflows } from '../../actions';
 import IndividualsHistoryUploadDialog from './IndividualsHistoryUploadDialog';
 import { EMPTY_STRING, INDIVIDUAL_MODULE_NAME, PYTHON_DEFAULT_IMPORT_WORKFLOW } from '../../constants';
+import downloadTemplate from '../../util/export';
 
 const styles = (theme) => ({
   item: theme.paper.item,
@@ -143,6 +144,10 @@ function IndividualsUploadDialog({
     return `${modulesManager.getRef('individual.route.enrollment')}`;
   }
 
+  const downloadExampleTemplate = () => {
+    downloadTemplate();
+  };
+
   return (
     <>
       <MenuItem>
@@ -261,6 +266,15 @@ function IndividualsUploadDialog({
                 </Button>
               </div>
               <div style={{ float: 'right', paddingRight: '16px' }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => downloadExampleTemplate()}
+                  style={{ marginRight: '8px' }}
+                >
+                  {formatMessage(intl, 'individual', 'individual.upload.template')}
+                </Button>
+                <></><></>
                 <Button
                   variant="contained"
                   color="primary"
