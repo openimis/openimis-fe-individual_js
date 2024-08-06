@@ -5,6 +5,7 @@ import flatten from 'flat';
 import { FormattedMessage } from '@openimis/fe-core';
 import React from 'react';
 import { Person, People } from '@material-ui/icons';
+import MenuIcon from '@material-ui/icons/Menu';
 import messages_en from './translations/en.json';
 import reducer from './reducer';
 import IndividualsPage from './pages/IndividualsPage';
@@ -61,6 +62,7 @@ import {
 import EnrollmentGroupPage from './pages/EnrollmentGroupPage';
 import GroupMenu from './components/dialogs/GroupMenu';
 import { BenefitsGroupTabLabel, BenefitsGroupTabPanel } from './components/BenefitsGroupTab';
+import ImportDataApiPage from './pages/ImportDataApiPage';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -69,6 +71,7 @@ const ROUTE_GROUPS = 'groups';
 const ROUTE_GROUP = 'groups/group';
 const ROUTE_ENROLLMENT = 'individuals/enrollment';
 const ROUTE_GROUP_ENROLLMENT = 'groups/enrollment';
+const ROUTE_API_IMPORTS = 'imports';
 
 const BENEFIT_PLAN_TABS_LABEL_REF_KEY = 'socialProtection.BenefitPlansListTabLabel';
 const BENEFIT_PLAN_TABS_PANEL_REF_KEY = 'socialProtection.BenefitPlansListTabPanel';
@@ -85,6 +88,7 @@ const DEFAULT_CONFIG = {
     { path: `${ROUTE_INDIVIDUAL}/:individual_uuid?`, component: IndividualPage },
     { path: `${ROUTE_INDIVIDUAL_FROM_GROUP}/:individual_uuid?`, component: IndividualPage },
     { path: `${ROUTE_GROUP}/:group_uuid?`, component: GroupPage },
+    { path: ROUTE_API_IMPORTS, component: ImportDataApiPage },
   ],
   'socialProtection.MainMenu': [
     {
@@ -98,6 +102,12 @@ const DEFAULT_CONFIG = {
       icon: <People />,
       route: `/${ROUTE_GROUPS}`,
       filter: (rights) => rights.includes(RIGHT_GROUP_SEARCH),
+    },
+    {
+      text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="menu.api" />,
+      icon: <MenuIcon />,
+      route: `/${ROUTE_API_IMPORTS}`,
+      filter: (rights) => rights.includes(RIGHT_INDIVIDUAL_SEARCH),
     },
   ],
   refs: [

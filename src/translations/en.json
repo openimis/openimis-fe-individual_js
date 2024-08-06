@@ -12,7 +12,8 @@
   },
   "menu": {
     "individuals": "Individuals",
-    "groups": "Groups"
+    "groups": "Groups",
+    "api": "Import Data - API"
   },
   "individual": {
     "pageTitle": "Individual {firstName} {lastName}",
@@ -280,5 +281,11 @@
   "validation_import_group_valid_items.tasks.title": "Import Group Valid Items",
   "groupTaskConfirmation.title": "Group Upload Confirmation",
   "dialogActions.continue": "Continue",
-  "dialogActions.goBack": "Cancel"
+  "dialogActions.goBack": "Cancel",
+  "ImportPageAPI": {
+    "ImportPage": "Import Data - API",
+    "apiSelection": "Selected API",
+    "workflowName": "Workflow Name",
+    "triggerImport": "Pull data"
+  }
 }

@@ -25,6 +25,7 @@ function AdditionalFieldsDialog({
   classes,
   individualJsonExt,
 }) {
+  console.log(individualJsonExt)
   if (!individualJsonExt) return null;
   const [isOpen, setIsOpen] = useState(false);
 
