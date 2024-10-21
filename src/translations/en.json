@@ -286,6 +286,11 @@
     "ImportPage": "Import Data - API",
     "apiSelection": "Selected API",
     "workflowName": "Workflow Name",
-    "triggerImport": "Pull data"
+    "triggerImport": "Pull data",
+    "confirmPullingData": "Pulling Data from API",
+    "confirmPullingData.title": "Pulling Data from API",
+    "confirmPullingData.message": "Are you sure you want to confirm pulling data from selected API service?",
+    "confirmPullingData.cancel": "Cancel",
+    "confirmPullingData.confirm": "Confirm"
   }
 }
