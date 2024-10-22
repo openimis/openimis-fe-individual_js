@@ -11,6 +11,7 @@ import {
   pageInfo,
   decodeId,
 } from '@openimis/fe-core';
+import _ from 'lodash';
 import {
   REQUEST, SUCCESS, ERROR, CLEAR, SET,
 } from './util/action-type';
@@ -47,6 +48,9 @@ export const ACTION_TYPE = {
   CONFIRM_GROUP_ENROLLMENT: 'CONFIRM_GROUP_ENROLLMENT',
   GET_PENDING_GROUPS_UPLOAD: 'GET_PENDING_GROUPS_UPLOAD',
   RESOLVE_TASK: 'TASK_MANAGEMENT_RESOLVE_TASK',
+  API_ETL_SERVICES: 'API_ETL_SERVICES',
+  PULL_API_DATA: 'PULL_API_DATA',
+  FETCH_ACTIVE_MUTATIONS: 'FETCH_ACTIVE_MUTATIONS',
 };
 
 function reducer(
@@ -140,6 +144,14 @@ function reducer(
     fetchedPendingGroups: false,
     errorPendingGroups: null,
     pendingGroupsPageInfo: {},
+
+    fetchingApiEtlServices: false,
+    fetchedApiEtlServices: false,
+    apiEtlServices: [],
+    errorApiEtlServices: null,
+
+    fetchingMutations: false,
+    mutations: [],
   },
   action,
 ) {
@@ -638,6 +650,49 @@ function reducer(
         fetchingGroupIndividualHistory: false,
         errorGroupIndividualHistory: formatServerError(action.payload),
       };
+    case REQUEST(ACTION_TYPE.API_ETL_SERVICES):
+      return {
+        ...state,
+        fetchingApiEtlServices: true,
+        fetchedApiEtlServices: false,
+        apiEtlServices: [],
+        errorApiEtlServices: null,
+      };
+    case SUCCESS(ACTION_TYPE.API_ETL_SERVICES):
+      return {
+        ...state,
+        fetchingApiEtlServices: false,
+        fetchedApiEtlServices: true,
+        apiEtlServices: action.payload.data.etlServicesByServiceName
+          ? action.payload.data.etlServicesByServiceName.etlServices : [],
+        errorApiEtlServices: formatGraphQLError(action.payload),
+      };
+    case ERROR(ACTION_TYPE.API_ETL_SERVICES):
+      return {
+        ...state,
+        fetchingApiEtlServices: false,
+        errorApiEtlServices: formatServerError(action.payload),
+      };
+    case REQUEST(ACTION_TYPE.FETCH_ACTIVE_MUTATIONS):
+      return {
+        ...state,
+        fetchingMutations: true,
+      };
+    case SUCCESS(ACTION_TYPE.FETCH_ACTIVE_MUTATIONS): {
+      const mutations = parseData(action.payload.data.mutationLogs);
+      const MUTATION_RECEIVED_STATUS = 0;
+      const activeMutations = mutations.filter((mutation) => mutation.status === MUTATION_RECEIVED_STATUS);
+      return {
+        ...state,
+        fetchingMutations: false,
+        mutations: _.unionBy(activeMutations, state.mutations, 'clientMutationId'),
+      };
+    }
+    case ERROR(ACTION_TYPE.FETCH_ACTIVE_MUTATIONS):
+      return {
+        ...state,
+        fetchingMutations: false,
+      };
     case REQUEST(ACTION_TYPE.MUTATION):
       return dispatchMutationReq(state, action);
     case ERROR(ACTION_TYPE.MUTATION):
@@ -664,6 +719,8 @@ function reducer(
       return dispatchMutationResp(state, 'createGroupAndMoveIndividual', action);
     case SUCCESS(ACTION_TYPE.RESOLVE_TASK):
       return dispatchMutationResp(state, 'resolveTask', action);
+    case SUCCESS(ACTION_TYPE.PULL_API_DATA):
+      return dispatchMutationResp(state, 'etlServiceMutation', action);
     default:
       return state;
   }
