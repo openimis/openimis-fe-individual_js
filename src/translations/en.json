@@ -126,7 +126,16 @@
       "confirm": {
         "message": "Individual {individualId} moved to Group {groupId}"
       }
-    }
+    },
+    "gql_individual_search_perms": "Individual | Individual Search",
+    "gql_individual_create_perms": "Individual | Individual Create",
+    "gql_individual_update_perms": "Individual | Individual Update",
+    "gql_individual_delete_perms": "Individual | Individual Delete",
+    "gql_individual_undo_delete_perms": "Individual | Individual Undo Delete",
+    "gql_group_search_perms": "Individual | Group Search",
+    "gql_group_create_perms": "Individual | Group Create",
+    "gql_group_update_perms": "Individual | Group Update",
+    "gql_group_delete_perms": "Individual | Group Delete"
   },
   "individualHistory": {
     "pageTitle": "Individual {firstName} {lastName}",
