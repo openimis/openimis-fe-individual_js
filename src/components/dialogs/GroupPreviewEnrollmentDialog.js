@@ -21,6 +21,7 @@ function GroupPreviewEnrollmentDialog({
   benefitPlanToEnroll,
   enrollmentSummary,
   confirmed,
+  startIcon,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,8 +43,8 @@ function GroupPreviewEnrollmentDialog({
         variant="contained"
         color="primary"
         className={classes.button}
-        style={{ marginLeft: '16px' }}
         disabled={enrollmentSummary?.numberOfIndividualsToUpload === '0' || confirmed}
+        startIcon={startIcon}
       >
         {formatMessage('individual.enrollment.previewGroups')}
       </Button>

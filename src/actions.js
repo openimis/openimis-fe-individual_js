@@ -28,7 +28,9 @@ const ENROLLMENT_SUMMARY_FULL_PROJECTION = () => [
   'numberOfIndividualsAssignedToProgramme',
   'numberOfIndividualsNotAssignedToProgramme',
   'numberOfIndividualsAssignedToSelectedProgramme',
+  'numberOfIndividualsAssignedToSelectedProgrammeAndStatus',
   'numberOfIndividualsToUpload',
+  'maxActiveBeneficiariesExceeded',
 ];
 
 const ENROLLMENT_GROUP_SUMMARY_FULL_PROJECTION = () => [

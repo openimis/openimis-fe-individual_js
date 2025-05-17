@@ -40,3 +40,7 @@ export function downloadIndividualUploadFile(filename) {
   const url = `${baseUrl}?${queryParams.toString()}`;
   downloadFile(url, filename);
 }
+
+export function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}

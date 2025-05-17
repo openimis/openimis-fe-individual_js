@@ -40,9 +40,9 @@ class EnrollmentHeadPanel extends FormPanel {
   };
 
   getDefaultAppliedCustomFilters = () => {
-    const benefitPlan = this.props?.edited;
-    const jsonExt = benefitPlan?.jsonExt ?? '{}';
-    const status = benefitPlan?.status;
+    const editedEnrollmentParams = this.props?.edited;
+    const jsonExt = editedEnrollmentParams?.jsonExt ?? '{}';
+    const status = editedEnrollmentParams?.status;
     const jsonData = JSON.parse(jsonExt);
     const filters = jsonData.advanced_criteria?.[status] || [];
     return filters.map(({ custom_filter_condition }) => {
@@ -68,7 +68,7 @@ class EnrollmentHeadPanel extends FormPanel {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { edited, classes, intl } = this.props;
+    const { edited: editedEnrollmentParams, classes, intl } = this.props;
     const { appliedCustomFilters, appliedFiltersRowStructure } = this.state;
     return (
       <>
@@ -80,7 +80,7 @@ class EnrollmentHeadPanel extends FormPanel {
               required
               filterLabels={false}
               onChange={(benefitPlan) => this.updateAttribute('benefitPlan', benefitPlan)}
-              value={edited?.benefitPlan}
+              value={editedEnrollmentParams?.benefitPlan}
             />
           </Grid>
           <Grid item xs={3} className={classes.item}>
@@ -90,21 +90,22 @@ class EnrollmentHeadPanel extends FormPanel {
               withNull={false}
               filterLabels={false}
               onChange={(status) => this.updateAttribute('status', status)}
-              value={edited?.status}
+              value={editedEnrollmentParams?.status}
             />
           </Grid>
         </Grid>
-        <Divider />
         <Grid>
           <>
-            <div className={classes.item}>
-              {formatMessage(intl, 'individual', 'individual.enrollment.criteria')}
-            </div>
-            <Divider />
+            <Grid container className={classes.item}>
+              <Divider style={{ width: '100%' }} />
+              <div className={classes.item}>
+                {formatMessage(intl, 'individual', 'individual.enrollment.criteria')}
+              </div>
+              <Divider />
+            </Grid>
             <Grid container className={classes.item}>
               <AdvancedCriteriaForm
-                object={edited.benefitPlan}
-                objectToSave={edited}
+                benefitPlan={editedEnrollmentParams.benefitPlan}
                 moduleName="individual"
                 objectType="Individual"
                 setAppliedCustomFilters={this.setAppliedCustomFilters}
@@ -113,8 +114,8 @@ class EnrollmentHeadPanel extends FormPanel {
                 setAppliedFiltersRowStructure={this.setAppliedFiltersRowStructure}
                 updateAttributes={this.updateJsonExt}
                 getDefaultAppliedCustomFilters={this.getDefaultAppliedCustomFilters}
-                additionalParams={edited?.benefitPlan ? { benefitPlan: `${decodeId(edited.benefitPlan.id)}` } : null}
-                edited={edited}
+                additionalParams={editedEnrollmentParams?.benefitPlan ? { benefitPlan: `${decodeId(editedEnrollmentParams.benefitPlan.id)}` } : null}
+                editedEnrollmentParams={editedEnrollmentParams}
               />
             </Grid>
           </>

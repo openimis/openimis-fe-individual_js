@@ -28,7 +28,7 @@ function EnrollmentGroupPage({
   const history = useHistory();
   const { formatMessage } = useTranslations('individual', modulesManager);
 
-  const [editedEnrollment, setEditedEnrollment] = useState({
+  const [editedEnrollmentParams, setEditedEnrollmentParams] = useState({
     status: DEFAULT_BENEFICIARY_STATUS,
   });
 
@@ -43,8 +43,8 @@ function EnrollmentGroupPage({
         module="individual"
         title={formatMessage('individual.enrollment.titleGroup')}
         titleParams="Enrollment"
-        edited={editedEnrollment}
-        onEditedChanged={setEditedEnrollment}
+        edited={editedEnrollmentParams}
+        onEditedChanged={setEditedEnrollmentParams}
         back={back}
         mandatoryFieldsEmpty={null}
         canSave={() => {}}
