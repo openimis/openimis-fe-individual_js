@@ -75,7 +75,7 @@ class EnrollmentGroupHeadPanel extends FormPanel {
         <Grid container className={classes.item}>
           <Grid item xs={3} className={classes.item}>
             <PublishedComponent
-              pubRef="socialProtection.BenefitPlanPicker"
+              pubRef="benefitPlan.BenefitPlanPicker"
               withNull
               required
               filterLabels={false}
@@ -86,7 +86,7 @@ class EnrollmentGroupHeadPanel extends FormPanel {
           </Grid>
           <Grid item xs={3} className={classes.item}>
             <PublishedComponent
-              pubRef="socialProtection.BeneficiaryStatusPicker"
+              pubRef="beneficiary.BeneficiaryStatusPicker"
               required
               withNull={false}
               filterLabels={false}

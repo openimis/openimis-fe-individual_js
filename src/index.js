@@ -73,8 +73,8 @@ const ROUTE_ENROLLMENT = 'individuals/enrollment';
 const ROUTE_GROUP_ENROLLMENT = 'groups/enrollment';
 const ROUTE_API_IMPORTS = 'imports';
 
-const BENEFIT_PLAN_TABS_LABEL_REF_KEY = 'socialProtection.BenefitPlansListTabLabel';
-const BENEFIT_PLAN_TABS_PANEL_REF_KEY = 'socialProtection.BenefitPlansListTabPanel';
+const BENEFIT_PLAN_TABS_LABEL_REF_KEY = 'benefitPlan.BenefitPlansListTabLabel';
+const BENEFIT_PLAN_TABS_PANEL_REF_KEY = 'beneficiary.BenefitPlansListTabPanel';
 const { BenefitPlansListTabLabel, BenefitPlansListTabPanel } = getBenefitPlansListTab();
 
 const DEFAULT_CONFIG = {
@@ -90,7 +90,7 @@ const DEFAULT_CONFIG = {
     { path: `${ROUTE_GROUP}/:group_uuid?`, component: GroupPage },
     { path: ROUTE_API_IMPORTS, component: ImportDataApiPage },
   ],
-  'socialProtection.MainMenu': [
+  'benefitPlan.MainMenu': [
     {
       text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="menu.individuals" />,
       icon: <Person />,

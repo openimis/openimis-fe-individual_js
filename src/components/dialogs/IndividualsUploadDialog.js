@@ -321,7 +321,7 @@ function IndividualsUploadDialog({
 const mapStateToProps = (state) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
   confirmed: state.core.confirmed,
-  workflows: state.socialProtection.workflows,
+  workflows: state.benefitPlan.workflows,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

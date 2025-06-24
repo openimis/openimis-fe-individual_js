@@ -312,7 +312,7 @@ function IndividualSearcher({
       };
       filters.filterNotAttachedToGroup = {
         value: true,
-        filter: `filterNotAttachedToGroup: true`,
+        filter: 'filterNotAttachedToGroup: true',
       };
     }
     return filters;
@@ -403,10 +403,10 @@ const mapStateToProps = (state) => ({
   individualExport: state.individual.individualExport,
   individualExportPageInfo: state.individual.individualExportPageInfo,
   errorIndividualExport: state.individual.errorIndividualExport,
-  fieldsFromBfSchema: state?.socialProtection?.fieldsFromBfSchema,
-  fetchingFieldsFromBfSchema: state?.socialProtection?.fetchingFieldsFromBfSchema,
-  fetchedFieldsFromBfSchema: state?.socialProtection?.fetchedFieldsFromBfSchema,
-  errorFieldsFromBfSchema: state?.socialProtection?.errorFieldsFromBfSchema,
+  fieldsFromBfSchema: state?.benefitPlan?.fieldsFromBfSchema,
+  fetchingFieldsFromBfSchema: state?.benefitPlan?.fetchingFieldsFromBfSchema,
+  fetchedFieldsFromBfSchema: state?.benefitPlan?.fetchedFieldsFromBfSchema,
+  errorFieldsFromBfSchema: state?.benefitPlan?.errorFieldsFromBfSchema,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(

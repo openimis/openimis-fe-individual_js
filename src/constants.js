@@ -89,7 +89,7 @@ export const BENEFITS_LABEL = 'Benefits';
 
 export const INDIVIDUAL_MODULE_NAME = 'individual';
 
-export const FETCH_BENEFIT_PLAN_SCHEMA_FIELDS_REF = 'socialProtection.fetchBenefitPlanSchemaFields';
+export const FETCH_BENEFIT_PLAN_SCHEMA_FIELDS_REF = 'benefitPlan.fetchBenefitPlanSchemaFields';
 export const INDIVIDUAL_ENROLMENT_DIALOG_CONTRIBUTION_KEY = 'individual.IndividualsEnrolmentDialog';
 export const INDIVIDUALS_UPLOAD_FORM_CONTRIBUTION_KEY = 'individual.IndividualsUploadDialog';
 export const INDIVIDUAL_GROUP_MENU_CONTRIBUTION_KEY = 'individual.group.GroupMenu';

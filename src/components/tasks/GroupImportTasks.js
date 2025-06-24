@@ -133,8 +133,8 @@ function GroupUploadTaskDisplay({
 
   const headers = () => [
     task?.status === TASK_STATUS.ACCEPTED
-      ? formatMessage(intl, 'socialProtection', 'selectForEvaluation')
-      : formatMessage(intl, 'socialProtection', 'evaluated'),
+      ? formatMessage(intl, 'beneficiary', 'selectForEvaluation')
+      : formatMessage(intl, 'beneficiary', 'evaluated'),
     ...keys] || [];
 
   const changeCheckboxState = (pending) => {
@@ -266,13 +266,13 @@ function GroupUploadTaskDisplay({
         module="individual"
         confirmTitle="groupTaskConfirmation.title"
         confirmMessage={
-          formatMessageWithValues(intl, 'socialProtection', 'atomicApprove', { count: selectedRecords.length })
+          formatMessageWithValues(intl, 'beneficiary', 'atomicApprove', { count: selectedRecords.length })
         }
         confirmationButton="dialogActions.continue"
         rejectionButton="dialogActions.goBack"
       />
       <Table
-        module="socialProtection"
+        module="beneficiary"
         headers={headers()}
         itemFormatters={itemFormatters()}
         items={(!!pending && pending) || []}
@@ -298,7 +298,7 @@ function GroupUploadTaskDisplay({
                   {' '}
                   <Paper className={classes.paper}>
                     <div className={classes.fabHeaderContainer}>
-                      {formatMessage(intl, 'socialProtection', 'resolveSelectedTasks')}
+                      {formatMessage(intl, 'beneficiary', 'resolveSelectedTasks')}
                       <Divider />
                     </div>
                     <div className={classes.fabContainer}>
@@ -313,7 +313,7 @@ function GroupUploadTaskDisplay({
                         >
                           <CheckIcon />
                         </Fab>
-                        {formatMessage(intl, 'socialProtection', 'acceptSelected')}
+                        {formatMessage(intl, 'beneficiary', 'acceptSelected')}
                       </div>
                       <div className={classes.fab}>
                         <Fab
@@ -326,7 +326,7 @@ function GroupUploadTaskDisplay({
                         >
                           <ClearIcon />
                         </Fab>
-                        {formatMessage(intl, 'socialProtection', 'rejectSelected')}
+                        {formatMessage(intl, 'beneficiary', 'rejectSelected')}
                       </div>
                     </div>
                   </Paper>
@@ -414,15 +414,15 @@ function GroupUploadConfirmationPanel({ defaultAction, defaultDisabled }) {
         confirmState={openModal}
         onConfirm={onConfirm}
         onClose={onClose}
-        module="socialProtection"
+        module="beneficiary"
         confirmTitle="taskConfirmation.title"
-        confirmMessage={formatMessage(intl, 'socialProtection', 'bulkApprove')}
+        confirmMessage={formatMessage(intl, 'beneficiary', 'bulkApprove')}
         confirmationButton="dialogActions.continue"
         rejectionButton="dialogActions.goBack"
       />
       <Paper className={classes.paper}>
         <div className={classes.fabHeaderContainer}>
-          {formatMessage(intl, 'socialProtection', 'resolveAllRemainingTasks')}
+          {formatMessage(intl, 'beneficiary', 'resolveAllRemainingTasks')}
           <Divider />
         </div>
         <div className={classes.fabContainer}>
@@ -434,7 +434,7 @@ function GroupUploadConfirmationPanel({ defaultAction, defaultDisabled }) {
             >
               <CheckIcon />
             </Fab>
-            {formatMessage(intl, 'socialProtection', 'approveAll')}
+            {formatMessage(intl, 'beneficiary', 'approveAll')}
 
           </div>
           <div className={classes.fab}>
@@ -445,7 +445,7 @@ function GroupUploadConfirmationPanel({ defaultAction, defaultDisabled }) {
             >
               <ClearIcon />
             </Fab>
-            {formatMessage(intl, 'socialProtection', 'rejectAll')}
+            {formatMessage(intl, 'beneficiary', 'rejectAll')}
           </div>
         </div>
       </Paper>

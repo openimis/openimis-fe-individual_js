@@ -31,7 +31,7 @@ function CollapsableErrorList({
       <ListItem>
         <ListItemText primary={formatMessage(
           intl,
-          'socialProtection',
+          'beneficiary',
           'benefitPlan.benefitPlanBeneficiaries.uploadHistoryTable.errorNone',
         )}
         />
@@ -44,7 +44,7 @@ function CollapsableErrorList({
       <ListItem button onClick={handleOpen}>
         <ListItemText primary={formatMessage(
           intl,
-          'socialProtection',
+          'beneficiary',
           'benefitPlan.benefitPlanBeneficiaries.uploadHistoryTable.error',
         )}
         />

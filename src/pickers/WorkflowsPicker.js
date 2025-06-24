@@ -33,7 +33,7 @@ function WorkflowsPicker({
 
   return (
     <SelectInput
-      module="socialProtection"
+      module="benefitPlan"
       label={withLabel && label}
       options={options}
       value={value}

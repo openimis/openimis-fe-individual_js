@@ -133,7 +133,7 @@ function GroupPage({
     } else {
       createGroup(
         editedGroup,
-        formatMessageWithValues(intl, 'socialProtection', 'group.create.mutationLabel', titleParams(editedGroup)),
+        formatMessageWithValues(intl, 'beneficiary', 'group.create.mutationLabel', titleParams(editedGroup)),
       );
     }
   };
