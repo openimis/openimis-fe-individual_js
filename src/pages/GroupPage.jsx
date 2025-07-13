@@ -13,9 +13,9 @@ import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { withTheme, withStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { withTheme, withStyles } from '@mui/material/styles';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH } from '../constants';
 import {
   fetchGroup, deleteGroup, updateGroup, clearGroup, createGroupAndMoveIndividual,

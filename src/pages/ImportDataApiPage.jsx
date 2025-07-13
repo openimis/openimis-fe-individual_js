@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/material/styles';
 
 import {
   Table,
@@ -14,7 +14,7 @@ import {
   Paper,
   Button,
   Tooltip,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   useModulesManager,
   useTranslations,
@@ -24,11 +24,11 @@ import {
   Helmet,
   ProgressOrError,
 } from '@openimis/fe-core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import { confirmPullingDataFromApiEtl, fetchApiEtlServices, fetchMutationByLabel } from '../actions';
 
 const useStyles = makeStyles((theme) => ({

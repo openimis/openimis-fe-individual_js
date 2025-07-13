@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/material/styles';
 
 import {
   Form,

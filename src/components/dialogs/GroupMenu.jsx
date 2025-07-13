@@ -1,14 +1,14 @@
 import React from 'react';
 import {
   MenuItem,
-} from '@material-ui/core';
+} from '@mui/material';
 import { injectIntl } from 'react-intl';
 import {
   useModulesManager,
   formatMessage,
   coreAlert,
 } from '@openimis/fe-core';
-import { withTheme, withStyles } from '@material-ui/core/styles';
+import { withTheme, withStyles } from '@mui/material/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchWorkflows } from '../../actions';

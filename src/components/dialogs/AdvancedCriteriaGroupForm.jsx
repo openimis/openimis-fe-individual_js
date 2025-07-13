@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { injectIntl } from 'react-intl';
-import Button from '@material-ui/core/Button';
-import { Divider, Grid, Paper } from '@material-ui/core';
+import Button from '@mui/material/Button';
+import { Divider, Grid, Paper } from '@mui/material';
 import {
   decodeId,
   formatMessage,
@@ -11,11 +11,11 @@ import {
   coreConfirm,
   clearConfirm,
 } from '@openimis/fe-core';
-import { withTheme, withStyles } from '@material-ui/core/styles';
+import { withTheme, withStyles } from '@mui/material/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import AddCircle from '@material-ui/icons/Add';
-import Typography from '@material-ui/core/Typography';
+import AddCircle from '@mui/icons-material/Add';
+import Typography from '@mui/material/Typography';
 import AdvancedCriteriaRowValue from './AdvancedCriteriaRowValue';
 import {
   CLEARED_STATE_FILTER,

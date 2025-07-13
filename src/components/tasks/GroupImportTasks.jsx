@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import {
-  Paper, Fab, makeStyles, Checkbox, Divider,
-} from '@material-ui/core';
+  Paper, Fab, Checkbox, Divider,
+} from '@mui/material';
+import { makeStyles } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Table,
@@ -12,8 +13,8 @@ import {
   formatMessage,
   formatMessageWithValues,
 } from '@openimis/fe-core';
-import ClearIcon from '@material-ui/icons/Clear';
-import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import CheckIcon from '@mui/icons-material/Check';
 
 import { useIntl } from 'react-intl';
 import {

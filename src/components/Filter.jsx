@@ -3,9 +3,8 @@ import {
   FormControlLabel,
   Checkbox,
   Grid,
-  withTheme,
-  withStyles,
-} from '@material-ui/core';
+} from '@mui/material';
+import { withTheme, withStyles } from '@mui/material/styles';
 import {
   formatMessage,
   TextInput,

@@ -17,10 +17,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
   Button, Dialog, DialogActions, DialogTitle, IconButton, Tooltip, DialogContent,
-} from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import GroupIcon from '@material-ui/icons/Group';
-import DeleteIcon from '@material-ui/icons/Delete';
+} from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import GroupIcon from '@mui/icons-material/Group';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
   clearGroupIndividualExport,
   clearGroupIndividuals,

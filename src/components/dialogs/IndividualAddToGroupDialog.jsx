@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { injectIntl } from 'react-intl';
 
-import { withTheme, withStyles } from '@material-ui/core/styles';
+import { withTheme, withStyles } from '@mui/material/styles';
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useTranslations, useModulesManager } from '@openimis/fe-core';
 import IndividualAddToGroupPicker from '../../pickers/IndividualAddToGroupPicker';
 

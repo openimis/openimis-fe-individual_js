@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
-import { withTheme, withStyles } from '@material-ui/core/styles';
+import { withTheme, withStyles } from '@mui/material/styles';
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useTranslations, useModulesManager, useHistory } from '@openimis/fe-core';
 import GroupPicker from '../pickers/GroupPicker';
 import { setNewGroupIndividual } from '../actions';

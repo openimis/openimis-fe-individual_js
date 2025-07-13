@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Divider, Typography } from '@material-ui/core';
+import { Grid, Divider, Typography } from '@mui/material';
 import {
   withModulesManager,
   FormPanel,
@@ -8,7 +8,7 @@ import {
   PublishedComponent,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
-import { withTheme, withStyles } from '@material-ui/core/styles';
+import { withTheme, withStyles } from '@mui/material/styles';
 import { EMPTY_STRING } from '../constants';
 
 const styles = (theme) => ({
