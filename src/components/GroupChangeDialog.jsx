@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet, withModulesManager, formatMessage } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { RIGHT_INDIVIDUAL_SEARCH } from '../constants';
 import IndividualSearcher from '../components/IndividualSearcher';

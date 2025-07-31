@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tab } from '@material-ui/core';
+import { Tab } from '@mui/material';
 import { formatMessage, PublishedComponent } from '@openimis/fe-core';
 import { INDIVIDUAL_CHANGELOG_TAB_VALUE } from '../constants';
 

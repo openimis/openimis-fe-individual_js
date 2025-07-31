@@ -3,8 +3,8 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
 
-import { Grid, Divider } from '@material-ui/core';
-import { withStyles, withTheme } from '@material-ui/core/styles';
+import { Grid, Divider } from '@mui/material';
+import { withTheme, withStyles } from '@mui/styles';
 
 import {
   decodeId,

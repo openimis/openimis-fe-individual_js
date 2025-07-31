@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { makeStyles } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 
 import {
   Form,
@@ -47,7 +47,7 @@ function EnrollmentPage({
         onEditedChanged={setEditedEnrollment}
         back={back}
         mandatoryFieldsEmpty={null}
-        canSave={() => {}}
+        canSave={() => { }}
         save={null}
         HeadPanel={EnrollmentHeadPanel}
         rights={rights}

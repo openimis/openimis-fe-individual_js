@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Tooltip } from '@material-ui/core';
+import { TextField, Tooltip } from '@mui/material';
 
 import {
   Autocomplete, useModulesManager,

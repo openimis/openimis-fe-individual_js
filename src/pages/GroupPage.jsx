@@ -13,7 +13,7 @@ import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH } from '../constants';
@@ -192,42 +192,42 @@ function GroupPage({
 
   return (
     rights.includes(RIGHT_GROUP_SEARCH) && (
-    <div className={readOnly ? classes.lockedPage : classes.page}>
-      {groupUuid && (
-        <IndividualAddToGroupDialog
-          confirmState={isAddIndividualToGroupModalOpen}
-          onClose={() => setIsAddIndividualToGroupModalOpen(false)}
-          onConfirm={onAddIndividualConfirm}
+      <div className={readOnly ? classes.lockedPage : classes.page}>
+        {groupUuid && (
+          <IndividualAddToGroupDialog
+            confirmState={isAddIndividualToGroupModalOpen}
+            onClose={() => setIsAddIndividualToGroupModalOpen(false)}
+            onConfirm={onAddIndividualConfirm}
+            setEditedGroupIndividual={setEditedGroupIndividual}
+          />
+        )}
+        <Helmet title={formatMessageWithValues(intl, 'group', 'pageTitle', titleParams(group))} />
+        <Form
+          module="group"
+          title="pageTitle"
+          titleParams={titleParams(group)}
+          openDirty
+          group={editedGroup}
+          edited={editedGroup}
+          onEditedChanged={setEditedGroup}
+          back={back}
+          mandatoryFieldsEmpty={isMandatoryFieldsEmpty}
+          canSave={groupUuid ? canSave : canAdd}
+          save={handleSave}
+          HeadPanel={GroupHeadPanel}
+          Panels={[GroupTabPanel]}
+          rights={rights}
+          actions={actions}
+          setConfirmedAction={setConfirmedAction}
+          saveTooltip={formatMessage(intl, 'individual', `saveButton.tooltip.${canSave ? 'enabled' : 'disabled'}`)}
+          add={canAdd() ? handleSave : null}
           setEditedGroupIndividual={setEditedGroupIndividual}
+          editedGroupIndividual={editedGroupIndividual}
+          readOnly={readOnly}
+          groupIndividualIds={groupIndividualIds}
+          groupId={groupUuid}
         />
-      )}
-      <Helmet title={formatMessageWithValues(intl, 'group', 'pageTitle', titleParams(group))} />
-      <Form
-        module="group"
-        title="pageTitle"
-        titleParams={titleParams(group)}
-        openDirty
-        group={editedGroup}
-        edited={editedGroup}
-        onEditedChanged={setEditedGroup}
-        back={back}
-        mandatoryFieldsEmpty={isMandatoryFieldsEmpty}
-        canSave={groupUuid ? canSave : canAdd}
-        save={handleSave}
-        HeadPanel={GroupHeadPanel}
-        Panels={[GroupTabPanel]}
-        rights={rights}
-        actions={actions}
-        setConfirmedAction={setConfirmedAction}
-        saveTooltip={formatMessage(intl, 'individual', `saveButton.tooltip.${canSave ? 'enabled' : 'disabled'}`)}
-        add={canAdd() ? handleSave : null}
-        setEditedGroupIndividual={setEditedGroupIndividual}
-        editedGroupIndividual={editedGroupIndividual}
-        readOnly={readOnly}
-        groupIndividualIds={groupIndividualIds}
-        groupId={groupUuid}
-      />
-    </div>
+      </div>
     )
   );
 }

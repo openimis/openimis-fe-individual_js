@@ -4,7 +4,7 @@ import {
   Checkbox,
   Grid,
 } from '@mui/material';
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 import {
   formatMessage,
   TextInput,

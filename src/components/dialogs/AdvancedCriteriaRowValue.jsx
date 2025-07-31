@@ -12,8 +12,8 @@ import {
   CustomFilterTypeStatusPicker,
   CustomFilterFieldStatusPicker,
 } from '@openimis/fe-core';
-import { Grid } from '@material-ui/core';
-import { withTheme, withStyles } from '@material-ui/core/styles';
+import { Grid } from '@mui/material';
+import { withTheme, withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import {
   BOOLEAN,
@@ -165,12 +165,12 @@ function AdvancedCriteriaRowValue({
             readOnly={readOnly}
           />
         </Grid>
-      ) : (<></>) }
+      ) : (<></>)}
       {currentFilter.field !== '' && currentFilter.filter !== '' ? (
         <Grid item xs={3} className={classes.item}>
           {renderInputBasedOnType(currentFilter.type)}
         </Grid>
-      ) : (<></>) }
+      ) : (<></>)}
     </Grid>
   );
 }

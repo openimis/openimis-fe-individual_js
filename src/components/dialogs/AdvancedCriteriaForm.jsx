@@ -11,7 +11,7 @@ import {
   coreConfirm,
   clearConfirm,
 } from '@openimis/fe-core';
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AddCircle from '@mui/icons-material/Add';
@@ -181,7 +181,7 @@ function AdvancedCriteriaForm({
     }
   }, [object]);
 
-  useEffect(() => {}, [filters]);
+  useEffect(() => { }, [filters]);
 
   const openConfirmEnrollmentDialog = () => {
     coreConfirm(
@@ -232,7 +232,7 @@ function AdvancedCriteriaForm({
           readOnly={confirmed}
         />
       ))}
-      { !confirmed ? (
+      {!confirmed ? (
         <div
           style={{ backgroundColor: '#DFEDEF', paddingLeft: '10px', paddingBottom: '10px' }}
         >
@@ -259,8 +259,8 @@ function AdvancedCriteriaForm({
             {formatMessage(intl, 'individual', 'individual.enrollment.addFilters')}
           </Button>
         </div>
-      // eslint-disable-next-line react/jsx-no-useless-fragment
-      ) : (<></>) }
+        // eslint-disable-next-line react/jsx-no-useless-fragment
+      ) : (<></>)}
       <div>
         <div style={{ float: 'left' }}>
           <Button
@@ -292,99 +292,99 @@ function AdvancedCriteriaForm({
       </div>
       <Divider />
       {fetchedEnrollmentSummary && (
-      <div>
-        <div className={classes.item}>
-          {formatMessage(intl, 'individual', 'individual.enrollment.summary')}
+        <div>
+          <div className={classes.item}>
+            {formatMessage(intl, 'individual', 'individual.enrollment.summary')}
+          </div>
+          <Divider />
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Paper elevation={3} style={{ padding: '20px' }}>
+                <Typography variant="h6" gutterBottom>
+                  {formatMessage(intl, 'individual', 'individual.enrollment.totalNumberOfIndividuals')}
+                </Typography>
+                <Typography variant="body1">
+                  {enrollmentSummary.totalNumberOfIndividuals}
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper elevation={3} style={{ padding: '20px' }}>
+                <Typography variant="h6" gutterBottom>
+                  {formatMessage(intl, 'individual', 'individual.enrollment.numberOfSelectedIndividuals')}
+                </Typography>
+                <Typography variant="body1">
+                  {enrollmentSummary.numberOfSelectedIndividuals}
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper elevation={3} style={{ padding: '20px' }}>
+                <Typography variant="h6" gutterBottom>
+                  {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsAssignedToProgramme')}
+                </Typography>
+                <Typography variant="body1">
+                  {enrollmentSummary.numberOfIndividualsAssignedToProgramme}
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper elevation={3} style={{ padding: '20px' }}>
+                <Typography variant="h6" gutterBottom>
+                  {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsNotAssignedToProgramme')}
+                </Typography>
+                <Typography variant="body1">
+                  {enrollmentSummary.numberOfIndividualsNotAssignedToProgramme}
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper elevation={3} style={{ padding: '20px' }}>
+                <Typography variant="h6" gutterBottom>
+                  {/* eslint-disable-next-line max-len */}
+                  {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsAssignedToSelectedProgramme')}
+                </Typography>
+                <Typography variant="body1">
+                  {enrollmentSummary.numberOfIndividualsAssignedToSelectedProgramme}
+                </Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper elevation={3} style={{ padding: '20px' }}>
+                <Typography variant="h6" gutterBottom>
+                  {/* eslint-disable-next-line max-len */}
+                  {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsToBeUploaded')}
+                </Typography>
+                <Typography variant="body1">
+                  {enrollmentSummary.numberOfIndividualsToUpload}
+                </Typography>
+              </Paper>
+            </Grid>
+          </Grid>
+          <Grid container spacing={3}>
+            <Grid item xs={5} />
+            <Grid item xs={5}>
+              <Button
+                onClick={() => openConfirmEnrollmentDialog()}
+                variant="contained"
+                color="primary"
+                autoFocus
+                disabled={!object || confirmed || enrollmentSummary.numberOfIndividualsToUpload === '0'}
+              >
+                {formatMessage(intl, 'individual', 'individual.enrollment.confirmEnrollment')}
+              </Button>
+              <IndividualPreviewEnrollmentDialog
+                rights={rights}
+                classes={classes}
+                advancedCriteria={filtersToApply}
+                benefitPlanToEnroll={object.id}
+                enrollmentSummary={enrollmentSummary}
+                confirmed={confirmed}
+              />
+            </Grid>
+            <Grid item xs={5} />
+          </Grid>
         </div>
-        <Divider />
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Paper elevation={3} style={{ padding: '20px' }}>
-              <Typography variant="h6" gutterBottom>
-                {formatMessage(intl, 'individual', 'individual.enrollment.totalNumberOfIndividuals')}
-              </Typography>
-              <Typography variant="body1">
-                {enrollmentSummary.totalNumberOfIndividuals}
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper elevation={3} style={{ padding: '20px' }}>
-              <Typography variant="h6" gutterBottom>
-                {formatMessage(intl, 'individual', 'individual.enrollment.numberOfSelectedIndividuals')}
-              </Typography>
-              <Typography variant="body1">
-                {enrollmentSummary.numberOfSelectedIndividuals}
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper elevation={3} style={{ padding: '20px' }}>
-              <Typography variant="h6" gutterBottom>
-                {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsAssignedToProgramme')}
-              </Typography>
-              <Typography variant="body1">
-                {enrollmentSummary.numberOfIndividualsAssignedToProgramme}
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper elevation={3} style={{ padding: '20px' }}>
-              <Typography variant="h6" gutterBottom>
-                {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsNotAssignedToProgramme')}
-              </Typography>
-              <Typography variant="body1">
-                {enrollmentSummary.numberOfIndividualsNotAssignedToProgramme}
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper elevation={3} style={{ padding: '20px' }}>
-              <Typography variant="h6" gutterBottom>
-                {/* eslint-disable-next-line max-len */}
-                {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsAssignedToSelectedProgramme')}
-              </Typography>
-              <Typography variant="body1">
-                {enrollmentSummary.numberOfIndividualsAssignedToSelectedProgramme}
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper elevation={3} style={{ padding: '20px' }}>
-              <Typography variant="h6" gutterBottom>
-                {/* eslint-disable-next-line max-len */}
-                {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsToBeUploaded')}
-              </Typography>
-              <Typography variant="body1">
-                {enrollmentSummary.numberOfIndividualsToUpload}
-              </Typography>
-            </Paper>
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs={5} />
-          <Grid item xs={5}>
-            <Button
-              onClick={() => openConfirmEnrollmentDialog()}
-              variant="contained"
-              color="primary"
-              autoFocus
-              disabled={!object || confirmed || enrollmentSummary.numberOfIndividualsToUpload === '0'}
-            >
-              {formatMessage(intl, 'individual', 'individual.enrollment.confirmEnrollment')}
-            </Button>
-            <IndividualPreviewEnrollmentDialog
-              rights={rights}
-              classes={classes}
-              advancedCriteria={filtersToApply}
-              benefitPlanToEnroll={object.id}
-              enrollmentSummary={enrollmentSummary}
-              confirmed={confirmed}
-            />
-          </Grid>
-          <Grid item xs={5} />
-        </Grid>
-      </div>
       )}
     </>
   );

@@ -3,7 +3,7 @@ import {
   Helmet, withModulesManager, withTooltip, formatMessage, historyPush,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -29,19 +29,19 @@ function GroupsPage(props) {
 
   return (
     rights.includes(RIGHT_GROUP_SEARCH) && (
-    <div className={classes.page}>
-      <Helmet title={formatMessage(intl, 'individual', 'groups.pageTitle')} />
-      <GroupSearcher rights={rights} isModalEnrollment={false} />
-      {rights.includes(RIGHT_GROUP_CREATE)
-        && withTooltip(
-          <div className={classes.fab}>
-            <Fab color="primary" onClick={onAdd}>
-              <AddIcon />
-            </Fab>
-          </div>,
-          formatMessage(intl, 'individual', 'createButton.tooltip'),
-        )}
-    </div>
+      <div className={classes.page}>
+        <Helmet title={formatMessage(intl, 'individual', 'groups.pageTitle')} />
+        <GroupSearcher rights={rights} isModalEnrollment={false} />
+        {rights.includes(RIGHT_GROUP_CREATE)
+          && withTooltip(
+            <div className={classes.fab}>
+              <Fab color="primary" onClick={onAdd}>
+                <AddIcon />
+              </Fab>
+            </div>,
+            formatMessage(intl, 'individual', 'createButton.tooltip'),
+          )}
+      </div>
     )
   );
 }

@@ -22,7 +22,7 @@ import {
   Paper,
   MenuItem,
 } from '@mui/material';
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import CollapsableErrorList from '../CollapsableErrorList';
@@ -170,19 +170,19 @@ function IndividualsUploadHistoryDialog({
                   {records.map((item) => (
                     <TableRow key={item?.id}>
                       <TableCell>
-                        { item.workflow }
+                        {item.workflow}
                       </TableCell>
                       <TableCell>
-                        { formatDateTimeFromISO(modulesManager, intl, item.dataUpload.dateCreated) }
+                        {formatDateTimeFromISO(modulesManager, intl, item.dataUpload.dateCreated)}
                       </TableCell>
                       <TableCell>
-                        { item.dataUpload.sourceType}
+                        {item.dataUpload.sourceType}
                       </TableCell>
                       <TableCell>
-                        { item.dataUpload.sourceName}
+                        {item.dataUpload.sourceName}
                       </TableCell>
                       <TableCell>
-                        { item.dataUpload.status}
+                        {item.dataUpload.status}
                       </TableCell>
                       <TableCell>
                         {item.userCreated.username}
@@ -210,9 +210,9 @@ function IndividualsUploadHistoryDialog({
                               'individual.upload.uploadHistoryTable.downloadInvalidItems',
                             )}
                           </Button>
-                          ) : (
-                            <div style={{ width: '120px' }} /> // Render a blank placeholder
-                          )}
+                        ) : (
+                          <div style={{ width: '120px' }} /> // Render a blank placeholder
+                        )}
                       </TableCell>
                       <TableCell>
                         <Button

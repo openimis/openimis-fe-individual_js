@@ -9,7 +9,7 @@ import {
   PublishedComponent,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 import AdditionalFieldsDialog from './dialogs/AdditionalFieldsDialog';
 
 const styles = (theme) => ({
@@ -51,12 +51,12 @@ class IndividualHeadPanel extends FormPanel {
         </Grid>
         <Divider />
         {mandatoryFieldsEmpty && (
-        <>
-          <div className={classes.item}>
-            <FormattedMessage module="individual" id="individual.mandatoryFieldsEmptyError" />
-          </div>
-          <Divider />
-        </>
+          <>
+            <div className={classes.item}>
+              <FormattedMessage module="individual" id="individual.mandatoryFieldsEmptyError" />
+            </div>
+            <Divider />
+          </>
         )}
         <Grid container className={classes.item}>
           <Grid item xs={3} className={classes.item}>

@@ -10,7 +10,7 @@ import {
   ListItemText,
   Collapse,
 } from '@mui/material';
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 
 const styles = (theme) => ({
   item: theme.paper.item,
@@ -51,7 +51,7 @@ function CollapsableErrorList({
         {isExpanded ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-        { JSON.stringify(errors) }
+        {JSON.stringify(errors)}
       </Collapse>
     </>
   );

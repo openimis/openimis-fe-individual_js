@@ -16,7 +16,7 @@ import {
   coreAlert,
   FormattedMessage,
 } from '@openimis/fe-core';
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import WorkflowsPicker from '../../pickers/WorkflowsPicker';
@@ -210,9 +210,9 @@ function IndividualsUploadDialog({
                       id="import-button"
                       inputProps={{
                         accept: '.csv, application/csv, text/csv, '
-                               + 'application/vnd.ms-excel, '
-                               + 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, '
-                               + '.xls, .xlsx',
+                          + 'application/vnd.ms-excel, '
+                          + 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, '
+                          + '.xls, .xlsx',
                       }}
                       type="file"
                     />
@@ -244,7 +244,7 @@ function IndividualsUploadDialog({
                           fullWidth
                         >
                           {headers.map((header, index) => (
-                          // eslint-disable-next-line react/no-array-index-key
+                            // eslint-disable-next-line react/no-array-index-key
                             <MenuItem key={index} value={header}>
                               {header}
                             </MenuItem>

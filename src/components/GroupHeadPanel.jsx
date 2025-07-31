@@ -8,7 +8,7 @@ import {
   PublishedComponent,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 import { EMPTY_STRING } from '../constants';
 
 const styles = (theme) => ({
@@ -46,12 +46,12 @@ class GroupHeadPanel extends FormPanel {
         </Grid>
         <Divider />
         {mandatoryFieldsEmpty && (
-        <>
-          <div className={classes.item}>
-            <FormattedMessage module="individual" id="group.mandatoryFieldsEmptyError" />
-          </div>
-          <Divider />
-        </>
+          <>
+            <div className={classes.item}>
+              <FormattedMessage module="individual" id="group.mandatoryFieldsEmptyError" />
+            </div>
+            <Divider />
+          </>
         )}
         <Grid container className={classes.item}>
           <Grid item xs={3} className={classes.item}>

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Paper, Fab, Checkbox, Divider,
 } from '@mui/material';
-import { makeStyles } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Table,
@@ -159,7 +159,7 @@ function GroupUploadTaskDisplay({
             <Checkbox
               color="primary"
               checked={storedGroups[pending.uuid] !== undefined}
-              onChange={() => {}}
+              onChange={() => { }}
               disabled
             />
           )}
@@ -294,45 +294,45 @@ function GroupUploadTaskDisplay({
       />
 
       {isCurrentUserInTaskGroup()
-                && (
-                <>
-                  {' '}
-                  <Paper className={classes.paper}>
-                    <div className={classes.fabHeaderContainer}>
-                      {formatMessage(intl, 'socialProtection', 'resolveSelectedTasks')}
-                      <Divider />
-                    </div>
-                    <div className={classes.fabContainer}>
-                      <div className={classes.fab}>
-                        <Fab
-                          color="primary"
-                          disabled={disabled
-                              || task?.status === TASK_STATUS.RECEIVED
-                              || isRowDisabled()
-                              || selectedRecords.length === 0}
-                          onClick={() => handleButtonClick(ACCEPT)}
-                        >
-                          <CheckIcon />
-                        </Fab>
-                        {formatMessage(intl, 'socialProtection', 'acceptSelected')}
-                      </div>
-                      <div className={classes.fab}>
-                        <Fab
-                          color="primary"
-                          disabled={disabled
-                              || task?.status === TASK_STATUS.RECEIVED
-                              || isRowDisabled()
-                              || selectedRecords.length === 0}
-                          onClick={() => handleButtonClick(REJECT)}
-                        >
-                          <ClearIcon />
-                        </Fab>
-                        {formatMessage(intl, 'socialProtection', 'rejectSelected')}
-                      </div>
-                    </div>
-                  </Paper>
-                </>
-                )}
+        && (
+          <>
+            {' '}
+            <Paper className={classes.paper}>
+              <div className={classes.fabHeaderContainer}>
+                {formatMessage(intl, 'socialProtection', 'resolveSelectedTasks')}
+                <Divider />
+              </div>
+              <div className={classes.fabContainer}>
+                <div className={classes.fab}>
+                  <Fab
+                    color="primary"
+                    disabled={disabled
+                      || task?.status === TASK_STATUS.RECEIVED
+                      || isRowDisabled()
+                      || selectedRecords.length === 0}
+                    onClick={() => handleButtonClick(ACCEPT)}
+                  >
+                    <CheckIcon />
+                  </Fab>
+                  {formatMessage(intl, 'socialProtection', 'acceptSelected')}
+                </div>
+                <div className={classes.fab}>
+                  <Fab
+                    color="primary"
+                    disabled={disabled
+                      || task?.status === TASK_STATUS.RECEIVED
+                      || isRowDisabled()
+                      || selectedRecords.length === 0}
+                    onClick={() => handleButtonClick(REJECT)}
+                  >
+                    <ClearIcon />
+                  </Fab>
+                  {formatMessage(intl, 'socialProtection', 'rejectSelected')}
+                </div>
+              </div>
+            </Paper>
+          </>
+        )}
     </>
   );
 }

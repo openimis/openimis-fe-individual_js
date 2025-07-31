@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Paper, Grid } from '@mui/material';
 import { Contributions } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 import {
   BENEFIT_PLANS_LIST_TAB_VALUE,
   INDIVIDUAL_TABS_LABEL_CONTRIBUTION_KEY,

@@ -8,7 +8,7 @@ import {
   formatMessage,
   coreAlert,
 } from '@openimis/fe-core';
-import { withTheme, withStyles } from '@mui/material/styles';
+import { withTheme, withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchWorkflows } from '../../actions';
