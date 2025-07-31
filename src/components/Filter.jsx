@@ -4,7 +4,7 @@ import {
   Checkbox,
   Grid,
 } from '@mui/material';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import {
   formatMessage,
   TextInput,
@@ -14,6 +14,10 @@ import _debounce from 'lodash/debounce';
 import { injectIntl } from 'react-intl';
 import { INDIVIDUAL_MODULE_NAME } from '../constants';
 import { defaultFilterStyles } from '../util/styles';
+
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  ...defaultFilterStyles(theme),
+}));
 
 export const useFilterChangeHandler = (onChangeFilters) => {
   const debouncedOnChangeFilters = _debounce(onChangeFilters, 300);
@@ -65,12 +69,13 @@ function FilterCheckbox({
 }
 
 function Filter({
-  intl, classes, filters, onChangeFilters, filterFields, checkboxFields,
+  intl, filters, onChangeFilters, filterFields, checkboxFields,
 }) {
+  const theme = useTheme();
   const { onChangeStringFilter, onChangeFilter } = useFilterChangeHandler(onChangeFilters);
 
   return (
-    <Grid container className={classes.form}>
+    <StyledGrid container className="form">
       {filterFields.map((field) => (
         <FilterTextInput
           key={field.name}
@@ -102,8 +107,8 @@ function Filter({
           anchor="parentLocation"
         />
       </Grid>
-    </Grid>
+    </StyledGrid>
   );
 }
 
-export default injectIntl(withTheme(withStyles(defaultFilterStyles)(Filter)));
+export default injectIntl(Filter);

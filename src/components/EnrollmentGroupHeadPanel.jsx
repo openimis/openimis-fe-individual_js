@@ -4,7 +4,7 @@ import React from 'react';
 import { injectIntl } from 'react-intl';
 
 import { Grid, Divider } from '@mui/material';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 
 import {
   decodeId,
@@ -16,13 +16,13 @@ import {
 import AdvancedCriteriaGroupForm from './dialogs/AdvancedCriteriaGroupForm';
 import { CLEARED_STATE_FILTER } from '../constants';
 
-const styles = (theme) => ({
-  tableTitle: theme.table.title,
-  item: theme.paper.item,
-  fullHeight: {
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  ...theme?.table?.title,
+  '& .item': theme?.paper?.item,
+  '& .fullHeight': {
     height: '100%',
   },
-});
+}));
 
 class EnrollmentGroupHeadPanel extends FormPanel {
   constructor(props) {
@@ -68,12 +68,12 @@ class EnrollmentGroupHeadPanel extends FormPanel {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { edited, classes, intl } = this.props;
+    const { edited, intl } = this.props;
     const { appliedCustomFilters, appliedFiltersRowStructure } = this.state;
     return (
       <>
-        <Grid container className={classes.item}>
-          <Grid item xs={3} className={classes.item}>
+        <StyledGrid container className="item">
+          <StyledGrid item xs={3} className="item">
             <PublishedComponent
               pubRef="socialProtection.BenefitPlanPicker"
               withNull
@@ -83,8 +83,8 @@ class EnrollmentGroupHeadPanel extends FormPanel {
               value={edited?.benefitPlan}
               type="GROUP"
             />
-          </Grid>
-          <Grid item xs={3} className={classes.item}>
+          </StyledGrid>
+          <StyledGrid item xs={3} className="item">
             <PublishedComponent
               pubRef="socialProtection.BeneficiaryStatusPicker"
               required
@@ -93,16 +93,16 @@ class EnrollmentGroupHeadPanel extends FormPanel {
               onChange={(status) => this.updateAttribute('status', status)}
               value={edited?.status}
             />
-          </Grid>
-        </Grid>
+          </StyledGrid>
+        </StyledGrid>
         <Divider />
-        <Grid>
+        <StyledGrid>
           <>
-            <div className={classes.item}>
+            <div className="item">
               {formatMessage(intl, 'individual', 'individual.enrollment.criteria')}
             </div>
             <Divider />
-            <Grid container className={classes.item}>
+            <StyledGrid container className="item">
               <AdvancedCriteriaGroupForm
                 object={edited.benefitPlan}
                 objectToSave={edited}
@@ -117,12 +117,12 @@ class EnrollmentGroupHeadPanel extends FormPanel {
                 additionalParams={edited?.benefitPlan ? { benefitPlan: `${decodeId(edited.benefitPlan.id)}` } : null}
                 edited={edited}
               />
-            </Grid>
+            </StyledGrid>
           </>
-        </Grid>
+        </StyledGrid>
       </>
     );
   }
 }
 
-export default withModulesManager(injectIntl(withTheme(withStyles(styles)(EnrollmentGroupHeadPanel))));
+export default withModulesManager(injectIntl(EnrollmentGroupHeadPanel));

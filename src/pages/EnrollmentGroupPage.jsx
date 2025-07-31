@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/material/styles';
 
 import {
   Form,
@@ -16,15 +16,14 @@ import {
 import EnrollmentGroupHeadPanel from '../components/EnrollmentGroupHeadPanel';
 import { DEFAULT_BENEFICIARY_STATUS } from '../constants';
 
-const useStyles = makeStyles((theme) => ({
-  page: theme.page,
+const StyledDiv = styled('div')(({ theme }) => ({
+  ...theme?.page,
 }));
 
 function EnrollmentGroupPage({
   rights,
 }) {
   const modulesManager = useModulesManager();
-  const classes = useStyles();
   const history = useHistory();
   const { formatMessage } = useTranslations('individual', modulesManager);
 
@@ -37,7 +36,7 @@ function EnrollmentGroupPage({
   const actions = [];
 
   return (
-    <div className={classes.page}>
+    <StyledDiv>
       <Form
         key=""
         module="individual"
@@ -53,7 +52,7 @@ function EnrollmentGroupPage({
         rights={rights}
         actions={actions}
       />
-    </div>
+    </StyledDiv>
   );
 }
 

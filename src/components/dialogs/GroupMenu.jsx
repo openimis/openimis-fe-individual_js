@@ -8,18 +8,20 @@ import {
   formatMessage,
   coreAlert,
 } from '@openimis/fe-core';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchWorkflows } from '../../actions';
 
-const styles = (theme) => ({
-  item: theme.paper.item,
-});
+
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  ...theme?.paper?.item,
+}));
 
 function GroupMenu({
   intl,
 }) {
+  const theme = useTheme();
   const modulesManager = useModulesManager();
 
   function enrollmentGroupPageUrl() {
@@ -27,11 +29,11 @@ function GroupMenu({
   }
 
   return (
-    <MenuItem>
+    <StyledMenuItem>
       <a href={enrollmentGroupPageUrl()} style={{ color: 'inherit', textDecoration: 'none' }}>
         {formatMessage(intl, 'individual', 'individual.enrollment.buttonLabel')}
       </a>
-    </MenuItem>
+    </StyledMenuItem>
   );
 }
 
@@ -47,9 +49,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 export default injectIntl(
-  withTheme(
-    withStyles(styles)(
-      connect(mapStateToProps, mapDispatchToProps)(GroupMenu),
-    ),
-  ),
+  connect(mapStateToProps, mapDispatchToProps)(GroupMenu)
 );

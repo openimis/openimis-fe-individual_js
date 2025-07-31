@@ -1,30 +1,25 @@
 import React, { useState } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper } from '@mui/material';
+import { useTheme, styled } from '@mui/material/styles';
 import { injectIntl } from 'react-intl';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import {
   formatMessage,
   renderInputComponent,
   createFieldsBasedOnJSON,
 } from '@openimis/fe-core';
-import { withTheme, withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { INDIVIDUAL_MODULE_NAME } from '../../constants';
 
-const styles = (theme) => ({
-  item: theme.paper.item,
-});
+// Styled component replacing withStyles/styles object
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  ...theme?.paper?.paper,
+  '& .title': theme?.paper?.title,
+  '& .item': theme?.paper?.item,
+}));
 
-function AdditionalFieldsDialog({
-  intl,
-  classes,
-  individualJsonExt,
-}) {
+function AdditionalFieldsDialog({ intl, individualJsonExt }) {
+  const theme = useTheme();
   if (!individualJsonExt) return null;
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,8 +37,7 @@ function AdditionalFieldsDialog({
       <Button
         onClick={handleOpen}
         variant="outlined"
-        color="#DFEDEF"
-        className={classes.button}
+        className="button"
         style={{
           border: '0px',
           marginTop: '6px',
@@ -71,17 +65,15 @@ function AdditionalFieldsDialog({
             {formatMessage(intl, 'individual', 'individual.additonalFields.label')}
           </DialogTitle>
           <DialogContent>
-            <div
-              style={{ backgroundColor: '#DFEDEF', paddingLeft: '10px', paddingBottom: '10px' }}
-            >
-              <Grid container className={classes.item}>
-                {jsonExtFields?.map((jsonExtField) => (
-                  <Grid item xs={6} className={classes.item}>
+            <StyledPaper style={{ backgroundColor: '#DFEDEF', paddingLeft: '10px', paddingBottom: '10px' }}>
+              <Grid container className="item">
+                {jsonExtFields?.map((jsonExtField, index) => (
+                  <Grid item xs={6} className="item" key={index}>
                     {renderInputComponent(INDIVIDUAL_MODULE_NAME, jsonExtField)}
                   </Grid>
                 ))}
               </Grid>
-            </div>
+            </StyledPaper>
           </DialogContent>
           <DialogActions
             style={{
@@ -122,9 +114,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 export default injectIntl(
-  withTheme(
-    withStyles(styles)(
-      connect(mapStateToProps, mapDispatchToProps)(AdditionalFieldsDialog),
-    ),
-  ),
+  connect(mapStateToProps, mapDispatchToProps)(AdditionalFieldsDialog)
 );

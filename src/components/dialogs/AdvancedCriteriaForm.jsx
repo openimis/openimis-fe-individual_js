@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 import { injectIntl } from 'react-intl';
-import Button from '@mui/material/Button';
-import { Divider, Grid, Paper } from '@mui/material';
+import { Button, Divider, Grid, Paper, Typography } from '@mui/material';
+import { useTheme, styled } from '@mui/material/styles';
 import {
   decodeId,
   formatMessage,
@@ -11,11 +11,9 @@ import {
   coreConfirm,
   clearConfirm,
 } from '@openimis/fe-core';
-import { withTheme, withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AddCircle from '@mui/icons-material/Add';
-import Typography from '@mui/material/Typography';
 import AdvancedCriteriaRowValue from './AdvancedCriteriaRowValue';
 import {
   CLEARED_STATE_FILTER,
@@ -26,13 +24,15 @@ import { isBase64Encoded, isEmptyObject } from '../../utils';
 import { confirmEnrollment, fetchIndividualEnrollmentSummary } from '../../actions';
 import IndividualPreviewEnrollmentDialog from './IndividualPreviewEnrollmentDialog';
 
-const styles = (theme) => ({
-  item: theme.paper.item,
-});
+// Styled component replacing withStyles/styles object
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  ...theme?.paper?.paper,
+  '& .title': theme?.paper?.title,
+  '& .item': theme?.paper?.item,
+}));
 
 function AdvancedCriteriaForm({
   intl,
-  classes,
   object,
   objectToSave,
   fetchCustomFilter,
@@ -56,6 +56,7 @@ function AdvancedCriteriaForm({
   rights,
   edited,
 }) {
+  const theme = useTheme();
   // eslint-disable-next-line no-unused-vars
   const [currentFilter, setCurrentFilter] = useState({
     field: '', filter: '', type: '', value: '', amount: '',
@@ -223,6 +224,7 @@ function AdvancedCriteriaForm({
     <>
       {filters.map((filter, index) => (
         <AdvancedCriteriaRowValue
+          key={index}
           customFilters={customFilters}
           currentFilter={filter}
           setCurrentFilter={setCurrentFilter}
@@ -293,53 +295,53 @@ function AdvancedCriteriaForm({
       <Divider />
       {fetchedEnrollmentSummary && (
         <div>
-          <div className={classes.item}>
+          <div className="item">
             {formatMessage(intl, 'individual', 'individual.enrollment.summary')}
           </div>
           <Divider />
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <Paper elevation={3} style={{ padding: '20px' }}>
+              <StyledPaper elevation={3} style={{ padding: '20px' }}>
                 <Typography variant="h6" gutterBottom>
                   {formatMessage(intl, 'individual', 'individual.enrollment.totalNumberOfIndividuals')}
                 </Typography>
                 <Typography variant="body1">
                   {enrollmentSummary.totalNumberOfIndividuals}
                 </Typography>
-              </Paper>
+              </StyledPaper>
             </Grid>
             <Grid item xs={6}>
-              <Paper elevation={3} style={{ padding: '20px' }}>
+              <StyledPaper elevation={3} style={{ padding: '20px' }}>
                 <Typography variant="h6" gutterBottom>
                   {formatMessage(intl, 'individual', 'individual.enrollment.numberOfSelectedIndividuals')}
                 </Typography>
                 <Typography variant="body1">
                   {enrollmentSummary.numberOfSelectedIndividuals}
                 </Typography>
-              </Paper>
+              </StyledPaper>
             </Grid>
             <Grid item xs={6}>
-              <Paper elevation={3} style={{ padding: '20px' }}>
+              <StyledPaper elevation={3} style={{ padding: '20px' }}>
                 <Typography variant="h6" gutterBottom>
                   {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsAssignedToProgramme')}
                 </Typography>
                 <Typography variant="body1">
                   {enrollmentSummary.numberOfIndividualsAssignedToProgramme}
                 </Typography>
-              </Paper>
+              </StyledPaper>
             </Grid>
             <Grid item xs={6}>
-              <Paper elevation={3} style={{ padding: '20px' }}>
+              <StyledPaper elevation={3} style={{ padding: '20px' }}>
                 <Typography variant="h6" gutterBottom>
                   {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsNotAssignedToProgramme')}
                 </Typography>
                 <Typography variant="body1">
                   {enrollmentSummary.numberOfIndividualsNotAssignedToProgramme}
                 </Typography>
-              </Paper>
+              </StyledPaper>
             </Grid>
             <Grid item xs={6}>
-              <Paper elevation={3} style={{ padding: '20px' }}>
+              <StyledPaper elevation={3} style={{ padding: '20px' }}>
                 <Typography variant="h6" gutterBottom>
                   {/* eslint-disable-next-line max-len */}
                   {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsAssignedToSelectedProgramme')}
@@ -347,10 +349,10 @@ function AdvancedCriteriaForm({
                 <Typography variant="body1">
                   {enrollmentSummary.numberOfIndividualsAssignedToSelectedProgramme}
                 </Typography>
-              </Paper>
+              </StyledPaper>
             </Grid>
             <Grid item xs={6}>
-              <Paper elevation={3} style={{ padding: '20px' }}>
+              <StyledPaper elevation={3} style={{ padding: '20px' }}>
                 <Typography variant="h6" gutterBottom>
                   {/* eslint-disable-next-line max-len */}
                   {formatMessage(intl, 'individual', 'individual.enrollment.numberOfIndividualsToBeUploaded')}
@@ -358,7 +360,7 @@ function AdvancedCriteriaForm({
                 <Typography variant="body1">
                   {enrollmentSummary.numberOfIndividualsToUpload}
                 </Typography>
-              </Paper>
+              </StyledPaper>
             </Grid>
           </Grid>
           <Grid container spacing={3}>
@@ -375,7 +377,6 @@ function AdvancedCriteriaForm({
               </Button>
               <IndividualPreviewEnrollmentDialog
                 rights={rights}
-                classes={classes}
                 advancedCriteria={filtersToApply}
                 benefitPlanToEnroll={object.id}
                 enrollmentSummary={enrollmentSummary}
@@ -413,5 +414,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 export default injectIntl(
-  withTheme(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(AdvancedCriteriaForm))),
+  connect(mapStateToProps, mapDispatchToProps)(AdvancedCriteriaForm)
 );

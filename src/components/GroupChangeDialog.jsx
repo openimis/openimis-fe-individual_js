@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { injectIntl } from 'react-intl';
 
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
@@ -10,19 +10,22 @@ import { useTranslations, useModulesManager, useHistory } from '@openimis/fe-cor
 import GroupPicker from '../pickers/GroupPicker';
 import { setNewGroupIndividual } from '../actions';
 
-const styles = (theme) => ({
-  primaryButton: theme.dialog.primaryButton,
-  secondaryButton: theme.dialog.secondaryButton,
-});
+const StyledButton = styled(Button)(({ theme }) => ({
+  ...theme?.dialog?.primaryButton,
+}));
+
+const StyledSecondaryButton = styled(Button)(({ theme }) => ({
+  ...theme?.dialog?.secondaryButton,
+}));
 
 function GroupChangeDialog({
-  classes,
   confirmState,
   onClose,
   onConfirm,
   groupIndividual,
   setEditedGroupIndividual,
 }) {
+  const theme = useTheme();
   const modulesManager = useModulesManager();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -59,23 +62,22 @@ function GroupChangeDialog({
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onMoveToNewGroup} className={classes.secondaryButton} disabled={groupToBeChanged}>
+        <StyledSecondaryButton onClick={onMoveToNewGroup} disabled={groupToBeChanged}>
           {formatMessage('moveToNewGroup')}
-        </Button>
-        <Button
+        </StyledSecondaryButton>
+        <StyledButton
           onClick={handleConfirm}
           autoFocus
-          className={classes.primaryButton}
           disabled={!groupToBeChanged}
         >
           {formatMessage('confirm')}
-        </Button>
-        <Button onClick={onCancel} className={classes.secondaryButton}>
+        </StyledButton>
+        <StyledSecondaryButton onClick={onCancel}>
           {formatMessage('cancel')}
-        </Button>
+        </StyledSecondaryButton>
       </DialogActions>
     </Dialog>
   );
 }
 
-export default injectIntl(withTheme(withStyles(styles)(GroupChangeDialog)));
+export default injectIntl(GroupChangeDialog);

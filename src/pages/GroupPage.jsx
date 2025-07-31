@@ -13,7 +13,7 @@ import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH } from '../constants';
@@ -26,15 +26,14 @@ import { ACTION_TYPE } from '../reducer';
 import GroupTabPanel from '../components/GroupTabPanel';
 import IndividualAddToGroupDialog from '../components/dialogs/IndividualAddToGroupDialog';
 
-const styles = (theme) => ({
-  page: theme.page,
-  lockedPage: theme.page.locked,
-});
+const StyledDiv = styled('div')(({ theme }) => ({
+  ...theme?.page,
+  '& .lockedPage': theme?.page?.locked,
+}));
 
 function GroupPage({
   intl,
   modulesManager,
-  classes,
   rights,
   history,
   groupUuid,
@@ -54,6 +53,7 @@ function GroupPage({
   groupIndividuals,
   creteGroupIndividual,
 }) {
+  const theme = useTheme();
   const [editedGroup, setEditedGroup] = useState({});
   const [editedGroupIndividual, setEditedGroupIndividual] = useState(null);
   const [confirmedAction, setConfirmedAction] = useState(() => null);
@@ -192,7 +192,7 @@ function GroupPage({
 
   return (
     rights.includes(RIGHT_GROUP_SEARCH) && (
-      <div className={readOnly ? classes.lockedPage : classes.page}>
+      <StyledDiv className={readOnly ? 'lockedPage' : 'page'}>
         {groupUuid && (
           <IndividualAddToGroupDialog
             confirmState={isAddIndividualToGroupModalOpen}
@@ -227,7 +227,7 @@ function GroupPage({
           groupIndividualIds={groupIndividualIds}
           groupId={groupUuid}
         />
-      </div>
+      </StyledDiv>
     )
   );
 }
@@ -259,5 +259,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 export default withHistory(
-  injectIntl(withTheme(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(GroupPage)))),
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(GroupPage))
 );

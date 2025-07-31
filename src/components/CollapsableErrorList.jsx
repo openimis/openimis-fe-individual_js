@@ -10,16 +10,17 @@ import {
   ListItemText,
   Collapse,
 } from '@mui/material';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 
-const styles = (theme) => ({
-  item: theme.paper.item,
-});
+const StyledListItem = styled(ListItem)(({ theme }) => ({
+  ...theme?.paper?.item,
+}));
 
 function CollapsableErrorList({
   intl,
   errors,
 }) {
+  const theme = useTheme();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleOpen = () => {
@@ -28,20 +29,20 @@ function CollapsableErrorList({
 
   if (!errors || !Object.keys(errors).length) {
     return (
-      <ListItem>
+      <StyledListItem>
         <ListItemText primary={formatMessage(
           intl,
           'socialProtection',
           'benefitPlan.benefitPlanBeneficiaries.uploadHistoryTable.errorNone',
         )}
         />
-      </ListItem>
+      </StyledListItem>
     );
   }
 
   return (
     <>
-      <ListItem button onClick={handleOpen}>
+      <StyledListItem button onClick={handleOpen}>
         <ListItemText primary={formatMessage(
           intl,
           'socialProtection',
@@ -49,7 +50,7 @@ function CollapsableErrorList({
         )}
         />
         {isExpanded ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
+      </StyledListItem>
       <Collapse in={isExpanded} timeout="auto" unmountOnExit>
         {JSON.stringify(errors)}
       </Collapse>
@@ -57,8 +58,4 @@ function CollapsableErrorList({
   );
 }
 
-export default injectIntl(
-  withTheme(
-    withStyles(styles)(CollapsableErrorList),
-  ),
-);
+export default injectIntl(CollapsableErrorList);

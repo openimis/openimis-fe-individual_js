@@ -8,53 +8,53 @@ import {
   PublishedComponent,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import { EMPTY_STRING } from '../constants';
 
-const styles = (theme) => ({
-  tableTitle: theme.table.title,
-  item: theme.paper.item,
-  fullHeight: {
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  ...theme?.table?.title,
+  '& .item': theme?.paper?.item,
+  '& .fullHeight': {
     height: '100%',
   },
-});
+}));
 
 class GroupHeadPanel extends FormPanel {
   render() {
     const {
-      edited, classes, mandatoryFieldsEmpty, readOnly, groupId,
+      edited, mandatoryFieldsEmpty, readOnly, groupId,
     } = this.props;
     const group = { ...edited };
     return (
       <>
-        <Grid container className={classes.tableTitle}>
-          <Grid item>
-            <Grid
+        <StyledGrid container className="tableTitle">
+          <StyledGrid item>
+            <StyledGrid
               container
               align="center"
               justify="center"
               direction="column"
-              className={classes.fullHeight}
+              className="fullHeight"
             >
-              <Grid item>
+              <StyledGrid item>
                 <Typography>
                   <FormattedMessage module="individual" id="group.headPanelTitle" />
                 </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+              </StyledGrid>
+            </StyledGrid>
+          </StyledGrid>
+        </StyledGrid>
         <Divider />
         {mandatoryFieldsEmpty && (
           <>
-            <div className={classes.item}>
+            <div className="item">
               <FormattedMessage module="individual" id="group.mandatoryFieldsEmptyError" />
             </div>
             <Divider />
           </>
         )}
-        <Grid container className={classes.item}>
-          <Grid item xs={3} className={classes.item}>
+        <StyledGrid container className="item">
+          <StyledGrid item xs={3} className="item">
             <TextInput
               readOnly={!!groupId}
               module="individual"
@@ -62,8 +62,8 @@ class GroupHeadPanel extends FormPanel {
               onChange={(v) => this.updateAttribute('code', v)}
               value={group?.code ?? EMPTY_STRING}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </StyledGrid>
+          <StyledGrid item xs={12}>
             <PublishedComponent
               pubRef="location.DetailedLocation"
               withNull
@@ -73,11 +73,11 @@ class GroupHeadPanel extends FormPanel {
               onChange={(v) => this.updateAttribute('location', v)}
               filterLabels={false}
             />
-          </Grid>
-        </Grid>
+          </StyledGrid>
+        </StyledGrid>
       </>
     );
   }
 }
 
-export default withModulesManager(injectIntl(withTheme(withStyles(styles)(GroupHeadPanel))));
+export default withModulesManager(injectIntl(GroupHeadPanel));

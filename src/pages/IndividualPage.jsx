@@ -13,7 +13,7 @@ import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UndoIcon from '@mui/icons-material/Undo';
 import { RIGHT_INDIVIDUAL_UPDATE } from '../constants';
@@ -24,14 +24,13 @@ import IndividualHeadPanel from '../components/IndividualHeadPanel';
 import IndividualTabPanel from '../components/IndividualTabPanel';
 import { ACTION_TYPE } from '../reducer';
 
-const styles = (theme) => ({
-  page: theme.page,
-});
+const StyledDiv = styled('div')(({ theme }) => ({
+  ...theme?.page,
+}));
 
 function IndividualPage({
   intl,
   modulesManager,
-  classes,
   rights,
   history,
   individualUuid,
@@ -47,6 +46,7 @@ function IndividualPage({
   journalize,
   undoDeleteIndividual,
 }) {
+  const theme = useTheme();
   const [editedIndividual, setEditedIndividual] = useState({});
   const [confirmedAction, setConfirmedAction] = useState(() => null);
   const prevSubmittingMutationRef = useRef();
@@ -172,7 +172,7 @@ function IndividualPage({
 
   return (
     rights.includes(RIGHT_INDIVIDUAL_UPDATE) && (
-      <div className={classes.page}>
+      <StyledDiv className="page">
         <Helmet title={formatMessageWithValues(intl, 'individual', 'pageTitle', titleParams(individual))} />
         <Form
           module="individual"
@@ -193,7 +193,7 @@ function IndividualPage({
           setConfirmedAction={setConfirmedAction}
           saveTooltip={formatMessage(intl, 'individual', `saveButton.tooltip.${canSave ? 'enabled' : 'disabled'}`)}
         />
-      </div>
+      </StyledDiv>
     )
   );
 }
@@ -221,5 +221,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 export default withHistory(
-  injectIntl(withTheme(withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(IndividualPage)))),
+  injectIntl(connect(mapStateToProps, mapDispatchToProps)(IndividualPage))
 );

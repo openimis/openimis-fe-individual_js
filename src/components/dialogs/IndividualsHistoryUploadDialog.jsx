@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { injectIntl } from 'react-intl';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { useTheme, styled } from '@mui/material/styles';
 import {
   formatMessage,
   formatDateTimeFromISO,
@@ -22,7 +19,6 @@ import {
   Paper,
   MenuItem,
 } from '@mui/material';
-import { withTheme, withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import CollapsableErrorList from '../CollapsableErrorList';
@@ -30,19 +26,24 @@ import { fetchUploadHistory } from '../../actions';
 import { downloadIndividualUploadFile, downloadInvalidItems } from '../../utils';
 import { UPLOAD_STATUS } from '../../constants';
 
-const styles = (theme) => ({
-  item: theme.paper.item,
-});
+// Styled component replacing withStyles/styles object
+const StyledTableHead = styled(TableHead)(({ theme }) => ({
+  ...theme?.paper?.item,
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  ...theme?.paper?.item,
+}));
 
 function IndividualsUploadHistoryDialog({
   modulesManager,
   intl,
-  classes,
   fetchUploadHistory,
   history,
   fetchedHistory,
   fetchingHistory,
 }) {
+  const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [records, setRecords] = useState([]);
 
@@ -111,8 +112,8 @@ function IndividualsUploadHistoryDialog({
 
             <TableContainer component={Paper}>
               <Table size="small">
-                <TableHead className={classes.header}>
-                  <TableRow className={classes.headerTitle}>
+                <StyledTableHead className="header">
+                  <StyledTableRow className="headerTitle">
                     <TableCell>
                       {formatMessage(
                         intl,
@@ -163,8 +164,8 @@ function IndividualsUploadHistoryDialog({
                       )}
                     </TableCell>
                     <TableCell />
-                  </TableRow>
-                </TableHead>
+                  </StyledTableRow>
+                </StyledTableHead>
                 <TableBody>
                   <ProgressOrError progress={fetchingHistory} error={fetchedHistory} />
                   {records.map((item) => (
@@ -281,9 +282,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 export default injectIntl(
-  withModulesManager(withTheme(
-    withStyles(styles)(
-      connect(mapStateToProps, mapDispatchToProps)(IndividualsUploadHistoryDialog),
-    ),
-  )),
+  withModulesManager(
+    connect(mapStateToProps, mapDispatchToProps)(IndividualsUploadHistoryDialog)
+  )
 );

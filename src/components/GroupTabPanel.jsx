@@ -2,38 +2,37 @@ import React, { useState } from 'react';
 import { Paper, Grid } from '@mui/material';
 import { Contributions } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import {
   BENEFIT_PLANS_LIST_TAB_VALUE,
   GROUPS_TABS_LABEL_CONTRIBUTION_KEY,
   GROUPS_TABS_PANEL_CONTRIBUTION_KEY, INDIVIDUALS_LIST_TAB_VALUE,
 } from '../constants';
 
-const styles = (theme) => ({
-  paper: theme.paper.paper,
-  tableTitle: theme.table.title,
-  tabs: {
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  ...theme?.paper?.paper,
+  '& .tableTitle': theme?.table?.title,
+  '& .tabs': {
     display: 'flex',
     alignItems: 'center',
   },
-  selectedTab: {
+  '& .selectedTab': {
     borderBottom: '4px solid white',
   },
-  unselectedTab: {
+  '& .unselectedTab': {
     borderBottom: '4px solid transparent',
   },
-  button: {
+  '& .button': {
     marginLeft: 'auto',
     padding: theme.spacing(1),
     fontSize: '0.875rem',
     textTransform: 'none',
   },
-});
+}));
 
 function GroupTabPanel({
   intl,
   rights,
-  classes,
   individual,
   setConfirmedAction,
   group, editedGroupIndividual,
@@ -41,19 +40,20 @@ function GroupTabPanel({
   groupIndividualIds,
   groupId,
 }) {
+  const theme = useTheme();
   if (!groupId) return null;
 
   const [activeTab, setActiveTab] = useState(individual ? BENEFIT_PLANS_LIST_TAB_VALUE : INDIVIDUALS_LIST_TAB_VALUE);
 
   const isSelected = (tab) => tab === activeTab;
 
-  const tabStyle = (tab) => (isSelected(tab) ? classes.selectedTab : classes.unselectedTab);
+  const tabStyle = (tab) => (isSelected(tab) ? 'selectedTab' : 'unselectedTab');
 
   const handleChange = (_, tab) => setActiveTab(tab);
 
   return (
-    <Paper className={classes.paper}>
-      <Grid container className={`${classes.tableTitle} ${classes.tabs}`}>
+    <StyledPaper className="paper">
+      <StyledPaper className="tableTitle tabs">
         <Contributions
           contributionKey={GROUPS_TABS_LABEL_CONTRIBUTION_KEY}
           intl={intl}
@@ -68,7 +68,7 @@ function GroupTabPanel({
           editedGroupIndividual={editedGroupIndividual}
           setEditedGroupIndividual={setEditedGroupIndividual}
         />
-      </Grid>
+      </StyledPaper>
       <Contributions
         contributionKey={GROUPS_TABS_PANEL_CONTRIBUTION_KEY}
         rights={rights}
@@ -81,8 +81,8 @@ function GroupTabPanel({
         editedGroupIndividual={editedGroupIndividual}
         setEditedGroupIndividual={setEditedGroupIndividual}
       />
-    </Paper>
+    </StyledPaper>
   );
 }
 
-export default injectIntl(withTheme(withStyles(styles)(GroupTabPanel)));
+export default injectIntl(GroupTabPanel);

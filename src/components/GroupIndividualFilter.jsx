@@ -2,15 +2,20 @@ import React from 'react';
 import { injectIntl } from 'react-intl';
 import { TextInput, PublishedComponent, formatMessage } from '@openimis/fe-core';
 import { Grid } from '@mui/material';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import _debounce from 'lodash/debounce';
 import { CONTAINS_LOOKUP, DEFAULT_DEBOUNCE_TIME, EMPTY_STRING } from '../constants';
 import { defaultFilterStyles } from '../util/styles';
 import GroupIndividualRolePicker from '../pickers/GroupIndividualRolePicker';
 
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  ...defaultFilterStyles(theme),
+}));
+
 function GroupIndividualFilter({
-  intl, classes, filters, onChangeFilters,
+  intl, filters, onChangeFilters,
 }) {
+  const theme = useTheme();
   const debouncedOnChangeFilters = _debounce(onChangeFilters, DEFAULT_DEBOUNCE_TIME);
 
   const filterValue = (filterName) => filters?.[filterName]?.value;
@@ -38,24 +43,24 @@ function GroupIndividualFilter({
   };
 
   return (
-    <Grid container className={classes.form}>
-      <Grid item xs={2} className={classes.item}>
+    <StyledGrid container className="form">
+      <StyledGrid item xs={2} className="item">
         <TextInput
           module="individual"
           label="individual.firstName"
           value={filterTextFieldValue('individual_FirstName')}
           onChange={onChangeStringFilter('individual_FirstName', CONTAINS_LOOKUP)}
         />
-      </Grid>
-      <Grid item xs={2} className={classes.item}>
+      </StyledGrid>
+      <StyledGrid item xs={2} className="item">
         <TextInput
           module="individual"
           label="individual.lastName"
           value={filterTextFieldValue('individual_LastName')}
           onChange={onChangeStringFilter('individual_LastName', CONTAINS_LOOKUP)}
         />
-      </Grid>
-      <Grid item xs={2} className={classes.item}>
+      </StyledGrid>
+      <StyledGrid item xs={2} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -69,8 +74,8 @@ function GroupIndividualFilter({
             },
           ])}
         />
-      </Grid>
-      <Grid item xs={2} className={classes.item}>
+      </StyledGrid>
+      <StyledGrid item xs={2} className="item">
         <GroupIndividualRolePicker
           withNull
           nullLabel={formatMessage(intl, 'individual', 'any')}
@@ -83,9 +88,9 @@ function GroupIndividualFilter({
             },
           ])}
         />
-      </Grid>
-    </Grid>
+      </StyledGrid>
+    </StyledGrid>
   );
 }
 
-export default injectIntl(withTheme(withStyles(defaultFilterStyles)(GroupIndividualFilter)));
+export default injectIntl(GroupIndividualFilter);

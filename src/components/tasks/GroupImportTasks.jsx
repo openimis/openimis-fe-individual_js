@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Paper, Fab, Checkbox, Divider,
 } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Table,
@@ -22,30 +22,30 @@ import {
 } from '../../constants';
 import { fetchPendingGroupUploads, resolveTask } from '../../actions';
 
-const useStyles = makeStyles((theme) => ({
-  paper: theme.paper.paper,
-  title: theme.paper.title,
-  button: theme.paper.button,
-  fabContainer: {
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  ...theme?.paper?.paper,
+  '& .title': theme?.paper?.title,
+  '& .button': theme?.paper?.button,
+  '& .fabContainer': {
     display: 'flex',
     justifyContent: 'center',
   },
-  fabHeaderContainer: {
+  '& .fabHeaderContainer': {
     justifyContent: 'center',
     textAlign: 'center',
     fontSize: '16px',
     fontWeight: 'bold',
   },
-  fab: {
+  '& .fab': {
     margin: theme.spacing(1),
   },
-
 }));
 
 function GroupUploadTaskDisplay({
   // eslint-disable-next-line no-unused-vars
   businessData, setAdditionalData, jsonExt,
 }) {
+  const theme = useTheme();
   const {
     errorPendingGroups,
     pendingGroups,
@@ -129,8 +129,6 @@ function GroupUploadTaskDisplay({
   }, [pendingGroups]);
 
   useEffect(() => setKeys(organizeData(pending)), [pending]);
-
-  const classes = useStyles();
 
   const headers = () => [
     task?.status === TASK_STATUS.ACCEPTED
@@ -297,13 +295,13 @@ function GroupUploadTaskDisplay({
         && (
           <>
             {' '}
-            <Paper className={classes.paper}>
-              <div className={classes.fabHeaderContainer}>
+            <StyledPaper className="paper">
+              <div className="fabHeaderContainer">
                 {formatMessage(intl, 'socialProtection', 'resolveSelectedTasks')}
                 <Divider />
               </div>
-              <div className={classes.fabContainer}>
-                <div className={classes.fab}>
+              <div className="fabContainer">
+                <div className="fab">
                   <Fab
                     color="primary"
                     disabled={disabled
@@ -316,7 +314,7 @@ function GroupUploadTaskDisplay({
                   </Fab>
                   {formatMessage(intl, 'socialProtection', 'acceptSelected')}
                 </div>
-                <div className={classes.fab}>
+                <div className="fab">
                   <Fab
                     color="primary"
                     disabled={disabled
@@ -330,7 +328,7 @@ function GroupUploadTaskDisplay({
                   {formatMessage(intl, 'socialProtection', 'rejectSelected')}
                 </div>
               </div>
-            </Paper>
+            </StyledPaper>
           </>
         )}
     </>
@@ -351,8 +349,8 @@ const GroupUploadResolutionItemFormatters = () => [
 
 // eslint-disable-next-line no-unused-vars
 function GroupUploadConfirmationPanel({ defaultAction, defaultDisabled }) {
+  const theme = useTheme();
   const intl = useIntl();
-  const classes = useStyles();
   const { task } = useSelector((state) => state.tasksManagement);
   const currentUser = useSelector((state) => state.core.user);
   const [disabled, setDisable] = useState(defaultDisabled);
@@ -421,13 +419,13 @@ function GroupUploadConfirmationPanel({ defaultAction, defaultDisabled }) {
         confirmationButton="dialogActions.continue"
         rejectionButton="dialogActions.goBack"
       />
-      <Paper className={classes.paper}>
-        <div className={classes.fabHeaderContainer}>
+      <StyledPaper className="paper">
+        <div className="fabHeaderContainer">
           {formatMessage(intl, 'socialProtection', 'resolveAllRemainingTasks')}
           <Divider />
         </div>
-        <div className={classes.fabContainer}>
-          <div className={classes.fab}>
+        <div className="fabContainer">
+          <div className="fab">
             <Fab
               color="primary"
               disabled={disabled || isRowDisabled()}
@@ -438,7 +436,7 @@ function GroupUploadConfirmationPanel({ defaultAction, defaultDisabled }) {
             {formatMessage(intl, 'socialProtection', 'approveAll')}
 
           </div>
-          <div className={classes.fab}>
+          <div className="fab">
             <Fab
               color="primary"
               disabled={disabled || task?.status === TASK_STATUS.RECEIVED || isRowDisabled()}
@@ -449,7 +447,7 @@ function GroupUploadConfirmationPanel({ defaultAction, defaultDisabled }) {
             {formatMessage(intl, 'socialProtection', 'rejectAll')}
           </div>
         </div>
-      </Paper>
+      </StyledPaper>
     </>
   );
 }

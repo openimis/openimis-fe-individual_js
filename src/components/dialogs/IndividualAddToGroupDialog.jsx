@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import { injectIntl } from 'react-intl';
 
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
 import { useTranslations, useModulesManager } from '@openimis/fe-core';
 import IndividualAddToGroupPicker from '../../pickers/IndividualAddToGroupPicker';
 
-const styles = (theme) => ({
-  primaryButton: theme.dialog.primaryButton,
-  secondaryButton: theme.dialog.secondaryButton,
-});
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  ...theme?.dialog?.primaryButton,
+}));
 
 function IndividualAddToGroupDialog({
-  classes,
   confirmState,
   onClose,
   onConfirm,
   setEditedGroupIndividual,
 }) {
+  const theme = useTheme();
   const modulesManager = useModulesManager();
   const { formatMessage } = useTranslations('individual', modulesManager);
   const [individualToBeChanged, setIndividualToBeAdded] = useState(null);
@@ -76,14 +76,13 @@ function IndividualAddToGroupDialog({
             </Button>
           </div>
           <div style={{ float: 'right', paddingRight: '16px' }}>
-            <Button
+            <StyledButton
               onClick={handleConfirm}
               autoFocus
-              className={classes.primaryButton}
               disabled={!individualToBeChanged}
             >
               {formatMessage('confirm')}
-            </Button>
+            </StyledButton>
           </div>
         </div>
       </DialogActions>
@@ -91,4 +90,4 @@ function IndividualAddToGroupDialog({
   );
 }
 
-export default injectIntl(withTheme(withStyles(styles)(IndividualAddToGroupDialog)));
+export default injectIntl(IndividualAddToGroupDialog);

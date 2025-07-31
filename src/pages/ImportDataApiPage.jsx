@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/material/styles';
 
 import {
   Table,
@@ -31,17 +31,17 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { confirmPullingDataFromApiEtl, fetchApiEtlServices, fetchMutationByLabel } from '../actions';
 
-const useStyles = makeStyles((theme) => ({
-  page: theme.page,
-  footer: {
+const StyledDiv = styled('div')(({ theme }) => ({
+  ...theme?.page,
+  '& .footer': {
     marginInline: 16,
     marginBlock: 12,
   },
-  headerTitle: theme.table.title,
-  actionCell: {
+  '& .headerTitle': theme?.table?.title,
+  '& .actionCell': {
     width: 60,
   },
-  header: theme.table.header,
+  '& .header': theme?.table?.header,
 }));
 
 const API_WORKFLOW_HEADERS = [
@@ -56,7 +56,6 @@ function ImportDataApiPage({
 }) {
   const dispatch = useDispatch();
   const modulesManager = useModulesManager();
-  const classes = useStyles();
   const { formatMessage } = useTranslations('individual', modulesManager);
   const {
     fetchingApiEtlServices, apiEtlServices, errorApiEtlServices,
@@ -88,13 +87,13 @@ function ImportDataApiPage({
   }, [serviceToPullData]);
 
   return (
-    <div className={classes.page}>
+    <StyledDiv>
       <Helmet title={formatMessage('ImportPageAPI.ImportPage')} />
       <div>
         <TableContainer component={Paper}>
           <Table size="small">
-            <TableHead className={classes.header}>
-              <TableRow className={classes.headerTitle}>
+            <TableHead className="header">
+              <TableRow className="headerTitle">
                 {API_WORKFLOW_HEADERS.map((header) => (
                   <TableCell key={header}>
                     {formatMessage(header)}
@@ -146,7 +145,7 @@ function ImportDataApiPage({
           </DialogActions>
         </Dialog>
       </div>
-    </div>
+    </StyledDiv>
   );
 }
 

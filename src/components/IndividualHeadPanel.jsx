@@ -9,21 +9,21 @@ import {
   PublishedComponent,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import AdditionalFieldsDialog from './dialogs/AdditionalFieldsDialog';
 
-const styles = (theme) => ({
-  tableTitle: theme.table.title,
-  item: theme.paper.item,
-  fullHeight: {
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  ...theme?.table?.title,
+  '& .item': theme?.paper?.item,
+  '& .fullHeight': {
     height: '100%',
   },
-});
+}));
 
 class IndividualHeadPanel extends FormPanel {
   render() {
     const {
-      intl, edited, classes, mandatoryFieldsEmpty,
+      intl, edited, mandatoryFieldsEmpty,
     } = this.props;
     const individual = { ...edited };
     const currentDate = new Date();
@@ -32,34 +32,34 @@ class IndividualHeadPanel extends FormPanel {
 
     return (
       <>
-        <Grid container className={classes.tableTitle}>
-          <Grid item>
-            <Grid
+        <StyledGrid container className="tableTitle">
+          <StyledGrid item>
+            <StyledGrid
               container
               align="center"
               justify="center"
               direction="column"
-              className={classes.fullHeight}
+              className="fullHeight"
             >
-              <Grid item>
+              <StyledGrid item>
                 <Typography>
                   <FormattedMessage module="individual" id="individual.headPanelTitle" />
                 </Typography>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+              </StyledGrid>
+            </StyledGrid>
+          </StyledGrid>
+        </StyledGrid>
         <Divider />
         {mandatoryFieldsEmpty && (
           <>
-            <div className={classes.item}>
+            <div className="item">
               <FormattedMessage module="individual" id="individual.mandatoryFieldsEmptyError" />
             </div>
             <Divider />
           </>
         )}
-        <Grid container className={classes.item}>
-          <Grid item xs={3} className={classes.item}>
+        <StyledGrid container className="item">
+          <StyledGrid item xs={3} className="item">
             <TextInput
               module="individual"
               label="individual.firstName"
@@ -67,8 +67,8 @@ class IndividualHeadPanel extends FormPanel {
               onChange={(v) => this.updateAttribute('firstName', v)}
               value={individual?.firstName}
             />
-          </Grid>
-          <Grid item xs={3} className={classes.item}>
+          </StyledGrid>
+          <StyledGrid item xs={3} className="item">
             <TextInput
               module="individual"
               label="individual.lastName"
@@ -76,8 +76,8 @@ class IndividualHeadPanel extends FormPanel {
               onChange={(v) => this.updateAttribute('lastName', v)}
               value={individual?.lastName}
             />
-          </Grid>
-          <Grid item xs={3} className={classes.item}>
+          </StyledGrid>
+          <StyledGrid item xs={3} className="item">
             <PublishedComponent
               pubRef="core.DatePicker"
               module="individual"
@@ -87,13 +87,13 @@ class IndividualHeadPanel extends FormPanel {
               value={individual?.dob}
               maxDate={currentDate}
             />
-          </Grid>
-          <Grid item xs={3} className={classes.item}>
+          </StyledGrid>
+          <StyledGrid item xs={3} className="item">
             <AdditionalFieldsDialog
               individualJsonExt={individual?.jsonExt}
             />
-          </Grid>
-          <Grid item xs={12}>
+          </StyledGrid>
+          <StyledGrid item xs={12}>
             <PublishedComponent
               pubRef="location.DetailedLocation"
               withNull
@@ -104,11 +104,11 @@ class IndividualHeadPanel extends FormPanel {
               filterLabels={false}
               title={locTitle}
             />
-          </Grid>
-        </Grid>
+          </StyledGrid>
+        </StyledGrid>
       </>
     );
   }
 }
 
-export default withModulesManager(injectIntl(withTheme(withStyles(styles)(IndividualHeadPanel))));
+export default withModulesManager(injectIntl(IndividualHeadPanel));

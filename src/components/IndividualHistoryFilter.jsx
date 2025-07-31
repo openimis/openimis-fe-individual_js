@@ -2,14 +2,19 @@ import React from 'react';
 import { injectIntl } from 'react-intl';
 import { TextInput, PublishedComponent } from '@openimis/fe-core';
 import { Grid } from '@mui/material';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import _debounce from 'lodash/debounce';
 import { CONTAINS_LOOKUP, DEFAULT_DEBOUNCE_TIME, EMPTY_STRING } from '../constants';
 import { defaultFilterStyles } from '../util/styles';
 
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  ...defaultFilterStyles(theme),
+}));
+
 function IndividualHistoryFilter({
-  classes, filters, onChangeFilters,
+  filters, onChangeFilters,
 }) {
+  const theme = useTheme();
   const debouncedOnChangeFilters = _debounce(onChangeFilters, DEFAULT_DEBOUNCE_TIME);
 
   const filterValue = (filterName) => filters?.[filterName]?.value;
@@ -37,24 +42,24 @@ function IndividualHistoryFilter({
   };
 
   return (
-    <Grid container className={classes.form}>
-      <Grid item xs={2} className={classes.item}>
+    <StyledGrid container className="form">
+      <StyledGrid item xs={2} className="item">
         <TextInput
           module="individual"
           label="individual.firstName"
           value={filterTextFieldValue('firstName')}
           onChange={onChangeStringFilter('firstName', CONTAINS_LOOKUP)}
         />
-      </Grid>
-      <Grid item xs={2} className={classes.item}>
+      </StyledGrid>
+      <StyledGrid item xs={2} className="item">
         <TextInput
           module="individual"
           label="individual.lastName"
           value={filterTextFieldValue('lastName')}
           onChange={onChangeStringFilter('lastName', CONTAINS_LOOKUP)}
         />
-      </Grid>
-      <Grid item xs={2} className={classes.item}>
+      </StyledGrid>
+      <StyledGrid item xs={2} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -68,8 +73,8 @@ function IndividualHistoryFilter({
             },
           ])}
         />
-      </Grid>
-      <Grid item xs={2} className={classes.item}>
+      </StyledGrid>
+      <StyledGrid item xs={2} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -83,8 +88,8 @@ function IndividualHistoryFilter({
             },
           ])}
         />
-      </Grid>
-      <Grid item xs={2} className={classes.item}>
+      </StyledGrid>
+      <StyledGrid item xs={2} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -98,17 +103,17 @@ function IndividualHistoryFilter({
             },
           ])}
         />
-      </Grid>
-      <Grid item xs={2} className={classes.item}>
+      </StyledGrid>
+      <StyledGrid item xs={2} className="item">
         <TextInput
           module="individual"
           label="groupHistory.userUpdated"
           value={filterTextFieldValue('userUpdated_Username')}
           onChange={onChangeStringFilter('userUpdated_Username', CONTAINS_LOOKUP)}
         />
-      </Grid>
-    </Grid>
+      </StyledGrid>
+    </StyledGrid>
   );
 }
 
-export default injectIntl(withTheme(withStyles(defaultFilterStyles)(IndividualHistoryFilter)));
+export default injectIntl(IndividualHistoryFilter);

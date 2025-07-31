@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Input, Grid, MenuItem, Typography, Select,
+  Input, Grid, MenuItem, Typography, Select, Button, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
 import { injectIntl } from 'react-intl';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import { useTheme, styled } from '@mui/material/styles';
 import {
   apiHeaders,
   baseApiUrl,
@@ -16,7 +12,6 @@ import {
   coreAlert,
   FormattedMessage,
 } from '@openimis/fe-core';
-import { withTheme, withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import WorkflowsPicker from '../../pickers/WorkflowsPicker';
@@ -25,9 +20,10 @@ import IndividualsHistoryUploadDialog from './IndividualsHistoryUploadDialog';
 import { EMPTY_STRING, INDIVIDUAL_MODULE_NAME, PYTHON_DEFAULT_IMPORT_WORKFLOW } from '../../constants';
 import downloadTemplate from '../../util/export';
 
-const styles = (theme) => ({
-  item: theme.paper.item,
-});
+// Styled component replacing withStyles/styles object
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  ...theme?.paper?.item,
+}));
 
 function IndividualsUploadDialog({
   intl,
@@ -35,6 +31,7 @@ function IndividualsUploadDialog({
   fetchWorkflows,
   coreAlert,
 }) {
+  const theme = useTheme();
   const modulesManager = useModulesManager();
   const [isOpen, setIsOpen] = useState(false);
   const [forms, setForms] = useState({});
@@ -168,16 +165,16 @@ function IndividualsUploadDialog({
 
   return (
     <>
-      <MenuItem>
+      <StyledMenuItem>
         <a href={enrollmentPageUrl()} style={{ color: 'inherit', textDecoration: 'none' }}>
           {formatMessage(intl, 'individual', 'individual.enrollment.buttonLabel')}
         </a>
-      </MenuItem>
-      <MenuItem
+      </StyledMenuItem>
+      <StyledMenuItem
         onClick={handleOpen}
       >
         {formatMessage(intl, 'individual', 'individual.upload.buttonLabel')}
-      </MenuItem>
+      </StyledMenuItem>
       <IndividualsHistoryUploadDialog />
       <Dialog
         open={isOpen}
@@ -330,9 +327,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 export default injectIntl(
-  withTheme(
-    withStyles(styles)(
-      connect(mapStateToProps, mapDispatchToProps)(IndividualsUploadDialog),
-    ),
-  ),
+  connect(mapStateToProps, mapDispatchToProps)(IndividualsUploadDialog)
 );

@@ -13,7 +13,7 @@ import {
   CustomFilterFieldStatusPicker,
 } from '@openimis/fe-core';
 import { Grid } from '@mui/material';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import { connect } from 'react-redux';
 import {
   BOOLEAN,
@@ -24,14 +24,14 @@ import {
   BOOL_OPTIONS,
 } from '../../constants';
 
-const styles = (theme) => ({
-  item: theme.paper.item,
-});
+// Styled component replacing withStyles/styles object
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  ...theme?.paper?.item,
+}));
 
 function AdvancedCriteriaRowValue({
   // eslint-disable-next-line no-unused-vars
   intl,
-  classes,
   customFilters,
   currentFilter,
   setCurrentFilter,
@@ -40,6 +40,7 @@ function AdvancedCriteriaRowValue({
   setFilters,
   readOnly,
 }) {
+  const theme = useTheme();
   const onAttributeChange = (attribute) => (value) => {
     let updatedFilter = { ...currentFilter };
 
@@ -120,10 +121,10 @@ function AdvancedCriteriaRowValue({
   };
 
   return (
-    <Grid
+    <StyledGrid
       container
       direction="row"
-      className={classes.item}
+      className="item"
       style={{ backgroundColor: '#DFEDEF' }}
     >
       {filters.length > 0 && !readOnly ? (
@@ -143,7 +144,7 @@ function AdvancedCriteriaRowValue({
           </span>
         </div>
       ) : (<></>)}
-      <Grid item xs={3} className={classes.item}>
+      <StyledGrid item xs={3} className="item">
         <CustomFilterFieldStatusPicker
           module="paymentPlan"
           label="paymentPlan.advancedCriteria.field"
@@ -152,9 +153,9 @@ function AdvancedCriteriaRowValue({
           customFilters={customFilters}
           readOnly={readOnly}
         />
-      </Grid>
+      </StyledGrid>
       {currentFilter.field !== '' ? (
-        <Grid item xs={3} className={classes.item}>
+        <StyledGrid item xs={3} className="item">
           <CustomFilterTypeStatusPicker
             module="paymentPlan"
             label="paymentPlan.advancedCriteria.filter"
@@ -164,15 +165,15 @@ function AdvancedCriteriaRowValue({
             customFilterField={currentFilter.field}
             readOnly={readOnly}
           />
-        </Grid>
+        </StyledGrid>
       ) : (<></>)}
       {currentFilter.field !== '' && currentFilter.filter !== '' ? (
-        <Grid item xs={3} className={classes.item}>
+        <StyledGrid item xs={3} className="item">
           {renderInputBasedOnType(currentFilter.type)}
-        </Grid>
+        </StyledGrid>
       ) : (<></>)}
-    </Grid>
+    </StyledGrid>
   );
 }
 
-export default injectIntl(withTheme(withStyles(styles)(connect(null, null)(AdvancedCriteriaRowValue))));
+export default injectIntl(connect(null, null)(AdvancedCriteriaRowValue));

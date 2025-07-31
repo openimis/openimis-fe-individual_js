@@ -2,16 +2,21 @@ import React, { useEffect } from 'react';
 import { injectIntl } from 'react-intl';
 import { formatMessage } from '@openimis/fe-core';
 import { Grid } from '@mui/material';
-import { withTheme, withStyles } from '@mui/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import _debounce from 'lodash/debounce';
 import { DEFAULT_DEBOUNCE_TIME } from '../constants';
 import { defaultFilterStyles } from '../util/styles';
 import GroupIndividualRolePicker from '../pickers/GroupIndividualRolePicker';
 import GroupPicker from '../pickers/GroupPicker';
 
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  ...defaultFilterStyles(theme),
+}));
+
 function GroupIndividualHistoryFilter({
-  intl, classes, filters, onChangeFilters, groupId,
+  intl, filters, onChangeFilters, groupId,
 }) {
+  const theme = useTheme();
   const debouncedOnChangeFilters = _debounce(onChangeFilters, DEFAULT_DEBOUNCE_TIME);
 
   const filterValue = (filterName) => filters?.[filterName]?.value;
@@ -44,8 +49,8 @@ function GroupIndividualHistoryFilter({
   }, [groupId]);
 
   return (
-    <Grid container className={classes.form}>
-      <Grid item xs={2} className={classes.item}>
+    <StyledGrid container className="form">
+      <StyledGrid item xs={2} className="item">
         <GroupPicker
           withNull
           nullLabel={formatMessage(intl, 'individual', 'any')}
@@ -58,8 +63,8 @@ function GroupIndividualHistoryFilter({
             },
           ])}
         />
-      </Grid>
-      <Grid item xs={2} className={classes.item}>
+      </StyledGrid>
+      <StyledGrid item xs={2} className="item">
         <GroupIndividualRolePicker
           withNull
           nullLabel={formatMessage(intl, 'individual', 'any')}
@@ -72,9 +77,9 @@ function GroupIndividualHistoryFilter({
             },
           ])}
         />
-      </Grid>
-    </Grid>
+      </StyledGrid>
+    </StyledGrid>
   );
 }
 
-export default injectIntl(withTheme(withStyles(defaultFilterStyles)(GroupIndividualHistoryFilter)));
+export default injectIntl(GroupIndividualHistoryFilter);
