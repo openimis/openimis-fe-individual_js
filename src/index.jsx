@@ -1,7 +1,7 @@
 // Disable due to core architecture
 /* eslint-disable camelcase */
 /* eslint-disable import/prefer-default-export */
-import flatten from 'flat';
+import { flatten } from 'flat';
 import { FormattedMessage } from '@openimis/fe-core';
 import React from 'react';
 import { Person, People } from '@mui/icons-material';

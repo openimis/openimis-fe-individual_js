@@ -178,7 +178,6 @@ function IndividualSearcher({
     if (individualToUndo && confirmed !== null) {
       setIndividualToUndo(null);
     }
-    return () => confirmed && clearConfirm(false);
   }, [confirmed]);
 
   useEffect(() => {
@@ -284,8 +283,6 @@ function IndividualSearcher({
       downloadExport(individualExport, `${formatMessage(intl, 'individual', 'export.filename.individuals')}.csv`)();
       clearIndividualExport();
     }
-
-    return setFailedExport(false);
   }, [individualExport]);
 
   const defaultFilters = () => {

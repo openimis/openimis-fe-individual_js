@@ -106,7 +106,6 @@ function GroupSearcher({
     if (groupToDelete && confirmed !== null) {
       setGroupToDelete(null);
     }
-    return () => confirmed && clearConfirm(false);
   }, [confirmed]);
 
   useEffect(() => {
@@ -217,7 +216,7 @@ function GroupSearcher({
       clearGroupExport();
     }
 
-    return setFailedExport(false);
+    // return setFailedExport(false);
   }, [groupExport]);
 
   const groupFilter = (props) => (

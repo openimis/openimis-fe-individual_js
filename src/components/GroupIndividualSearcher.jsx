@@ -114,7 +114,6 @@ function GroupIndividualSearcher({
     if (groupIndividualToDelete && confirmed !== null) {
       setGroupIndividualToDelete(null);
     }
-    return () => confirmed && clearConfirm(false);
   }, [confirmed]);
 
   useEffect(() => {
@@ -307,8 +306,6 @@ function GroupIndividualSearcher({
       )();
       clearGroupIndividualExport();
     }
-
-    return setFailedExport(false);
   }, [groupIndividualExport]);
 
   const defaultFilters = () => {

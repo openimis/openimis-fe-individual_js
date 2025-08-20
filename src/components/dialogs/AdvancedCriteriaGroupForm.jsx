@@ -217,7 +217,6 @@ function AdvancedCriteriaGroupForm({
         formatMessage(intl, 'individual', 'individual.enrollment.mutationLabel'),
       );
     }
-    return () => confirmed && clearConfirm(false);
   }, [confirmed]);
 
   return (
