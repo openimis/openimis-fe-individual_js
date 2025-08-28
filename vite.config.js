@@ -5,7 +5,9 @@ import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      jsxRuntime: 'automatic',
+    }),
     svgr(),
   ],
   build: {
