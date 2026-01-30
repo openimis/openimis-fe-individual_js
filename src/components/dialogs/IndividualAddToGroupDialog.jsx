@@ -90,4 +90,5 @@ function IndividualAddToGroupDialog({
   );
 }
 
+export { StyledButton };
 export default injectIntl(IndividualAddToGroupDialog);

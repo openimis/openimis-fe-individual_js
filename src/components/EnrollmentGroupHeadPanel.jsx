@@ -73,7 +73,7 @@ class EnrollmentGroupHeadPanel extends FormPanel {
     return (
       <>
         <StyledGrid container className="item">
-          <StyledGrid item xs={3} className="item">
+          <StyledGrid size={3} className="item">
             <PublishedComponent
               pubRef="socialProtection.BenefitPlanPicker"
               withNull
@@ -84,7 +84,7 @@ class EnrollmentGroupHeadPanel extends FormPanel {
               type="GROUP"
             />
           </StyledGrid>
-          <StyledGrid item xs={3} className="item">
+          <StyledGrid size={3} className="item">
             <PublishedComponent
               pubRef="socialProtection.BeneficiaryStatusPicker"
               required
@@ -125,4 +125,5 @@ class EnrollmentGroupHeadPanel extends FormPanel {
   }
 }
 
+export { StyledGrid };
 export default withModulesManager(injectIntl(EnrollmentGroupHeadPanel));

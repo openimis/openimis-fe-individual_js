@@ -33,7 +33,7 @@ class IndividualHeadPanel extends FormPanel {
     return (
       <>
         <StyledGrid container className="tableTitle">
-          <StyledGrid item>
+          <StyledGrid>
             <StyledGrid
               container
               align="center"
@@ -41,7 +41,7 @@ class IndividualHeadPanel extends FormPanel {
               direction="column"
               className="fullHeight"
             >
-              <StyledGrid item>
+              <StyledGrid>
                 <Typography>
                   <FormattedMessage module="individual" id="individual.headPanelTitle" />
                 </Typography>
@@ -59,7 +59,7 @@ class IndividualHeadPanel extends FormPanel {
           </>
         )}
         <StyledGrid container className="item">
-          <StyledGrid item xs={3} className="item">
+          <StyledGrid size={3} className="item">
             <TextInput
               module="individual"
               label="individual.firstName"
@@ -68,7 +68,7 @@ class IndividualHeadPanel extends FormPanel {
               value={individual?.firstName}
             />
           </StyledGrid>
-          <StyledGrid item xs={3} className="item">
+          <StyledGrid size={3} className="item">
             <TextInput
               module="individual"
               label="individual.lastName"
@@ -77,7 +77,7 @@ class IndividualHeadPanel extends FormPanel {
               value={individual?.lastName}
             />
           </StyledGrid>
-          <StyledGrid item xs={3} className="item">
+          <StyledGrid size={3} className="item">
             <PublishedComponent
               pubRef="core.DatePicker"
               module="individual"
@@ -88,12 +88,12 @@ class IndividualHeadPanel extends FormPanel {
               maxDate={currentDate}
             />
           </StyledGrid>
-          <StyledGrid item xs={3} className="item">
+          <StyledGrid size={3} className="item">
             <AdditionalFieldsDialog
               individualJsonExt={individual?.jsonExt}
             />
           </StyledGrid>
-          <StyledGrid item xs={12}>
+          <StyledGrid size={12}>
             <PublishedComponent
               pubRef="location.DetailedLocation"
               withNull
@@ -111,4 +111,5 @@ class IndividualHeadPanel extends FormPanel {
   }
 }
 
+export { StyledGrid };
 export default withModulesManager(injectIntl(IndividualHeadPanel));

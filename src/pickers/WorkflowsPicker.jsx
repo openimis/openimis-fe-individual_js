@@ -43,4 +43,5 @@ function WorkflowsPicker({
   );
 }
 
+export { WorkflowsPicker };
 export default injectIntl(WorkflowsPicker);

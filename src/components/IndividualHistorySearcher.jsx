@@ -140,6 +140,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
   dispatch,
 );
 
+export { IndividualHistorySearcher };
 export default withHistory(
   withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(IndividualHistorySearcher))),
 );

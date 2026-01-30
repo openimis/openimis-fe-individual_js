@@ -91,7 +91,11 @@ function GroupSearcher({
 
   const onDelete = (group) => setGroupToDelete(group);
 
-  useEffect(() => groupToDelete && openDeleteGroupConfirmDialog(), [groupToDelete]);
+  useEffect(() => {
+    if (groupToDelete) {
+      openDeleteGroupConfirmDialog();
+    }
+  }, [groupToDelete]);
 
   useEffect(() => {
     if (groupToDelete && confirmed) {
@@ -328,6 +332,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
   dispatch,
 );
 
+export { GroupSearcher };
 export default withHistory(
   withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(GroupSearcher))),
 );

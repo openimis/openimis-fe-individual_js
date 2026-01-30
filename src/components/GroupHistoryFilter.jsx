@@ -42,7 +42,7 @@ function GroupHistoryFilter({
 
   return (
     <StyledGrid container className="form">
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <TextInput
           module="individual"
           label="groupHistory.head"
@@ -50,7 +50,7 @@ function GroupHistoryFilter({
           onChange={onChangeStringFilter('jsonExtHead', CONTAINS_LOOKUP)}
         />
       </StyledGrid>
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -65,7 +65,7 @@ function GroupHistoryFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -80,7 +80,7 @@ function GroupHistoryFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <TextInput
           module="individual"
           label="groupHistory.userUpdated"
@@ -92,4 +92,5 @@ function GroupHistoryFilter({
   );
 }
 
+export { StyledGrid };
 export default injectIntl(GroupHistoryFilter);

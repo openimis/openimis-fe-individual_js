@@ -48,6 +48,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   coreAlert,
 }, dispatch);
 
+export { StyledMenuItem };
 export default injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(GroupMenu)
 );

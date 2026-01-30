@@ -50,7 +50,7 @@ function GroupIndividualHistoryFilter({
 
   return (
     <StyledGrid container className="form">
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <GroupPicker
           withNull
           nullLabel={formatMessage(intl, 'individual', 'any')}
@@ -64,7 +64,7 @@ function GroupIndividualHistoryFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <GroupIndividualRolePicker
           withNull
           nullLabel={formatMessage(intl, 'individual', 'any')}
@@ -82,4 +82,5 @@ function GroupIndividualHistoryFilter({
   );
 }
 
+export { StyledGrid };
 export default injectIntl(GroupIndividualHistoryFilter);

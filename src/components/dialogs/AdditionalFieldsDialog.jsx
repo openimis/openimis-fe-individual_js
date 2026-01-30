@@ -68,7 +68,7 @@ function AdditionalFieldsDialog({ intl, individualJsonExt }) {
             <StyledPaper style={{ backgroundColor: '#DFEDEF', paddingLeft: '10px', paddingBottom: '10px' }}>
               <Grid container className="item">
                 {jsonExtFields?.map((jsonExtField, index) => (
-                  <Grid item xs={6} className="item" key={index}>
+                  <Grid size={6} className="item" key={index}>
                     {renderInputComponent(INDIVIDUAL_MODULE_NAME, jsonExtField)}
                   </Grid>
                 ))}
@@ -113,6 +113,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
+export { StyledPaper };
 export default injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(AdditionalFieldsDialog)
 );

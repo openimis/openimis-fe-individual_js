@@ -85,4 +85,5 @@ function GroupTabPanel({
   );
 }
 
+export { StyledPaper };
 export default injectIntl(GroupTabPanel);

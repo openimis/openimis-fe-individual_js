@@ -120,4 +120,5 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
+export { GroupPreviewEnrollmentDialog };
 export default connect(mapStateToProps, mapDispatchToProps)(GroupPreviewEnrollmentDialog);

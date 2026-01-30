@@ -44,7 +44,7 @@ function GroupIndividualFilter({
 
   return (
     <StyledGrid container className="form">
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <TextInput
           module="individual"
           label="individual.firstName"
@@ -52,7 +52,7 @@ function GroupIndividualFilter({
           onChange={onChangeStringFilter('individual_FirstName', CONTAINS_LOOKUP)}
         />
       </StyledGrid>
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <TextInput
           module="individual"
           label="individual.lastName"
@@ -60,7 +60,7 @@ function GroupIndividualFilter({
           onChange={onChangeStringFilter('individual_LastName', CONTAINS_LOOKUP)}
         />
       </StyledGrid>
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -75,7 +75,7 @@ function GroupIndividualFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <GroupIndividualRolePicker
           withNull
           nullLabel={formatMessage(intl, 'individual', 'any')}
@@ -93,4 +93,5 @@ function GroupIndividualFilter({
   );
 }
 
+export { StyledGrid };
 export default injectIntl(GroupIndividualFilter);

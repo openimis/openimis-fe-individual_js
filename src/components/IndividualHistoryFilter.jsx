@@ -43,7 +43,7 @@ function IndividualHistoryFilter({
 
   return (
     <StyledGrid container className="form">
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <TextInput
           module="individual"
           label="individual.firstName"
@@ -51,7 +51,7 @@ function IndividualHistoryFilter({
           onChange={onChangeStringFilter('firstName', CONTAINS_LOOKUP)}
         />
       </StyledGrid>
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <TextInput
           module="individual"
           label="individual.lastName"
@@ -59,7 +59,7 @@ function IndividualHistoryFilter({
           onChange={onChangeStringFilter('lastName', CONTAINS_LOOKUP)}
         />
       </StyledGrid>
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -74,7 +74,7 @@ function IndividualHistoryFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -89,7 +89,7 @@ function IndividualHistoryFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -104,7 +104,7 @@ function IndividualHistoryFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid item xs={2} className="item">
+      <StyledGrid size={2} className="item">
         <TextInput
           module="individual"
           label="groupHistory.userUpdated"
@@ -116,4 +116,5 @@ function IndividualHistoryFilter({
   );
 }
 
+export { StyledGrid };
 export default injectIntl(IndividualHistoryFilter);

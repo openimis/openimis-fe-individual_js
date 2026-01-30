@@ -28,4 +28,5 @@ const mapStateToProps = (state) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
 });
 
+export { StyledDiv };
 export default withModulesManager(injectIntl(connect(mapStateToProps)(IndividualsPage)));

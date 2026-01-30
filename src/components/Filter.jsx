@@ -9,6 +9,7 @@ import {
   formatMessage,
   TextInput,
   PublishedComponent,
+  GRID_RESPONSIVE_SMALL,
 } from '@openimis/fe-core';
 import _debounce from 'lodash/debounce';
 import { injectIntl } from 'react-intl';
@@ -38,7 +39,7 @@ function FilterTextInput({
   module, label, value, onChange,
 }) {
   return (
-    <Grid item xs={2}>
+    <Grid size={GRID_RESPONSIVE_SMALL}>
       <TextInput
         module={module}
         label={label}
@@ -53,7 +54,7 @@ function FilterCheckbox({
   checked, onChange, label, intl, filterName,
 }) {
   return (
-    <Grid item xs={2}>
+    <Grid size={GRID_RESPONSIVE_SMALL}>
       <FormControlLabel
         control={(
           <Checkbox
@@ -98,7 +99,7 @@ function Filter({
         />
       ))}
 
-      <Grid item xs={12}>
+      <Grid size={12}>
         <PublishedComponent
           pubRef="location.DetailedLocationFilter"
           withNull
@@ -111,4 +112,5 @@ function Filter({
   );
 }
 
+export { StyledGrid };
 export default injectIntl(Filter);

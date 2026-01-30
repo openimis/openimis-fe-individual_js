@@ -127,6 +127,7 @@ function GroupHistorySearcher({
   );
 }
 
+export { GroupHistorySearcher };
 export default withHistory(
   withModulesManager(injectIntl((GroupHistorySearcher))),
 );

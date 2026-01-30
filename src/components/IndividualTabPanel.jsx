@@ -80,4 +80,5 @@ function IndividualTabPanel({
   );
 }
 
+export { StyledPaper };
 export default injectIntl(IndividualTabPanel);

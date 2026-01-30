@@ -58,4 +58,5 @@ function CollapsableErrorList({
   );
 }
 
+export { StyledListItem };
 export default injectIntl(CollapsableErrorList);

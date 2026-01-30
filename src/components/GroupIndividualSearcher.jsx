@@ -98,7 +98,11 @@ function GroupIndividualSearcher({
 
   const onDelete = (groupIndividual) => setGroupIndividualToDelete(groupIndividual);
 
-  useEffect(() => groupIndividualToDelete && openDeleteGroupIndividualConfirmDialog(), [groupIndividualToDelete]);
+  useEffect(() => {
+    if (groupIndividualToDelete) {
+      openDeleteGroupIndividualConfirmDialog();
+    }
+  }, [groupIndividualToDelete]);
 
   useEffect(() => {
     if (groupIndividualToDelete && confirmed) {
@@ -443,6 +447,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
   dispatch,
 );
 
+export { GroupIndividualSearcher };
 export default withHistory(
   withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(GroupIndividualSearcher))),
 );

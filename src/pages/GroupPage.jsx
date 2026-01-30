@@ -258,6 +258,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   journalize,
 }, dispatch);
 
+export { StyledDiv };
 export default withHistory(
   injectIntl(connect(mapStateToProps, mapDispatchToProps)(GroupPage))
 );

@@ -69,4 +69,5 @@ const mapStateToProps = (state, props) => ({
   submittingMutation: state.payroll.submittingMutation,
 });
 
+export { StyledDiv };
 export default connect(mapStateToProps, mapDispatchToProps)(EnrollmentGroupPage);

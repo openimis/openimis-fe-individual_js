@@ -198,9 +198,9 @@ function IndividualsUploadDialog({
             <div
               style={{ backgroundColor: '#DFEDEF', paddingLeft: '10px', paddingBottom: '10px' }}
             >
-              <Grid item>
+              <Grid>
                 <Grid container spacing={4} direction="column">
-                  <Grid item>
+                  <Grid>
                     <Input
                       onChange={(event) => handleFieldChange('workflows', 'file', event.target.files[0])}
                       required
@@ -214,7 +214,7 @@ function IndividualsUploadDialog({
                       type="file"
                     />
                   </Grid>
-                  <Grid item>
+                  <Grid>
                     <WorkflowsPicker
                       module={INDIVIDUAL_MODULE_NAME}
                       label="workflowPicker"
@@ -228,12 +228,12 @@ function IndividualsUploadDialog({
                 {getFieldValue() === PYTHON_DEFAULT_IMPORT_WORKFLOW ? (
                   <Grid container direction="row" alignItems="center">
                     <Grid container spacing={4} direction="row" alignItems="center">
-                      <Grid item>
+                      <Grid>
                         <Typography>
                           <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="createGroupFromColumns" />
                         </Typography>
                       </Grid>
-                      <Grid item md={5}>
+                      <Grid md={5}>
                         <Select
                           id="select"
                           value={groupAggregationHeader}
@@ -249,7 +249,7 @@ function IndividualsUploadDialog({
                         </Select>
                       </Grid>
                     </Grid>
-                    <Grid spacing={4} item>
+                    <Grid spacing={4}>
                       <Typography style={{ fontSize: '12px' }}>
                         *
                         {' '}
@@ -326,6 +326,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   coreAlert,
 }, dispatch);
 
+export { StyledMenuItem };
 export default injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(IndividualsUploadDialog)
 );

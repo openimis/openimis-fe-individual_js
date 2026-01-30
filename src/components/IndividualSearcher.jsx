@@ -150,8 +150,16 @@ function IndividualSearcher({
   const onDelete = (individual) => setIndividualToDelete(individual);
   const onUndo = (individual) => setIndividualToUndo(individual);
 
-  useEffect(() => individualToDelete && openDeleteIndividualConfirmDialog(), [individualToDelete]);
-  useEffect(() => individualToUndo && openUndoIndividualConfirmDialog(), [individualToUndo]);
+  useEffect(() => {
+    if (individualToDelete) {
+      openDeleteIndividualConfirmDialog();
+    }
+  }, [individualToDelete]);
+  useEffect(() => {
+    if (individualToUndo) {
+      openUndoIndividualConfirmDialog();
+    }
+  }, [individualToUndo]);
 
   useEffect(() => {
     if (individualToDelete && confirmed) {
@@ -420,6 +428,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
   dispatch,
 );
 
+export { IndividualSearcher };
 export default withHistory(
   withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(IndividualSearcher))),
 );

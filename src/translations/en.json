@@ -2,6 +2,7 @@
   "mainMenuIndividuals": "Beneficiares and Households",
   "emptyLabel": " ",
   "any": "Any",
+  "createButton.tooltip": "Create",
   "editButtonTooltip": "Edit",
   "deleteButtonTooltip": "Delete",
   "undoButtonTooltip": "Undo Delete",
@@ -16,6 +17,10 @@
     "api": "Import Data - API"
   },
   "individual": {
+    "individual": {
+      "label": "Individual",
+      "placeholder": "Individual"
+    },
     "pageTitle": "Individual {firstName} {lastName}",
     "headPanelTitle": "General Information",
     "firstName": "First Name",

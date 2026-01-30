@@ -83,8 +83,8 @@ function IndividualPicker(props) {
             /* eslint-disable-next-line react/jsx-props-no-spreading */
               {...inputProps}
               required={required}
-              label={(withLabel && (label || nullLabel)) || formatMessage('Individual')}
-              placeholder={(withPlaceholder && placeholder) || formatMessage('IndividualPicker.placeholder')}
+              label={(withLabel && (label || nullLabel)) || formatMessage('individual.individual.label')}
+              placeholder={(withPlaceholder && placeholder) || formatMessage('individual.individual.placeholder')}
             />
           </Tooltip>
         )}
@@ -140,8 +140,8 @@ function IndividualPicker(props) {
             /* eslint-disable-next-line react/jsx-props-no-spreading */
             {...inputProps}
             required={required}
-            label={(withLabel && (label || nullLabel)) || formatMessage('Individual')}
-            placeholder={(withPlaceholder && placeholder) || formatMessage('IndividualPicker.placeholder')}
+            label={(withLabel && (label || nullLabel)) || formatMessage('individual.individual.label')}
+            placeholder={(withPlaceholder && placeholder) || formatMessage('individual.individual.placeholder')}
           />
         </Tooltip>
       )}

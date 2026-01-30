@@ -80,4 +80,5 @@ function GroupChangeDialog({
   );
 }
 
+export { StyledButton };
 export default injectIntl(GroupChangeDialog);

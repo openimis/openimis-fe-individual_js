@@ -144,7 +144,7 @@ function AdvancedCriteriaRowValue({
           </span>
         </div>
       ) : (<></>)}
-      <StyledGrid item xs={3} className="item">
+      <StyledGrid size={3} className="item">
         <CustomFilterFieldStatusPicker
           module="paymentPlan"
           label="paymentPlan.advancedCriteria.field"
@@ -155,7 +155,7 @@ function AdvancedCriteriaRowValue({
         />
       </StyledGrid>
       {currentFilter.field !== '' ? (
-        <StyledGrid item xs={3} className="item">
+        <StyledGrid size={3} className="item">
           <CustomFilterTypeStatusPicker
             module="paymentPlan"
             label="paymentPlan.advancedCriteria.filter"
@@ -168,7 +168,7 @@ function AdvancedCriteriaRowValue({
         </StyledGrid>
       ) : (<></>)}
       {currentFilter.field !== '' && currentFilter.filter !== '' ? (
-        <StyledGrid item xs={3} className="item">
+        <StyledGrid size={3} className="item">
           {renderInputBasedOnType(currentFilter.type)}
         </StyledGrid>
       ) : (<></>)}
@@ -176,4 +176,5 @@ function AdvancedCriteriaRowValue({
   );
 }
 
+export { StyledGrid };
 export default injectIntl(connect(null, null)(AdvancedCriteriaRowValue));

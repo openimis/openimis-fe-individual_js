@@ -111,6 +111,7 @@ function GroupIndividualHistorySearcher({
   );
 }
 
+export { GroupIndividualHistorySearcher };
 export default withHistory(
   withModulesManager(injectIntl((GroupIndividualHistorySearcher))),
 );

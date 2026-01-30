@@ -299,7 +299,7 @@ function AdvancedCriteriaGroupForm({
           </div>
           <Divider />
           <Grid container spacing={2}>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <StyledPaper elevation={3} style={{ padding: '20px' }}>
                 <Typography variant="h6" gutterBottom>
                   {formatMessage(intl, 'individual', 'individual.enrollment.totalNumberOfGroups')}
@@ -309,7 +309,7 @@ function AdvancedCriteriaGroupForm({
                 </Typography>
               </StyledPaper>
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <StyledPaper elevation={3} style={{ padding: '20px' }}>
                 <Typography variant="h6" gutterBottom>
                   {formatMessage(intl, 'individual', 'individual.enrollment.numberOfSelectedGroups')}
@@ -319,7 +319,7 @@ function AdvancedCriteriaGroupForm({
                 </Typography>
               </StyledPaper>
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <StyledPaper elevation={3} style={{ padding: '20px' }}>
                 <Typography variant="h6" gutterBottom>
                   {formatMessage(intl, 'individual', 'individual.enrollment.numberOfGroupsAssignedToProgramme')}
@@ -329,7 +329,7 @@ function AdvancedCriteriaGroupForm({
                 </Typography>
               </StyledPaper>
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <StyledPaper elevation={3} style={{ padding: '20px' }}>
                 <Typography variant="h6" gutterBottom>
                   {formatMessage(intl, 'individual', 'individual.enrollment.numberOfGroupsNotAssignedToProgramme')}
@@ -339,7 +339,7 @@ function AdvancedCriteriaGroupForm({
                 </Typography>
               </StyledPaper>
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <StyledPaper elevation={3} style={{ padding: '20px' }}>
                 <Typography variant="h6" gutterBottom>
                   {/* eslint-disable-next-line max-len */}
@@ -350,7 +350,7 @@ function AdvancedCriteriaGroupForm({
                 </Typography>
               </StyledPaper>
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={6}>
               <StyledPaper elevation={3} style={{ padding: '20px' }}>
                 <Typography variant="h6" gutterBottom>
                   {/* eslint-disable-next-line max-len */}
@@ -363,8 +363,8 @@ function AdvancedCriteriaGroupForm({
             </Grid>
           </Grid>
           <Grid container spacing={3}>
-            <Grid item xs={5} />
-            <Grid item xs={5}>
+            <Grid size={5} />
+            <Grid size={5}>
               <Button
                 onClick={() => openConfirmEnrollmentDialog()}
                 variant="contained"
@@ -382,7 +382,7 @@ function AdvancedCriteriaGroupForm({
                 confirmed={confirmed}
               />
             </Grid>
-            <Grid item xs={5} />
+            <Grid size={5} />
           </Grid>
         </div>
       )}
@@ -412,6 +412,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   coreConfirm,
 }, dispatch);
 
+export { StyledPaper };
 export default injectIntl(
   connect(mapStateToProps, mapDispatchToProps)(AdvancedCriteriaGroupForm)
 );

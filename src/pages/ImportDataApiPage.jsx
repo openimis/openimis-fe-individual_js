@@ -102,7 +102,13 @@ function ImportDataApiPage({
               </TableRow>
             </TableHead>
             <TableBody>
-              <ProgressOrError progress={fetchingApiEtlServices} error={errorApiEtlServices} />
+              {(fetchingApiEtlServices || errorApiEtlServices) && (
+                <TableRow>
+                  <TableCell colSpan={API_WORKFLOW_HEADERS.length}>
+                    <ProgressOrError progress={fetchingApiEtlServices} error={errorApiEtlServices} />
+                  </TableCell>
+                </TableRow>
+              )}
               {apiEtlServices.map((etlService) => (
                 <TableRow key={etlService.nameOfService}>
                   <TableCell>
@@ -164,4 +170,5 @@ const mapStateToProps = (state, props) => ({
   mutations: state.individual.mutations,
 });
 
+export { StyledDiv };
 export default connect(mapStateToProps, mapDispatchToProps)(ImportDataApiPage);

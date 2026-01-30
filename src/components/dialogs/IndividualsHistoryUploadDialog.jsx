@@ -281,6 +281,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   fetchUploadHistory,
 }, dispatch);
 
+export { StyledTableHead };
 export default injectIntl(
   withModulesManager(
     connect(mapStateToProps, mapDispatchToProps)(IndividualsUploadHistoryDialog)
