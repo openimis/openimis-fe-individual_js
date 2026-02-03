@@ -12,13 +12,13 @@ export const defaultFilterStyles = (theme) => ({
 });
 
 export const defaultHeadPanelStyles = (theme) => ({
-  tableTitle: theme.table.title,
-  item: theme.paper.item,
+  tableTitle: theme.table?.title,
+  item: theme.paper?.item,
   fullHeight: {
     height: '100%',
   },
 });
 
 export const defaultDialogStyles = (theme) => ({
-  item: theme.paper.item,
+  item: theme.paper?.item,
 });
