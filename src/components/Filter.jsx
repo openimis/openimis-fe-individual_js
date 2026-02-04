@@ -1,15 +1,11 @@
 import React from 'react';
-import {
-  FormControlLabel,
-  Checkbox,
-  Grid,
-} from '@mui/material';
-import { useTheme, styled } from '@mui/material/styles';
+import { Checkbox, FormControlLabel, Grid } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import {
   formatMessage,
-  TextInput,
-  PublishedComponent,
   GRID_RESPONSIVE_SMALL,
+  PublishedComponent,
+  TextInput,
 } from '@openimis/fe-core';
 import _debounce from 'lodash/debounce';
 import { injectIntl } from 'react-intl';
@@ -17,6 +13,12 @@ import { INDIVIDUAL_MODULE_NAME } from '../constants';
 import { defaultFilterStyles } from '../util/styles';
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
+  '& .form': {
+    padding: 0,
+  },
+  '& .item': {
+    padding: theme.spacing(1),
+  },
   ...defaultFilterStyles(theme),
 }));
 
@@ -24,8 +26,12 @@ export const useFilterChangeHandler = (onChangeFilters) => {
   const debouncedOnChangeFilters = _debounce(onChangeFilters, 300);
 
   const onChangeStringFilter = (filterName, lookup = null) => (value) => {
-    const filterValue = lookup ? `${filterName}_${lookup}: "${value}"` : `${filterName}: "${value}"`;
-    debouncedOnChangeFilters([{ id: filterName, value, filter: filterValue }]);
+    const filterValue = lookup
+      ? `${filterName}_${lookup}: "${value}"`
+      : `${filterName}: "${value}"`;
+    debouncedOnChangeFilters([
+      { id: filterName, value, filter: filterValue },
+    ]);
   };
 
   const onChangeFilter = (k, v) => {
@@ -39,7 +45,7 @@ function FilterTextInput({
   module, label, value, onChange,
 }) {
   return (
-    <Grid size={GRID_RESPONSIVE_SMALL}>
+    <Grid size={GRID_RESPONSIVE_SMALL} className="item">
       <TextInput
         module={module}
         label={label}
@@ -54,15 +60,11 @@ function FilterCheckbox({
   checked, onChange, label, intl, filterName,
 }) {
   return (
-    <Grid size={GRID_RESPONSIVE_SMALL}>
+    <Grid size={GRID_RESPONSIVE_SMALL} className="item">
       <FormControlLabel
-        control={(
-          <Checkbox
-            checked={checked}
-            onChange={onChange}
-            name={filterName}
-          />
-        )}
+        control={
+          <Checkbox checked={checked} onChange={onChange} name={filterName} />
+        }
         label={formatMessage(intl, INDIVIDUAL_MODULE_NAME, label)}
       />
     </Grid>
@@ -70,13 +72,16 @@ function FilterCheckbox({
 }
 
 function Filter({
-  intl, filters, onChangeFilters, filterFields, checkboxFields,
+  intl,
+  filters,
+  onChangeFilters,
+  filterFields,
+  checkboxFields,
 }) {
-  const theme = useTheme();
   const { onChangeStringFilter, onChangeFilter } = useFilterChangeHandler(onChangeFilters);
 
   return (
-    <StyledGrid container className="form">
+    <StyledGrid container className="form" spacing={2} sx={{ p: 2 }}>
       {filterFields.map((field) => (
         <FilterTextInput
           key={field.name}
@@ -99,13 +104,14 @@ function Filter({
         />
       ))}
 
-      <Grid size={12}>
+      <Grid size={12} className="item">
         <PublishedComponent
           pubRef="location.DetailedLocationFilter"
           withNull
           filters={filters}
           onChangeFilters={onChangeFilters}
           anchor="parentLocation"
+          split
         />
       </Grid>
     </StyledGrid>
