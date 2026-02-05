@@ -29,19 +29,45 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { confirmPullingDataFromApiEtl, fetchApiEtlServices, fetchMutationByLabel } from '../actions';
+import {
+  confirmPullingDataFromApiEtl,
+  fetchApiEtlServices,
+  fetchMutationByLabel,
+} from '../actions';
 
 const StyledDiv = styled('div')(({ theme }) => ({
   ...theme?.page,
-  '& .footer': {
-    marginInline: 16,
-    marginBlock: 12,
+  padding: '24px',
+  '& .tableContainer': {
+    marginTop: '24px',
+    borderRadius: '8px',
+    overflow: 'hidden',
+    boxShadow:
+      '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
   },
-  '& .headerTitle': theme?.table?.title,
+  '& .headerCell': {
+    ...theme?.table?.title,
+    fontWeight: 'bold',
+    fontSize: '1rem',
+    padding: '16px',
+  },
+  '& .row': {
+    ...theme?.table?.row,
+    '&:hover': {
+      backgroundColor: theme?.palette?.action?.hover || 'rgba(0, 0, 0, 0.04)',
+    },
+  },
+  '& .cell': {
+    padding: '16px',
+    fontSize: '0.9rem',
+  },
   '& .actionCell': {
-    width: 60,
+    width: 350,
+    textAlign: 'center',
+    paddingLeft: '32px !important',
+    paddingRight: '32px !important',
+    whiteSpace: 'nowrap',
   },
-  '& .header': theme?.table?.header,
 }));
 
 const API_WORKFLOW_HEADERS = [
@@ -50,16 +76,11 @@ const API_WORKFLOW_HEADERS = [
 ];
 
 // eslint-disable-next-line no-empty-pattern
-function ImportDataApiPage({
-  confirmPullingDataFromApiEtl,
-  mutations,
-}) {
+function ImportDataApiPage({ confirmPullingDataFromApiEtl, mutations }) {
   const dispatch = useDispatch();
   const modulesManager = useModulesManager();
   const { formatMessage } = useTranslations('individual', modulesManager);
-  const {
-    fetchingApiEtlServices, apiEtlServices, errorApiEtlServices,
-  } = useSelector((store) => store.individual);
+  const { fetchingApiEtlServices, apiEtlServices, errorApiEtlServices } = useSelector((store) => store.individual);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
   const [serviceToPullData, setServiceToPullData] = useState(null);
 
@@ -79,23 +100,30 @@ function ImportDataApiPage({
 
   useEffect(() => {
     dispatch(fetchApiEtlServices());
-    dispatch(fetchMutationByLabel(formatMessage('ImportPageAPI.confirmPullingData')));
+    dispatch(
+      fetchMutationByLabel(formatMessage('ImportPageAPI.confirmPullingData')),
+    );
   }, []);
 
   useEffect(() => {
-    dispatch(fetchMutationByLabel(formatMessage('ImportPageAPI.confirmPullingData')));
+    dispatch(
+      fetchMutationByLabel(formatMessage('ImportPageAPI.confirmPullingData')),
+    );
   }, [serviceToPullData]);
 
   return (
     <StyledDiv>
       <Helmet title={formatMessage('ImportPageAPI.ImportPage')} />
       <div>
-        <TableContainer component={Paper}>
-          <Table size="small">
-            <TableHead className="header">
-              <TableRow className="headerTitle">
-                {API_WORKFLOW_HEADERS.map((header) => (
-                  <TableCell key={header}>
+        <TableContainer component={Paper} className="tableContainer">
+          <Table>
+            <TableHead>
+              <TableRow>
+                {API_WORKFLOW_HEADERS.map((header, index) => (
+                  <TableCell
+                    key={header}
+                    className={`headerCell ${index === 1 ? 'actionCell' : ''}`}
+                  >
                     {formatMessage(header)}
                   </TableCell>
                 ))}
@@ -105,22 +133,37 @@ function ImportDataApiPage({
               {(fetchingApiEtlServices || errorApiEtlServices) && (
                 <TableRow>
                   <TableCell colSpan={API_WORKFLOW_HEADERS.length}>
-                    <ProgressOrError progress={fetchingApiEtlServices} error={errorApiEtlServices} />
+                    <ProgressOrError
+                      progress={fetchingApiEtlServices}
+                      error={errorApiEtlServices}
+                    />
                   </TableCell>
                 </TableRow>
               )}
               {apiEtlServices.map((etlService) => (
-                <TableRow key={etlService.nameOfService}>
-                  <TableCell>
+                <TableRow key={etlService.nameOfService} className="row">
+                  <TableCell className="cell">
                     {etlService.nameOfService}
                   </TableCell>
-                  <TableCell>
-                    <Tooltip title={formatMessage('ImportPageAPI.triggerImport')}>
+                  <TableCell className="cell actionCell">
+                    <Tooltip
+                      title={formatMessage('ImportPageAPI.triggerImport')}
+                    >
                       <Button
                         variant="contained"
                         color="primary"
                         onClick={() => confirmPullingData(etlService.nameOfService)}
                         disabled={mutations.length > 0}
+                        sx={{
+                          borderRadius: '20px',
+                          textTransform: 'none',
+                          fontWeight: 'bold',
+                          padding: '8px 32px',
+                          boxShadow: 'none',
+                          '&:hover': {
+                            boxShadow: '0 2px 4px 0 rgba(0,0,0,0.2)',
+                          },
+                        }}
                       >
                         {formatMessage('ImportPageAPI.triggerImport')}
                       </Button>
@@ -134,18 +177,33 @@ function ImportDataApiPage({
         <Dialog
           open={openConfirmDialog}
           onClose={() => setOpenConfirmDialog(false)}
+          maxWidth="sm"
+          fullWidth
         >
-          <DialogTitle>{formatMessage('ImportPageAPI.confirmPullingData.title')}</DialogTitle>
+          <DialogTitle sx={{ fontWeight: 'bold' }}>
+            {formatMessage('ImportPageAPI.confirmPullingData.title')}
+          </DialogTitle>
           <DialogContent>
             <DialogContentText>
               {formatMessage('ImportPageAPI.confirmPullingData.message')}
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenConfirmDialog(false)} color="primary">
+          <DialogActions sx={{ padding: '16px 24px' }}>
+            <Button
+              onClick={() => setOpenConfirmDialog(false)}
+              variant="outlined"
+              color="primary"
+              sx={{ borderRadius: '20px', textTransform: 'none' }}
+            >
               {formatMessage('ImportPageAPI.confirmPullingData.cancel')}
             </Button>
-            <Button onClick={() => handlePullingData()} color="#DFEDEF" autoFocus>
+            <Button
+              onClick={() => handlePullingData()}
+              variant="contained"
+              color="primary"
+              autoFocus
+              sx={{ borderRadius: '20px', textTransform: 'none' }}
+            >
               {formatMessage('ImportPageAPI.confirmPullingData.confirm')}
             </Button>
           </DialogActions>
@@ -155,12 +213,15 @@ function ImportDataApiPage({
   );
 }
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  coreConfirm,
-  clearConfirm,
-  journalize,
-  confirmPullingDataFromApiEtl,
-}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators(
+  {
+    coreConfirm,
+    clearConfirm,
+    journalize,
+    confirmPullingDataFromApiEtl,
+  },
+  dispatch,
+);
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state, props) => ({
