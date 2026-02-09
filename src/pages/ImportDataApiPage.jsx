@@ -37,9 +37,7 @@ import {
 
 const StyledDiv = styled('div')(({ theme }) => ({
   ...theme?.page,
-  padding: '24px',
   '& .tableContainer': {
-    marginTop: '24px',
     borderRadius: '8px',
     overflow: 'hidden',
     boxShadow:
