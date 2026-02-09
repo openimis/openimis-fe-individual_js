@@ -81,7 +81,7 @@ function Filter({
   const { onChangeStringFilter, onChangeFilter } = useFilterChangeHandler(onChangeFilters);
 
   return (
-    <StyledGrid container className="form" spacing={2} sx={{ p: 2 }}>
+    <StyledGrid container className="form">
       {filterFields.map((field) => (
         <FilterTextInput
           key={field.name}
@@ -104,7 +104,7 @@ function Filter({
         />
       ))}
 
-      <Grid size={12} className="item">
+      <Grid size={12}>
         <PublishedComponent
           pubRef="location.DetailedLocationFilter"
           withNull
