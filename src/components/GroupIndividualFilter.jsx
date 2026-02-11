@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import { TextInput, PublishedComponent, formatMessage } from '@openimis/fe-core';
+import { TextInput, PublishedComponent, formatMessage, GRID_RESPONSIVE_STANDARD } from '@openimis/fe-core';
 import { Grid } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import _debounce from 'lodash/debounce';
@@ -44,7 +44,7 @@ function GroupIndividualFilter({
 
   return (
     <StyledGrid container className="form">
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <TextInput
           module="individual"
           label="individual.firstName"
@@ -52,7 +52,7 @@ function GroupIndividualFilter({
           onChange={onChangeStringFilter('individual_FirstName', CONTAINS_LOOKUP)}
         />
       </StyledGrid>
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <TextInput
           module="individual"
           label="individual.lastName"
@@ -60,7 +60,7 @@ function GroupIndividualFilter({
           onChange={onChangeStringFilter('individual_LastName', CONTAINS_LOOKUP)}
         />
       </StyledGrid>
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -75,7 +75,7 @@ function GroupIndividualFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <GroupIndividualRolePicker
           withNull
           nullLabel={formatMessage(intl, 'individual', 'any')}

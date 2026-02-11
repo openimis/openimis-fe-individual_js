@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import { TextInput, PublishedComponent } from '@openimis/fe-core';
+import { TextInput, PublishedComponent, GRID_RESPONSIVE_STANDARD } from '@openimis/fe-core';
 import { Grid } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import _debounce from 'lodash/debounce';
@@ -43,7 +43,7 @@ function IndividualHistoryFilter({
 
   return (
     <StyledGrid container className="form">
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <TextInput
           module="individual"
           label="individual.firstName"
@@ -51,7 +51,7 @@ function IndividualHistoryFilter({
           onChange={onChangeStringFilter('firstName', CONTAINS_LOOKUP)}
         />
       </StyledGrid>
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <TextInput
           module="individual"
           label="individual.lastName"
@@ -59,7 +59,7 @@ function IndividualHistoryFilter({
           onChange={onChangeStringFilter('lastName', CONTAINS_LOOKUP)}
         />
       </StyledGrid>
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -74,7 +74,7 @@ function IndividualHistoryFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -89,7 +89,7 @@ function IndividualHistoryFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -104,7 +104,7 @@ function IndividualHistoryFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <TextInput
           module="individual"
           label="groupHistory.userUpdated"

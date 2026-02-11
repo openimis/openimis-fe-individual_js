@@ -1,6 +1,6 @@
 import React from 'react';
 import { injectIntl } from 'react-intl';
-import { TextInput, PublishedComponent } from '@openimis/fe-core';
+import { TextInput, PublishedComponent, GRID_RESPONSIVE_STANDARD } from '@openimis/fe-core';
 import { Grid } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import _debounce from 'lodash/debounce';
@@ -42,7 +42,7 @@ function GroupHistoryFilter({
 
   return (
     <StyledGrid container className="form">
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <TextInput
           module="individual"
           label="groupHistory.head"
@@ -50,7 +50,7 @@ function GroupHistoryFilter({
           onChange={onChangeStringFilter('jsonExtHead', CONTAINS_LOOKUP)}
         />
       </StyledGrid>
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -65,7 +65,7 @@ function GroupHistoryFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <PublishedComponent
           pubRef="core.DatePicker"
           module="individual"
@@ -80,7 +80,7 @@ function GroupHistoryFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <TextInput
           module="individual"
           label="groupHistory.userUpdated"

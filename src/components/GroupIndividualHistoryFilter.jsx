@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { injectIntl } from 'react-intl';
-import { formatMessage } from '@openimis/fe-core';
+import { formatMessage, GRID_RESPONSIVE_STANDARD } from '@openimis/fe-core';
 import { Grid } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import _debounce from 'lodash/debounce';
@@ -50,7 +50,7 @@ function GroupIndividualHistoryFilter({
 
   return (
     <StyledGrid container className="form">
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <GroupPicker
           withNull
           nullLabel={formatMessage(intl, 'individual', 'any')}
@@ -64,7 +64,7 @@ function GroupIndividualHistoryFilter({
           ])}
         />
       </StyledGrid>
-      <StyledGrid size={2} className="item">
+      <StyledGrid size={GRID_RESPONSIVE_STANDARD} className="item">
         <GroupIndividualRolePicker
           withNull
           nullLabel={formatMessage(intl, 'individual', 'any')}
