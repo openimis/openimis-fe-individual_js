@@ -3,6 +3,7 @@ import { Checkbox, FormControlLabel, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import {
   formatMessage,
+  GRID_RESPONSIVE_STANDARD,
   GRID_RESPONSIVE_SMALL,
   PublishedComponent,
   TextInput,
@@ -45,7 +46,7 @@ function FilterTextInput({
   module, label, value, onChange,
 }) {
   return (
-    <Grid size={GRID_RESPONSIVE_SMALL} className="item">
+    <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
       <TextInput
         module={module}
         label={label}
@@ -92,6 +93,17 @@ function Filter({
         />
       ))}
 
+      <Grid size={12}>
+        <PublishedComponent
+          pubRef="location.DetailedLocationFilter"
+          withNull
+          filters={filters}
+          onChangeFilters={onChangeFilters}
+          anchor="parentLocation"
+          split
+        />
+      </Grid>
+
       {checkboxFields.map((field) => (
         <FilterCheckbox
           key={field.name}
@@ -103,17 +115,6 @@ function Filter({
           filterName={field.name}
         />
       ))}
-
-      <Grid size={12}>
-        <PublishedComponent
-          pubRef="location.DetailedLocationFilter"
-          withNull
-          filters={filters}
-          onChangeFilters={onChangeFilters}
-          anchor="parentLocation"
-          split
-        />
-      </Grid>
     </StyledGrid>
   );
 }
