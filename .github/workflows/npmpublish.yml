@@ -24,27 +24,31 @@ on:
         description: 'Access level for npm package'
         required: false
         default: 'public'
-      tab:
+      tag:
+        description: 'Dist-tag (latest, next, beta...)'
         required: true
+        default: 'latest'
 
 jobs:
-  call-npm-publish-workflow:
+  npmjs:
     uses: openimis/openimis-fe_js/.github/workflows/module-npmpublish.yml@develop
     with:
-      registry_url: 'https://registry.npmjs.org/'
-      node_version: ${{ github.event.inputs.node_version }}
-      access: ${{ github.event.inputs.access }}
-      scope: ${{ github.event.inputs.scope }}
-      tag:  ${{ github.event.inputs.tag }}
+      registry_url: ${{ inputs.registry_url || 'https://registry.npmjs.org/' }}
+      node_version: ${{ inputs.node_version || '20' }}
+      scope:        ${{ inputs.scope        || 'openimis' }}
+      access:       ${{ inputs.access       || 'public' }}
+      tag:          ${{ inputs.tag          || 'latest' }}
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-  call-gpr-publish-workflow:
+
+  gpr:
+    needs: npmjs
     uses: openimis/openimis-fe_js/.github/workflows/module-npmpublish.yml@develop
     with:
       registry_url: 'https://npm.pkg.github.com/'
-      node_version: ${{ github.event.inputs.node_version }}
-      access: ${{ github.event.inputs.access }}
-      scope: ${{ github.event.inputs.scope }}
-      tag:  ${{ github.event.inputs.tag }}
+      node_version: ${{ inputs.node_version || '20' }}
+      scope:        ${{ inputs.scope        || 'openimis' }}
+      access:       ${{ inputs.access       || 'public' }}
+      tag:          ${{ inputs.tag          || 'latest' }}
     secrets:
       NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
