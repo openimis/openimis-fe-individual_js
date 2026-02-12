@@ -27,6 +27,7 @@ export default defineConfig({
         /^@openimis.*/,
         'classnames',
         'clsx',
+        'flat',
         'history',
         /^lodash.*/,
         'moment',
