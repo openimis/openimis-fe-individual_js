@@ -127,7 +127,7 @@ function GroupPage({
   };
 
   const readOnly = !!groupUuid && !rights.includes(RIGHT_GROUP_UPDATE);
-  const isUpdatable = !group?.isDeleted ?? true;
+  const isUpdatable = !group?.isDeleted;
   const saveTooltip = formatMessage(intl, 'individual', 'saveButton.tooltip.enabled');
 
   return (
