@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from "react";
 import { Grid, Divider, Typography } from '@mui/material';
 import {
   withModulesManager,
@@ -10,20 +10,51 @@ import {
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
 import { useTheme, styled } from '@mui/material/styles';
+import { RIGHT_INDIVIDUAL_UPDATE } from '../constants';
 import AdditionalFieldsDialog from './dialogs/AdditionalFieldsDialog';
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
-  ...theme?.table?.title,
-  '& .item': theme?.paper?.item,
+  '& .tableTitle': theme.table?.title ?? {},
+  '& .item': theme.paper?.item ?? {},
   '& .fullHeight': {
-    height: '100%',
+    height: "100%",
   },
 }));
 
 class IndividualHeadPanel extends FormPanel {
+  constructor(props) {
+    super(props);
+    this.updatableFields = [
+      "firstName",
+      "lastName",
+      "dob",
+      "location",
+    ];
+  }
+
+  setReadOnlyFields = () =>
+    this.props.setReadOnlyFields(
+      this.updatableFields.filter((f) => this.isReadOnly(f))
+    );
+
+  isReadOnly = (field) => {
+    const { rights, isUpdatable } = this.props;
+    if (!rights?.includes(RIGHT_INDIVIDUAL_UPDATE) || !isUpdatable) return true;
+    switch (field) {
+      case "location":
+        return this.props.edited?.groupindividuals?.edges?.length > 0;
+      default:
+        return false;
+    }
+  };
+
+  componentDidMount() {
+    this.setReadOnlyFields();
+  }
+
   render() {
     const {
-      intl, edited, mandatoryFieldsEmpty,
+      intl, edited, mandatoryFieldsEmpty, readOnlyFields, readOnly, isUpdatable,
     } = this.props;
     const individual = { ...edited };
     const currentDate = new Date();
@@ -31,82 +62,85 @@ class IndividualHeadPanel extends FormPanel {
     const locTitle = locReadOnly ? formatMessage(intl, 'individual', 'individual.locationEditDisabledTitle') : '';
 
     return (
-      <>
+      <Fragment>
         <StyledGrid container className="tableTitle">
-          <StyledGrid>
-            <StyledGrid
+          <Grid>
+            <Grid
               container
               align="center"
               justify="center"
               direction="column"
               className="fullHeight"
             >
-              <StyledGrid>
+              <Grid>
                 <Typography>
                   <FormattedMessage module="individual" id="individual.headPanelTitle" />
                 </Typography>
-              </StyledGrid>
-            </StyledGrid>
-          </StyledGrid>
+              </Grid>
+            </Grid>
+          </Grid>
         </StyledGrid>
         <Divider />
-        {mandatoryFieldsEmpty && (
-          <>
+        {mandatoryFieldsEmpty && !readOnly && (
+          <Fragment>
             <div className="item">
               <FormattedMessage module="individual" id="individual.mandatoryFieldsEmptyError" />
             </div>
             <Divider />
-          </>
+          </Fragment>
         )}
         <StyledGrid container className="item">
-          <StyledGrid size={3} className="item">
+          <Grid size={3} className="item">
             <TextInput
               module="individual"
               label="individual.firstName"
               required
+              readOnly={readOnlyFields.includes("firstName")}
               onChange={(v) => this.updateAttribute('firstName', v)}
               value={individual?.firstName}
             />
-          </StyledGrid>
-          <StyledGrid size={3} className="item">
+          </Grid>
+          <Grid size={3} className="item">
             <TextInput
               module="individual"
               label="individual.lastName"
               required
+              readOnly={readOnlyFields.includes("lastName")}
               onChange={(v) => this.updateAttribute('lastName', v)}
               value={individual?.lastName}
             />
-          </StyledGrid>
-          <StyledGrid size={3} className="item">
+          </Grid>
+          <Grid size={3} className="item">
             <PublishedComponent
               pubRef="core.DatePicker"
               module="individual"
               label="individual.dob"
               required
+              readOnly={readOnlyFields.includes("dob")}
               onChange={(v) => this.updateAttribute('dob', v)}
               value={individual?.dob}
               maxDate={currentDate}
             />
-          </StyledGrid>
-          <StyledGrid size={3} className="item">
+          </Grid>
+          <Grid size={3} className="item">
             <AdditionalFieldsDialog
               individualJsonExt={individual?.jsonExt}
             />
-          </StyledGrid>
-          <StyledGrid size={12}>
+          </Grid>
+          <Grid size={12}>
             <PublishedComponent
               pubRef="location.DetailedLocation"
               withNull
               required={false}
-              readOnly={locReadOnly}
+              readOnly={readOnlyFields.includes("location")}
               value={!edited ? null : edited.location}
               onChange={(v) => this.updateAttribute('location', v)}
               filterLabels={false}
               title={locTitle}
             />
-          </StyledGrid>
+          </Grid>
         </StyledGrid>
-      </>
+      </Fragment>
     );
   }
 }

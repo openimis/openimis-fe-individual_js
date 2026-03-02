@@ -1,75 +1,44 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  Form,
-  Helmet,
   withHistory,
   formatMessage,
   formatMessageWithValues,
   coreConfirm,
   clearConfirm,
-  journalize,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import _ from 'lodash';
-import { useTheme, styled } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH } from '../constants';
+import { RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH, RIGHT_GROUP_UPDATE } from '../constants';
 import {
-  fetchGroup, deleteGroup, updateGroup, clearGroup, createGroupAndMoveIndividual,
+  deleteGroup, updateGroup, createGroupAndMoveIndividual,
   createGroup, creteGroupIndividual,
 } from '../actions';
-import GroupHeadPanel from '../components/GroupHeadPanel';
-import { ACTION_TYPE } from '../reducer';
-import GroupTabPanel from '../components/GroupTabPanel';
+import GroupForm from '../components/GroupForm';
 import IndividualAddToGroupDialog from '../components/dialogs/IndividualAddToGroupDialog';
-
-const StyledDiv = styled('div')(({ theme }) => ({
-  ...theme?.page,
-  '& .lockedPage': theme?.page?.locked,
-}));
 
 function GroupPage({
   intl,
-  modulesManager,
   rights,
   history,
   groupUuid,
   group,
-  fetchGroup,
   deleteGroup,
   createGroup,
   updateGroup,
   coreConfirm,
   clearConfirm,
   confirmed,
-  submittingMutation,
-  mutation,
-  journalize,
-  clearGroup,
   createGroupAndMoveIndividual,
   groupIndividuals,
   creteGroupIndividual,
 }) {
-  const theme = useTheme();
-  const [editedGroup, setEditedGroup] = useState({});
   const [editedGroupIndividual, setEditedGroupIndividual] = useState(null);
   const [confirmedAction, setConfirmedAction] = useState(() => null);
   const [groupIndividualIds, setGroupIndividualIds] = useState([]);
   const [isAddIndividualToGroupModalOpen, setIsAddIndividualToGroupModalOpen] = useState(false);
-  const [readOnly, setReadOnly] = useState(null);
-  const prevSubmittingMutationRef = useRef();
-
-  useEffect(() => {
-    if (groupUuid) {
-      fetchGroup(modulesManager, [`id: "${groupUuid}"`]);
-    }
-    return () => {
-      clearGroup();
-    };
-  }, [groupUuid]);
 
   useEffect(() => {
     if (groupIndividuals) {
@@ -88,52 +57,24 @@ function GroupPage({
     return history.goBack();
   };
 
-  useEffect(() => {
-    if (prevSubmittingMutationRef.current && !submittingMutation) {
-      journalize(mutation);
-      if (mutation?.actionType === ACTION_TYPE.DELETE_GROUP) {
-        back();
-      }
-    }
-  }, [submittingMutation]);
-
-  useEffect(() => {
-    prevSubmittingMutationRef.current = submittingMutation;
-  });
-
-  useEffect(() => setEditedGroup(group), [group]);
-
-  const titleParams = (group) => ({
-    id: group?.code,
-  });
-
-  const isMandatoryFieldsEmpty = () => !editedGroup || !editedGroup.id;
-
-  const doesGroupChange = () => !_.isEqual(group, editedGroup);
-
-  const canSave = () => !isMandatoryFieldsEmpty() && doesGroupChange();
-
-  const handleSave = () => {
-    setReadOnly(true);
+  const save = (editedGroup) => {
     if (groupUuid) {
-      if (editedGroup?.id) {
-        updateGroup(
-          editedGroup,
-          formatMessageWithValues(intl, 'individual', 'group.update.mutationLabel', {
-            id: group?.id,
-          }),
-        );
-      } else if (editedGroupIndividual?.id) {
-        createGroupAndMoveIndividual(
-          editedGroup,
-          editedGroupIndividual.id,
-          formatMessageWithValues(intl, 'individual', 'group.createGroupAndMoveIndividual.mutationLabel'),
-        );
-      }
+      updateGroup(
+        editedGroup,
+        formatMessageWithValues(intl, 'individual', 'group.update.mutationLabel', {
+          id: group?.id,
+        }),
+      );
+    } else if (editedGroupIndividual?.id) {
+      createGroupAndMoveIndividual(
+        editedGroup,
+        editedGroupIndividual.id,
+        formatMessageWithValues(intl, 'individual', 'group.createGroupAndMoveIndividual.mutationLabel'),
+      );
     } else {
       createGroup(
         editedGroup,
-        formatMessageWithValues(intl, 'socialProtection', 'group.create.mutationLabel', titleParams(editedGroup)),
+        formatMessageWithValues(intl, 'socialProtection', 'group.create.mutationLabel', { id: editedGroup?.code }),
       );
     }
   };
@@ -155,11 +96,6 @@ function GroupPage({
     );
   };
 
-  const canAdd = () => {
-    if (groupUuid) return rights.includes(RIGHT_GROUP_CREATE) && editedGroupIndividual && !readOnly;
-    return rights.includes(RIGHT_GROUP_CREATE) && !!editedGroup?.code;
-  };
-
   const actions = [
     !!group && {
       doIt: openDeleteGroupConfirmDialog,
@@ -167,7 +103,7 @@ function GroupPage({
       tooltip: formatMessage(intl, 'individual', 'deleteButtonTooltip'),
     },
     groupUuid && {
-      doIt: setIsAddIndividualToGroupModalOpen,
+      doIt: () => setIsAddIndividualToGroupModalOpen(true),
       icon: <AddIcon />,
       tooltip: formatMessage(intl, 'individual', 'addButtonTooltip'),
     },
@@ -176,7 +112,7 @@ function GroupPage({
   const onAddIndividualConfirm = (individualToBeChanged) => {
     const addIndividualToGroup = {
       ...editedGroupIndividual,
-      group: editedGroup,
+      group: group,
       individual: individualToBeChanged,
       role: null,
       recipientType: null,
@@ -185,14 +121,18 @@ function GroupPage({
       addIndividualToGroup,
       formatMessageWithValues(intl, 'individual', 'individual.groupChange.confirm.message', {
         individualId: addIndividualToGroup?.individual?.id,
-        groupId: editedGroup?.id,
+        groupId: group?.id,
       }),
     );
   };
 
+  const readOnly = !!groupUuid && !rights.includes(RIGHT_GROUP_UPDATE);
+  const isUpdatable = !group?.isDeleted ?? true;
+  const saveTooltip = formatMessage(intl, 'individual', 'saveButton.tooltip.enabled');
+
   return (
     rights.includes(RIGHT_GROUP_SEARCH) && (
-      <StyledDiv className={readOnly ? 'lockedPage' : 'page'}>
+      <>
         {groupUuid && (
           <IndividualAddToGroupDialog
             confirmState={isAddIndividualToGroupModalOpen}
@@ -201,33 +141,21 @@ function GroupPage({
             setEditedGroupIndividual={setEditedGroupIndividual}
           />
         )}
-        <Helmet title={formatMessageWithValues(intl, 'group', 'pageTitle', titleParams(group))} />
-        <Form
-          module="group"
-          title="pageTitle"
-          titleParams={titleParams(group)}
-          openDirty
-          group={editedGroup}
-          edited={editedGroup}
-          onEditedChanged={setEditedGroup}
+        <GroupForm
+          groupUuid={groupUuid}
           back={back}
-          mandatoryFieldsEmpty={isMandatoryFieldsEmpty}
-          canSave={groupUuid ? canSave : canAdd}
-          save={handleSave}
-          HeadPanel={GroupHeadPanel}
-          Panels={[GroupTabPanel]}
+          save={save}
           rights={rights}
-          actions={actions}
           setConfirmedAction={setConfirmedAction}
-          saveTooltip={formatMessage(intl, 'individual', `saveButton.tooltip.${canSave ? 'enabled' : 'disabled'}`)}
-          add={canAdd() ? handleSave : null}
-          setEditedGroupIndividual={setEditedGroupIndividual}
-          editedGroupIndividual={editedGroupIndividual}
-          readOnly={readOnly}
+          actions={actions}
+          saveTooltip={saveTooltip}
           groupIndividualIds={groupIndividualIds}
-          groupId={groupUuid}
+          editedGroupIndividual={editedGroupIndividual}
+          setEditedGroupIndividual={setEditedGroupIndividual}
+          readOnly={readOnly}
+          isUpdatable={isUpdatable}
         />
-      </StyledDiv>
+      </>
     )
   );
 }
@@ -236,29 +164,19 @@ const mapStateToProps = (state, props) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
   groupUuid: props.match.params.group_uuid,
   confirmed: state.core.confirmed,
-  fetchingGroups: state.individual.fetchingGroups,
-  fetchedGroups: state.individual.fetchedGroups,
   group: state.individual.group,
-  errorGroup: state.individual.errorGroup,
-  submittingMutation: state.individual.submittingMutation,
-  mutation: state.individual.mutation,
   groupIndividuals: state?.individual?.groupIndividuals,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  fetchGroup,
   deleteGroup,
   createGroup,
   updateGroup,
-  clearGroup,
   createGroupAndMoveIndividual,
   creteGroupIndividual,
   coreConfirm,
   clearConfirm,
-  journalize,
 }, dispatch);
-
-export { StyledDiv };
 export default withHistory(
   injectIntl(connect(mapStateToProps, mapDispatchToProps)(GroupPage))
 );

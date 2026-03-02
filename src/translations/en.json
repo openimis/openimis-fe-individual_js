@@ -2,6 +2,7 @@
   "mainMenuIndividuals": "Beneficiares and Households",
   "emptyLabel": " ",
   "any": "Any",
+  "ANY": "Any",
   "createButton.tooltip": "Create",
   "editButtonTooltip": "Edit",
   "deleteButtonTooltip": "Delete",
