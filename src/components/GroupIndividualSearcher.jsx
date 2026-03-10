@@ -75,7 +75,6 @@ function GroupIndividualSearcher({
   const [groupIndividualToDelete, setGroupIndividualToDelete] = useState(null);
   const [deletedGroupIndividualUuids, setDeletedGroupIndividualUuids] = useState([]);
   const prevSubmittingMutationRef = useRef();
-  const [updatedGroupIndividuals, setUpdatedGroupIndividuals] = useState([]);
   const [refetch, setRefetch] = useState(null);
   const [isChangeGroupModalOpen, setIsChangeGroupModalOpen] = useState(false);
 
@@ -149,25 +148,8 @@ function GroupIndividualSearcher({
     return headers;
   };
 
-  const addUpdatedGroupIndividual = (groupIndividual, role) => {
-    setUpdatedGroupIndividuals((prevState) => {
-      const updatedBeneficiaryExists = prevState.some(
-        (item) => item.id === groupIndividual.id && (item.role === role || item.recipient_type),
-      );
-
-      if (!updatedBeneficiaryExists) {
-        return [...prevState, groupIndividual];
-      }
-
-      return prevState.filter(
-        (item) => !(item.id === groupIndividual.id && (item.role === role || item.recipient_type)),
-      );
-    });
-  };
-
   const handleRoleOnChange = (groupIndividual, role) => {
     if (groupIndividual && role) {
-      addUpdatedGroupIndividual(groupIndividual, role);
       const editedGroupIndividual = { ...groupIndividual, role };
       updateGroupIndividual(
         editedGroupIndividual,
@@ -181,7 +163,6 @@ function GroupIndividualSearcher({
 
   const handleRecipientTypeOnChange = (groupIndividual, recipientType) => {
     if (groupIndividual && recipientType) {
-      addUpdatedGroupIndividual(groupIndividual, recipientType);
       const editedGroupIndividual = { ...groupIndividual, recipientType };
       updateGroupIndividual(
         editedGroupIndividual,
@@ -198,12 +179,9 @@ function GroupIndividualSearcher({
     setEditedGroupIndividual(groupIndividual);
   };
 
-  const isRowUpdated = (groupIndividual) => (
-    updatedGroupIndividuals.some((item) => item.id === groupIndividual.id));
-
   const isRowDeleted = (groupIndividual) => deletedGroupIndividualUuids.includes(groupIndividual.id);
 
-  const isRowDisabled = (_, groupIndividual) => isRowDeleted(groupIndividual) || isRowUpdated(groupIndividual);
+  const isRowDisabled = (_, groupIndividual) => isRowDeleted(groupIndividual);
 
   const onChangeGroupConfirm = (groupToBeChanged) => {
     const updateIndividual = {
