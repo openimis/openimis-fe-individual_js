@@ -35,6 +35,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   ...theme?.paper?.item,
 }));
 
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  ...theme?.paper?.item,
+  fontWeight: 600,
+}));
+
 function IndividualsUploadHistoryDialog({
   modulesManager,
   intl,
@@ -78,11 +83,11 @@ function IndividualsUploadHistoryDialog({
 
   return (
     <>
-      <MenuItem
+      <StyledMenuItem
         onClick={handleOpen}
       >
         {formatMessage(intl, 'individual', 'individual.upload.uploadHistoryTable.buttonLabel')}
-      </MenuItem>
+      </StyledMenuItem>
       <Dialog
         open={isOpen}
         onClose={handleClose}

@@ -3,6 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
 import { useTheme, styled } from "@mui/material/styles";
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 
 import {
     Form,
@@ -11,9 +12,11 @@ import {
     formatMessageWithValues,
     journalize,
     Helmet,
+    coreAlert,
+    withHistory,
 } from "@openimis/fe-core";
 import { fetchIndividual } from "../actions";
-import { RIGHT_INDIVIDUAL_UPDATE } from "../constants";
+import { ACTION_TYPE } from "../reducer";
 import IndividualHeadPanel from "./IndividualHeadPanel";
 import IndividualTabPanel from "./IndividualTabPanel";
 
@@ -29,14 +32,92 @@ class IndividualForm extends Component {
             reset: 0,
             readOnlyFields: [],
             isDirty: false,
-            createMutationId: null
+            createMutationId: null,
+            showSaveConfirmDialog: false,
+            pendingLocation: null
         };
+        this.history = props.history;
     }
 
     componentDidMount() {
         if (!!this.props.individualUuid) {
             this.props.fetchIndividual(this.props.modulesManager, [`id: "${this.props.individualUuid}"`]);
         }
+        this.setupNavigationGuard();
+        this.setupHistoryGuard();
+    }
+
+    componentWillUnmount() {
+        this.cleanupNavigationGuard();
+        this.cleanupHistoryGuard();
+    }
+
+    setupNavigationGuard = () => {
+        this.beforeUnloadHandler = (e) => {
+            if (this.state.isDirty) {
+                e.preventDefault();
+                e.returnValue = '';
+                return '';
+            }
+        };
+        window.addEventListener('beforeunload', this.beforeUnloadHandler);
+    }
+
+    cleanupNavigationGuard = () => {
+        if (this.beforeUnloadHandler) {
+            window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+        }
+    }
+
+    setupHistoryGuard = () => {
+        if (this.history) {
+            this.unblock = this.history.block((location, action) => {
+                if (this.state.isDirty) {
+                    this.setState({ showSaveConfirmDialog: true, pendingLocation: location });
+                    return false;
+                }
+                return true;
+            });
+        }
+    }
+
+    cleanupHistoryGuard = () => {
+        if (this.unblock) {
+            this.unblock();
+        }
+    }
+
+    handleBackNavigation = () => {
+        if (this.state.isDirty) {
+            this.setState({ showSaveConfirmDialog: true });
+        } else {
+            this.props.back();
+        }
+    }
+
+    handleSaveAndBack = () => {
+        this.setState({ showSaveConfirmDialog: false });
+        this.props.save(this.state.individual);
+        
+        if (this.state.pendingLocation) {
+            setTimeout(() => {
+                this.history.push(this.state.pendingLocation);
+            }, 1000);
+        }
+    }
+
+    handleBackWithoutSave = () => {
+        this.setState({ showSaveConfirmDialog: false, isDirty: false }, () => {
+            if (this.state.pendingLocation) {
+                this.history.push(this.state.pendingLocation);
+            } else {
+                this.props.back();
+            }
+        });
+    }
+
+    handleCloseDialog = () => {
+        this.setState({ showSaveConfirmDialog: false, pendingLocation: null });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -50,6 +131,12 @@ class IndividualForm extends Component {
             );
         } else if (prevProps.submittingMutation && !this.props.submittingMutation) {
             this.props.journalize(this.props.mutation);
+            if (this.props.mutation?.actionType === ACTION_TYPE.UPDATE_INDIVIDUAL) {
+                this.props.coreAlert(
+                    formatMessage(this.props.intl, "individual", "individual.update.success.title"),
+                    formatMessage(this.props.intl, "individual", "individual.update.success.message"),
+                );
+            }
             if (!!this.state.individual.id) {
                 this.props.fetchIndividual(this.props.modulesManager, [`id: "${this.state.individual.id}"`]);
             } else if (!!this.state.createMutationId) {
@@ -87,7 +174,7 @@ class IndividualForm extends Component {
     setReadOnlyFields = readOnlyFields => this.setState({ readOnlyFields });
 
     render() {
-        const { intl, rights, individual, back, setConfirmedAction, actions, saveTooltip } = this.props;
+        const { intl, rights, individual, setConfirmedAction, actions, saveTooltip } = this.props;
         return (
             <StyledDiv className="page">
                 <Fragment>
@@ -97,7 +184,7 @@ class IndividualForm extends Component {
                         title="pageTitle"
                         titleParams={this.titleParams()}
                         edited={this.state.individual}
-                        back={back}
+                        back={this.handleBackNavigation}
                         canSave={this.canSave}
                         save={this.save}
                         onEditedChanged={this.onEditedChanged}
@@ -115,6 +202,29 @@ class IndividualForm extends Component {
                         actions={actions}
                         openDirty
                     />
+                    
+                    {/* Confirmation dialog for unsaved changes */}
+                    <Dialog
+                        open={this.state.showSaveConfirmDialog}
+                        onClose={this.handleCloseDialog}
+                        maxWidth="sm"
+                        fullWidth
+                    >
+                        <DialogTitle>
+                            {formatMessage(intl, "individual", "individual.save.confirm.title")}
+                        </DialogTitle>
+                        <DialogContent>
+                            {formatMessage(intl, "individual", "individual.save.confirm.message")}
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handleBackWithoutSave} color="primary" variant="outlined">
+                                {formatMessage(intl, "individual", "dialog.cancel")}
+                            </Button>
+                            <Button onClick={this.handleSaveAndBack} color="primary" variant="contained">
+                                {formatMessage(intl, "individual", "dialog.update")}
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </Fragment>
             </StyledDiv>
         )
@@ -131,7 +241,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ fetchIndividual, journalize }, dispatch);
+    return bindActionCreators({ fetchIndividual, journalize, coreAlert }, dispatch);
 };
 
-export default withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(IndividualForm)));
+export default withHistory(withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(IndividualForm))));

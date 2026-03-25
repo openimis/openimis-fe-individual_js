@@ -8,6 +8,7 @@ import {
   formatDateFromISO,
   coreConfirm,
   clearConfirm,
+  coreAlert,
   journalize,
   withHistory,
   historyPush,
@@ -60,6 +61,7 @@ function IndividualSearcher({
   rights,
   coreConfirm,
   clearConfirm,
+  coreAlert,
   confirmed,
   journalize,
   submittingMutation,
@@ -169,6 +171,10 @@ function IndividualSearcher({
           id: individualToDelete?.id,
         }),
       );
+      coreAlert(
+        formatMessage(intl, 'individual', 'individual.delete.requestSubmitted.title'),
+        formatMessage(intl, 'individual', 'individual.delete.requestSubmitted.message'),
+      );
       setDeletedIndividualUuids([...deletedIndividualUuids, individualToDelete.id]);
     }
     if (individualToUndo && confirmed) {
@@ -186,6 +192,7 @@ function IndividualSearcher({
     if (individualToUndo && confirmed !== null) {
       setIndividualToUndo(null);
     }
+    return () => confirmed && clearConfirm(false);
   }, [confirmed]);
 
   useEffect(() => {
@@ -234,8 +241,7 @@ function IndividualSearcher({
       formatters.push((individual) => (
         <Tooltip title={formatMessage(intl, 'individual', 'editButtonTooltip')}>
           <IconButton
-            href={individualUpdatePageUrl(individual)}
-            onClick={(e) => e.stopPropagation() && onDoubleClick(individual)}
+            onClick={(e) => {e.stopPropagation(); onDoubleClick(individual)}}
             disabled={deletedIndividualUuids.includes(individual.id)}
           >
             <EditIcon />
@@ -423,6 +429,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     undoDeleteIndividual,
     coreConfirm,
     clearConfirm,
+    coreAlert,
     journalize,
   },
   dispatch,

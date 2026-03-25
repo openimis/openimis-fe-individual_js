@@ -9,6 +9,7 @@ import {
   historyPush,
   downloadExport,
   coreConfirm,
+  coreAlert,
   clearConfirm,
   journalize,
   decodeId,
@@ -63,6 +64,7 @@ function GroupSearcher({
   mutation,
   coreConfirm,
   clearConfirm,
+  coreAlert,
   journalize,
   CLEARED_STATE_FILTER,
   benefitPlanToEnroll,
@@ -104,6 +106,10 @@ function GroupSearcher({
         formatMessageWithValues(intl, 'individual', 'individual.delete.mutationLabel', {
           id: groupToDelete.id,
         }),
+      );
+      coreAlert(
+        formatMessage(intl, 'individual', 'individual.delete.requestSubmitted.title'),
+        formatMessage(intl, 'individual', 'individual.delete.requestSubmitted.message'),
       );
       setDeletedGroupUuids([...deletedGroupUuids, groupToDelete.id]);
     }
@@ -155,8 +161,7 @@ function GroupSearcher({
       formatters.push((group) => (
         <Tooltip title={formatMessage(intl, 'individual', 'editButtonTooltip')}>
           <IconButton
-            href={groupUpdatePageUrl(group)}
-            onClick={(e) => e.stopPropagation() && onDoubleClick(group)}
+            onClick={(e) => {e.stopPropagation(); onDoubleClick(group)}}
           >
             <EditIcon />
           </IconButton>
@@ -326,6 +331,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     clearGroupExport,
     deleteGroup,
     coreConfirm,
+    coreAlert,
     clearConfirm,
     journalize,
   },

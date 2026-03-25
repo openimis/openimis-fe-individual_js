@@ -11,6 +11,8 @@ import {
   formatMessage,
   coreAlert,
   FormattedMessage,
+  withHistory,
+  historyPush,
 } from '@openimis/fe-core';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -23,6 +25,7 @@ import downloadTemplate from '../../util/export';
 // Styled component replacing withStyles/styles object
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   ...theme?.paper?.item,
+  fontWeight: 600,
 }));
 
 function IndividualsUploadDialog({
@@ -30,6 +33,7 @@ function IndividualsUploadDialog({
   workflows,
   fetchWorkflows,
   coreAlert,
+  history,
 }) {
   const theme = useTheme();
   const modulesManager = useModulesManager();
@@ -140,6 +144,10 @@ function IndividualsUploadDialog({
       });
 
       if (response.ok) {
+        coreAlert(
+          formatMessage(intl, 'socialProtection', 'benefitPlan.benefitPlanBeneficiaries.upload.success.title'),
+          formatMessage(intl, 'socialProtection', 'benefitPlan.benefitPlanBeneficiaries.upload.success.message'),
+        );
         handleClose();
         return;
       }
@@ -165,10 +173,10 @@ function IndividualsUploadDialog({
 
   return (
     <>
-      <StyledMenuItem>
-        <a href={enrollmentPageUrl()} style={{ color: 'inherit', textDecoration: 'none' }}>
-          {formatMessage(intl, 'individual', 'individual.enrollment.buttonLabel')}
-        </a>
+      <StyledMenuItem
+        onClick={() => historyPush(modulesManager, history, "individual.route.enrollment")}
+      >
+        {formatMessage(intl, 'individual', 'individual.enrollment.buttonLabel')}
       </StyledMenuItem>
       <StyledMenuItem
         onClick={handleOpen}
@@ -328,5 +336,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 export { StyledMenuItem };
 export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(IndividualsUploadDialog)
+  withHistory(connect(mapStateToProps, mapDispatchToProps)(IndividualsUploadDialog))
 );
