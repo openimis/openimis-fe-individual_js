@@ -12,15 +12,16 @@ import {
   Searcher,
   withHistory,
   withModulesManager,
+  GetIconComponent,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
   Button, Dialog, DialogActions, DialogTitle, IconButton, Tooltip, DialogContent,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import GroupIcon from '@mui/icons-material/Group';
-import DeleteIcon from '@mui/icons-material/Delete';
+const EditIcon = GetIconComponent("Edit");
+const GroupIcon = GetIconComponent("Group");
+const DeleteIcon = GetIconComponent("Delete");
 import {
   clearGroupIndividualExport,
   clearGroupIndividuals,

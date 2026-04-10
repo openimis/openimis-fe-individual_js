@@ -14,6 +14,7 @@ import {
   downloadExport,
   CLEARED_STATE_FILTER,
   decodeId,
+  GetIconComponent,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect, useDispatch } from 'react-redux';
@@ -24,9 +25,9 @@ import {
   DialogTitle,
   DialogContent,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import UndoIcon from '@mui/icons-material/Undo';
+const EditIcon = GetIconComponent("Edit");
+const DeleteIcon = GetIconComponent("Delete");
+const UndoIcon = GetIconComponent("Undo");
 import {
   fetchIndividuals,
   deleteIndividual,

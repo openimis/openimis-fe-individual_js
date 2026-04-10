@@ -12,6 +12,7 @@ import {
   clearConfirm,
   journalize,
   decodeId,
+  GetIconComponent,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -22,8 +23,8 @@ import {
   DialogTitle,
   DialogContent,
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
+const EditIcon = GetIconComponent("Edit");
+const DeleteIcon = GetIconComponent("Delete");
 import {
   deleteGroup, downloadGroups, fetchGroups, clearGroupExport,
 } from '../actions';

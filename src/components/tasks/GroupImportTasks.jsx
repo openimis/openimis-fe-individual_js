@@ -12,9 +12,10 @@ import {
   decodeId,
   formatMessage,
   formatMessageWithValues,
+  GetIconComponent,
 } from '@openimis/fe-core';
-import ClearIcon from '@mui/icons-material/Clear';
-import CheckIcon from '@mui/icons-material/Check';
+const ClearIcon = GetIconComponent("Clear");
+const CheckIcon = GetIconComponent("Check");
 
 import { useIntl } from 'react-intl';
 import {

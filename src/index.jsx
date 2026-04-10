@@ -4,8 +4,11 @@
 import { flatten } from 'flat';
 import { FormattedMessage } from '@openimis/fe-core';
 import React from 'react';
-import { Person, People } from '@mui/icons-material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { GetIconComponent } from "@openimis/fe-core";
+const Person = GetIconComponent("Person")
+const People = GetIconComponent("People")
+const MenuIcon = GetIconComponent("Menu")
+
 import messages_en from './translations/en.json';
 import reducer from './reducer';
 import IndividualsPage from './pages/IndividualsPage';

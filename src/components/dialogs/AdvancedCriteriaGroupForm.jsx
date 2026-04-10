@@ -10,10 +10,11 @@ import {
   fetchCustomFilter,
   coreConfirm,
   clearConfirm,
+  GetIconComponent,
 } from '@openimis/fe-core';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import AddCircle from '@mui/icons-material/Add';
+const AddCircle = GetIconComponent("Add");
 import AdvancedCriteriaRowValue from './AdvancedCriteriaRowValue';
 import {
   CLEARED_STATE_FILTER,

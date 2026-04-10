@@ -5,12 +5,13 @@ import {
   formatMessageWithValues,
   coreConfirm,
   clearConfirm,
+  GetIconComponent,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
+const AddIcon = GetIconComponent("Add");
+const DeleteIcon = GetIconComponent("Delete");
 import { RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH, RIGHT_GROUP_UPDATE } from '../constants';
 import {
   deleteGroup, updateGroup, createGroupAndMoveIndividual,

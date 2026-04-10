@@ -1,12 +1,12 @@
 import React from 'react';
 import {
-  Helmet, withModulesManager, withTooltip, formatMessage, historyPush,
+  GetIconComponent, Helmet, withModulesManager, withTooltip, formatMessage, historyPush,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
 import { styled } from '@mui/material/styles';
 import { connect } from 'react-redux';
 import { Fab } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+const AddIcon = GetIconComponent("Add");
 import { GROUP_ROUTE_GROUP, RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH } from '../constants';
 import GroupSearcher from '../components/GroupSearcher';
 
