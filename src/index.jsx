@@ -46,6 +46,8 @@ import {
   INDIVIDUAL_MODULE_NAME,
   RIGHT_GROUP_SEARCH,
   RIGHT_INDIVIDUAL_SEARCH,
+  RIGHT_INDIVIDUAL_CREATE,
+  RIGHT_GROUP_CREATE,
 } from './constants';
 import { GroupCreateTaskItemFormatters, GroupCreateTaskTableHeaders } from './components/tasks/GroupCreateTasks';
 import IndividualsUploadDialog from './components/dialogs/IndividualsUploadDialog';
@@ -83,37 +85,32 @@ const { BenefitPlansListTabLabel, BenefitPlansListTabPanel } = getBenefitPlansLi
 const DEFAULT_CONFIG = {
   translations: [{ key: 'en', messages: flatten(messages_en) }],
   reducers: [{ key: 'individual', reducer }],
-  'core.Router': [
-    { path: ROUTE_INDIVIDUALS, component: IndividualsPage },
-    { path: ROUTE_GROUPS, component: GroupsPage },
-    { path: ROUTE_ENROLLMENT, component: EnrollmentPage },
-    { path: ROUTE_GROUP_ENROLLMENT, component: EnrollmentGroupPage },
-    { path: `${ROUTE_INDIVIDUAL}/:individual_uuid?`, component: IndividualPage },
-    { path: `${ROUTE_INDIVIDUAL_FROM_GROUP}/:individual_uuid?`, component: IndividualPage },
-    { path: `${ROUTE_GROUP}/:group_uuid?`, component: GroupPage },
-    { path: ROUTE_API_IMPORTS, component: ImportDataApiPage },
-  ],
+   'core.Router': [
+     { path: ROUTE_INDIVIDUALS, text:`individual.menu.individuals`, id: 'individual.individuals', component: IndividualsPage, rights: [RIGHT_INDIVIDUAL_SEARCH], icon: "Person" },
+     { path: ROUTE_GROUPS, text: `individual.menu.groups`, id: 'individual.groups', component: GroupsPage, rights: [RIGHT_GROUP_SEARCH], icon: "People" },
+     { path: ROUTE_ENROLLMENT, text:`individual.menu.individualEnrolment`, id: 'individual.individualEnrolment',component: EnrollmentPage, rights: [RIGHT_INDIVIDUAL_CREATE], icon: "Person" },
+     { path: ROUTE_GROUP_ENROLLMENT, text:`individual.menu.groupEnrolment`, id: 'individual.groupEnrolment',component: EnrollmentGroupPage, rights: [RIGHT_GROUP_CREATE], icon: "People" },
+     { path: ROUTE_API_IMPORTS, text: `individual.menu.api`, id: 'individual.api_imports', component: ImportDataApiPage, rights: [RIGHT_INDIVIDUAL_SEARCH], icon: "Menu" },
+     { path: `${ROUTE_INDIVIDUAL}/:individual_uuid?`, component: IndividualPage, rights: [RIGHT_INDIVIDUAL_SEARCH], icon: "Person" },
+     { path: `${ROUTE_INDIVIDUAL_FROM_GROUP}/:individual_uuid?`, component: IndividualPage, rights: [RIGHT_INDIVIDUAL_SEARCH], icon: "Person" },
+     { path: `${ROUTE_GROUP}/:group_uuid?`, component: GroupPage, rights: [RIGHT_GROUP_SEARCH], icon: "People" },
+
+    ],
   'socialProtection.MainMenu': [
     {
-      text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="menu.individuals" />,
-      icon: <Person />,
-      route: `/${ROUTE_INDIVIDUALS}`,
-      filter: (rights) => rights.includes(RIGHT_INDIVIDUAL_SEARCH),
-      id: 'individual.individuals',
+      route: ROUTE_INDIVIDUALS,
     },
     {
-      text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="menu.groups" />,
-      icon: <People />,
-      route: `/${ROUTE_GROUPS}`,
-      filter: (rights) => rights.includes(RIGHT_GROUP_SEARCH),
-      id: 'individual.groups',
+      route: ROUTE_GROUPS,
     },
     {
-      text: <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="menu.api" />,
-      icon: <MenuIcon />,
-      route: `/${ROUTE_API_IMPORTS}`,
-      filter: (rights) => rights.includes(RIGHT_INDIVIDUAL_SEARCH),
-      id: 'individual.api_imports',
+      route: ROUTE_API_IMPORTS,
+    },
+        {
+      route: ROUTE_ENROLLMENT,
+    },
+        {
+      route: ROUTE_GROUP_ENROLLMENT,
     },
   ],
   refs: [
