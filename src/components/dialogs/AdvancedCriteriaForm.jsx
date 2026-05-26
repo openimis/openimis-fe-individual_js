@@ -210,7 +210,7 @@ function AdvancedCriteriaForm({
       setFiltersToApply(customFilters);
       const params = {
         customFilters: `[${customFilters}]`,
-        benefitPlanId: `"${decodeId(object.id)}"`,
+        benefitPlanId: `"${decodeId(object?.id)}"`,
         status: `"${status}"`,
       };
       confirmEnrollment(
@@ -378,7 +378,7 @@ function AdvancedCriteriaForm({
               <IndividualPreviewEnrollmentDialog
                 rights={rights}
                 advancedCriteria={filtersToApply}
-                benefitPlanToEnroll={object.id}
+                benefitPlanToEnroll={object?.id}
                 enrollmentSummary={enrollmentSummary}
                 confirmed={confirmed}
               />

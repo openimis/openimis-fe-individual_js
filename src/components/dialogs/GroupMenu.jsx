@@ -7,6 +7,8 @@ import {
   useModulesManager,
   formatMessage,
   coreAlert,
+  withHistory,
+  historyPush,
 } from '@openimis/fe-core';
 import { useTheme, styled } from '@mui/material/styles';
 import { connect } from 'react-redux';
@@ -16,10 +18,12 @@ import { fetchWorkflows } from '../../actions';
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   ...theme?.paper?.item,
+  fontWeight: 600
 }));
 
 function GroupMenu({
   intl,
+  history,
 }) {
   const theme = useTheme();
   const modulesManager = useModulesManager();
@@ -29,10 +33,10 @@ function GroupMenu({
   }
 
   return (
-    <StyledMenuItem>
-      <a href={enrollmentGroupPageUrl()} style={{ color: 'inherit', textDecoration: 'none' }}>
-        {formatMessage(intl, 'individual', 'individual.enrollment.buttonLabel')}
-      </a>
+    <StyledMenuItem
+      onClick={() => historyPush(modulesManager, history, "individual.route.groupEnrollment")}
+    >
+      {formatMessage(intl, 'individual', 'individual.enrollment.buttonLabel')}
     </StyledMenuItem>
   );
 }
@@ -50,5 +54,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 
 export { StyledMenuItem };
 export default injectIntl(
-  connect(mapStateToProps, mapDispatchToProps)(GroupMenu)
+  withHistory(connect(mapStateToProps, mapDispatchToProps)(GroupMenu))
 );

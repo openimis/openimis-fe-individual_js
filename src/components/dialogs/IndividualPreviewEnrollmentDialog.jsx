@@ -41,7 +41,7 @@ function IndividualPreviewEnrollmentDialog({
         onClick={handleOpen}
         variant="contained"
         color="primary"
-        className={classes.button}
+        className={classes?.button}
         style={{ marginLeft: '16px' }}
         disabled={enrollmentSummary?.numberOfIndividualsToUpload === '0' || confirmed}
       >
