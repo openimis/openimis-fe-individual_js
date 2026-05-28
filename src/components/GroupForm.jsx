@@ -2,12 +2,12 @@ import React, { Component, Fragment } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { injectIntl } from "react-intl";
-import { useTheme, styled } from "@mui/material/styles";
+import ReplayIcon from "@mui/icons-material/Replay";
+import { styled } from "@mui/material/styles";
 
 import {
     Form,
     withModulesManager,
-    formatMessage,
     formatMessageWithValues,
     journalize,
     Helmet,
@@ -17,8 +17,9 @@ import { RIGHT_GROUP_UPDATE } from "../constants";
 import GroupHeadPanel from "./GroupHeadPanel";
 import GroupTabPanel from "./GroupTabPanel";
 
-const StyledDiv = styled("div")(({ theme }) => ({
-    ...theme.page ?? {}
+const StyledGroupForm = styled("div")(({ theme }) => ({
+    ...theme.page ?? {},
+    "&.lockedPage": theme?.page?.locked ?? {},
 }));
 
 class GroupForm extends Component {
@@ -29,7 +30,8 @@ class GroupForm extends Component {
             reset: 0,
             readOnlyFields: [],
             isDirty: false,
-            createMutationId: null,
+            isSaved: false,
+            clientMutationId: null,
         };
     }
 
@@ -58,14 +60,10 @@ class GroupForm extends Component {
             );
         } else if (prevProps.submittingMutation && !this.props.submittingMutation) {
             this.props.journalize(this.props.mutation);
-            if (!!this.state.group.id) {
-                this.props.fetchGroup(this.props.modulesManager, [`id: "${this.state.group.id}"`]);
-            } else if (!!this.state.createMutationId) {
-                this.props.fetchGroup(this.props.modulesManager, [`clientMutationId: "${this.state.createMutationId}"`]);
-            } else {
-                this.props.fetchGroup(this.props.modulesManager, [`clientMutationId: "${this.props.mutation.clientMutationId}"`]);
-                this.setState((_, props) => ({ createMutationId: props.mutation.clientMutationId }));
-            }
+            this.setState((state, props) => ({
+                reset: state.reset + 1,
+                clientMutationId: props.mutation?.clientMutationId,
+            }));
         }
     }
 
@@ -81,11 +79,28 @@ class GroupForm extends Component {
         return true;
     }
 
-    canSave = () => !this.isMandatoryFieldsEmpty();
+    canSave = () => !this.isMandatoryFieldsEmpty() && this.state.isDirty;
 
-    save = group => this.props.save(group);
+    save = group => this.setState({ isSaved: true }, () => this.props.save(group));
 
     onEditedChanged = group => this.setState({ group, isDirty: true })
+
+    reload = async () => {
+        const { modulesManager, groupUuid } = this.props;
+        const { clientMutationId } = this.state;
+
+        try {
+            if (groupUuid) {
+                await this.props.fetchGroup(modulesManager, [`id: "${groupUuid}"`]);
+                return;
+            }
+            if (clientMutationId) {
+                await this.props.fetchGroup(modulesManager, [`clientMutationId: "${clientMutationId}"`]);
+            }
+        } finally {
+            this.setState({ clientMutationId: null, isSaved: false });
+        }
+    };
 
     titleParams = () => ({
         id: this.state.group?.code,
@@ -97,8 +112,18 @@ class GroupForm extends Component {
 
     render() {
         const { intl, rights, group, back, setConfirmedAction, actions, saveTooltip, groupIndividualIds, groupUuid, editedGroupIndividual, setEditedGroupIndividual, readOnly } = this.props;
+        const { clientMutationId } = this.state;
+        const runningMutation = !!this.state.group && !!clientMutationId;
+        const formActions = [
+            {
+                doIt: this.reload,
+                icon: <ReplayIcon />,
+                onlyIfDirty: !readOnly && !runningMutation && !this.state.isSaved,
+            },
+            ...(actions || []),
+        ];
         return (
-            <StyledDiv className="page">
+            <StyledGroupForm className={`page ${runningMutation ? "lockedPage" : ""}`.trim()}>
                 <Fragment>
                     <Helmet title={formatMessageWithValues(intl, "group", "pageTitle", this.titleParams())} />
                     <Form
@@ -121,16 +146,16 @@ class GroupForm extends Component {
                         readOnlyFields={this.state.readOnlyFields}
                         reset={this.state.reset}
                         setConfirmedAction={setConfirmedAction}
-                        actions={actions}
+                        actions={formActions}
                         openDirty
                         groupIndividualIds={groupIndividualIds}
                         groupId={groupUuid}
                         editedGroupIndividual={editedGroupIndividual}
                         setEditedGroupIndividual={setEditedGroupIndividual}
-                        readOnly={readOnly}
+                        readOnly={readOnly || runningMutation}
                     />
                 </Fragment>
-            </StyledDiv>
+            </StyledGroupForm>
         )
     }
 }

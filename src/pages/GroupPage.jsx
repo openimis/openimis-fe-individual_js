@@ -15,7 +15,7 @@ const DeleteIcon = GetIconComponent("Delete");
 import { RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH, RIGHT_GROUP_UPDATE } from '../constants';
 import {
   deleteGroup, updateGroup, createGroupAndMoveIndividual,
-  createGroup, creteGroupIndividual,
+  createGroup, createGroupIndividual,
 } from '../actions';
 import GroupForm from '../components/GroupForm';
 import IndividualAddToGroupDialog from '../components/dialogs/IndividualAddToGroupDialog';
@@ -34,7 +34,7 @@ function GroupPage({
   confirmed,
   createGroupAndMoveIndividual,
   groupIndividuals,
-  creteGroupIndividual,
+  createGroupIndividual,
 }) {
   const [editedGroupIndividual, setEditedGroupIndividual] = useState(null);
   const [confirmedAction, setConfirmedAction] = useState(() => null);
@@ -118,7 +118,7 @@ function GroupPage({
       role: null,
       recipientType: null,
     };
-    creteGroupIndividual(
+    createGroupIndividual(
       addIndividualToGroup,
       formatMessageWithValues(intl, 'individual', 'individual.groupChange.confirm.message', {
         individualId: addIndividualToGroup?.individual?.id,
@@ -174,7 +174,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   createGroup,
   updateGroup,
   createGroupAndMoveIndividual,
-  creteGroupIndividual,
+  createGroupIndividual,
   coreConfirm,
   clearConfirm,
 }, dispatch);
