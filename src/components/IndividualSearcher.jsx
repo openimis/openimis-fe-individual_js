@@ -324,7 +324,7 @@ function IndividualSearcher({
       };
       filters.filterNotAttachedToGroup = {
         value: true,
-        filter: `filterNotAttachedToGroup: true`,
+        filter: 'filterNotAttachedToGroup: true',
       };
     }
     return filters;
