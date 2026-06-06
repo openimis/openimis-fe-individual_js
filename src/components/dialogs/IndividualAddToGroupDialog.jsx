@@ -1,0 +1,94 @@
+import React, { useState } from 'react';
+import { injectIntl } from 'react-intl';
+
+import { useTheme, styled } from '@mui/material/styles';
+import {
+  Button, Dialog, DialogActions, DialogContent, DialogTitle,
+} from '@mui/material';
+import { useTranslations, useModulesManager } from '@openimis/fe-core';
+import IndividualAddToGroupPicker from '../../pickers/IndividualAddToGroupPicker';
+
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  ...theme?.dialog?.primaryButton,
+}));
+
+function IndividualAddToGroupDialog({
+  confirmState,
+  onClose,
+  onConfirm,
+  setEditedGroupIndividual,
+}) {
+  const theme = useTheme();
+  const modulesManager = useModulesManager();
+  const { formatMessage } = useTranslations('individual', modulesManager);
+  const [individualToBeChanged, setIndividualToBeAdded] = useState(null);
+
+  const handleConfirm = () => {
+    onConfirm(individualToBeChanged);
+    onClose();
+  };
+
+  const onCancel = () => {
+    onClose();
+    setEditedGroupIndividual(null);
+  };
+
+  return (
+    <Dialog
+      open={confirmState}
+      onClose={onClose}
+      PaperProps={{
+        style: {
+          width: 600,
+          maxWidth: 1000,
+        },
+      }}
+    >
+      <DialogTitle>
+        {formatMessage('addToNewGroup')}
+      </DialogTitle>
+      <DialogContent>
+        <IndividualAddToGroupPicker
+          onChange={setIndividualToBeAdded}
+        />
+      </DialogContent>
+      <DialogActions
+        style={{
+          display: 'inline',
+          paddingLeft: '10px',
+          marginTop: '25px',
+          marginBottom: '15px',
+        }}
+      >
+        <div style={{ maxWidth: '1000px' }}>
+          <div style={{ float: 'left' }}>
+            <Button
+              onClick={onCancel}
+              variant="outlined"
+              autoFocus
+              style={{
+                margin: '0 16px',
+                marginBottom: '15px',
+              }}
+            >
+              {formatMessage('cancel')}
+            </Button>
+          </div>
+          <div style={{ float: 'right', paddingRight: '16px' }}>
+            <StyledButton
+              onClick={handleConfirm}
+              autoFocus
+              disabled={!individualToBeChanged}
+            >
+              {formatMessage('confirm')}
+            </StyledButton>
+          </div>
+        </div>
+      </DialogActions>
+    </Dialog>
+  );
+}
+
+export { StyledButton };
+export default injectIntl(IndividualAddToGroupDialog);

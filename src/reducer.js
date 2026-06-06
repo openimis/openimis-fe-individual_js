@@ -708,7 +708,7 @@ function reducer(
     case SUCCESS(ACTION_TYPE.UPDATE_GROUP_INDIVIDUAL):
       return dispatchMutationResp(state, 'editIndividualInGroup', action);
     case SUCCESS(ACTION_TYPE.CREATE_GROUP_INDIVIDUAL):
-      return dispatchMutationResp(state, 'creteGroupIndividual', action);
+      return dispatchMutationResp(state, 'addIndividualToGroup', action);
     case SUCCESS(ACTION_TYPE.DELETE_GROUP):
       return dispatchMutationResp(state, 'deleteGroup', action);
     case SUCCESS(ACTION_TYPE.UPDATE_GROUP):

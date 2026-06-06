@@ -11,7 +11,7 @@ on:
       node_version:
         description: 'Node version to use'
         required: true
-        default: '20'
+        default: '24'
       registry_url:
         description: 'NPM registry URL'
         required: true
@@ -32,7 +32,7 @@ jobs:
     uses: openimis/openimis-fe_js/.github/workflows/module-npmpublish.yml@develop
     with:
       registry_url: 'https://registry.npmjs.org/'
-      node_version: ${{ github.event.inputs.node_version || '20' }}
+      node_version: ${{ github.event.inputs.node_version || '24' }}
       access: ${{ github.event.inputs.access || 'public' }}
       scope: ${{ github.event.inputs.scope || 'openimis' }}
       tag: ${{ github.event.inputs.tag }}
@@ -42,7 +42,7 @@ jobs:
     uses: openimis/openimis-fe_js/.github/workflows/module-npmpublish.yml@develop
     with:
       registry_url: 'https://npm.pkg.github.com/'
-      node_version: ${{ github.event.inputs.node_version || '20' }}
+      node_version: ${{ github.event.inputs.node_version || '24' }}
       access: ${{ github.event.inputs.access || 'public' }}
       scope: ${{ github.event.inputs.scope || 'openimis' }}
       tag: ${{ github.event.inputs.tag }}

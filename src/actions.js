@@ -389,7 +389,7 @@ export function updateGroupIndividual(groupIndividual, clientMutationLabel) {
   );
 }
 
-export function creteGroupIndividual(groupIndividual, clientMutationLabel) {
+export function createGroupIndividual(groupIndividual, clientMutationLabel) {
   const mutation = formatMutation(
     'addIndividualToGroup',
     formatCreateGroupIndividualGQL(groupIndividual),
