@@ -27,6 +27,8 @@ function IndividualPage({
   individualUuid,
   individual,
   updateIndividual,
+  deleteIndividual,
+  undoDeleteIndividual,
   coreConfirm,
   confirmed,
   clearConfirm,
@@ -44,7 +46,6 @@ function IndividualPage({
   };
 
   const deleteIndividualCallback = () => {
-    const deleteIndividual = require('../actions').deleteIndividual;
     deleteIndividual(
       individual,
       formatMessageWithValues(intl, 'individual', 'individual.delete.mutationLabel', {
@@ -54,7 +55,6 @@ function IndividualPage({
   };
 
   const undoDeleteIndividualCallback = () => {
-    const undoDeleteIndividual = require('../actions').undoDeleteIndividual;
     undoDeleteIndividual(
       individual,
       formatMessageWithValues(intl, 'individual', 'individual.undo.mutationLabel', {
