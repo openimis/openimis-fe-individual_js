@@ -18,7 +18,6 @@ import { fetchWorkflows } from '../../actions';
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   ...theme?.paper?.item,
-  fontWeight: 600
 }));
 
 function GroupMenu({

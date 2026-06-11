@@ -37,7 +37,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   ...theme?.paper?.item,
-  fontWeight: 600,
 }));
 
 function IndividualsUploadHistoryDialog({

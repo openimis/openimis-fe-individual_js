@@ -25,7 +25,6 @@ import downloadTemplate from '../../util/export';
 // Styled component replacing withStyles/styles object
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   ...theme?.paper?.item,
-  fontWeight: 600,
 }));
 
 function IndividualsUploadDialog({
