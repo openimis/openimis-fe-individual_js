@@ -123,6 +123,7 @@ function AdvancedCriteriaRowValue({
   return (
     <StyledGrid
       container
+      size={12}
       direction="row"
       className="item"
       style={{ backgroundColor: '#DFEDEF' }}

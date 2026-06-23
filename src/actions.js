@@ -355,7 +355,6 @@ export function confirmEnrollment(params, clientMutationLabel) {
 }
 
 export function confirmGroupEnrollment(params, clientMutationLabel) {
-  // eslint-disable-next-line max-len
   const mutation = formatMutation('confirmGroupEnrollment', formatConfirmEnrollmentGQL(params), clientMutationLabel);
   const requestedDateTime = new Date();
   return graphql(
@@ -581,7 +580,6 @@ export function resolveTask(task, clientMutationLabel, user, approveOrFail, addi
 }
 
 export function confirmPullingDataFromApiEtl(nameOfService, clientMutationLabel) {
-  // eslint-disable-next-line max-len
   const mutationInput = `nameOfService: "${nameOfService}"`;
   const mutation = formatMutation('etlServiceMutation', mutationInput, clientMutationLabel);
   const requestedDateTime = new Date();
