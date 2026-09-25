@@ -20,7 +20,7 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect, useDispatch } from 'react-redux';
 import {
-  IconButton, Tooltip, Button,
+  IconButton, Tooltip, Button, Chip,
   Dialog,
   DialogActions,
   DialogTitle,
@@ -213,6 +213,7 @@ function IndividualSearcher({
       'individual.firstName',
       'individual.lastName',
       'individual.dob',
+      'individual.labels',
     ];
 
     headers.push(...Array.from({ length: LOC_LEVELS }, (_, i) => `location.locationType.${i}`));
@@ -231,6 +232,9 @@ function IndividualSearcher({
       (individual) => individual.firstName,
       (individual) => individual.lastName,
       (individual) => (individual.dob ? formatDateFromISO(modulesManager, intl, individual.dob) : EMPTY_STRING),
+      (individual) => (individual.labels ?? []).map((code) => (
+        <Chip key={code} label={code} size="small" sx={{ marginRight: 0.5 }} />
+      )),
     ];
 
     const locations = Array.from({ length: LOC_LEVELS }, (_, i) => (group) => (
