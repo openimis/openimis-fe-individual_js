@@ -131,9 +131,9 @@ class IndividualHeadPanel extends FormPanel {
           </Grid>
           <Grid size={12} className="item">
             <IndividualLabelPicker
-              readOnly={readOnlyFields.includes('labels')}
+              readOnly={readOnlyFields.includes("labels")}
               value={individual?.labels}
-              onChange={(v) => this.updateAttribute('labels', v)}
+              onChange={(v) => this.updateAttribute("labels", v)}
             />
           </Grid>
           <Grid size={12}>
