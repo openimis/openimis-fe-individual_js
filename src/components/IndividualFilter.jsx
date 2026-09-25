@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid } from '@mui/material';
+import { GRID_RESPONSIVE_STANDARD } from '@openimis/fe-core';
 import Filter from './Filter';
 import IndividualLabelPicker from '../pickers/IndividualLabelPicker';
 import { CONTAINS_LOOKUP } from '../constants';
@@ -26,21 +27,18 @@ function IndividualFilter({
   }]);
 
   return (
-    <>
-      <Filter
-        intl={intl}
-        classes={classes}
-        filters={filters}
-        onChangeFilters={onChangeFilters}
-        filterFields={filterFields}
-        checkboxFields={checkboxFields}
-      />
-      <Grid container>
-        <Grid size={6} sx={{ padding: 1 }}>
-          <IndividualLabelPicker value={filters?.labels?.value ?? NO_LABELS} onChange={onChangeLabels} />
-        </Grid>
+    <Filter
+      intl={intl}
+      classes={classes}
+      filters={filters}
+      onChangeFilters={onChangeFilters}
+      filterFields={filterFields}
+      checkboxFields={checkboxFields}
+    >
+      <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
+        <IndividualLabelPicker value={filters?.labels?.value ?? NO_LABELS} onChange={onChangeLabels} />
       </Grid>
-    </>
+    </Filter>
   );
 }
 
