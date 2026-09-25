@@ -6,6 +6,7 @@ const IndividualTaskTableHeaders = () => [
   <FormattedMessage module="individual" id="individual.lastName" />,
   <FormattedMessage module="individual" id="individual.dob" />,
   <FormattedMessage module="individual" id="individual.location" />,
+  <FormattedMessage module="individual" id="individual.labels" />,
 ];
 
 const IndividualTaskItemFormatters = () => [
@@ -13,6 +14,7 @@ const IndividualTaskItemFormatters = () => [
   (individual) => individual?.last_name,
   (individual) => individual?.dob,
   (individual) => individual?.json_ext?.location_str,
+  (individual) => individual?.labels?.join(', '),
 ];
 
 export { IndividualTaskTableHeaders, IndividualTaskItemFormatters };
