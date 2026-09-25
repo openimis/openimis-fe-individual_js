@@ -59,6 +59,7 @@ import {
 } from './components/GroupIndividualHistoryTab';
 import AdvancedCriteriaRowValue from './components/dialogs/AdvancedCriteriaRowValue';
 import IndividualPicker from './pickers/IndividualPicker';
+import IndividualLabelPicker from './pickers/IndividualLabelPicker';
 import {
   GroupUploadConfirmationPanel,
   GroupUploadResolutionItemFormatters,
@@ -128,6 +129,7 @@ const DEFAULT_CONFIG = {
     { key: 'individual.GroupIndividualHistorySearcher', ref: GroupIndividualHistorySearcher },
     { key: 'individual.AdvancedCriteriaRowValue', ref: AdvancedCriteriaRowValue },
     { key: 'individual.IndividualPicker', ref: IndividualPicker },
+    { key: 'individual.IndividualLabelPicker', ref: IndividualLabelPicker },
     { key: 'individual.group.GroupMenu', ref: GroupMenu },
   ],
   'individual.IndividualsUploadDialog': IndividualsUploadDialog,
