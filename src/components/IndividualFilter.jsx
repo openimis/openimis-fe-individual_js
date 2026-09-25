@@ -1,6 +1,11 @@
 import React from 'react';
+import { Grid } from '@mui/material';
+import { GRID_RESPONSIVE_STANDARD } from '@openimis/fe-core';
 import Filter from './Filter';
+import IndividualLabelPicker from '../pickers/IndividualLabelPicker';
 import { CONTAINS_LOOKUP } from '../constants';
+
+const NO_LABELS = [];
 
 function IndividualFilter({
   intl, classes, filters, onChangeFilters,
@@ -15,6 +20,12 @@ function IndividualFilter({
     { name: 'location_Isnull', label: 'hasNoLocation' },
   ];
 
+  const onChangeLabels = (codes) => onChangeFilters([{
+    id: 'labels',
+    value: codes.length ? codes : null,
+    filter: `labels: ${JSON.stringify(codes)}`,
+  }]);
+
   return (
     <Filter
       intl={intl}
@@ -23,7 +34,11 @@ function IndividualFilter({
       onChangeFilters={onChangeFilters}
       filterFields={filterFields}
       checkboxFields={checkboxFields}
-    />
+    >
+      <Grid size={GRID_RESPONSIVE_STANDARD} className="item">
+        <IndividualLabelPicker value={filters?.labels?.value ?? NO_LABELS} onChange={onChangeLabels} />
+      </Grid>
+    </Filter>
   );
 }
 

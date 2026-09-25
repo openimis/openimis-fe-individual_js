@@ -1,4 +1,5 @@
 import React from 'react';
+import _isEqual from 'lodash/isEqual';
 import {
   withHistory,
   formatMessage,
@@ -36,11 +37,13 @@ function IndividualPage({
 }) {
   const back = () => history.goBack();
 
-  const save = (individual) => {
+  const save = (edited) => {
+    // Unchanged labels are left out, so approving this update later cannot undo a bulk assignment made meanwhile.
+    const labelsChanged = !_isEqual(edited?.labels ?? [], individual?.labels ?? []);
     updateIndividual(
-      individual,
+      labelsChanged ? edited : { ...edited, labels: undefined },
       formatMessageWithValues(intl, 'individual', 'individual.update.mutationLabel', {
-        id: individual?.id,
+        id: edited?.id,
       }),
     );
   };

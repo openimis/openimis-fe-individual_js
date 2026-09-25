@@ -18,6 +18,7 @@
   "individual.firstName": "First Name",
   "individual.lastName": "Last Name",
   "individual.dob": "Day of birth",
+  "individual.labels": "Labels",
   "individual.mandatoryFieldsEmptyError": "* These fields are required",
   "individual.delete.confirm.title": "Delete {firstName} {lastName}?",
   "individual.delete.confirm.message": "Deleting data does not mean erasing it from OpenIMIS database. The data will only be deactivated from the viewed list.",

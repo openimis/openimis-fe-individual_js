@@ -78,6 +78,7 @@ function Filter({
   onChangeFilters,
   filterFields,
   checkboxFields,
+  children,
 }) {
   const { onChangeStringFilter, onChangeFilter } = useFilterChangeHandler(onChangeFilters);
 
@@ -92,6 +93,8 @@ function Filter({
           onChange={onChangeStringFilter(field.name, field.lookup)}
         />
       ))}
+
+      {children}
 
       <Grid size={12}>
         <PublishedComponent
