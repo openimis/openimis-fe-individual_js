@@ -225,6 +225,9 @@
   "ImportPageAPI.confirmPullingData.message": "Are you sure you want to confirm pulling data from selected API service?",
   "ImportPageAPI.confirmPullingData.cancel": "Cancel",
   "ImportPageAPI.confirmPullingData.confirm": "Confirm",
+  "individual.menu.schema": "Individual Schema",
+  "individual.schema.pageTitle": "Individual schema",
+  "individual.schema.pageHelp": "The additional fields an individual can carry. Label and benefit plan schemas are built from these fields.",
   "individual.schema.column.name": "Name",
   "individual.schema.column.type": "Type",
   "individual.schema.column.description": "Description",
@@ -237,7 +240,12 @@
   "individual.schema.type.boolean": "Yes / No",
   "individual.schema.addField": "Add field",
   "individual.schema.removeField": "Remove field",
+  "individual.schema.rawJson": "Raw JSON",
+  "individual.schema.save": "Save",
+  "individual.schema.mutationLabel": "Update individual schema",
   "individual.schema.error.nameRequired": "Name required",
   "individual.schema.error.nameInvalid": "No '__' or '=', and no trailing '_'",
-  "individual.schema.error.nameDuplicate": "Name already used"
+  "individual.schema.error.nameDuplicate": "Name already used",
+  "individual.schema.error.invalidJson": "Not a JSON object",
+  "individual.mutation.unconfirmed": "The change could not be confirmed: it may not have reached the server. Reload the page to check."
 }

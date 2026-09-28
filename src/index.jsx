@@ -69,6 +69,7 @@ import EnrollmentGroupPage from './pages/EnrollmentGroupPage';
 import GroupMenu from './components/dialogs/GroupMenu';
 import { BenefitsGroupTabLabel, BenefitsGroupTabPanel } from './components/BenefitsGroupTab';
 import ImportDataApiPage from './pages/ImportDataApiPage';
+import IndividualSchemaPage from './pages/IndividualSchemaPage';
 import SchemaFieldsEditor from './components/schema/SchemaFieldsEditor';
 
 const ROUTE_INDIVIDUALS = 'individuals';
@@ -79,6 +80,7 @@ const ROUTE_GROUP = 'groups/group';
 const ROUTE_ENROLLMENT = 'individuals/enrollment';
 const ROUTE_GROUP_ENROLLMENT = 'groups/enrollment';
 const ROUTE_API_IMPORTS = 'imports';
+const ROUTE_INDIVIDUAL_SCHEMA = 'individuals/schema';
 
 const BENEFIT_PLAN_TABS_LABEL_REF_KEY = 'socialProtection.BenefitPlansListTabLabel';
 const BENEFIT_PLAN_TABS_PANEL_REF_KEY = 'socialProtection.BenefitPlansListTabPanel';
@@ -96,6 +98,7 @@ const DEFAULT_CONFIG = {
      { path: `${ROUTE_INDIVIDUAL}/:individual_uuid?`, component: IndividualPage, rights: [RIGHT_INDIVIDUAL_SEARCH], icon: "Person" },
      { path: `${ROUTE_INDIVIDUAL_FROM_GROUP}/:individual_uuid?`, component: IndividualPage, rights: [RIGHT_INDIVIDUAL_SEARCH], icon: "Person" },
      { path: `${ROUTE_GROUP}/:group_uuid?`, component: GroupPage, rights: [RIGHT_GROUP_SEARCH], icon: "People" },
+     { path: ROUTE_INDIVIDUAL_SCHEMA, text: `individual.menu.schema`, id: 'individual.schema', component: IndividualSchemaPage, rights: [RIGHT_INDIVIDUAL_SEARCH], icon: "Tune" },
 
     ],
   'socialProtection.MainMenu': [
@@ -113,6 +116,9 @@ const DEFAULT_CONFIG = {
     },
         {
       route: ROUTE_GROUP_ENROLLMENT,
+    },
+    {
+      route: ROUTE_INDIVIDUAL_SCHEMA,
     },
   ],
   refs: [
