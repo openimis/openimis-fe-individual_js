@@ -71,6 +71,7 @@ import { BenefitsGroupTabLabel, BenefitsGroupTabPanel } from './components/Benef
 import ImportDataApiPage from './pages/ImportDataApiPage';
 import IndividualSchemaPage from './pages/IndividualSchemaPage';
 import SchemaFieldsEditor from './components/schema/SchemaFieldsEditor';
+import SchemaFieldPicker from './pickers/SchemaFieldPicker';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -137,6 +138,7 @@ const DEFAULT_CONFIG = {
     { key: 'individual.AdvancedCriteriaRowValue', ref: AdvancedCriteriaRowValue },
     { key: 'individual.IndividualPicker', ref: IndividualPicker },
     { key: 'individual.IndividualLabelPicker', ref: IndividualLabelPicker },
+    { key: 'individual.SchemaFieldPicker', ref: SchemaFieldPicker },
     { key: 'individual.SchemaFieldsEditor', ref: SchemaFieldsEditor },
     { key: 'individual.group.GroupMenu', ref: GroupMenu },
   ],

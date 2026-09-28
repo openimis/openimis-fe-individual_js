@@ -243,6 +243,8 @@
   "individual.schema.rawJson": "Raw JSON",
   "individual.schema.save": "Save",
   "individual.schema.mutationLabel": "Update individual schema",
+  "individual.schema.fields": "Fields",
+  "individual.schema.missingFields": "Not in the individual schema",
   "individual.schema.error.nameRequired": "Name required",
   "individual.schema.error.nameInvalid": "No '__' or '=', and no trailing '_'",
   "individual.schema.error.nameDuplicate": "Name already used",
