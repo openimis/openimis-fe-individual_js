@@ -19,7 +19,15 @@ export const RIGHT_GROUP_CREATE = 180002;
 export const RIGHT_GROUP_UPDATE = 180003;
 export const RIGHT_GROUP_DELETE = 180004;
 
+export const RIGHT_INDIVIDUAL_LABEL_CREATE = 159006;
+export const RIGHT_INDIVIDUAL_LABEL_UPDATE = 159007;
+export const RIGHT_INDIVIDUAL_LABEL_DELETE = 159008;
+export const RIGHT_INDIVIDUAL_SCHEMA_UPDATE = 159009;
+
 export const RIGHT_SCHEMA_SEARCH = 171001;
+
+// The field types the advanced filters handle, and so the only ones a schema field can take.
+export const SCHEMA_FIELD_TYPES = ['string', 'integer', 'decimal', 'date', 'boolean'];
 
 export const BENEFIT_PLANS_LIST_TAB_VALUE = 'BenefitPlansListTab';
 export const INDIVIDUALS_LIST_TAB_VALUE = 'IndividualsListTab';
