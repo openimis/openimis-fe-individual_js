@@ -1,13 +1,13 @@
-// A schema as the backend returns or stores it: an object, or the same object as a JSON string.
+// A schema as the backend returns or stores it: an object, or the same object as a JSON string. A row that
+// stores the schema as a JSON string comes back from GraphQL encoded twice.
 export function parseSchema(value) {
-  if (!value) return {};
-  if (typeof value === 'object') return value;
+  let parsed = value;
   try {
-    const parsed = JSON.parse(value);
-    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
+    for (let depth = 0; typeof parsed === 'string' && depth < 2; depth += 1) parsed = JSON.parse(parsed);
   } catch {
     return {};
   }
+  return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : {};
 }
 
 export function schemaProperties(value) {
