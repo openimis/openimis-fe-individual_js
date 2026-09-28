@@ -69,6 +69,7 @@ import EnrollmentGroupPage from './pages/EnrollmentGroupPage';
 import GroupMenu from './components/dialogs/GroupMenu';
 import { BenefitsGroupTabLabel, BenefitsGroupTabPanel } from './components/BenefitsGroupTab';
 import ImportDataApiPage from './pages/ImportDataApiPage';
+import SchemaFieldsEditor from './components/schema/SchemaFieldsEditor';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -130,6 +131,7 @@ const DEFAULT_CONFIG = {
     { key: 'individual.AdvancedCriteriaRowValue', ref: AdvancedCriteriaRowValue },
     { key: 'individual.IndividualPicker', ref: IndividualPicker },
     { key: 'individual.IndividualLabelPicker', ref: IndividualLabelPicker },
+    { key: 'individual.SchemaFieldsEditor', ref: SchemaFieldsEditor },
     { key: 'individual.group.GroupMenu', ref: GroupMenu },
   ],
   'individual.IndividualsUploadDialog': IndividualsUploadDialog,
