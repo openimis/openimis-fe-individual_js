@@ -48,6 +48,9 @@ import {
   RIGHT_INDIVIDUAL_SEARCH,
   RIGHT_INDIVIDUAL_CREATE,
   RIGHT_GROUP_CREATE,
+  RIGHT_INDIVIDUAL_LABEL_CREATE,
+  RIGHT_INDIVIDUAL_LABEL_UPDATE,
+  RIGHT_INDIVIDUAL_LABEL_DELETE,
 } from './constants';
 import { GroupCreateTaskItemFormatters, GroupCreateTaskTableHeaders } from './components/tasks/GroupCreateTasks';
 import IndividualsUploadDialog from './components/dialogs/IndividualsUploadDialog';
@@ -69,6 +72,10 @@ import EnrollmentGroupPage from './pages/EnrollmentGroupPage';
 import GroupMenu from './components/dialogs/GroupMenu';
 import { BenefitsGroupTabLabel, BenefitsGroupTabPanel } from './components/BenefitsGroupTab';
 import ImportDataApiPage from './pages/ImportDataApiPage';
+import IndividualSchemaPage from './pages/IndividualSchemaPage';
+import IndividualLabelsPage from './pages/IndividualLabelsPage';
+import SchemaFieldsEditor from './components/schema/SchemaFieldsEditor';
+import SchemaFieldPicker from './pickers/SchemaFieldPicker';
 
 const ROUTE_INDIVIDUALS = 'individuals';
 const ROUTE_INDIVIDUAL = 'individuals/individual';
@@ -78,6 +85,8 @@ const ROUTE_GROUP = 'groups/group';
 const ROUTE_ENROLLMENT = 'individuals/enrollment';
 const ROUTE_GROUP_ENROLLMENT = 'groups/enrollment';
 const ROUTE_API_IMPORTS = 'imports';
+const ROUTE_INDIVIDUAL_SCHEMA = 'individuals/schema';
+const ROUTE_INDIVIDUAL_LABELS = 'individuals/labels';
 
 const BENEFIT_PLAN_TABS_LABEL_REF_KEY = 'socialProtection.BenefitPlansListTabLabel';
 const BENEFIT_PLAN_TABS_PANEL_REF_KEY = 'socialProtection.BenefitPlansListTabPanel';
@@ -95,6 +104,8 @@ const DEFAULT_CONFIG = {
      { path: `${ROUTE_INDIVIDUAL}/:individual_uuid?`, component: IndividualPage, rights: [RIGHT_INDIVIDUAL_SEARCH], icon: "Person" },
      { path: `${ROUTE_INDIVIDUAL_FROM_GROUP}/:individual_uuid?`, component: IndividualPage, rights: [RIGHT_INDIVIDUAL_SEARCH], icon: "Person" },
      { path: `${ROUTE_GROUP}/:group_uuid?`, component: GroupPage, rights: [RIGHT_GROUP_SEARCH], icon: "People" },
+     { path: ROUTE_INDIVIDUAL_SCHEMA, text: `individual.menu.schema`, id: 'individual.schema', component: IndividualSchemaPage, rights: [RIGHT_INDIVIDUAL_SEARCH], icon: "Tune" },
+     { path: ROUTE_INDIVIDUAL_LABELS, text: `individual.menu.labels`, id: 'individual.labels', component: IndividualLabelsPage, rights: [RIGHT_INDIVIDUAL_LABEL_CREATE, RIGHT_INDIVIDUAL_LABEL_UPDATE, RIGHT_INDIVIDUAL_LABEL_DELETE], icon: "Label" },
 
     ],
   'socialProtection.MainMenu': [
@@ -113,6 +124,12 @@ const DEFAULT_CONFIG = {
         {
       route: ROUTE_GROUP_ENROLLMENT,
     },
+    {
+      route: ROUTE_INDIVIDUAL_SCHEMA,
+    },
+    {
+      route: ROUTE_INDIVIDUAL_LABELS,
+    },
   ],
   refs: [
     { key: 'individual.route.individual', ref: ROUTE_INDIVIDUAL },
@@ -130,6 +147,8 @@ const DEFAULT_CONFIG = {
     { key: 'individual.AdvancedCriteriaRowValue', ref: AdvancedCriteriaRowValue },
     { key: 'individual.IndividualPicker', ref: IndividualPicker },
     { key: 'individual.IndividualLabelPicker', ref: IndividualLabelPicker },
+    { key: 'individual.SchemaFieldPicker', ref: SchemaFieldPicker },
+    { key: 'individual.SchemaFieldsEditor', ref: SchemaFieldsEditor },
     { key: 'individual.group.GroupMenu', ref: GroupMenu },
   ],
   'individual.IndividualsUploadDialog': IndividualsUploadDialog,
