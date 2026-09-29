@@ -35,9 +35,11 @@ function SchemaFieldPicker({
     return [name, { type, ...(description ? { description } : {}) }];
   })));
   const setOption = (name, option, optionValue) => {
-    const { [option]: omitted, ...definition } = picked[name];
-    emit({ ...picked, [name]: optionValue ? { ...definition, [option]: optionValue } : definition });
+    const definition = { ...picked[name], [option]: optionValue };
+    if (!optionValue) delete definition[option];
+    emit({ ...picked, [name]: definition });
   };
+  const missingNames = selected.filter(({ name }) => !systemFields[name]).map(({ name }) => name);
 
   return (
     <>
@@ -54,10 +56,9 @@ function SchemaFieldPicker({
         filterSelectedOptions
       />
       {error && <Typography color="error" variant="body2">{String(error?.message ?? error)}</Typography>}
-      {selected.filter(({ name }) => !systemFields[name]).length > 0 && !isLoading && !error && (
+      {missingNames.length > 0 && !isLoading && !error && (
         <Typography color="error" variant="body2">
-          {`${formatMessage('individual.schema.missingFields')}: ${
-            selected.filter(({ name }) => !systemFields[name]).map(({ name }) => name).join(', ')}`}
+          {`${formatMessage('individual.schema.missingFields')}: ${missingNames.join(', ')}`}
         </Typography>
       )}
       {withOptions && selected.length > 0 && (
