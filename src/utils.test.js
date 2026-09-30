@@ -17,7 +17,7 @@ const stubFetch = (impl) => {
   return fetch;
 };
 
-const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
+const flush = () => new Promise((resolve) => { setTimeout(resolve, 0); });
 
 beforeEach(() => {
   clicks = [];
