@@ -13,6 +13,7 @@
   "scripts": {
     "build": "rollup -c",
     "start": "rollup -c -w",
+    "test": "node --test \"test/**/*.test.cjs\"",
     "format": "prettier src -w",
     "prepare": "npm run build"
   },
