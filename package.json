@@ -13,6 +13,7 @@
   "scripts": {
     "build": "vite build",
     "start": "vite",
+    "test": "node --test \"test/**/*.test.cjs\"",
     "format": "prettier src -w",
     "prepare": "npm run build"
   },

@@ -38,7 +38,7 @@ import {
 import GroupFilter from './GroupFilter';
 import {
   applyNumberCircle,
-  LOC_LEVELS,
+  getLocLevels,
   locationAtLevel,
 } from '../util/searcher-utils';
 
@@ -71,6 +71,7 @@ function GroupSearcher({
   benefitPlanToEnroll,
   advancedCriteria,
 }) {
+  const locLevels = getLocLevels(modulesManager);
   const [groupToDelete, setGroupToDelete] = useState(null);
   const [deletedGroupUuids, setDeletedGroupUuids] = useState([]);
   const [appliedCustomFilters, setAppliedCustomFilters] = useState([CLEARED_STATE_FILTER]);
@@ -137,7 +138,7 @@ function GroupSearcher({
       'group.head',
     ];
 
-    headers.push(...Array.from({ length: LOC_LEVELS }, (_, i) => `location.locationType.${i}`));
+    headers.push(...Array.from({ length: locLevels }, (_, i) => `location.locationType.${i}`));
 
     if (rights.includes(RIGHT_GROUP_UPDATE)) {
       headers.push('emptyLabel');
@@ -153,8 +154,8 @@ function GroupSearcher({
         : formatMessage(intl, 'group', 'noHeadSpecified')),
     ];
 
-    const locations = Array.from({ length: LOC_LEVELS }, (_, i) => (group) => (
-      locationAtLevel(group.location, LOC_LEVELS - i - 1)
+    const locations = Array.from({ length: locLevels }, (_, i) => (group) => (
+      locationAtLevel(group.location, locLevels - i - 1)
     ));
     formatters.push(...locations);
 
