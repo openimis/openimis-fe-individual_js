@@ -22,7 +22,24 @@ export const applyNumberCircle = (number) => (
   </div>
 );
 
-export const LOC_LEVELS = 4;
+export const DEFAULT_LOC_LEVELS = 4;
+const LOCATION_MAX_LEVELS_KEY = 'location.Location.MaxLevels';
+
+const parseLocLevels = (value) => {
+  if (typeof value !== 'number' && typeof value !== 'string') return null;
+  if (typeof value === 'string' && !value.trim()) return null;
+  const levels = Number(value);
+  return Number.isInteger(levels) && levels > 0 ? levels : null;
+};
+
+// Number of location columns: the fe-location module configuration key
+// location.Location.MaxLevels, then the ref of the same name, then 4.
+export const getLocLevels = (modulesManager) => (
+  parseLocLevels(modulesManager.getConf('fe-location', LOCATION_MAX_LEVELS_KEY))
+  ?? parseLocLevels(modulesManager.getRef(LOCATION_MAX_LEVELS_KEY))
+  ?? DEFAULT_LOC_LEVELS
+);
+
 export const locationAtLevel = (lowestLevelLoc, level) => {
   let location = lowestLevelLoc;
   let levelDiff = level;

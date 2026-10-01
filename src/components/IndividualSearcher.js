@@ -49,7 +49,7 @@ import {
 import IndividualFilter from './IndividualFilter';
 import {
   applyNumberCircle,
-  LOC_LEVELS,
+  getLocLevels,
   locationAtLevel,
 } from '../util/searcher-utils';
 
@@ -86,6 +86,7 @@ function IndividualSearcher({
   undoDeleteIndividual,
 }) {
   const dispatch = useDispatch();
+  const locLevels = getLocLevels(modulesManager);
   const [individualToDelete, setIndividualToDelete] = useState(null);
   const [individualToUndo, setIndividualToUndo] = useState(null);
   const [appliedCustomFilters, setAppliedCustomFilters] = useState([CLEARED_STATE_FILTER]);
@@ -200,7 +201,7 @@ function IndividualSearcher({
       'individual.dob',
     ];
 
-    headers.push(...Array.from({ length: LOC_LEVELS }, (_, i) => `location.locationType.${i}`));
+    headers.push(...Array.from({ length: locLevels }, (_, i) => `location.locationType.${i}`));
 
     if (rights.includes(RIGHT_INDIVIDUAL_UPDATE)) {
       headers.push('emptyLabel');
@@ -218,8 +219,8 @@ function IndividualSearcher({
       (individual) => (individual.dob ? formatDateFromISO(modulesManager, intl, individual.dob) : EMPTY_STRING),
     ];
 
-    const locations = Array.from({ length: LOC_LEVELS }, (_, i) => (group) => (
-      locationAtLevel(group.location, LOC_LEVELS - i - 1)
+    const locations = Array.from({ length: locLevels }, (_, i) => (group) => (
+      locationAtLevel(group.location, locLevels - i - 1)
     ));
     formatters.push(...locations);
 
