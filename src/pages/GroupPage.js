@@ -16,7 +16,7 @@ import _ from 'lodash';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH } from '../constants';
+import { RIGHT_GROUP_CREATE, RIGHT_GROUP_SEARCH, GROUP_HEAD_PANEL_CONTRIBUTION_KEY } from '../constants';
 import {
   fetchGroup, deleteGroup, updateGroup, clearGroup, createGroupAndMoveIndividual,
   createGroup, creteGroupIndividual,
@@ -215,6 +215,7 @@ function GroupPage({
         canSave={groupUuid ? canSave : canAdd}
         save={handleSave}
         HeadPanel={GroupHeadPanel}
+        headPanelContributionsKey={GROUP_HEAD_PANEL_CONTRIBUTION_KEY}
         Panels={[GroupTabPanel]}
         rights={rights}
         actions={actions}

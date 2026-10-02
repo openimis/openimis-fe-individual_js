@@ -22,6 +22,8 @@ In development mode, you can use `npm link` and `npm start` to continuously scan
 ## Available Contribution Points
 * `individual.TabPanel.label`, labels for tab panels displaying Individuals
 * `individual.TabPanel.panel`, panels for tab panels displaying Individuals
+* `individual.Individual.headPanel`, components rendered in the head panel of the Individual page
+* `group.Group.headPanel`, components rendered in the head panel of the Group page
 
 ## Dispatched Redux Actions
 * `INDIVIDUAL_MUTATION_{REQ|ERR}`, sending a mutation
