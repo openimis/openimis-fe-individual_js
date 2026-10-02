@@ -42,6 +42,11 @@ In development mode, you can use `npm link` and `npm start` to continuously scan
 ## Other Modules Listened Redux Actions
 None
 
+## Searcher Column Contributions
+With a fe-core `Searcher` that supports `columnsContributionKey`, other modules can add columns (`{ header, formatter }`) to:
+* `individual.IndividualSearcher.columns`, the Individuals searcher
+* `individual.GroupIndividualSearcher.columns`, the members searcher of a Group
+
 ## Other Modules Redux State Bindings
 * `state.core.user`, to access user info (rights,...)
 

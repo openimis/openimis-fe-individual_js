@@ -35,6 +35,7 @@ import {
   RIGHT_GROUP_INDIVIDUAL_DELETE,
   RIGHT_GROUP_INDIVIDUAL_UPDATE,
   ROWS_PER_PAGE_OPTIONS,
+  GROUP_INDIVIDUAL_SEARCHER_COLUMNS_CONTRIBUTION_KEY,
 } from '../constants';
 import GroupIndividualFilter from './GroupIndividualFilter';
 import GroupIndividualRolePicker from '../pickers/GroupIndividualRolePicker';
@@ -391,6 +392,7 @@ function GroupIndividualSearcher({
           role: formatMessage(intl, 'individual', 'export.role'),
         }}
         exportFieldLabel={formatMessage(intl, 'individual', 'export.label')}
+        columnsContributionKey={GROUP_INDIVIDUAL_SEARCHER_COLUMNS_CONTRIBUTION_KEY}
         cacheFiltersKey="groupIndividualsFilterCache"
         resetFiltersOnUnmount
       />
