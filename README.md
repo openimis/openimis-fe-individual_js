@@ -47,3 +47,6 @@ None
 
 ## Configurations Options
 None
+
+## Projection Contributions
+Other modules can add GraphQL fields to the Individual projection of the individuals searcher and of the individual page through `individual.Individual.projection` (each contribution is a field string, e.g. `groupindividuals(isDeleted: false) { edges { node { recipientType } } }`). Use it for the data that a column (`individual.IndividualSearcher.columns`) or head panel contribution reads. A field that the projection already selects must use the same arguments.

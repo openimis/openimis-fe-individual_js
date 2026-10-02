@@ -14,7 +14,7 @@ import {
   CLEAR, ERROR, REQUEST, SET, SUCCESS,
 } from './util/action-type';
 import {
-  ACCEPT, APPROVED, FAILED, REJECT,
+  ACCEPT, APPROVED, FAILED, REJECT, INDIVIDUAL_PROJECTION_CONTRIBUTION_KEY,
 } from './constants';
 
 const WORKFLOWS_FULL_PROJECTION = () => [
@@ -70,6 +70,13 @@ const INDIVIDUAL_FULL_PROJECTION = (mm, withGroupIndividuals = false) => {
 
   return fields;
 };
+
+// Fields contributed by other modules, appended to the Individual projection
+// of the individuals searcher and of the individual page.
+const withContributedFields = (mm, fields) => [
+  ...fields,
+  ...mm.getContribs(INDIVIDUAL_PROJECTION_CONTRIBUTION_KEY),
+];
 
 const GROUP_INDIVIDUAL_FULL_PROJECTION = [
   'id',
@@ -156,7 +163,11 @@ export function fetchGroupEnrollmentSummary(params) {
 }
 
 export function fetchIndividuals(mm, params) {
-  const payload = formatPageQueryWithCount('individual', params, INDIVIDUAL_FULL_PROJECTION(mm));
+  const payload = formatPageQueryWithCount(
+    'individual',
+    params,
+    withContributedFields(mm, INDIVIDUAL_FULL_PROJECTION(mm)),
+  );
   return graphql(payload, ACTION_TYPE.SEARCH_INDIVIDUALS);
 }
 
@@ -174,7 +185,7 @@ export function fetchIndividual(mm, params) {
   const payload = formatPageQuery(
     'individual',
     params,
-    INDIVIDUAL_FULL_PROJECTION(mm, true),
+    withContributedFields(mm, INDIVIDUAL_FULL_PROJECTION(mm, true)),
   );
   return graphql(payload, ACTION_TYPE.GET_INDIVIDUAL);
 }

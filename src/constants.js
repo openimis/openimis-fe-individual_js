@@ -93,6 +93,7 @@ export const FETCH_BENEFIT_PLAN_SCHEMA_FIELDS_REF = 'socialProtection.fetchBenef
 export const INDIVIDUAL_ENROLMENT_DIALOG_CONTRIBUTION_KEY = 'individual.IndividualsEnrolmentDialog';
 export const INDIVIDUALS_UPLOAD_FORM_CONTRIBUTION_KEY = 'individual.IndividualsUploadDialog';
 export const INDIVIDUAL_GROUP_MENU_CONTRIBUTION_KEY = 'individual.group.GroupMenu';
+export const INDIVIDUAL_PROJECTION_CONTRIBUTION_KEY = 'individual.Individual.projection';
 export const CLEARED_STATE_FILTER = {
   field: '', filter: '', type: '', value: '',
 };
