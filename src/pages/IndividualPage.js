@@ -16,7 +16,7 @@ import _ from 'lodash';
 import { withTheme, withStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import UndoIcon from '@material-ui/icons/Undo';
-import { RIGHT_INDIVIDUAL_UPDATE } from '../constants';
+import { RIGHT_INDIVIDUAL_UPDATE, INDIVIDUAL_HEAD_PANEL_CONTRIBUTION_KEY } from '../constants';
 import {
   fetchIndividual, deleteIndividual, updateIndividual, undoDeleteIndividual,
 } from '../actions';
@@ -187,6 +187,7 @@ function IndividualPage({
           canSave={canSave}
           save={handleSave}
           HeadPanel={IndividualHeadPanel}
+          headPanelContributionsKey={INDIVIDUAL_HEAD_PANEL_CONTRIBUTION_KEY}
           Panels={[IndividualTabPanel]}
           rights={rights}
           actions={actions}
