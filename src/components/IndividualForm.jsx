@@ -194,6 +194,7 @@ class IndividualForm extends Component {
                         saveTooltip={saveTooltip}
                         rights={rights}
                         savedIndividual={individual}
+                        individual={this.state.individual}
                         isUpdatable={this.isUpdatable()}
                         setReadOnlyFields={this.setReadOnlyFields}
                         readOnlyFields={this.state.readOnlyFields}
