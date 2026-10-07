@@ -6,7 +6,7 @@ import { INDIVIDUAL_CHANGELOG_TAB_VALUE } from '../constants';
 function IndividalChangelogTabLabel({
   intl, onChange, tabStyle, isSelected, individual,
 }) {
-  if (!individual) return null;
+  if (!individual?.id) return null;
   return (
     <Tab
       onChange={onChange}
@@ -21,7 +21,7 @@ function IndividalChangelogTabLabel({
 function IndividalChangelogTabPanel({
   value, individual,
 }) {
-  if (!individual) return null;
+  if (!individual?.id) return null;
   return (
     <PublishedComponent
       pubRef="policyHolder.TabPanel"

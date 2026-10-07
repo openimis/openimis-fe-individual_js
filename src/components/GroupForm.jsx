@@ -141,6 +141,7 @@ class GroupForm extends Component {
                         saveTooltip={saveTooltip}
                         rights={rights}
                         savedGroup={group}
+                        group={this.state.group}
                         isUpdatable={this.isUpdatable()}
                         setReadOnlyFields={this.setReadOnlyFields}
                         readOnlyFields={this.state.readOnlyFields}
