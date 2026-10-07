@@ -43,7 +43,7 @@ function GroupPreviewEnrollmentDialog({
         color="primary"
         className={classes?.button}
         style={{ marginLeft: '16px' }}
-        disabled={enrollmentSummary?.numberOfGroupsToUpload === '0' || confirmed}
+        disabled={!benefitPlanToEnroll || enrollmentSummary?.numberOfGroupsToUpload === '0' || confirmed}
       >
         {formatMessage('individual.enrollment.previewGroups')}
       </Button>
