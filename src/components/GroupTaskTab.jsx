@@ -9,7 +9,7 @@ import { GROUP_TASK_TAB_VALUE, GROUP_LABEL, TASK_CONTRIBUTION_KEY } from '../con
 function GroupTaskTabLabel({
   intl, onChange, tabStyle, isSelected, group,
 }) {
-  if (!group) return null;
+  if (!group?.id) return null;
   return (
     <Tab
       onChange={onChange}
@@ -24,8 +24,8 @@ function GroupTaskTabLabel({
 function GroupTaskTabPanel({
   value, group, rights, classes, groupIndividualIds,
 }) {
-  if (!group) return null;
   const modulesManager = useModulesManager();
+  if (!group?.id) return null;
   const contributions = modulesManager.getContribs(TASK_CONTRIBUTION_KEY);
   if (contributions === undefined) {
     return null;
