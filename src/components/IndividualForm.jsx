@@ -13,6 +13,8 @@ import {
     journalize,
     Helmet,
     coreAlert,
+    waitForMutation,
+    mutationErrorText,
     withHistory,
 } from "@openimis/fe-core";
 import { fetchIndividual } from "../actions";
@@ -23,6 +25,9 @@ import IndividualTabPanel from "./IndividualTabPanel";
 const StyledDiv = styled("div")(({ theme }) => ({
     ...theme.page ?? {}
 }));
+
+// MutationLog.status values.
+const MUTATION_STATUS = { ERROR: 1, SUCCESS: 2 };
 
 class IndividualForm extends Component {
     constructor(props) {
@@ -120,6 +125,38 @@ class IndividualForm extends Component {
         this.setState({ showSaveConfirmDialog: false, pendingLocation: null });
     }
 
+    // The end of submittingMutation is the server's acknowledgement of the request; with
+    // asynchronous mutations the update (and the approval task it creates) can still fail.
+    // No log visible within the wait means the request was not recorded (e.g. refused before
+    // it was logged); when the outcome cannot be read, the alert says the request was received.
+    alertUpdateOutcome = async (clientMutationId) => {
+        const { intl } = this.props;
+        let outcome = null;
+        try {
+            outcome = await this.props.waitForMutation(clientMutationId);
+        } catch {
+            outcome = null;
+        }
+        if (outcome?.status === MUTATION_STATUS.SUCCESS) {
+            this.props.coreAlert(
+                formatMessage(intl, "individual", "individual.update.success.title"),
+                formatMessage(intl, "individual", "individual.update.success.message"),
+            );
+        } else if (outcome === undefined || outcome?.status === MUTATION_STATUS.ERROR) {
+            this.props.coreAlert(
+                formatMessage(intl, "individual", "individual.update.failed.title"),
+                formatMessageWithValues(intl, "individual", "individual.update.failed.message", {
+                    error: mutationErrorText(outcome?.error),
+                }),
+            );
+        } else {
+            this.props.coreAlert(
+                formatMessage(intl, "individual", "individual.update.submitted.title"),
+                formatMessage(intl, "individual", "individual.update.submitted.message"),
+            );
+        }
+    };
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.fetchedIndividual !== this.props.fetchedIndividual && !!this.props.fetchedIndividual) {
             this.setState(
@@ -132,10 +169,7 @@ class IndividualForm extends Component {
         } else if (prevProps.submittingMutation && !this.props.submittingMutation) {
             this.props.journalize(this.props.mutation);
             if (this.props.mutation?.actionType === ACTION_TYPE.UPDATE_INDIVIDUAL) {
-                this.props.coreAlert(
-                    formatMessage(this.props.intl, "individual", "individual.update.success.title"),
-                    formatMessage(this.props.intl, "individual", "individual.update.success.message"),
-                );
+                this.alertUpdateOutcome(this.props.mutation.clientMutationId);
             }
             if (!!this.state.individual.id) {
                 this.props.fetchIndividual(this.props.modulesManager, [`id: "${this.state.individual.id}"`]);
@@ -241,7 +275,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ fetchIndividual, journalize, coreAlert }, dispatch);
+    return bindActionCreators({ fetchIndividual, journalize, coreAlert, waitForMutation }, dispatch);
 };
 
 export default withHistory(withModulesManager(injectIntl(connect(mapStateToProps, mapDispatchToProps)(IndividualForm))));
