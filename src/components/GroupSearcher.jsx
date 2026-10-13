@@ -104,7 +104,7 @@ function GroupSearcher({
     if (groupToDelete && confirmed) {
       deleteGroup(
         groupToDelete,
-        formatMessageWithValues(intl, 'individual', 'individual.delete.mutationLabel', {
+        formatMessageWithValues(intl, 'individual', 'group.delete.mutationLabel', {
           id: groupToDelete.id,
         }),
       );
