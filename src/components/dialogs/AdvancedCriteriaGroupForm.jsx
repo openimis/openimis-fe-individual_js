@@ -378,7 +378,7 @@ function AdvancedCriteriaGroupForm({
               <GroupPreviewEnrollmentDialog
                 rights={rights}
                 advancedCriteria={filtersToApply}
-                benefitPlanToEnroll={object.id}
+                benefitPlanToEnroll={object?.id}
                 enrollmentSummary={enrollmentGroupSummary}
                 confirmed={confirmed}
               />
