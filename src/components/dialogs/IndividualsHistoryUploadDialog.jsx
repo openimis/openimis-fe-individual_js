@@ -24,7 +24,8 @@ import { bindActionCreators } from 'redux';
 import CollapsableErrorList from '../CollapsableErrorList';
 import { fetchUploadHistory } from '../../actions';
 import { downloadIndividualUploadFile, downloadInvalidItems } from '../../utils';
-import { UPLOAD_STATUS } from '../../constants';
+import { RUNNING_UPLOAD_STATUSES, UPLOAD_POLL_INTERVAL_MS, UPLOAD_STATUS } from '../../constants';
+import UploadProgress from '../UploadProgress';
 
 // Styled component replacing withStyles/styles object
 const StyledTableHead = styled(TableHead)(({ theme }) => ({
@@ -67,18 +68,30 @@ function IndividualsUploadHistoryDialog({
     downloadIndividualUploadFile(filename);
   };
 
+  const fetchHistory = () => fetchUploadHistory(['orderBy: ["-dateCreated"]']);
+
   useEffect(() => {
     if (isOpen) {
-      const params = [
-        'orderBy: ["-dateCreated"]',
-      ];
-      fetchUploadHistory(params);
+      fetchHistory();
     }
   }, [isOpen]);
 
+  // Keep showing the previous rows while a refresh is in flight: the reducer
+  // empties the list on every request.
   useEffect(() => {
-    setRecords(history);
+    if (fetchedHistory) {
+      setRecords(history);
+    }
   }, [fetchedHistory]);
+
+  // While the dialog is open and an upload is still running, refresh until it
+  // reaches a final state (or waits for review).
+  useEffect(() => {
+    const running = records.some((item) => RUNNING_UPLOAD_STATUSES.includes(item?.dataUpload?.status));
+    if (!isOpen || !running) return undefined;
+    const timer = setTimeout(fetchHistory, UPLOAD_POLL_INTERVAL_MS);
+    return () => clearTimeout(timer);
+  }, [isOpen, records]);
 
   return (
     <>
@@ -171,7 +184,7 @@ function IndividualsUploadHistoryDialog({
                   </StyledTableRow>
                 </StyledTableHead>
                 <TableBody>
-                  <ProgressOrError progress={fetchingHistory} error={fetchedHistory} />
+                  <ProgressOrError progress={fetchingHistory && !records.length} error={fetchedHistory} />
                   {records.map((item) => (
                     <TableRow key={item?.id}>
                       <TableCell>
@@ -188,6 +201,7 @@ function IndividualsUploadHistoryDialog({
                       </TableCell>
                       <TableCell>
                         {item.dataUpload.status}
+                        <UploadProgress status={item.dataUpload.status} progress={item.dataUpload.progress} />
                       </TableCell>
                       <TableCell>
                         {item.userCreated.username}

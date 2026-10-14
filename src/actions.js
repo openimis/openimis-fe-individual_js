@@ -117,7 +117,7 @@ const UPLOAD_HISTORY_FULL_PROJECTION = () => [
   'id',
   'uuid',
   'workflow',
-  'dataUpload {uuid, dateCreated, dateUpdated, sourceName, sourceType, status, error }',
+  'dataUpload {uuid, dateCreated, dateUpdated, sourceName, sourceType, status, error, progress }',
   'userCreated {username}',
 ];
 
