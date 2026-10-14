@@ -8,7 +8,7 @@ import { BENEFITS_TAB_VALUE, BENEFITS_CONTRIBUTION_KEY } from '../constants';
 function BenefitsTabLabel({
   intl, onChange, tabStyle, isSelected, individual,
 }) {
-  if (!individual) return null;
+  if (!individual?.id) return null;
   return (
     <Tab
       onChange={onChange}
@@ -23,7 +23,7 @@ function BenefitsTabLabel({
 function BenefitsTabPanel({
   value, individual, rights, classes,
 }) {
-  if (!individual) return null;
+  if (!individual?.id) return null;
   return (
     <PublishedComponent
       pubRef="policyHolder.TabPanel"

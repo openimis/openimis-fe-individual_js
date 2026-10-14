@@ -9,7 +9,7 @@ import { INDIVIDUAL_LABEL, INDIVIDUAL_TASK_TAB_VALUE, TASK_CONTRIBUTION_KEY } fr
 function IndividalTaskTabLabel({
   intl, onChange, tabStyle, isSelected, individual,
 }) {
-  if (!individual) return null;
+  if (!individual?.id) return null;
   return (
     <Tab
       onChange={onChange}
@@ -24,8 +24,8 @@ function IndividalTaskTabLabel({
 function IndividalTaskTabPanel({
   value, individual, rights, classes,
 }) {
-  if (!individual) return null;
   const modulesManager = useModulesManager();
+  if (!individual?.id) return null;
   const contributions = modulesManager.getContribs(TASK_CONTRIBUTION_KEY);
   if (contributions === undefined) {
     return null;
