@@ -608,7 +608,11 @@ function reducer(
         individualDataUploadHistory: parseData(action.payload.data.individualDataUploadHistory)?.map((data) => ({
           ...data,
           id: decodeId(data.id),
-          dataUpload: { ...data.dataUpload, error: JSON.parse(data.dataUpload.error) },
+          dataUpload: {
+            ...data.dataUpload,
+            error: JSON.parse(data.dataUpload.error),
+            progress: data.dataUpload.progress ? JSON.parse(data.dataUpload.progress) : null,
+          },
         })) || [],
         individualDataUploadHistoryPageInfo: pageInfo(action.payload.data.individualDataUploadHistory),
         errorIndividualDataUploadHistory: formatGraphQLError(action.payload),
