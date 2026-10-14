@@ -7,6 +7,7 @@ import {
   dispatchMutationReq,
   dispatchMutationResp,
   dispatchMutationErr,
+  dispatchMutationDefault,
   parseData,
   pageInfo,
   decodeId,
@@ -722,7 +723,7 @@ function reducer(
     case SUCCESS(ACTION_TYPE.PULL_API_DATA):
       return dispatchMutationResp(state, 'etlServiceMutation', action);
     default:
-      return state;
+      return dispatchMutationDefault(state, action);
   }
 }
 
