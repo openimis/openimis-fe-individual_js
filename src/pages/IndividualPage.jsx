@@ -32,7 +32,6 @@ function IndividualPage({
   coreConfirm,
   confirmed,
   clearConfirm,
-  setConfirmedAction,
 }) {
   const back = () => history.goBack();
 
@@ -64,24 +63,24 @@ function IndividualPage({
   };
 
   const openDeleteIndividualConfirmDialog = () => {
-    setConfirmedAction(() => deleteIndividualCallback);
     coreConfirm(
       formatMessageWithValues(intl, 'individual', 'individual.delete.confirm.title', {
         firstName: individual?.firstName,
         lastName: individual?.lastName,
       }),
       formatMessage(intl, 'individual', 'individual.delete.confirm.message'),
+      { onConfirm: deleteIndividualCallback },
     );
   };
 
   const openUndoIndividualConfirmDialog = () => {
-    setConfirmedAction(() => undoDeleteIndividualCallback);
     coreConfirm(
       formatMessageWithValues(intl, 'individual', 'individual.undo.confirm.title', {
         firstName: individual?.firstName,
         lastName: individual?.lastName,
       }),
       formatMessage(intl, 'individual', 'individual.undo.confirm.message'),
+      { onConfirm: undoDeleteIndividualCallback },
     );
   };
 

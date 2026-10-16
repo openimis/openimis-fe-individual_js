@@ -37,7 +37,6 @@ function GroupPage({
   createGroupIndividual,
 }) {
   const [editedGroupIndividual, setEditedGroupIndividual] = useState(null);
-  const [confirmedAction, setConfirmedAction] = useState(() => null);
   const [groupIndividualIds, setGroupIndividualIds] = useState([]);
   const [isAddIndividualToGroupModalOpen, setIsAddIndividualToGroupModalOpen] = useState(false);
 
@@ -47,11 +46,6 @@ function GroupPage({
       setGroupIndividualIds(ids);
     }
   }, [groupIndividuals]);
-
-  useEffect(() => {
-    if (confirmed && confirmedAction) confirmedAction();
-    return () => confirmed && clearConfirm(null);
-  }, [confirmed]);
 
   const back = () => {
     setEditedGroupIndividual(null);
@@ -88,12 +82,12 @@ function GroupPage({
   );
 
   const openDeleteGroupConfirmDialog = () => {
-    setConfirmedAction(() => deleteGroupCallback);
     coreConfirm(
       formatMessageWithValues(intl, 'individual', 'group.delete.confirm.title', {
         id: group?.id,
       }),
       formatMessage(intl, 'individual', 'group.delete.confirm.message'),
+      { onConfirm: deleteGroupCallback },
     );
   };
 
