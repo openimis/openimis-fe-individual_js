@@ -141,7 +141,6 @@ function GroupPage({
           back={back}
           save={save}
           rights={rights}
-          setConfirmedAction={setConfirmedAction}
           actions={actions}
           saveTooltip={saveTooltip}
           groupIndividualIds={groupIndividualIds}
