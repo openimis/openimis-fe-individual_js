@@ -12,6 +12,7 @@ import { injectIntl } from 'react-intl';
 import { useTheme, styled } from '@mui/material/styles';
 import { RIGHT_INDIVIDUAL_UPDATE } from '../constants';
 import AdditionalFieldsDialog from './dialogs/AdditionalFieldsDialog';
+import IndividualLabelPicker from '../pickers/IndividualLabelPicker';
 
 const StyledGrid = styled(Grid)(({ theme }) => ({
   '& .tableTitle': theme.table?.title ?? {},
@@ -29,6 +30,7 @@ class IndividualHeadPanel extends FormPanel {
       "lastName",
       "dob",
       "location",
+      "labels",
     ];
   }
 
@@ -125,6 +127,13 @@ class IndividualHeadPanel extends FormPanel {
           <Grid size={3} className="item">
             <AdditionalFieldsDialog
               individualJsonExt={individual?.jsonExt}
+            />
+          </Grid>
+          <Grid size={12} className="item">
+            <IndividualLabelPicker
+              readOnly={readOnlyFields.includes("labels")}
+              value={individual?.labels}
+              onChange={(v) => this.updateAttribute("labels", v)}
             />
           </Grid>
           <Grid size={12}>

@@ -37,6 +37,7 @@ function IndividualHistorySearcher({
     'individualHistory.version',
     'individualHistory.jsonExt',
     'individualHistory.userUpdated',
+    'individual.labels',
   ];
 
   const itemFormatters = () => [
@@ -58,6 +59,7 @@ function IndividualHistorySearcher({
       />
     ),
     (individualHistory) => individualHistory?.userUpdated?.username,
+    (individualHistory) => (individualHistory.labels ?? []).join(', '),
   ];
 
   const rowIdentifier = (individualHistory) => individualHistory.id;

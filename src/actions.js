@@ -59,6 +59,7 @@ const INDIVIDUAL_FULL_PROJECTION = (mm, withGroupIndividuals = false) => {
     'lastName',
     'dob',
     'jsonExt',
+    'labels',
     'version',
     'userUpdated {username}',
     `location${mm.getProjection('location.Location.FlatProjection')}`,
@@ -295,6 +296,7 @@ function formatIndividualGQL(individual) {
     ${individual?.jsonExt ? `jsonExt: ${JSON.stringify(individual.jsonExt)}` : ''}
     ${individual?.dob ? `dob: "${dateTimeToDate(individual.dob)}"` : ''}
     ${individual?.location ? `locationId: ${decodeId(individual.location.id)}` : ''}
+    ${Array.isArray(individual?.labels) ? `labels: ${JSON.stringify(individual.labels)}` : ''}
   `;
 }
 
