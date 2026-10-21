@@ -10,7 +10,6 @@ import {
   downloadExport,
   coreConfirm,
   coreAlert,
-  clearConfirm,
   journalize,
   decodeId,
   GetIconComponent,
@@ -58,20 +57,17 @@ function GroupSearcher({
   groupExport,
   errorGroupExport,
   deleteGroup,
-  confirmed,
   submittingMutation,
   clearGroupExport,
   isModalEnrollment,
   mutation,
   coreConfirm,
-  clearConfirm,
   coreAlert,
   journalize,
   CLEARED_STATE_FILTER,
   benefitPlanToEnroll,
   advancedCriteria,
 }) {
-  const [groupToDelete, setGroupToDelete] = useState(null);
   const [deletedGroupUuids, setDeletedGroupUuids] = useState([]);
   const [appliedCustomFilters, setAppliedCustomFilters] = useState([CLEARED_STATE_FILTER]);
   const [appliedFiltersRowStructure, setAppliedFiltersRowStructure] = useState([CLEARED_STATE_FILTER]);
@@ -81,43 +77,32 @@ function GroupSearcher({
     return `${modulesManager.getRef('individual.route.group')}/${group?.id}`;
   }
 
-  const openDeleteGroupConfirmDialog = () => coreConfirm(
-    formatMessageWithValues(intl, 'individual', 'group.delete.confirm.title', {
-      id: groupToDelete.id,
-    }),
-    formatMessage(intl, 'individual', 'group.delete.confirm.message'),
-  );
-
   const onDoubleClick = (group, newTab = false) => rights.includes(RIGHT_GROUP_UPDATE)
   && !deletedGroupUuids.includes(group.id)
   && historyPush(modulesManager, history, 'individual.route.group', [group?.id], newTab);
 
-  const onDelete = (group) => setGroupToDelete(group);
-
-  useEffect(() => {
-    if (groupToDelete) {
-      openDeleteGroupConfirmDialog();
-    }
-  }, [groupToDelete]);
-
-  useEffect(() => {
-    if (groupToDelete && confirmed) {
-      deleteGroup(
-        groupToDelete,
-        formatMessageWithValues(intl, 'individual', 'group.delete.mutationLabel', {
-          id: groupToDelete.id,
-        }),
-      );
-      coreAlert(
-        formatMessage(intl, 'individual', 'individual.delete.requestSubmitted.title'),
-        formatMessage(intl, 'individual', 'individual.delete.requestSubmitted.message'),
-      );
-      setDeletedGroupUuids([...deletedGroupUuids, groupToDelete.id]);
-    }
-    if (groupToDelete && confirmed !== null) {
-      setGroupToDelete(null);
-    }
-  }, [confirmed]);
+  // state.core.confirmed deleted the group on any other dialog's "Yes" (OP-3210).
+  const onDelete = (group) => coreConfirm(
+    formatMessageWithValues(intl, 'individual', 'group.delete.confirm.title', {
+      id: group.id,
+    }),
+    formatMessage(intl, 'individual', 'group.delete.confirm.message'),
+    {
+      onConfirm: () => {
+        deleteGroup(
+          group,
+          formatMessageWithValues(intl, 'individual', 'group.delete.mutationLabel', {
+            id: group.id,
+          }),
+        );
+        coreAlert(
+          formatMessage(intl, 'individual', 'individual.delete.requestSubmitted.title'),
+          formatMessage(intl, 'individual', 'individual.delete.requestSubmitted.message'),
+        );
+        setDeletedGroupUuids((uuids) => [...uuids, group.id]);
+      },
+    },
+  );
 
   useEffect(() => {
     if (prevSubmittingMutationRef.current && !submittingMutation) {
@@ -320,7 +305,6 @@ const mapStateToProps = (state) => ({
   groupExport: state.individual.groupExport,
   groupExportPageInfo: state.individual.groupExportPageInfo,
   errorGroupExport: state.individual.errorGroupExport,
-  confirmed: state.core.confirmed,
   submittingMutation: state.individual.submittingMutation,
   mutation: state.individual.mutation,
 });
@@ -333,7 +317,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     deleteGroup,
     coreConfirm,
     coreAlert,
-    clearConfirm,
     journalize,
   },
   dispatch,

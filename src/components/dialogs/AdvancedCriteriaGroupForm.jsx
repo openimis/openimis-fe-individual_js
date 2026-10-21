@@ -9,7 +9,6 @@ import {
   formatMessageWithValues,
   fetchCustomFilter,
   coreConfirm,
-  clearConfirm,
   GetIconComponent,
 } from '@openimis/fe-core';
 import { connect } from 'react-redux';
@@ -51,8 +50,6 @@ function AdvancedCriteriaGroupForm({
   enrollmentGroupSummary,
   fetchedEnrollmentGroupSummary,
   confirmGroupEnrollment,
-  confirmed,
-  clearConfirm,
   coreConfirm,
   rights,
   edited,
@@ -64,6 +61,7 @@ function AdvancedCriteriaGroupForm({
   });
   const [filters, setFilters] = useState(getDefaultAppliedCustomFilters());
   const [filtersToApply, setFiltersToApply] = useState(null);
+  const [enrollmentConfirmed, setEnrollmentConfirmed] = useState(false);
   const status = edited?.status;
 
   const getBenefitPlanDefaultCriteria = () => {
@@ -185,40 +183,42 @@ function AdvancedCriteriaGroupForm({
 
   useEffect(() => { }, [filters]);
 
+  // Enrolling on state.core.confirmed ran on mount whenever any other dialog
+  // had been answered "Yes" (OP-3210); the lock now belongs to this form.
+  const enroll = () => {
+    setEnrollmentConfirmed(true);
+    const outputFilters = JSON.stringify(
+      filters.map(({
+        filter, value, field, type,
+      }) => ({
+        custom_filter_condition: `${field}__${filter}__${type}=${value}`,
+      })),
+    );
+    const jsonExt = updateJsonExt(objectToSave.jsonExt, outputFilters);
+    const jsonData = JSON.parse(jsonExt);
+    const advancedCriteria = jsonData.advanced_criteria?.[status] || [];
+
+    // Extract custom_filter_condition values and construct customFilters array
+    const customFilters = advancedCriteria.map((criterion) => `"${criterion.custom_filter_condition}"`);
+    setFiltersToApply(customFilters);
+    const params = {
+      customFilters: `[${customFilters}]`,
+      benefitPlanId: `"${decodeId(object.id)}"`,
+      status: `"${status}"`,
+    };
+    confirmGroupEnrollment(
+      params,
+      formatMessage(intl, 'individual', 'individual.enrollment.mutationLabel'),
+    );
+  };
+
   const openConfirmEnrollmentDialog = () => {
     coreConfirm(
       formatMessage(intl, 'individual', 'individual.enrollment.confirmTitle'),
       formatMessageWithValues(intl, 'individual', 'individual.enrollment.confirmGroupMessageDialog', { benefitPlanName: object.name }),
+      { onConfirm: enroll },
     );
   };
-
-  useEffect(() => {
-    if (confirmed) {
-      const outputFilters = JSON.stringify(
-        filters.map(({
-          filter, value, field, type,
-        }) => ({
-          custom_filter_condition: `${field}__${filter}__${type}=${value}`,
-        })),
-      );
-      const jsonExt = updateJsonExt(objectToSave.jsonExt, outputFilters);
-      const jsonData = JSON.parse(jsonExt);
-      const advancedCriteria = jsonData.advanced_criteria?.[status] || [];
-
-      // Extract custom_filter_condition values and construct customFilters array
-      const customFilters = advancedCriteria.map((criterion) => `"${criterion.custom_filter_condition}"`);
-      setFiltersToApply(customFilters);
-      const params = {
-        customFilters: `[${customFilters}]`,
-        benefitPlanId: `"${decodeId(object.id)}"`,
-        status: `"${status}"`,
-      };
-      confirmGroupEnrollment(
-        params,
-        formatMessage(intl, 'individual', 'individual.enrollment.mutationLabel'),
-      );
-    }
-  }, [confirmed]);
 
   return (
     <>
@@ -231,10 +231,10 @@ function AdvancedCriteriaGroupForm({
           index={index}
           filters={filters}
           setFilters={setFilters}
-          readOnly={confirmed}
+          readOnly={enrollmentConfirmed}
         />
       ))}
-      {!confirmed ? (
+      {!enrollmentConfirmed ? (
         <div
           style={{ backgroundColor: '#DFEDEF', paddingLeft: '10px', paddingBottom: '10px' }}
         >
@@ -246,7 +246,7 @@ function AdvancedCriteriaGroupForm({
               height: '16px',
             }}
             onClick={handleAddFilter}
-            disabled={confirmed}
+            disabled={enrollmentConfirmed}
           />
           <Button
             onClick={handleAddFilter}
@@ -256,7 +256,7 @@ function AdvancedCriteriaGroupForm({
               marginBottom: '6px',
               fontSize: '0.8rem',
             }}
-            disabled={confirmed}
+            disabled={enrollmentConfirmed}
           >
             {formatMessage(intl, 'individual', 'individual.enrollment.addFilters')}
           </Button>
@@ -271,7 +271,7 @@ function AdvancedCriteriaGroupForm({
             style={{
               border: '0px',
             }}
-            disabled={confirmed}
+            disabled={enrollmentConfirmed}
           >
             {formatMessage(intl, 'individual', 'individual.enrollment.clearAllFilters')}
           </Button>
@@ -286,7 +286,7 @@ function AdvancedCriteriaGroupForm({
             variant="contained"
             color="primary"
             autoFocus
-            disabled={!object || confirmed}
+            disabled={!object || enrollmentConfirmed}
           >
             {formatMessage(intl, 'individual', 'individual.enrollment.previewEnrollment')}
           </Button>
@@ -371,7 +371,7 @@ function AdvancedCriteriaGroupForm({
                 variant="contained"
                 color="primary"
                 autoFocus
-                disabled={!object || confirmed || enrollmentGroupSummary.numberOfGroupsToUpload === '0'}
+                disabled={!object || enrollmentConfirmed || enrollmentGroupSummary.numberOfGroupsToUpload === '0'}
               >
                 {formatMessage(intl, 'individual', 'individual.enrollment.confirmEnrollment')}
               </Button>
@@ -380,7 +380,7 @@ function AdvancedCriteriaGroupForm({
                 advancedCriteria={filtersToApply}
                 benefitPlanToEnroll={object?.id}
                 enrollmentSummary={enrollmentGroupSummary}
-                confirmed={confirmed}
+                enrollmentConfirmed={enrollmentConfirmed}
               />
             </Grid>
             <Grid size={5} />
@@ -394,7 +394,6 @@ function AdvancedCriteriaGroupForm({
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state, props) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
-  confirmed: state.core.confirmed,
   fetchingCustomFilters: state.core.fetchingCustomFilters,
   errorCustomFilters: state.core.errorCustomFilters,
   fetchedCustomFilters: state.core.fetchedCustomFilters,
@@ -409,7 +408,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   fetchCustomFilter,
   fetchGroupEnrollmentSummary,
   confirmGroupEnrollment,
-  clearConfirm,
   coreConfirm,
 }, dispatch);
 

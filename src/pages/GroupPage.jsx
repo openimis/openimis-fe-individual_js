@@ -4,7 +4,6 @@ import {
   formatMessage,
   formatMessageWithValues,
   coreConfirm,
-  clearConfirm,
   GetIconComponent,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
@@ -30,8 +29,6 @@ function GroupPage({
   createGroup,
   updateGroup,
   coreConfirm,
-  clearConfirm,
-  confirmed,
   createGroupAndMoveIndividual,
   groupIndividuals,
   createGroupIndividual,
@@ -157,7 +154,6 @@ function GroupPage({
 const mapStateToProps = (state, props) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
   groupUuid: props.match.params.group_uuid,
-  confirmed: state.core.confirmed,
   group: state.individual.group,
   groupIndividuals: state?.individual?.groupIndividuals,
 });
@@ -169,7 +165,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   createGroupAndMoveIndividual,
   createGroupIndividual,
   coreConfirm,
-  clearConfirm,
 }, dispatch);
 export default withHistory(
   injectIntl(connect(mapStateToProps, mapDispatchToProps)(GroupPage))
