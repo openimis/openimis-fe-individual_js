@@ -20,7 +20,7 @@ function IndividualPreviewEnrollmentDialog({
   advancedCriteria,
   benefitPlanToEnroll,
   enrollmentSummary,
-  confirmed,
+  enrollmentConfirmed,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -43,7 +43,7 @@ function IndividualPreviewEnrollmentDialog({
         color="primary"
         className={classes?.button}
         style={{ marginLeft: '16px' }}
-        disabled={!benefitPlanToEnroll || enrollmentSummary?.numberOfIndividualsToUpload === '0' || confirmed}
+        disabled={!benefitPlanToEnroll || enrollmentSummary?.numberOfIndividualsToUpload === '0' || enrollmentConfirmed}
       >
         {formatMessage('individual.enrollment.previewIndividuals')}
       </Button>
@@ -114,7 +114,6 @@ function IndividualPreviewEnrollmentDialog({
 
 const mapStateToProps = (state) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
-  confirmed: state.core.confirmed,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

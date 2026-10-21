@@ -275,7 +275,6 @@ function IndividualsUploadHistoryDialog({
 
 const mapStateToProps = (state) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
-  confirmed: state.core.confirmed,
   history: state.individual.individualDataUploadHistory,
   fetchedHistory: state.individual.fetchedIndividualDataUploadHistory,
   fetchingHistory: state.individual.fetchingIndividualDataUploadHistory,

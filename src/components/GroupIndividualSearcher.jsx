@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { injectIntl } from 'react-intl';
 import {
-  clearConfirm,
   coreConfirm,
   downloadExport,
   formatDateFromISO,
@@ -48,8 +47,6 @@ function GroupIndividualSearcher({
   history,
   rights,
   coreConfirm,
-  clearConfirm,
-  confirmed,
   journalize,
   submittingMutation,
   mutation,
@@ -72,7 +69,6 @@ function GroupIndividualSearcher({
   editedGroupIndividual,
 
 }) {
-  const [groupIndividualToDelete, setGroupIndividualToDelete] = useState(null);
   const [deletedGroupIndividualUuids, setDeletedGroupIndividualUuids] = useState([]);
   const prevSubmittingMutationRef = useRef();
   const [refetch, setRefetch] = useState(null);
@@ -82,42 +78,31 @@ function GroupIndividualSearcher({
     return `${modulesManager.getRef('individual.route.individual')}/${groupIndividual.individual?.id}`;
   }
 
-  const openDeleteGroupIndividualConfirmDialog = () => coreConfirm(
-    formatMessageWithValues(intl, 'individual', 'individual.delete.confirm.title', {
-      firstName: groupIndividualToDelete.individual.firstName,
-      lastName: groupIndividualToDelete.individual.lastName,
-    }),
-    formatMessage(intl, 'individual', 'individual.delete.confirm.message'),
-  );
-
   const onDoubleClick = (groupIndividual, newTab = false) => rights.includes(RIGHT_GROUP_INDIVIDUAL_UPDATE)
         && !deletedGroupIndividualUuids.includes(groupIndividual.id)
         // eslint-disable-next-line max-len
         && historyPush(modulesManager, history, 'individual.route.individual', [groupIndividual?.individual?.id], newTab);
 
-  const onDelete = (groupIndividual) => setGroupIndividualToDelete(groupIndividual);
-
-  useEffect(() => {
-    if (groupIndividualToDelete) {
-      openDeleteGroupIndividualConfirmDialog();
-    }
-  }, [groupIndividualToDelete]);
-
-  useEffect(() => {
-    if (groupIndividualToDelete && confirmed) {
-      deleteGroupIndividual(
-        groupIndividualToDelete,
-        formatMessageWithValues(intl, 'individual', 'individual.delete.mutationLabel', {
-          firstName: groupIndividualToDelete.individual.firstName,
-          lastName: groupIndividualToDelete.individual.lastName,
-        }),
-      );
-      setDeletedGroupIndividualUuids([...deletedGroupIndividualUuids, groupIndividualToDelete.id]);
-    }
-    if (groupIndividualToDelete && confirmed !== null) {
-      setGroupIndividualToDelete(null);
-    }
-  }, [confirmed]);
+  // state.core.confirmed deleted the member on any other dialog's "Yes" (OP-3210).
+  const onDelete = (groupIndividual) => coreConfirm(
+    formatMessageWithValues(intl, 'individual', 'individual.delete.confirm.title', {
+      firstName: groupIndividual.individual.firstName,
+      lastName: groupIndividual.individual.lastName,
+    }),
+    formatMessage(intl, 'individual', 'individual.delete.confirm.message'),
+    {
+      onConfirm: () => {
+        deleteGroupIndividual(
+          groupIndividual,
+          formatMessageWithValues(intl, 'individual', 'individual.delete.mutationLabel', {
+            firstName: groupIndividual.individual.firstName,
+            lastName: groupIndividual.individual.lastName,
+          }),
+        );
+        setDeletedGroupIndividualUuids((uuids) => [...uuids, groupIndividual.id]);
+      },
+    },
+  );
 
   useEffect(() => {
     if (prevSubmittingMutationRef.current && !submittingMutation) {
@@ -399,7 +384,6 @@ const mapStateToProps = (state) => ({
   groupIndividuals: state.individual.groupIndividuals,
   groupIndividualsPageInfo: state.individual.groupIndividualsPageInfo,
   groupIndividualsTotalCount: state.individual.groupIndividualsTotalCount,
-  confirmed: state.core.confirmed,
   submittingMutation: state.individual.submittingMutation,
   mutation: state.individual.mutation,
   selectedFilters: state.core.filtersCache.groupIndividualsFilterCache,
@@ -419,7 +403,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     downloadGroupIndividuals,
     clearGroupIndividuals,
     coreConfirm,
-    clearConfirm,
     journalize,
   },
   dispatch,
