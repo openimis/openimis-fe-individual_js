@@ -543,25 +543,9 @@ export function resolveTask(task, clientMutationLabel, user, approveOrFail, addi
       // eslint-disable-next-line max-len
       additionalData: additionalData ? JSON.stringify({ entries: additionalData, decision: additionalData }) : undefined,
     },
-    {
-      id: task?.id,
-      businessStatus: (() => {
-        if (!userId) return undefined;
-
-        switch (approveOrFail) {
-          case APPROVED:
-          case FAILED:
-            return JSON.stringify({ [userId]: approveOrFail });
-          case ACCEPT:
-          case REJECT:
-            return JSON.stringify({ [userId]: { [approveOrFail]: additionalData } });
-          default:
-            throw new Error('Invalid approveOrFail value');
-        }
-      })(),
-      // eslint-disable-next-line max-len
-      additionalData: additionalData ? JSON.stringify({ entries: additionalData, decision: additionalData }) : undefined,
-    },
+    // The journal polls by mutation.clientMutationId, so the same id (and the
+    // label) must be the one sent; a generated one left the entry pending.
+    { clientMutationId: mutation.clientMutationId, clientMutationLabel },
   );
 
   return graphqlWithVariables(
