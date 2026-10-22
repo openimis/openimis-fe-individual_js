@@ -22,6 +22,7 @@ import {
 } from '../../constants';
 import { isBase64Encoded, isEmptyObject } from '../../utils';
 import { confirmEnrollment, fetchIndividualEnrollmentSummary } from '../../actions';
+import { completeCriteria } from '../../util/criteria-utils';
 import IndividualPreviewEnrollmentDialog from './IndividualPreviewEnrollmentDialog';
 
 // Styled component replacing withStyles/styles object
@@ -135,7 +136,7 @@ function AdvancedCriteriaForm({
   const saveCriteria = () => {
     setAppliedFiltersRowStructure(filters);
     const outputFilters = JSON.stringify(
-      filters.map(({
+      completeCriteria(filters).map(({
         filter, value, field, type,
       }) => ({
         custom_filter_condition: `${field}__${filter}__${type}=${value}`,
@@ -188,7 +189,7 @@ function AdvancedCriteriaForm({
   const enroll = () => {
     setEnrollmentConfirmed(true);
     const outputFilters = JSON.stringify(
-      filters.map(({
+      completeCriteria(filters).map(({
         filter, value, field, type,
       }) => ({
         custom_filter_condition: `${field}__${filter}__${type}=${value}`,

@@ -22,6 +22,7 @@ import {
 } from '../../constants';
 import { isBase64Encoded, isEmptyObject } from '../../utils';
 import { confirmGroupEnrollment, fetchGroupEnrollmentSummary } from '../../actions';
+import { completeCriteria } from '../../util/criteria-utils';
 import GroupPreviewEnrollmentDialog from './GroupPreviewEnrollmentDialog';
 
 // Styled component replacing withStyles/styles object
@@ -135,7 +136,7 @@ function AdvancedCriteriaGroupForm({
   const saveCriteria = () => {
     setAppliedFiltersRowStructure(filters);
     const outputFilters = JSON.stringify(
-      filters.map(({
+      completeCriteria(filters).map(({
         filter, value, field, type,
       }) => ({
         custom_filter_condition: `${field}__${filter}__${type}=${value}`,
@@ -188,7 +189,7 @@ function AdvancedCriteriaGroupForm({
   const enroll = () => {
     setEnrollmentConfirmed(true);
     const outputFilters = JSON.stringify(
-      filters.map(({
+      completeCriteria(filters).map(({
         filter, value, field, type,
       }) => ({
         custom_filter_condition: `${field}__${filter}__${type}=${value}`,

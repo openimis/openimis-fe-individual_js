@@ -40,12 +40,14 @@ const FORMS = [
     name: 'AdvancedCriteriaForm',
     Form: AdvancedCriteriaForm,
     enroll: actions.confirmEnrollment,
+    summary: actions.fetchIndividualEnrollmentSummary,
     individual: { fetchedEnrollmentSummary: true, enrollmentSummary: { numberOfIndividualsToUpload: '3' } },
   },
   {
     name: 'AdvancedCriteriaGroupForm',
     Form: AdvancedCriteriaGroupForm,
     enroll: actions.confirmGroupEnrollment,
+    summary: actions.fetchGroupEnrollmentSummary,
     individual: { fetchedEnrollmentGroupSummary: true, enrollmentGroupSummary: { numberOfGroupsToUpload: '3' } },
   },
 ];
@@ -54,7 +56,7 @@ const FORMS = [
 const coreReducer = (state = { confirmed: null }, action) => (
   action.type === 'SET_CONFIRMED' ? { ...state, confirmed: action.payload } : state);
 
-const renderForm = ({ Form, individual }, { confirmed = null } = {}) => {
+const renderForm = ({ Form, individual }, { confirmed = null, criteria = null } = {}) => {
   const store = createStore(
     combineReducers({ core: coreReducer, individual: (state = individual) => state }),
     { core: { confirmed } },
@@ -65,7 +67,9 @@ const renderForm = ({ Form, individual }, { confirmed = null } = {}) => {
         <Form
           object={{ id: 'plan-1', name: 'Plan' }}
           objectToSave={{ jsonExt: '{}' }}
-          edited={{ status: 'ACTIVE' }}
+          edited={criteria
+            ? { status: 'ACTIVE', benefitPlan: { jsonExt: JSON.stringify({ advanced_criteria: { ACTIVE: criteria } }) } }
+            : { status: 'ACTIVE' }}
           moduleName="individual"
           objectType="INDIVIDUAL"
           getDefaultAppliedCustomFilters={() => []}
@@ -80,6 +84,13 @@ const renderForm = ({ Form, individual }, { confirmed = null } = {}) => {
 };
 
 const button = (key) => screen.getByText(key).closest('button');
+
+const VALID = {
+  field: 'number_of_children', filter: 'lt', type: 'integer', value: '6',
+};
+const EMPTY = {
+  field: '', filter: '', type: '', value: '',
+};
 
 describe.each(FORMS)('$name enrolment', (form) => {
   it('does not enrol on mount when a stale "Yes" is already in the store', () => {
@@ -109,5 +120,19 @@ describe.each(FORMS)('$name enrolment', (form) => {
     expect(form.enroll.mock.calls[0][0]).toMatchObject({ benefitPlanId: '"plan-1"', status: '"ACTIVE"' });
     expect(button('individual.enrollment.previewEnrollment').disabled).toBe(true);
     expect(button('individual.enrollment.confirmEnrollment').disabled).toBe(true);
+  });
+
+  // OP-3251: an empty row stored with the programme's criteria was sent as "____=",
+  // a filter that matches nothing, so the preview and the enrolment selected no one.
+  it('previews and enrols with the complete criteria rows only', () => {
+    renderForm(form, { criteria: [VALID, EMPTY] });
+
+    fireEvent.click(button('individual.enrollment.previewEnrollment'));
+    expect(form.summary).toHaveBeenCalledTimes(1);
+    expect(form.summary.mock.calls[0][0]).toContain('customFilters: ["number_of_children__lt__integer=6"]');
+
+    fireEvent.click(button('individual.enrollment.confirmEnrollment'));
+    act(() => coreConfirm.mock.calls.at(-1)?.[2]?.onConfirm());
+    expect(form.enroll.mock.calls[0][0].customFilters).toBe('["number_of_children__lt__integer=6"]');
   });
 });
