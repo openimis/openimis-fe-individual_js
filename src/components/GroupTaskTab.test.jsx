@@ -33,20 +33,18 @@ const noop = () => {};
 const tabStyle = () => 'tab';
 const isSelected = () => false;
 
-function TaskSearcher({ entityIds }) {
-  const shown = Array.isArray(entityIds) ? entityIds.join(',') : '';
-  return <div data-testid="task-searcher">{shown}</div>;
+function TaskSearcher({ groupId }) {
+  return <div data-testid="task-searcher">{groupId}</div>;
 }
 
-// Like fe-core's Searcher, which reads defaultFilters only when it mounts:
-// ids passed after mount are ignored.
-const mountedWith = [];
-function MountOnlyTaskSearcher({ entityIds }) {
-  const [ids] = React.useState(() => {
-    mountedWith.push(entityIds);
-    return entityIds;
+// Like fe-core's Searcher, which reads defaultFilters only when it mounts.
+const mounts = [];
+function MountOnlyTaskSearcher(props) {
+  const [mountedWith] = React.useState(() => {
+    mounts.push(props);
+    return props;
   });
-  return <div data-testid="task-searcher">{ids.join(',')}</div>;
+  return <div data-testid="task-searcher">{mountedWith.groupId}</div>;
 }
 
 function tabs(group, groupIndividualIds = ['a', 'b']) {
@@ -82,26 +80,25 @@ describe('GroupTaskTab', () => {
     rerender(tabs(null));
     rerender(tabs({ id: '7' }));
     expect(screen.getByRole('tab')).toBeInTheDocument();
-    expect(screen.getByTestId('task-searcher')).toHaveTextContent('a,b');
+    expect(screen.getByTestId('task-searcher')).toHaveTextContent('7');
   });
 
-  // OP-3274 / OCM-1144: opened before the members load, the tab queried with
-  // entityIds: [] (every task) and never picked up the ids that arrived later.
-  it('queries the tasks of the members that load after the tab opens, never with no ids', () => {
+  // OP-3274 / OCM-1144: the tab filtered on the member rows the members tab had
+  // loaded, so it listed every task before they arrived and lost tasks beyond its page.
+  it('queries the tasks of the group from mount, and keeps the searcher as the members change', () => {
     modulesManager.getContribs = (key) => (
       key === TASK_CONTRIBUTION_KEY ? [{ taskCode: GROUP_LABEL }] : []
     );
     modulesManager.getRef = (ref) => (ref === 'tasksManagement.taskSearcher' ? MountOnlyTaskSearcher : null);
-    mountedWith.length = 0;
+    mounts.length = 0;
     const { rerender } = renderWithProviders(tabs({ id: '7' }, []));
 
-    expect(screen.queryByTestId('task-searcher')).not.toBeInTheDocument();
+    expect(screen.getByTestId('task-searcher')).toHaveTextContent('7');
 
     rerender(tabs({ id: '7' }, ['a', 'b']));
-    expect(screen.getByTestId('task-searcher')).toHaveTextContent('a,b');
-
     rerender(tabs({ id: '7' }, ['c']));
-    expect(screen.getByTestId('task-searcher')).toHaveTextContent('c');
-    expect(mountedWith.filter((ids) => !ids?.length)).toEqual([]);
+    expect(mounts).toHaveLength(1);
+    expect(mounts[0].groupId).toBe('7');
+    expect(mounts[0].entityIds).toBeUndefined();
   });
 });
