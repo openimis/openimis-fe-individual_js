@@ -33,12 +33,21 @@ const noop = () => {};
 const tabStyle = () => 'tab';
 const isSelected = () => false;
 
-function TaskSearcher({ entityIds }) {
-  const shown = Array.isArray(entityIds) ? entityIds.join(',') : '';
-  return <div data-testid="task-searcher">{shown}</div>;
+function TaskSearcher({ groupId }) {
+  return <div data-testid="task-searcher">{groupId}</div>;
 }
 
-function tabs(group) {
+// Like fe-core's Searcher, which reads defaultFilters only when it mounts.
+const mounts = [];
+function MountOnlyTaskSearcher(props) {
+  const [mountedWith] = React.useState(() => {
+    mounts.push(props);
+    return props;
+  });
+  return <div data-testid="task-searcher">{mountedWith.groupId}</div>;
+}
+
+function tabs(group, groupIndividualIds = ['a', 'b']) {
   return (
     <div>
       <GroupTaskTabLabel
@@ -51,7 +60,7 @@ function tabs(group) {
       <GroupTaskTabPanel
         value={GROUP_TASK_TAB_VALUE}
         group={group}
-        groupIndividualIds={['a', 'b']}
+        groupIndividualIds={groupIndividualIds}
       />
     </div>
   );
@@ -71,6 +80,25 @@ describe('GroupTaskTab', () => {
     rerender(tabs(null));
     rerender(tabs({ id: '7' }));
     expect(screen.getByRole('tab')).toBeInTheDocument();
-    expect(screen.getByTestId('task-searcher')).toHaveTextContent('a,b');
+    expect(screen.getByTestId('task-searcher')).toHaveTextContent('7');
+  });
+
+  // OP-3274 / OCM-1144: the tab filtered on the member rows the members tab had
+  // loaded, so it listed every task before they arrived and lost tasks beyond its page.
+  it('queries the tasks of the group from mount, and keeps the searcher as the members change', () => {
+    modulesManager.getContribs = (key) => (
+      key === TASK_CONTRIBUTION_KEY ? [{ taskCode: GROUP_LABEL }] : []
+    );
+    modulesManager.getRef = (ref) => (ref === 'tasksManagement.taskSearcher' ? MountOnlyTaskSearcher : null);
+    mounts.length = 0;
+    const { rerender } = renderWithProviders(tabs({ id: '7' }, []));
+
+    expect(screen.getByTestId('task-searcher')).toHaveTextContent('7');
+
+    rerender(tabs({ id: '7' }, ['a', 'b']));
+    rerender(tabs({ id: '7' }, ['c']));
+    expect(mounts).toHaveLength(1);
+    expect(mounts[0].groupId).toBe('7');
+    expect(mounts[0].entityIds).toBeUndefined();
   });
 });

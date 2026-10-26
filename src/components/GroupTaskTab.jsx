@@ -22,7 +22,7 @@ function GroupTaskTabLabel({
 }
 
 function GroupTaskTabPanel({
-  value, group, rights, classes, groupIndividualIds,
+  value, group, rights, classes,
 }) {
   const modulesManager = useModulesManager();
   if (!group?.id) return null;
@@ -41,9 +41,11 @@ function GroupTaskTabPanel({
       index={GROUP_TASK_TAB_VALUE}
       value={value}
     >
+      {/* The group's tasks are resolved on the server: they do not depend on which
+          members the members tab has loaded, and the searcher is never remounted. */}
       <PublishedComponent
         pubRef="tasksManagement.taskSearcher"
-        entityIds={groupIndividualIds}
+        groupId={group.id}
         rights={rights}
         classes={classes}
         contribution={filteredContribution}
