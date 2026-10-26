@@ -64,6 +64,14 @@ class GroupHeadPanel extends FormPanel {
               </Grid>
             </Grid>
           </Grid>
+          {/* Nothing is shown without a pending task, nor without the tasks module. */}
+          <Grid sx={{ alignSelf: 'center', marginLeft: 1 }}>
+            <PublishedComponent
+              pubRef="tasksManagement.PendingTaskCount"
+              entityType="individual.group"
+              entityId={edited?.id}
+            />
+          </Grid>
         </StyledGrid>
         <Divider />
         {mandatoryFieldsEmpty && (
