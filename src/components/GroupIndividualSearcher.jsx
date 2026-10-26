@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import { injectIntl } from 'react-intl';
 import {
   coreConfirm,
@@ -295,7 +297,9 @@ function GroupIndividualSearcher({
     return filters;
   };
 
-  const groupBeneficiaryFilter = (props) => (
+  // A stable component: a new one on every render would remount the filter pane each
+  // time results load, dropping what the user is typing or picking.
+  const groupBeneficiaryFilter = useCallback((props) => (
     <GroupIndividualFilter
       intl={props.intl}
       classes={props.classes}
@@ -303,7 +307,7 @@ function GroupIndividualSearcher({
       onChangeFilters={props.onChangeFilters}
       groupId={groupId}
     />
-  );
+  ), [groupId]);
 
   return (
     <div>

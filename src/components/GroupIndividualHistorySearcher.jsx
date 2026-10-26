@@ -73,20 +73,11 @@ function GroupIndividualHistorySearcher({
     return filters;
   };
 
-  const groupIndividualHistoryFilter = (props) => (
-    <GroupIndividualHistoryFilter
-      intl={props.intl}
-      classes={props.classes}
-      filters={props.filters}
-      onChangeFilters={props.onChangeFilters}
-    />
-  );
-
   return (
     <div>
       <Searcher
         module="individual"
-        FilterPane={groupIndividualHistoryFilter}
+        FilterPane={GroupIndividualHistoryFilter}
         fetch={fetch}
         items={groupIndividualHistory}
         itemsPageInfo={groupIndividualHistoryPageInfo}
