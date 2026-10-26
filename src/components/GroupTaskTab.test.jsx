@@ -38,7 +38,18 @@ function TaskSearcher({ entityIds }) {
   return <div data-testid="task-searcher">{shown}</div>;
 }
 
-function tabs(group) {
+// Like fe-core's Searcher, which reads defaultFilters only when it mounts:
+// ids passed after mount are ignored.
+const mountedWith = [];
+function MountOnlyTaskSearcher({ entityIds }) {
+  const [ids] = React.useState(() => {
+    mountedWith.push(entityIds);
+    return entityIds;
+  });
+  return <div data-testid="task-searcher">{ids.join(',')}</div>;
+}
+
+function tabs(group, groupIndividualIds = ['a', 'b']) {
   return (
     <div>
       <GroupTaskTabLabel
@@ -51,7 +62,7 @@ function tabs(group) {
       <GroupTaskTabPanel
         value={GROUP_TASK_TAB_VALUE}
         group={group}
-        groupIndividualIds={['a', 'b']}
+        groupIndividualIds={groupIndividualIds}
       />
     </div>
   );
@@ -72,5 +83,25 @@ describe('GroupTaskTab', () => {
     rerender(tabs({ id: '7' }));
     expect(screen.getByRole('tab')).toBeInTheDocument();
     expect(screen.getByTestId('task-searcher')).toHaveTextContent('a,b');
+  });
+
+  // OP-3274 / OCM-1144: opened before the members load, the tab queried with
+  // entityIds: [] (every task) and never picked up the ids that arrived later.
+  it('queries the tasks of the members that load after the tab opens, never with no ids', () => {
+    modulesManager.getContribs = (key) => (
+      key === TASK_CONTRIBUTION_KEY ? [{ taskCode: GROUP_LABEL }] : []
+    );
+    modulesManager.getRef = (ref) => (ref === 'tasksManagement.taskSearcher' ? MountOnlyTaskSearcher : null);
+    mountedWith.length = 0;
+    const { rerender } = renderWithProviders(tabs({ id: '7' }, []));
+
+    expect(screen.queryByTestId('task-searcher')).not.toBeInTheDocument();
+
+    rerender(tabs({ id: '7' }, ['a', 'b']));
+    expect(screen.getByTestId('task-searcher')).toHaveTextContent('a,b');
+
+    rerender(tabs({ id: '7' }, ['c']));
+    expect(screen.getByTestId('task-searcher')).toHaveTextContent('c');
+    expect(mountedWith.filter((ids) => !ids?.length)).toEqual([]);
   });
 });

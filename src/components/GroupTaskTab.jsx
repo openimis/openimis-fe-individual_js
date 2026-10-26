@@ -34,6 +34,9 @@ function GroupTaskTabPanel({
   if (!filteredContribution) {
     return null;
   }
+  // The searcher reads its filters only on mount, and the backend ignores an
+  // empty entityIds (every task): wait for the members, remount when they change.
+  const hasMembers = Array.isArray(groupIndividualIds) && groupIndividualIds.length > 0;
   return (
     <PublishedComponent
       pubRef="policyHolder.TabPanel"
@@ -41,13 +44,16 @@ function GroupTaskTabPanel({
       index={GROUP_TASK_TAB_VALUE}
       value={value}
     >
-      <PublishedComponent
-        pubRef="tasksManagement.taskSearcher"
-        entityIds={groupIndividualIds}
-        rights={rights}
-        classes={classes}
-        contribution={filteredContribution}
-      />
+      {hasMembers && (
+        <PublishedComponent
+          key={groupIndividualIds.join(',')}
+          pubRef="tasksManagement.taskSearcher"
+          entityIds={groupIndividualIds}
+          rights={rights}
+          classes={classes}
+          contribution={filteredContribution}
+        />
+      )}
     </PublishedComponent>
   );
 }
