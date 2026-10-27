@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import { injectIntl } from 'react-intl';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
@@ -24,7 +26,7 @@ import { bindActionCreators } from 'redux';
 import CollapsableErrorList from '../CollapsableErrorList';
 import { fetchUploadHistory } from '../../actions';
 import { downloadIndividualUploadFile, downloadInvalidItems } from '../../utils';
-import { RUNNING_UPLOAD_STATUSES, UPLOAD_POLL_INTERVAL_MS, UPLOAD_STATUS } from '../../constants';
+import { POLLED_UPLOAD_STATUSES, UPLOAD_POLL_INTERVAL_MS, UPLOAD_STATUS } from '../../constants';
 import UploadProgress from '../UploadProgress';
 
 // Styled component replacing withStyles/styles object
@@ -40,6 +42,16 @@ const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   ...theme?.paper?.item,
 }));
 
+// A poll returns only the newest uploads: keep the older rows it did not reach.
+function mergePolledRows(previous, polled) {
+  const polledIds = new Set(polled.map((item) => item.id));
+  const oldestPolled = polled[polled.length - 1]?.dataUpload?.dateCreated;
+  return [
+    ...polled,
+    ...previous.filter((item) => !polledIds.has(item.id) && item.dataUpload.dateCreated < oldestPolled),
+  ];
+}
+
 function IndividualsUploadHistoryDialog({
   modulesManager,
   intl,
@@ -47,6 +59,7 @@ function IndividualsUploadHistoryDialog({
   history,
   fetchedHistory,
   fetchingHistory,
+  errorHistory,
 }) {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -68,30 +81,39 @@ function IndividualsUploadHistoryDialog({
     downloadIndividualUploadFile(filename);
   };
 
-  const fetchHistory = () => fetchUploadHistory(['orderBy: ["-dateCreated"]']);
+  // `first` bounds a poll to the newest uploads, which the rows are sorted by.
+  const polledFirst = useRef(null);
+  const fetchHistory = useCallback((first = null) => {
+    polledFirst.current = first;
+    fetchUploadHistory(['orderBy: ["-dateCreated"]', ...(first ? [`first: ${first}`] : [])]);
+  }, [fetchUploadHistory]);
 
   useEffect(() => {
     if (isOpen) {
       fetchHistory();
     }
-  }, [isOpen]);
+  }, [isOpen, fetchHistory]);
 
   // Keep showing the previous rows while a refresh is in flight: the reducer
   // empties the list on every request.
   useEffect(() => {
     if (fetchedHistory) {
-      setRecords(history);
+      setRecords((previous) => (polledFirst.current ? mergePolledRows(previous, history) : history));
     }
-  }, [fetchedHistory]);
+  }, [fetchedHistory, history]);
 
-  // While the dialog is open and an upload is still running, refresh until it
-  // reaches a final state (or waits for review).
+  // While the dialog is open and an upload is still running or waiting for
+  // verification, refresh the uploads down to the oldest such one. The timer is
+  // re-armed whenever a request ends, so a failed refresh is retried.
   useEffect(() => {
-    const running = records.some((item) => RUNNING_UPLOAD_STATUSES.includes(item?.dataUpload?.status));
-    if (!isOpen || !running) return undefined;
-    const timer = setTimeout(fetchHistory, UPLOAD_POLL_INTERVAL_MS);
+    const polledCount = records.reduce(
+      (count, item, index) => (POLLED_UPLOAD_STATUSES.includes(item?.dataUpload?.status) ? index + 1 : count),
+      0,
+    );
+    if (!isOpen || fetchingHistory || !polledCount) return undefined;
+    const timer = setTimeout(() => fetchHistory(polledCount), UPLOAD_POLL_INTERVAL_MS);
     return () => clearTimeout(timer);
-  }, [isOpen, records]);
+  }, [isOpen, records, fetchingHistory, fetchHistory]);
 
   return (
     <>
@@ -184,7 +206,7 @@ function IndividualsUploadHistoryDialog({
                   </StyledTableRow>
                 </StyledTableHead>
                 <TableBody>
-                  <ProgressOrError progress={fetchingHistory && !records.length} error={fetchedHistory} />
+                  <ProgressOrError progress={fetchingHistory && !records.length} error={errorHistory} />
                   {records.map((item) => (
                     <TableRow key={item?.id}>
                       <TableCell>
@@ -293,6 +315,7 @@ const mapStateToProps = (state) => ({
   history: state.individual.individualDataUploadHistory,
   fetchedHistory: state.individual.fetchedIndividualDataUploadHistory,
   fetchingHistory: state.individual.fetchingIndividualDataUploadHistory,
+  errorHistory: state.individual.errorIndividualDataUploadHistory,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
