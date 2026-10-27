@@ -4,8 +4,9 @@ import { formatMessage, PublishedComponent } from '@openimis/fe-core';
 import { GROUP_INDIVIDUAL_HISTORY_TAB_VALUE } from '../constants';
 
 function GroupIndividualHistoryTabLabel({
-  intl, onChange, tabStyle, isSelected,
+  intl, onChange, tabStyle, isSelected, individual,
 }) {
+  if (!individual?.id) return null;
   return (
     <Tab
       onChange={onChange}
@@ -20,6 +21,7 @@ function GroupIndividualHistoryTabLabel({
 function GroupIndividualHistoryTabPanel({
   value, rights, individual,
 }) {
+  if (!individual?.id) return null;
   return (
     <PublishedComponent
       pubRef="policyHolder.TabPanel"
