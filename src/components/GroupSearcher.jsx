@@ -214,20 +214,11 @@ function GroupSearcher({
     // return setFailedExport(false);
   }, [groupExport]);
 
-  const groupFilter = (props) => (
-    <GroupFilter
-      intl={props.intl}
-      classes={props.classes}
-      filters={props.filters}
-      onChangeFilters={props.onChangeFilters}
-    />
-  );
-
   return (
     <div>
       <Searcher
         module="individual"
-        FilterPane={groupFilter}
+        FilterPane={GroupFilter}
         fetch={fetch}
         items={groups}
         itemsPageInfo={groupsPageInfo}

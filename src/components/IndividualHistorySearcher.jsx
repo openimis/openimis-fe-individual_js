@@ -86,20 +86,11 @@ function IndividualHistorySearcher({
     return filters;
   };
 
-  const individualHistoryFilter = (props) => (
-    <IndividualHistoryFilter
-      intl={props.intl}
-      classes={props.classes}
-      filters={props.filters}
-      onChangeFilters={props.onChangeFilters}
-    />
-  );
-
   return (
     <div>
       <Searcher
         module="individual"
-        FilterPane={individualHistoryFilter}
+        FilterPane={IndividualHistoryFilter}
         fetch={fetch}
         items={individualHistory}
         itemsPageInfo={individualHistoryPageInfo}
