@@ -299,7 +299,8 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   fetchUploadHistory,
 }, dispatch);
 
-export { StyledTableHead };
+// The unconnected dialog is exported for its tests.
+export { StyledTableHead, IndividualsUploadHistoryDialog };
 export default injectIntl(
   withModulesManager(
     connect(mapStateToProps, mapDispatchToProps)(IndividualsUploadHistoryDialog)

@@ -25,6 +25,13 @@ describe('UploadProgress', () => {
     expect(screen.getByText('upload.progress.validationStarting /')).toBeInTheDocument();
   });
 
+  it('shows nothing for an upload that reports no progress', () => {
+    // Only the pipeline workflow reports progress; the SQL workflows leave it null.
+    const { container } = render(<UploadProgress status="IN_PROGRESS" progress={null} />);
+
+    expect(container).toBeEmptyDOMElement();
+  });
+
   it('shows nothing once the upload is no longer running', () => {
     const { container } = render(
       <UploadProgress status="PARTIAL_SUCCESS" progress={{ stage: 'import', done: 4, total: 4 }} />,
