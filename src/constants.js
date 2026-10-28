@@ -117,6 +117,15 @@ export const UPLOAD_STATUS = {
 };
 export const INDIVIDUALS_QUANTITY_LIMIT = 15;
 export const PYTHON_DEFAULT_IMPORT_WORKFLOW = 'Python Import Individuals';
+export const PYTHON_PIPELINE_IMPORT_WORKFLOW = 'Python Pipeline Import Individuals';
+// Workflows whose upload can build groups from a column of the file.
+export const GROUPING_IMPORT_WORKFLOWS = [PYTHON_DEFAULT_IMPORT_WORKFLOW, PYTHON_PIPELINE_IMPORT_WORKFLOW];
+// An upload in one of these states is still being processed: the history polls it.
+export const RUNNING_UPLOAD_STATUSES = [UPLOAD_STATUS.PENDING, UPLOAD_STATUS.TRIGGERED, UPLOAD_STATUS.IN_PROGRESS];
+// The history refreshes these: the running ones, and one waiting for verification,
+// which can be approved from another screen while the dialog is open.
+export const POLLED_UPLOAD_STATUSES = [...RUNNING_UPLOAD_STATUSES, UPLOAD_STATUS.WAITING_FOR_VERIFICATION];
+export const UPLOAD_POLL_INTERVAL_MS = 3000;
 
 export const TASK_STATUS = {
   RECEIVED: 'RECEIVED',
