@@ -10,7 +10,6 @@ import {
   useModulesManager,
   useTranslations,
   coreConfirm,
-  clearConfirm,
   journalize,
 } from '@openimis/fe-core';
 import EnrollmentHeadPanel from '../components/EnrollmentHeadPanel';
@@ -58,14 +57,12 @@ function EnrollmentPage({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   coreConfirm,
-  clearConfirm,
   journalize,
 }, dispatch);
 
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state, props) => ({
   rights: state.core?.user?.i_user?.rights ?? [],
-  confirmed: state.core.confirmed,
   submittingMutation: state.payroll.submittingMutation,
 });
 

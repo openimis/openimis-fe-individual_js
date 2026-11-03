@@ -79,6 +79,14 @@ class IndividualHeadPanel extends FormPanel {
               </Grid>
             </Grid>
           </Grid>
+          {/* Nothing is shown without a pending task, nor without the tasks module. */}
+          <Grid sx={{ alignSelf: 'center', marginLeft: 1 }}>
+            <PublishedComponent
+              pubRef="tasksManagement.PendingTaskCount"
+              entityType="individual.individual"
+              entityId={edited?.id}
+            />
+          </Grid>
         </StyledGrid>
         <Divider />
         {mandatoryFieldsEmpty && !readOnly && (

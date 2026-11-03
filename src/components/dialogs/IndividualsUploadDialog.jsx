@@ -19,7 +19,7 @@ import { bindActionCreators } from 'redux';
 import WorkflowsPicker from '../../pickers/WorkflowsPicker';
 import { fetchWorkflows } from '../../actions';
 import IndividualsHistoryUploadDialog from './IndividualsHistoryUploadDialog';
-import { EMPTY_STRING, INDIVIDUAL_MODULE_NAME, PYTHON_DEFAULT_IMPORT_WORKFLOW } from '../../constants';
+import { EMPTY_STRING, GROUPING_IMPORT_WORKFLOWS, INDIVIDUAL_MODULE_NAME } from '../../constants';
 import downloadTemplate from '../../util/export';
 
 // Styled component replacing withStyles/styles object
@@ -226,13 +226,14 @@ function IndividualsUploadDialog({
                       module={INDIVIDUAL_MODULE_NAME}
                       label="workflowPicker"
                       onChange={(value) => handleFieldChange('workflows', 'workflow', value)}
-                      value={() => getFieldValue()}
+                      // The stored option value ({ name, group }), which the picker matches against.
+                      value={forms?.workflows?.workflow ?? null}
                       workflows={workflows}
                       required
                     />
                   </Grid>
                 </Grid>
-                {getFieldValue() === PYTHON_DEFAULT_IMPORT_WORKFLOW ? (
+                {GROUPING_IMPORT_WORKFLOWS.includes(getFieldValue()) ? (
                   <Grid container direction="row" alignItems="center">
                     <Grid container spacing={4} direction="row" alignItems="center">
                       <Grid>
@@ -324,7 +325,6 @@ function IndividualsUploadDialog({
 
 const mapStateToProps = (state) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
-  confirmed: state.core.confirmed,
   workflows: state.socialProtection.workflows,
 });
 

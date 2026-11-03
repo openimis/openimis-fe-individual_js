@@ -4,7 +4,6 @@ import {
   formatMessage,
   formatMessageWithValues,
   coreConfirm,
-  clearConfirm,
   GetIconComponent,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
@@ -30,9 +29,6 @@ function IndividualPage({
   deleteIndividual,
   undoDeleteIndividual,
   coreConfirm,
-  confirmed,
-  clearConfirm,
-  setConfirmedAction,
 }) {
   const back = () => history.goBack();
 
@@ -64,24 +60,24 @@ function IndividualPage({
   };
 
   const openDeleteIndividualConfirmDialog = () => {
-    setConfirmedAction(() => deleteIndividualCallback);
     coreConfirm(
       formatMessageWithValues(intl, 'individual', 'individual.delete.confirm.title', {
         firstName: individual?.firstName,
         lastName: individual?.lastName,
       }),
       formatMessage(intl, 'individual', 'individual.delete.confirm.message'),
+      { onConfirm: deleteIndividualCallback },
     );
   };
 
   const openUndoIndividualConfirmDialog = () => {
-    setConfirmedAction(() => undoDeleteIndividualCallback);
     coreConfirm(
       formatMessageWithValues(intl, 'individual', 'individual.undo.confirm.title', {
         firstName: individual?.firstName,
         lastName: individual?.lastName,
       }),
       formatMessage(intl, 'individual', 'individual.undo.confirm.message'),
+      { onConfirm: undoDeleteIndividualCallback },
     );
   };
 
@@ -109,7 +105,6 @@ function IndividualPage({
         back={back}
         save={save}
         rights={rights}
-        setConfirmedAction={setConfirmedAction}
         actions={actions}
         saveTooltip={saveTooltip}
       />
@@ -120,7 +115,6 @@ function IndividualPage({
 const mapStateToProps = (state, props) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
   individualUuid: props.match.params.individual_uuid,
-  confirmed: state.core.confirmed,
   fetchingIndividuals: state.individual.fetchingIndividuals,
   fetchedIndividuals: state.individual.fetchedIndividuals,
   individual: state.individual.individual,
@@ -134,7 +128,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   updateIndividual,
   undoDeleteIndividual,
   coreConfirm,
-  clearConfirm,
 }, dispatch);
 export default withHistory(
   injectIntl(connect(mapStateToProps, mapDispatchToProps)(IndividualPage))

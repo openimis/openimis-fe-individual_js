@@ -7,7 +7,6 @@ import {
   Searcher,
   formatDateFromISO,
   coreConfirm,
-  clearConfirm,
   coreAlert,
   journalize,
   withHistory,
@@ -61,9 +60,7 @@ function IndividualSearcher({
   history,
   rights,
   coreConfirm,
-  clearConfirm,
   coreAlert,
-  confirmed,
   journalize,
   submittingMutation,
   mutation,
@@ -89,8 +86,6 @@ function IndividualSearcher({
   undoDeleteIndividual,
 }) {
   const dispatch = useDispatch();
-  const [individualToDelete, setIndividualToDelete] = useState(null);
-  const [individualToUndo, setIndividualToUndo] = useState(null);
   const [appliedCustomFilters, setAppliedCustomFilters] = useState([CLEARED_STATE_FILTER]);
   const [appliedFiltersRowStructure, setAppliedFiltersRowStructure] = useState([CLEARED_STATE_FILTER]);
   const [deletedIndividualUuids, setDeletedIndividualUuids] = useState([]);
@@ -130,71 +125,53 @@ function IndividualSearcher({
     return `${modulesManager.getRef('individual.route.individual')}/${individual?.id}`;
   }
 
-  const openDeleteIndividualConfirmDialog = () => coreConfirm(
-    formatMessageWithValues(intl, 'individual', 'individual.delete.confirm.title', {
-      firstName: individualToDelete.firstName,
-      lastName: individualToDelete.lastName,
-    }),
-    formatMessage(intl, 'individual', 'individual.delete.confirm.message'),
-  );
-
-  const openUndoIndividualConfirmDialog = () => coreConfirm(
-    formatMessageWithValues(intl, 'individual', 'individual.undo.confirm.title', {
-      firstName: individualToUndo.firstName,
-      lastName: individualToUndo.lastName,
-    }),
-    formatMessage(intl, 'individual', 'individual.undo.confirm.message'),
-  );
-
   const onDoubleClick = (individual, newTab = false) => rights.includes(RIGHT_INDIVIDUAL_UPDATE)
   && !deletedIndividualUuids.includes(individual.id)
   && historyPush(modulesManager, history, 'individual.route.individual', [individual?.id], newTab);
 
-  const onDelete = (individual) => setIndividualToDelete(individual);
-  const onUndo = (individual) => setIndividualToUndo(individual);
+  // state.core.confirmed deleted or restored the individual on any other
+  // dialog's "Yes" (OP-3210).
+  const onDelete = (individual) => coreConfirm(
+    formatMessageWithValues(intl, 'individual', 'individual.delete.confirm.title', {
+      firstName: individual.firstName,
+      lastName: individual.lastName,
+    }),
+    formatMessage(intl, 'individual', 'individual.delete.confirm.message'),
+    {
+      onConfirm: () => {
+        deleteIndividual(
+          individual,
+          formatMessageWithValues(intl, 'individual', 'individual.delete.mutationLabel', {
+            id: individual?.id,
+          }),
+        );
+        coreAlert(
+          formatMessage(intl, 'individual', 'individual.delete.requestSubmitted.title'),
+          formatMessage(intl, 'individual', 'individual.delete.requestSubmitted.message'),
+        );
+        setDeletedIndividualUuids((uuids) => [...uuids, individual.id]);
+      },
+    },
+  );
 
-  useEffect(() => {
-    if (individualToDelete) {
-      openDeleteIndividualConfirmDialog();
-    }
-  }, [individualToDelete]);
-  useEffect(() => {
-    if (individualToUndo) {
-      openUndoIndividualConfirmDialog();
-    }
-  }, [individualToUndo]);
-
-  useEffect(() => {
-    if (individualToDelete && confirmed) {
-      deleteIndividual(
-        individualToDelete,
-        formatMessageWithValues(intl, 'individual', 'individual.delete.mutationLabel', {
-          id: individualToDelete?.id,
-        }),
-      );
-      coreAlert(
-        formatMessage(intl, 'individual', 'individual.delete.requestSubmitted.title'),
-        formatMessage(intl, 'individual', 'individual.delete.requestSubmitted.message'),
-      );
-      setDeletedIndividualUuids([...deletedIndividualUuids, individualToDelete.id]);
-    }
-    if (individualToUndo && confirmed) {
-      undoDeleteIndividual(
-        individualToUndo,
-        formatMessageWithValues(intl, 'individual', 'individual.undo.mutationLabel', {
-          id: individualToUndo?.id,
-        }),
-      );
-      setUndoIndividualUuids([...undoIndividualUuids, individualToUndo.id]);
-    }
-    if (individualToDelete && confirmed !== null) {
-      setIndividualToDelete(null);
-    }
-    if (individualToUndo && confirmed !== null) {
-      setIndividualToUndo(null);
-    }
-    return () => confirmed && clearConfirm(false);
-  }, [confirmed]);
+  const onUndo = (individual) => coreConfirm(
+    formatMessageWithValues(intl, 'individual', 'individual.undo.confirm.title', {
+      firstName: individual.firstName,
+      lastName: individual.lastName,
+    }),
+    formatMessage(intl, 'individual', 'individual.undo.confirm.message'),
+    {
+      onConfirm: () => {
+        undoDeleteIndividual(
+          individual,
+          formatMessageWithValues(intl, 'individual', 'individual.undo.mutationLabel', {
+            id: individual?.id,
+          }),
+        );
+        setUndoIndividualUuids((uuids) => [...uuids, individual.id]);
+      },
+    },
+  );
 
   useEffect(() => {
     if (prevSubmittingMutationRef.current && !submittingMutation) {
@@ -406,7 +383,6 @@ const mapStateToProps = (state) => ({
   individuals: state.individual.individuals,
   individualsPageInfo: state.individual.individualsPageInfo,
   individualsTotalCount: state.individual.individualsTotalCount,
-  confirmed: state.core.confirmed,
   submittingMutation: state.individual.submittingMutation,
   mutation: state.individual.mutation,
   selectedFilters: state.core.filtersCache.individualsFilterCache,
@@ -429,7 +405,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
     clearIndividualExport,
     undoDeleteIndividual,
     coreConfirm,
-    clearConfirm,
     coreAlert,
     journalize,
   },

@@ -19,7 +19,6 @@ import {
   useModulesManager,
   useTranslations,
   coreConfirm,
-  clearConfirm,
   journalize,
   Helmet,
   ProgressOrError,
@@ -214,7 +213,6 @@ function ImportDataApiPage({ confirmPullingDataFromApiEtl, mutations }) {
 const mapDispatchToProps = (dispatch) => bindActionCreators(
   {
     coreConfirm,
-    clearConfirm,
     journalize,
     confirmPullingDataFromApiEtl,
   },
@@ -224,7 +222,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators(
 // eslint-disable-next-line no-unused-vars
 const mapStateToProps = (state, props) => ({
   rights: state.core?.user?.i_user?.rights ?? [],
-  confirmed: state.core.confirmed,
   submittingMutation: state.individual.submittingMutation,
   mutations: state.individual.mutations,
 });

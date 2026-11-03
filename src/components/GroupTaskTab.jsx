@@ -9,7 +9,7 @@ import { GROUP_TASK_TAB_VALUE, GROUP_LABEL, TASK_CONTRIBUTION_KEY } from '../con
 function GroupTaskTabLabel({
   intl, onChange, tabStyle, isSelected, group,
 }) {
-  if (!group) return null;
+  if (!group?.id) return null;
   return (
     <Tab
       onChange={onChange}
@@ -22,10 +22,10 @@ function GroupTaskTabLabel({
 }
 
 function GroupTaskTabPanel({
-  value, group, rights, classes, groupIndividualIds,
+  value, group, rights, classes,
 }) {
-  if (!group) return null;
   const modulesManager = useModulesManager();
+  if (!group?.id) return null;
   const contributions = modulesManager.getContribs(TASK_CONTRIBUTION_KEY);
   if (contributions === undefined) {
     return null;
@@ -41,9 +41,11 @@ function GroupTaskTabPanel({
       index={GROUP_TASK_TAB_VALUE}
       value={value}
     >
+      {/* The group's tasks are resolved on the server: they do not depend on which
+          members the members tab has loaded, and the searcher is never remounted. */}
       <PublishedComponent
         pubRef="tasksManagement.taskSearcher"
-        entityIds={groupIndividualIds}
+        groupId={group.id}
         rights={rights}
         classes={classes}
         contribution={filteredContribution}

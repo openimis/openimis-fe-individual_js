@@ -4,7 +4,6 @@ import {
   formatMessage,
   formatMessageWithValues,
   coreConfirm,
-  clearConfirm,
   GetIconComponent,
 } from '@openimis/fe-core';
 import { injectIntl } from 'react-intl';
@@ -30,14 +29,11 @@ function GroupPage({
   createGroup,
   updateGroup,
   coreConfirm,
-  clearConfirm,
-  confirmed,
   createGroupAndMoveIndividual,
   groupIndividuals,
   createGroupIndividual,
 }) {
   const [editedGroupIndividual, setEditedGroupIndividual] = useState(null);
-  const [confirmedAction, setConfirmedAction] = useState(() => null);
   const [groupIndividualIds, setGroupIndividualIds] = useState([]);
   const [isAddIndividualToGroupModalOpen, setIsAddIndividualToGroupModalOpen] = useState(false);
 
@@ -47,11 +43,6 @@ function GroupPage({
       setGroupIndividualIds(ids);
     }
   }, [groupIndividuals]);
-
-  useEffect(() => {
-    if (confirmed && confirmedAction) confirmedAction();
-    return () => confirmed && clearConfirm(null);
-  }, [confirmed]);
 
   const back = () => {
     setEditedGroupIndividual(null);
@@ -88,12 +79,12 @@ function GroupPage({
   );
 
   const openDeleteGroupConfirmDialog = () => {
-    setConfirmedAction(() => deleteGroupCallback);
     coreConfirm(
       formatMessageWithValues(intl, 'individual', 'group.delete.confirm.title', {
         id: group?.id,
       }),
       formatMessage(intl, 'individual', 'group.delete.confirm.message'),
+      { onConfirm: deleteGroupCallback },
     );
   };
 
@@ -147,7 +138,6 @@ function GroupPage({
           back={back}
           save={save}
           rights={rights}
-          setConfirmedAction={setConfirmedAction}
           actions={actions}
           saveTooltip={saveTooltip}
           groupIndividualIds={groupIndividualIds}
@@ -164,7 +154,6 @@ function GroupPage({
 const mapStateToProps = (state, props) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
   groupUuid: props.match.params.group_uuid,
-  confirmed: state.core.confirmed,
   group: state.individual.group,
   groupIndividuals: state?.individual?.groupIndividuals,
 });
@@ -176,7 +165,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   createGroupAndMoveIndividual,
   createGroupIndividual,
   coreConfirm,
-  clearConfirm,
 }, dispatch);
 export default withHistory(
   injectIntl(connect(mapStateToProps, mapDispatchToProps)(GroupPage))
