@@ -1,7 +1,6 @@
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
-import { injectIntl } from 'react-intl';
 import {
   coreConfirm,
   downloadExport,
@@ -14,6 +13,7 @@ import {
   withHistory,
   withModulesManager,
   GetIconComponent,
+  injectIntl,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

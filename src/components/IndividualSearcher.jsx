@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { injectIntl } from 'react-intl';
 import {
   withModulesManager,
   formatMessage,
@@ -15,6 +14,7 @@ import {
   CLEARED_STATE_FILTER,
   decodeId,
   GetIconComponent,
+  injectIntl,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect, useDispatch } from 'react-redux';

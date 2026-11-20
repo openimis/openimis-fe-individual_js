@@ -5,8 +5,8 @@ import {
   formatMessageWithValues,
   coreConfirm,
   GetIconComponent,
+  injectIntl,
 } from '@openimis/fe-core';
-import { injectIntl } from 'react-intl';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 const DeleteIcon = GetIconComponent("Delete");

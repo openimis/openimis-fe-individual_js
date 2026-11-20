@@ -1,7 +1,6 @@
 import React, {
   useCallback, useEffect, useRef, useState,
 } from 'react';
-import { injectIntl } from 'react-intl';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import {
@@ -9,6 +8,7 @@ import {
   formatDateTimeFromISO,
   ProgressOrError,
   withModulesManager,
+  injectIntl,
 } from '@openimis/fe-core';
 import {
   TableHead,
@@ -125,16 +125,18 @@ function IndividualsUploadHistoryDialog({
       <Dialog
         open={isOpen}
         onClose={handleClose}
-        PaperProps={{
-          style: {
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%,-50%)',
-            width: '85%',
-            maxWidth: '85%',
-            maxHeight: '75%',
-          },
+        slotProps={{
+          paper: {
+            style: {
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%,-50%)',
+              width: '85%',
+              maxWidth: '85%',
+              maxHeight: '75%',
+            },
+          }
         }}
       >
         <DialogTitle

@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { injectIntl } from 'react-intl';
 import {
   useModulesManager,
   useTranslations,
   Searcher,
   withHistory,
   withModulesManager,
+  injectIntl,
 } from '@openimis/fe-core';
 import { DEFAULT_PAGE_SIZE, EMPTY_STRING, ROWS_PER_PAGE_OPTIONS } from '../constants';
 import GroupHistoryFilter from './GroupHistoryFilter';

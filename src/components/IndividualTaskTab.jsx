@@ -1,8 +1,7 @@
 import React from 'react';
-import { Tab } from '@mui/material';
 import {
   formatMessage, PublishedComponent,
-  useModulesManager,
+  useModulesManager, Tab,
 } from '@openimis/fe-core';
 import { INDIVIDUAL_LABEL, INDIVIDUAL_TASK_TAB_VALUE, TASK_CONTRIBUTION_KEY } from '../constants';
 

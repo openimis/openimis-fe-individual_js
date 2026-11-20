@@ -7,8 +7,8 @@ import {
   formatMessage,
   FormattedMessage,
   PublishedComponent,
+  injectIntl,
 } from '@openimis/fe-core';
-import { injectIntl } from 'react-intl';
 import { useTheme, styled } from '@mui/material/styles';
 import { RIGHT_INDIVIDUAL_UPDATE } from '../constants';
 import AdditionalFieldsDialog from './dialogs/AdditionalFieldsDialog';

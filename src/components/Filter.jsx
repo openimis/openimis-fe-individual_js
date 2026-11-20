@@ -7,9 +7,9 @@ import {
   GRID_RESPONSIVE_SMALL,
   PublishedComponent,
   TextInput,
+  injectIntl,
 } from '@openimis/fe-core';
 import _debounce from 'lodash/debounce';
-import { injectIntl } from 'react-intl';
 import { INDIVIDUAL_MODULE_NAME } from '../constants';
 import { defaultFilterStyles } from '../util/styles';
 

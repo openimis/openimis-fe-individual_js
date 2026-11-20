@@ -1,8 +1,7 @@
 import React from 'react';
 import {
-  GetIconComponent, Helmet, withModulesManager, withTooltip, formatMessage, historyPush,
+  GetIconComponent, Helmet, withModulesManager, withTooltip, formatMessage, historyPush, injectIntl,
 } from '@openimis/fe-core';
-import { injectIntl } from 'react-intl';
 import { styled } from '@mui/material/styles';
 import { connect } from 'react-redux';
 import { Fab } from '@mui/material';

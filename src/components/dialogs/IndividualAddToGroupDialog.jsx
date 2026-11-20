@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { injectIntl } from 'react-intl';
 
 import { useTheme, styled } from '@mui/material/styles';
 import {
   Button, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
-import { useTranslations, useModulesManager } from '@openimis/fe-core';
+import { useTranslations, useModulesManager, injectIntl } from '@openimis/fe-core';
 import IndividualAddToGroupPicker from '../../pickers/IndividualAddToGroupPicker';
 
 
@@ -38,11 +37,13 @@ function IndividualAddToGroupDialog({
     <Dialog
       open={confirmState}
       onClose={onClose}
-      PaperProps={{
-        style: {
-          width: 600,
-          maxWidth: 1000,
-        },
+      slotProps={{
+        paper: {
+          style: {
+            width: 600,
+            maxWidth: 1000,
+          },
+        }
       }}
     >
       <DialogTitle>

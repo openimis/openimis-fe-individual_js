@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { injectIntl } from "react-intl";
 import { useTheme, styled } from "@mui/material/styles";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
 
@@ -16,6 +15,7 @@ import {
     waitForMutation,
     mutationErrorText,
     withHistory,
+    injectIntl,
 } from "@openimis/fe-core";
 import { fetchIndividual } from "../actions";
 import { ACTION_TYPE } from "../reducer";
@@ -23,7 +23,7 @@ import IndividualHeadPanel from "./IndividualHeadPanel";
 import IndividualTabPanel from "./IndividualTabPanel";
 
 const StyledDiv = styled("div")(({ theme }) => ({
-    ...theme.page ?? {}
+    ...(theme.page ?? {})
 }));
 
 // MutationLog.status values.

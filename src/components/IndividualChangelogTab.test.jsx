@@ -17,6 +17,7 @@ vi.mock('@openimis/fe-core', async () => {
   const ReactActual = (await import('react')).default;
   const context = ReactActual.createContext(modulesManager);
   return {
+    Tab: (await import("@openimis/fe-core/testing")).Tab,
     formatMessage: (intl, module, id) => (intl?.formatMessage ? intl.formatMessage({ id }) : id),
     useModulesManager: () => ReactActual.useContext(context),
     PublishedComponent: ({ pubRef, children, ...props }) => {

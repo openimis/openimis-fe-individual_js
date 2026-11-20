@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { injectIntl } from 'react-intl';
 import {
   withModulesManager,
   formatMessage,
@@ -13,6 +12,7 @@ import {
   journalize,
   decodeId,
   GetIconComponent,
+  injectIntl,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

@@ -13,6 +13,7 @@ vi.mock('@openimis/fe-core', async () => {
   }
 
   return {
+    injectIntl: (await import("@openimis/fe-core/testing")).injectIntl,
     FormPanel,
     formatMessage: (intl, module, id) => `${module}.${id}`,
     FormattedMessage: ({ id }) => id,

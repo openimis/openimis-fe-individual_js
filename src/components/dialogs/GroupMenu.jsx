@@ -2,13 +2,13 @@ import React from 'react';
 import {
   MenuItem,
 } from '@mui/material';
-import { injectIntl } from 'react-intl';
 import {
   useModulesManager,
   formatMessage,
   coreAlert,
   withHistory,
   historyPush,
+  injectIntl,
 } from '@openimis/fe-core';
 import { useTheme, styled } from '@mui/material/styles';
 import { connect } from 'react-redux';
