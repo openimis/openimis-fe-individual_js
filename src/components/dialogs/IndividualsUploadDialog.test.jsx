@@ -19,18 +19,26 @@ vi.mock('@openimis/fe-core', async () => {
     FormattedMessage: ({ id }) => id,
     withHistory: (component) => component,
     historyPush: () => {},
-    SelectInput: ({ options, value, onChange }) => {
+    // The label shows fe-core's translation key, formatMessage(intl, module, label).
+    SelectInput: ({
+      options, value, onChange, module, label,
+    }) => {
       const current = value === null || value === undefined ? '' : JSON.stringify(value);
       const optionValues = options.map((o) => (o.value === null ? '' : JSON.stringify(o.value)));
       return ReactActual.createElement(
-        'select',
-        {
-          'aria-label': 'workflow',
-          value: optionValues.includes(current) ? current : '',
-          onChange: (e) => onChange(e.target.value === '' ? null : JSON.parse(e.target.value)),
-        },
-        ReactActual.createElement('option', { value: '' }, ''),
-        ...options.map((o, i) => ReactActual.createElement('option', { key: i, value: optionValues[i] }, o.label)),
+        'label',
+        null,
+        ReactActual.createElement('span', null, label ? `${module}.${label}` : null),
+        ReactActual.createElement(
+          'select',
+          {
+            'aria-label': 'workflow',
+            value: optionValues.includes(current) ? current : '',
+            onChange: (e) => onChange(e.target.value === '' ? null : JSON.parse(e.target.value)),
+          },
+          ReactActual.createElement('option', { value: '' }, ''),
+          ...options.map((o, i) => ReactActual.createElement('option', { key: i, value: optionValues[i] }, o.label)),
+        ),
       );
     },
   };
@@ -78,5 +86,18 @@ describe('IndividualsUploadDialog workflow picker', () => {
       'Python Import Individuals',
       'Python Update Individuals',
     ]);
+  });
+
+  // OP-3350: the picker took its label from the socialProtection translations, so
+  // without SocialProtectionModule the field showed a raw key instead of "Workflow".
+  it('labels the workflow picker with an individual translation', async () => {
+    const store = makeStore({
+      reducers: { individual: (state = { workflows: WORKFLOWS }) => state },
+    });
+    renderWithProviders(<IndividualsUploadDialog />, { store });
+
+    await userEvent.click(screen.getByText('individual.upload.buttonLabel'));
+
+    expect(screen.getByText('individual.upload.workflowPicker')).toBeTruthy();
   });
 });
