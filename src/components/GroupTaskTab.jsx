@@ -36,7 +36,7 @@ function GroupTaskTabPanel({
   }
   return (
     <PublishedComponent
-      pubRef="policyHolder.TabPanel"
+      pubRef="core.TabPanel"
       module="individual"
       index={GROUP_TASK_TAB_VALUE}
       value={value}

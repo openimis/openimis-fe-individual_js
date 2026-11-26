@@ -29,7 +29,7 @@ function IndividualsListTabPanel({
   }
   return (
     <PublishedComponent
-      pubRef="policyHolder.TabPanel"
+      pubRef="core.TabPanel"
       module="individual"
       index={INDIVIDUALS_LIST_TAB_VALUE}
       value={value}
