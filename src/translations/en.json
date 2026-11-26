@@ -52,6 +52,8 @@
   "individual.upload.label": "Upload Individuals",
   "individual.upload.alert.sameFileName": "Filename exists for given Program. Please change the filename.",
   "individual.upload.alert.header": "Error during file upload.",
+  "individual.upload.alert.success.title": "Upload successful",
+  "individual.upload.alert.success.message": "File uploaded successfully and sent to the task group for approval.",
   "individual.upload.workflowPicker": "Workflow",
   "individual.upload.cancel": "Cancel",
   "individual.upload.uploadHistoryTable.workflow": "Workflow",
