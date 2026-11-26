@@ -224,7 +224,7 @@ function IndividualsUploadDialog({
                   <Grid>
                     <WorkflowsPicker
                       module={INDIVIDUAL_MODULE_NAME}
-                      label="workflowPicker"
+                      label="upload.workflowPicker"
                       onChange={(value) => handleFieldChange('workflows', 'workflow', value)}
                       // The stored option value ({ name, group }), which the picker matches against.
                       value={forms?.workflows?.workflow ?? null}
