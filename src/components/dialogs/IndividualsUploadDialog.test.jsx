@@ -2,8 +2,10 @@
 import React from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import {
-  renderWithProviders, makeStore, screen, userEvent,
+  renderWithProviders, makeStore, screen, userEvent, waitFor,
 } from '@openimis/fe-core/testing';
+
+const { coreAlert } = vi.hoisted(() => ({ coreAlert: vi.fn(() => ({ type: 'CORE_ALERT' })) }));
 
 // The fe-core barrel cannot be loaded on its own from a test. SelectInput keeps
 // fe-core's contract: the option whose JSON matches the value is shown, any other
@@ -15,7 +17,7 @@ vi.mock('@openimis/fe-core', async () => {
     baseApiUrl: '/api',
     useModulesManager: () => ({ getConf: (module, key, fallback) => fallback }),
     formatMessage: (intl, module, id) => id,
-    coreAlert: () => ({ type: 'CORE_ALERT' }),
+    coreAlert,
     FormattedMessage: ({ id }) => id,
     withHistory: (component) => component,
     historyPush: () => {},
@@ -99,5 +101,30 @@ describe('IndividualsUploadDialog workflow picker', () => {
     await userEvent.click(screen.getByText('individual.upload.buttonLabel'));
 
     expect(screen.getByText('individual.upload.workflowPicker')).toBeTruthy();
+  });
+
+  // OP-3350: the success alert took its texts from the socialProtection
+  // translations, so without SocialProtectionModule it showed raw keys.
+  it('confirms a successful upload with individual translations', async () => {
+    vi.stubGlobal('fetch', vi.fn(() => Promise.resolve({ ok: true, status: 200 })));
+    const store = makeStore({
+      reducers: { individual: (state = { workflows: WORKFLOWS }) => state },
+    });
+    renderWithProviders(<IndividualsUploadDialog />, { store });
+
+    await userEvent.click(screen.getByText('individual.upload.buttonLabel'));
+    await userEvent.upload(
+      document.querySelector('#import-button'),
+      new File(['first_name\n'], 'individuals.csv', { type: 'text/csv' }),
+    );
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'workflow' }), 'Python Import Individuals');
+    await userEvent.click(screen.getByRole('button', { name: 'individual.upload.label' }));
+
+    await waitFor(() => expect(coreAlert).toHaveBeenCalled());
+    expect(coreAlert.mock.calls.at(-1).slice(0, 2)).toEqual([
+      'individual.upload.alert.success.title',
+      'individual.upload.alert.success.message',
+    ]);
+    vi.unstubAllGlobals();
   });
 });
