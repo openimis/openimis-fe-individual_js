@@ -20,7 +20,7 @@ vi.mock('@openimis/fe-core', async () => {
     formatMessage: (intl, module, id) => (intl?.formatMessage ? intl.formatMessage({ id }) : id),
     useModulesManager: () => ReactActual.useContext(context),
     PublishedComponent: ({ pubRef, children, ...props }) => {
-      if (pubRef === 'policyHolder.TabPanel') return ReactActual.createElement('div', null, children);
+      if (pubRef === 'core.TabPanel') return ReactActual.createElement('div', null, children);
       const Component = modulesManager.getRef(pubRef);
       return Component ? ReactActual.createElement(Component, props) : null;
     },
