@@ -50,7 +50,7 @@ describe('IndividualsUploadDialog workflow picker', () => {
   // never matched an option and the dropdown stayed empty, though the upload worked.
   it('shows the workflow that was picked', async () => {
     const store = makeStore({
-      reducers: { socialProtection: (state = { workflows: WORKFLOWS }) => state },
+      reducers: { individual: (state = { workflows: WORKFLOWS }) => state },
     });
     renderWithProviders(<IndividualsUploadDialog />, { store });
 
@@ -59,5 +59,24 @@ describe('IndividualsUploadDialog workflow picker', () => {
     await userEvent.selectOptions(picker, 'Python Update Individuals');
 
     expect(picker).toHaveDisplayValue('Python Update Individuals');
+  });
+
+  // OP-3350: the dialog read state.socialProtection.workflows, although it
+  // dispatches individual's own fetchWorkflows, whose result is in
+  // state.individual.workflows. Without SocialProtectionModule it crashed.
+  it('lists the individual workflows without SocialProtectionModule', async () => {
+    const store = makeStore({
+      reducers: { individual: (state = { workflows: WORKFLOWS }) => state },
+    });
+    renderWithProviders(<IndividualsUploadDialog />, { store });
+
+    await userEvent.click(screen.getByText('individual.upload.buttonLabel'));
+    const picker = screen.getByRole('combobox', { name: 'workflow' });
+
+    expect([...picker.options].map((option) => option.text)).toEqual([
+      '',
+      'Python Import Individuals',
+      'Python Update Individuals',
+    ]);
   });
 });
