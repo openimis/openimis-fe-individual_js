@@ -144,8 +144,8 @@ function IndividualsUploadDialog({
 
       if (response.ok) {
         coreAlert(
-          formatMessage(intl, 'socialProtection', 'benefitPlan.benefitPlanBeneficiaries.upload.success.title'),
-          formatMessage(intl, 'socialProtection', 'benefitPlan.benefitPlanBeneficiaries.upload.success.message'),
+          formatMessage(intl, 'individual', 'individual.upload.alert.success.title'),
+          formatMessage(intl, 'individual', 'individual.upload.alert.success.message'),
         );
         handleClose();
         return;
