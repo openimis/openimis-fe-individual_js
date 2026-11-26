@@ -117,7 +117,7 @@ function IndividualSearcher({
     }
 
     if (!canFetchBenefitPlanSchemaFields) {
-      setExportFields([...exportFields, ...fieldsFromBfSchema]);
+      setExportFields([...exportFields, ...(fieldsFromBfSchema || [])]);
     }
   }, [fetchedFieldsFromBfSchema, fetchingFieldsFromBfSchema, rights, modulesManager]);
 
