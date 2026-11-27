@@ -66,7 +66,7 @@ function PreviewEnrollmentDialog({
               width: '75%',
               maxWidth: '75%',
             },
-          }
+          },
         }}
       >
         <DialogTitle
