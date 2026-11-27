@@ -25,7 +25,7 @@ function BenefitsTabPanel({
   if (!individual?.id) return null;
   return (
     <PublishedComponent
-      pubRef="policyHolder.TabPanel"
+      pubRef="core.TabPanel"
       module="individual"
       index={BENEFITS_TAB_VALUE}
       value={value}
