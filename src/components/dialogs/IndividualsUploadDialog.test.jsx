@@ -2,8 +2,10 @@
 import React from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import {
-  renderWithProviders, makeStore, screen, userEvent,
+  renderWithProviders, makeStore, screen, userEvent, waitFor,
 } from '@openimis/fe-core/testing';
+
+const { coreAlert } = vi.hoisted(() => ({ coreAlert: vi.fn(() => ({ type: 'CORE_ALERT' })) }));
 
 // The fe-core barrel cannot be loaded on its own from a test. SelectInput keeps
 // fe-core's contract: the option whose JSON matches the value is shown, any other
@@ -15,22 +17,30 @@ vi.mock('@openimis/fe-core', async () => {
     baseApiUrl: '/api',
     useModulesManager: () => ({ getConf: (module, key, fallback) => fallback }),
     formatMessage: (intl, module, id) => id,
-    coreAlert: () => ({ type: 'CORE_ALERT' }),
+    coreAlert,
     FormattedMessage: ({ id }) => id,
     withHistory: (component) => component,
     historyPush: () => {},
-    SelectInput: ({ options, value, onChange }) => {
+    // The label shows fe-core's translation key, formatMessage(intl, module, label).
+    SelectInput: ({
+      options, value, onChange, module, label,
+    }) => {
       const current = value === null || value === undefined ? '' : JSON.stringify(value);
       const optionValues = options.map((o) => (o.value === null ? '' : JSON.stringify(o.value)));
       return ReactActual.createElement(
-        'select',
-        {
-          'aria-label': 'workflow',
-          value: optionValues.includes(current) ? current : '',
-          onChange: (e) => onChange(e.target.value === '' ? null : JSON.parse(e.target.value)),
-        },
-        ReactActual.createElement('option', { value: '' }, ''),
-        ...options.map((o, i) => ReactActual.createElement('option', { key: i, value: optionValues[i] }, o.label)),
+        'label',
+        null,
+        ReactActual.createElement('span', null, label ? `${module}.${label}` : null),
+        ReactActual.createElement(
+          'select',
+          {
+            'aria-label': 'workflow',
+            value: optionValues.includes(current) ? current : '',
+            onChange: (e) => onChange(e.target.value === '' ? null : JSON.parse(e.target.value)),
+          },
+          ReactActual.createElement('option', { value: '' }, ''),
+          ...options.map((o, i) => ReactActual.createElement('option', { key: i, value: optionValues[i] }, o.label)),
+        ),
       );
     },
   };
@@ -50,7 +60,7 @@ describe('IndividualsUploadDialog workflow picker', () => {
   // never matched an option and the dropdown stayed empty, though the upload worked.
   it('shows the workflow that was picked', async () => {
     const store = makeStore({
-      reducers: { socialProtection: (state = { workflows: WORKFLOWS }) => state },
+      reducers: { individual: (state = { workflows: WORKFLOWS }) => state },
     });
     renderWithProviders(<IndividualsUploadDialog />, { store });
 
@@ -59,5 +69,62 @@ describe('IndividualsUploadDialog workflow picker', () => {
     await userEvent.selectOptions(picker, 'Python Update Individuals');
 
     expect(picker).toHaveDisplayValue('Python Update Individuals');
+  });
+
+  // OP-3350: the dialog read state.socialProtection.workflows, although it
+  // dispatches individual's own fetchWorkflows, whose result is in
+  // state.individual.workflows. Without SocialProtectionModule it crashed.
+  it('lists the individual workflows without SocialProtectionModule', async () => {
+    const store = makeStore({
+      reducers: { individual: (state = { workflows: WORKFLOWS }) => state },
+    });
+    renderWithProviders(<IndividualsUploadDialog />, { store });
+
+    await userEvent.click(screen.getByText('individual.upload.buttonLabel'));
+    const picker = screen.getByRole('combobox', { name: 'workflow' });
+
+    expect([...picker.options].map((option) => option.text)).toEqual([
+      '',
+      'Python Import Individuals',
+      'Python Update Individuals',
+    ]);
+  });
+
+  // OP-3350: the picker took its label from the socialProtection translations, so
+  // without SocialProtectionModule the field showed a raw key instead of "Workflow".
+  it('labels the workflow picker with an individual translation', async () => {
+    const store = makeStore({
+      reducers: { individual: (state = { workflows: WORKFLOWS }) => state },
+    });
+    renderWithProviders(<IndividualsUploadDialog />, { store });
+
+    await userEvent.click(screen.getByText('individual.upload.buttonLabel'));
+
+    expect(screen.getByText('individual.upload.workflowPicker')).toBeTruthy();
+  });
+
+  // OP-3350: the success alert took its texts from the socialProtection
+  // translations, so without SocialProtectionModule it showed raw keys.
+  it('confirms a successful upload with individual translations', async () => {
+    vi.stubGlobal('fetch', vi.fn(() => Promise.resolve({ ok: true, status: 200 })));
+    const store = makeStore({
+      reducers: { individual: (state = { workflows: WORKFLOWS }) => state },
+    });
+    renderWithProviders(<IndividualsUploadDialog />, { store });
+
+    await userEvent.click(screen.getByText('individual.upload.buttonLabel'));
+    await userEvent.upload(
+      document.querySelector('#import-button'),
+      new File(['first_name\n'], 'individuals.csv', { type: 'text/csv' }),
+    );
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'workflow' }), 'Python Import Individuals');
+    await userEvent.click(screen.getByRole('button', { name: 'individual.upload.label' }));
+
+    await waitFor(() => expect(coreAlert).toHaveBeenCalled());
+    expect(coreAlert.mock.calls.at(-1).slice(0, 2)).toEqual([
+      'individual.upload.alert.success.title',
+      'individual.upload.alert.success.message',
+    ]);
+    vi.unstubAllGlobals();
   });
 });

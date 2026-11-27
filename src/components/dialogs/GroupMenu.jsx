@@ -10,7 +10,7 @@ import {
   withHistory,
   historyPush,
 } from '@openimis/fe-core';
-import { useTheme, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchWorkflows } from '../../actions';
@@ -24,12 +24,7 @@ function GroupMenu({
   intl,
   history,
 }) {
-  const theme = useTheme();
   const modulesManager = useModulesManager();
-
-  function enrollmentGroupPageUrl() {
-    return `${modulesManager.getRef('individual.route.groupEnrollment')}`;
-  }
 
   return (
     <StyledMenuItem
@@ -42,7 +37,7 @@ function GroupMenu({
 
 const mapStateToProps = (state) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
-  workflows: state.socialProtection.workflows,
+  workflows: state.individual.workflows,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

@@ -3,7 +3,7 @@ import {
   Input, Grid, MenuItem, Typography, Select, Button, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
 import { injectIntl } from 'react-intl';
-import { useTheme, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import {
   apiHeaders,
   baseApiUrl,
@@ -34,7 +34,6 @@ function IndividualsUploadDialog({
   coreAlert,
   history,
 }) {
-  const theme = useTheme();
   const modulesManager = useModulesManager();
   const [isOpen, setIsOpen] = useState(false);
   const [forms, setForms] = useState({});
@@ -69,7 +68,7 @@ function IndividualsUploadDialog({
           (header) => header !== 'recipient_info' && header !== 'group_code',
         );
         setHeaders(filteredHeaders);
-      } catch (error) {
+      } catch {
         setHeaders([]);
       }
     }
@@ -144,8 +143,8 @@ function IndividualsUploadDialog({
 
       if (response.ok) {
         coreAlert(
-          formatMessage(intl, 'socialProtection', 'benefitPlan.benefitPlanBeneficiaries.upload.success.title'),
-          formatMessage(intl, 'socialProtection', 'benefitPlan.benefitPlanBeneficiaries.upload.success.message'),
+          formatMessage(intl, 'individual', 'individual.upload.alert.success.title'),
+          formatMessage(intl, 'individual', 'individual.upload.alert.success.message'),
         );
         handleClose();
         return;
@@ -157,14 +156,10 @@ function IndividualsUploadDialog({
         : EMPTY_STRING;
 
       coreAlert(errorHeader, errorMessage);
-    } catch (error) {
+    } catch {
       handleClose();
     }
   };
-
-  function enrollmentPageUrl() {
-    return `${modulesManager.getRef('individual.route.enrollment')}`;
-  }
 
   const downloadExampleTemplate = () => {
     downloadTemplate();
@@ -224,7 +219,7 @@ function IndividualsUploadDialog({
                   <Grid>
                     <WorkflowsPicker
                       module={INDIVIDUAL_MODULE_NAME}
-                      label="workflowPicker"
+                      label="upload.workflowPicker"
                       onChange={(value) => handleFieldChange('workflows', 'workflow', value)}
                       // The stored option value ({ name, group }), which the picker matches against.
                       value={forms?.workflows?.workflow ?? null}
@@ -325,7 +320,7 @@ function IndividualsUploadDialog({
 
 const mapStateToProps = (state) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
-  workflows: state.socialProtection.workflows,
+  workflows: state.individual.workflows,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

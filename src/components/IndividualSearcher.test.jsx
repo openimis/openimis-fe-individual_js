@@ -50,13 +50,13 @@ vi.mock('../actions', () => ({
 vi.mock('./IndividualFilter', () => ({ default: () => null }));
 
 const { IndividualSearcher } = await import('./IndividualSearcher');
-const { RIGHT_INDIVIDUAL_DELETE } = await import('../constants');
+const { RIGHT_INDIVIDUAL_DELETE, RIGHT_SCHEMA_SEARCH } = await import('../constants');
 
 const ACTIVE = { id: 'ind-1', firstName: 'Ada', lastName: 'L', isDeleted: false };
 const DELETED = { id: 'ind-2', firstName: 'Bob', lastName: 'M', isDeleted: true };
 const store = createStore((state = {}) => state);
 
-const renderSearcher = () => {
+const renderSearcher = (overrides = {}) => {
   const props = {
     intl: {},
     modulesManager: { getRef: () => null },
@@ -74,6 +74,7 @@ const renderSearcher = () => {
     journalize: vi.fn(),
     clearConfirm: vi.fn(),
     confirmed: null,
+    ...overrides,
   };
   const ui = (extra) => <Provider store={store}><IndividualSearcher {...props} {...extra} /></Provider>;
   const view = render(ui());
@@ -126,5 +127,19 @@ describe('IndividualSearcher delete and undo', () => {
     act(() => setConfirmed(true));
 
     expect(props.undoDeleteIndividual).not.toHaveBeenCalled();
+  });
+});
+
+describe('IndividualSearcher without SocialProtectionModule', () => {
+  it('lists the individuals when there are no benefit plan schema fields', () => {
+    // No socialProtection slice: the mapped schema-field props are all undefined,
+    // and without the schema search right nothing fetches them.
+    const { props } = renderSearcher({
+      fetchedFieldsFromBfSchema: undefined,
+      fieldsFromBfSchema: undefined,
+    });
+
+    expect(props.rights).not.toContain(RIGHT_SCHEMA_SEARCH);
+    expect(screen.getByTestId('row-ind-1')).toBeTruthy();
   });
 });
