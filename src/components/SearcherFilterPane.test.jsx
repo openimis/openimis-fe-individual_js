@@ -28,7 +28,8 @@ const { mounts, mockFilter } = vi.hoisted(() => {
   };
 });
 
-vi.mock('@openimis/fe-core', () => ({
+vi.mock('@openimis/fe-core', async () => ({
+  injectIntl: (await import("@openimis/fe-core/testing")).injectIntl,
   GetIconComponent: (name) => function Icon() { return <span>{name}</span>; },
   formatMessage: (intl, module, key) => key,
   formatMessageWithValues: (intl, module, key) => key,

@@ -1,11 +1,11 @@
 import React from 'react';
-import { injectIntl } from 'react-intl';
 import {
   formatDateFromISO,
   formatMessageWithValues,
   Searcher,
   withHistory,
   withModulesManager,
+  injectIntl,
 } from '@openimis/fe-core';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';

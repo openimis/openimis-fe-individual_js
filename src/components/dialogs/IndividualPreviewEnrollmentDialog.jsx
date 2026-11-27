@@ -1,123 +1,17 @@
-/* eslint-disable max-len */
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import {
-  useModulesManager,
-  useTranslations,
-} from '@openimis/fe-core';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { INDIVIDUAL_MODULE_NAME } from '../../constants';
+import React from 'react';
 import IndividualSearcher from '../IndividualSearcher';
+import PreviewEnrollmentDialog, { connectPreviewDialog } from './PreviewEnrollmentDialog';
 
-function IndividualPreviewEnrollmentDialog({
-  classes,
-  rights,
-  advancedCriteria,
-  benefitPlanToEnroll,
-  enrollmentSummary,
-  enrollmentConfirmed,
-}) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
-  const modulesManager = useModulesManager();
-  const { formatMessage } = useTranslations(INDIVIDUAL_MODULE_NAME, modulesManager);
-
+function IndividualPreviewEnrollmentDialog({ enrollmentSummary, ...props }) {
   return (
-    <>
-      <Button
-        onClick={handleOpen}
-        variant="contained"
-        color="primary"
-        className={classes?.button}
-        style={{ marginLeft: '16px' }}
-        disabled={!benefitPlanToEnroll || enrollmentSummary?.numberOfIndividualsToUpload === '0' || enrollmentConfirmed}
-      >
-        {formatMessage('individual.enrollment.previewIndividuals')}
-      </Button>
-      <Dialog
-        open={isOpen}
-        onClose={handleClose}
-        PaperProps={{
-          style: {
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%,-50%)',
-            width: '75%',
-            maxWidth: '75%',
-          },
-        }}
-      >
-        <DialogTitle
-          style={{
-            marginTop: '10px',
-          }}
-        >
-          {formatMessage('individual.enrollment.previewIndividuals')}
-        </DialogTitle>
-        <DialogContent>
-          <div
-            style={{ backgroundColor: '#DFEDEF' }}
-          >
-            <IndividualSearcher
-              rights={rights}
-              isModalEnrollment
-              advancedCriteria={advancedCriteria}
-              benefitPlanToEnroll={benefitPlanToEnroll}
-            />
-          </div>
-        </DialogContent>
-        <DialogActions
-          style={{
-            display: 'inline',
-            paddingLeft: '10px',
-            marginTop: '25px',
-            marginBottom: '15px',
-            width: '100%',
-          }}
-        >
-          <div style={{ maxWidth: '3000px' }}>
-            <div style={{ float: 'left' }} />
-            <div style={{
-              float: 'right',
-              paddingRight: '16px',
-            }}
-            >
-              <Button
-                onClick={handleClose}
-                variant="outlined"
-                autoFocus
-                style={{ margin: '0 16px' }}
-              >
-                {formatMessage('individual.enrollment.close')}
-              </Button>
-            </div>
-          </div>
-        </DialogActions>
-      </Dialog>
-    </>
+    <PreviewEnrollmentDialog
+      {...props}
+      Searcher={IndividualSearcher}
+      previewLabelKey="individual.enrollment.previewIndividuals"
+      nothingToEnroll={enrollmentSummary?.numberOfIndividualsToUpload === '0'}
+    />
   );
 }
 
-const mapStateToProps = (state) => ({
-  rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
-});
-
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-}, dispatch);
-
 export { IndividualPreviewEnrollmentDialog };
-export default connect(mapStateToProps, mapDispatchToProps)(IndividualPreviewEnrollmentDialog);
+export default connectPreviewDialog(IndividualPreviewEnrollmentDialog);

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Tab } from '@mui/material';
 import {
-  formatMessage, PublishedComponent,
+  formatMessage, PublishedComponent, Tab,
 } from '@openimis/fe-core';
 import { BENEFITS_TAB_VALUE, BENEFITS_CONTRIBUTION_KEY } from '../constants';
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { SelectInput, formatMessage } from '@openimis/fe-core';
-import { injectIntl } from 'react-intl';
+import { SelectInput, formatMessage, injectIntl } from '@openimis/fe-core';
+
 
 function WorkflowsPicker({
   intl,

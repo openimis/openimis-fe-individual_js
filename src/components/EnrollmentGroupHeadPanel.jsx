@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable camelcase */
 import React from 'react';
-import { injectIntl } from 'react-intl';
 
 import { Grid, Divider } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
@@ -12,6 +11,7 @@ import {
   PublishedComponent,
   formatMessage,
   withModulesManager,
+  injectIntl,
 } from '@openimis/fe-core';
 import AdvancedCriteriaGroupForm from './dialogs/AdvancedCriteriaGroupForm';
 import { CLEARED_STATE_FILTER } from '../constants';

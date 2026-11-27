@@ -6,8 +6,8 @@ import {
   TextInput,
   FormattedMessage,
   PublishedComponent,
+  injectIntl,
 } from '@openimis/fe-core';
-import { injectIntl } from 'react-intl';
 import { useTheme, styled } from '@mui/material/styles';
 import { EMPTY_STRING, RIGHT_GROUP_UPDATE } from '../constants';
 

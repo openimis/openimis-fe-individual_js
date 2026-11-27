@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Input, Grid, MenuItem, Typography, Select, Button, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
-import { injectIntl } from 'react-intl';
 import { useTheme, styled } from '@mui/material/styles';
 import {
   apiHeaders,
@@ -13,6 +12,7 @@ import {
   FormattedMessage,
   withHistory,
   historyPush,
+  injectIntl,
 } from '@openimis/fe-core';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -186,11 +186,13 @@ function IndividualsUploadDialog({
       <Dialog
         open={isOpen}
         onClose={handleClose}
-        PaperProps={{
-          style: {
-            width: 600,
-            maxWidth: 1000,
-          },
+        slotProps={{
+          paper: {
+            style: {
+              width: 600,
+              maxWidth: 1000,
+            },
+          }
         }}
       >
         <form noValidate>
@@ -234,8 +236,12 @@ function IndividualsUploadDialog({
                   </Grid>
                 </Grid>
                 {GROUPING_IMPORT_WORKFLOWS.includes(getFieldValue()) ? (
-                  <Grid container direction="row" alignItems="center">
-                    <Grid container spacing={4} direction="row" alignItems="center">
+                  <Grid container direction="row" sx={{
+                    alignItems: "center"
+                  }}>
+                    <Grid container spacing={4} direction="row" sx={{
+                      alignItems: "center"
+                    }}>
                       <Grid>
                         <Typography>
                           <FormattedMessage module={INDIVIDUAL_MODULE_NAME} id="createGroupFromColumns" />

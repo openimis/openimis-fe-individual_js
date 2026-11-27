@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { injectIntl } from "react-intl";
 import ReplayIcon from "@mui/icons-material/Replay";
 import { styled } from "@mui/material/styles";
 
@@ -11,6 +10,7 @@ import {
     formatMessageWithValues,
     journalize,
     Helmet,
+    injectIntl,
 } from "@openimis/fe-core";
 import { fetchGroup, clearGroup } from "../actions";
 import { RIGHT_GROUP_UPDATE } from "../constants";
@@ -18,7 +18,7 @@ import GroupHeadPanel from "./GroupHeadPanel";
 import GroupTabPanel from "./GroupTabPanel";
 
 const StyledGroupForm = styled("div")(({ theme }) => ({
-    ...theme.page ?? {},
+    ...(theme.page ?? {}),
     "&.lockedPage": theme?.page?.locked ?? {},
 }));
 

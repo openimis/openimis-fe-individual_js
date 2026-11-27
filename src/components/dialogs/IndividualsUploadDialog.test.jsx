@@ -1,5 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies -- Vitest runs from the frontend assembly */
 import React from 'react';
+// MUI 9: a MenuItem must be rendered inside a menu, as in the page.
+import { MenuList } from '@mui/material';
 import { describe, expect, it, vi } from 'vitest';
 import {
   renderWithProviders, makeStore, screen, userEvent,
@@ -11,6 +13,7 @@ import {
 vi.mock('@openimis/fe-core', async () => {
   const ReactActual = (await import('react')).default;
   return {
+    injectIntl: (await import("@openimis/fe-core/testing")).injectIntl,
     apiHeaders: {},
     baseApiUrl: '/api',
     useModulesManager: () => ({ getConf: (module, key, fallback) => fallback }),
@@ -52,7 +55,7 @@ describe('IndividualsUploadDialog workflow picker', () => {
     const store = makeStore({
       reducers: { socialProtection: (state = { workflows: WORKFLOWS }) => state },
     });
-    renderWithProviders(<IndividualsUploadDialog />, { store });
+    renderWithProviders(<MenuList><IndividualsUploadDialog /></MenuList>, { store });
 
     await userEvent.click(screen.getByText('individual.upload.buttonLabel'));
     const picker = screen.getByRole('combobox', { name: 'workflow' });

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Tab } from '@mui/material';
-import { formatMessage, PublishedComponent } from '@openimis/fe-core';
+import { formatMessage, PublishedComponent, Tab } from '@openimis/fe-core';
 import { INDIVIDUALS_LIST_TAB_VALUE } from '../constants';
 
 function IndividualsListTabLabel({

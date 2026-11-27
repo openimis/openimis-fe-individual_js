@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
-import { injectIntl } from 'react-intl';
 import { Button, Divider, Grid, Paper, Typography } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import {
@@ -10,6 +9,7 @@ import {
   fetchCustomFilter,
   coreConfirm,
   GetIconComponent,
+  injectIntl,
 } from '@openimis/fe-core';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

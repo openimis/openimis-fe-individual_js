@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { injectIntl } from 'react-intl';
 import {
   formatMessage,
   GetIconComponent,
+  injectIntl,
 } from '@openimis/fe-core';
 import {
   ListItem,

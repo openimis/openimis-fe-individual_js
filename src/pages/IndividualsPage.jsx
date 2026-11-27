@@ -1,6 +1,6 @@
 import React from 'react';
-import { Helmet, withModulesManager, formatMessage } from '@openimis/fe-core';
-import { injectIntl } from 'react-intl';
+import { Helmet, withModulesManager, formatMessage, injectIntl } from '@openimis/fe-core';
+
 import { styled } from '@mui/material/styles';
 import { connect } from 'react-redux';
 import { RIGHT_INDIVIDUAL_SEARCH } from '../constants';

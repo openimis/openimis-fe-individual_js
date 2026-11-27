@@ -1,10 +1,13 @@
 import React from 'react';
+// MUI 9: a MenuItem must be rendered inside a menu, as in the page.
+import { MenuList } from '@mui/material';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { IndividualsUploadHistoryDialog } from './IndividualsHistoryUploadDialog';
 import { UPLOAD_POLL_INTERVAL_MS } from '../../constants';
 
-vi.mock('@openimis/fe-core', () => ({
+vi.mock('@openimis/fe-core', async () => ({
+  injectIntl: (await import("@openimis/fe-core/testing")).injectIntl,
   formatMessage: (intl, module, key) => key,
   formatDateTimeFromISO: (mm, intl, date) => date,
   ProgressOrError: ({ progress, error }) => (
@@ -33,7 +36,7 @@ describe('IndividualsUploadHistoryDialog polling', () => {
 
   const update = (changes) => {
     props = { ...props, ...changes };
-    act(() => utils.rerender(<IndividualsUploadHistoryDialog {...props} />));
+    act(() => utils.rerender(<MenuList><IndividualsUploadHistoryDialog {...props} /></MenuList>));
   };
   // The reducer empties the list on every request, then fills it on success.
   const respond = (history) => {
@@ -50,7 +53,7 @@ describe('IndividualsUploadHistoryDialog polling', () => {
     vi.useFakeTimers();
     fetchUploadHistory = vi.fn();
     props = { intl: {}, modulesManager: {}, fetchUploadHistory, ...idle };
-    utils = render(<IndividualsUploadHistoryDialog {...props} />);
+    utils = render(<MenuList><IndividualsUploadHistoryDialog {...props} /></MenuList>);
     fireEvent.click(screen.getByText('individual.upload.uploadHistoryTable.buttonLabel'));
   });
 

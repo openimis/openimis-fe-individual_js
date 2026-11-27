@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Paper, Grid } from '@mui/material';
-import { Contributions } from '@openimis/fe-core';
-import { injectIntl } from 'react-intl';
+import { Contributions, injectIntl } from '@openimis/fe-core';
+
 import { useTheme, styled } from '@mui/material/styles';
 import {
   BENEFIT_PLANS_LIST_TAB_VALUE,
