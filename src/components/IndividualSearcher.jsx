@@ -121,10 +121,6 @@ function IndividualSearcher({
     }
   }, [fetchedFieldsFromBfSchema, fetchingFieldsFromBfSchema, rights, modulesManager]);
 
-  function individualUpdatePageUrl(individual) {
-    return `${modulesManager.getRef('individual.route.individual')}/${individual?.id}`;
-  }
-
   const onDoubleClick = (individual, newTab = false) => rights.includes(RIGHT_INDIVIDUAL_UPDATE)
   && !deletedIndividualUuids.includes(individual.id)
   && historyPush(modulesManager, history, 'individual.route.individual', [individual?.id], newTab);

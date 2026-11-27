@@ -3,7 +3,7 @@ import {
   Input, Grid, MenuItem, Typography, Select, Button, Dialog, DialogActions, DialogContent, DialogTitle,
 } from '@mui/material';
 import { injectIntl } from 'react-intl';
-import { useTheme, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import {
   apiHeaders,
   baseApiUrl,
@@ -34,7 +34,6 @@ function IndividualsUploadDialog({
   coreAlert,
   history,
 }) {
-  const theme = useTheme();
   const modulesManager = useModulesManager();
   const [isOpen, setIsOpen] = useState(false);
   const [forms, setForms] = useState({});
@@ -69,7 +68,7 @@ function IndividualsUploadDialog({
           (header) => header !== 'recipient_info' && header !== 'group_code',
         );
         setHeaders(filteredHeaders);
-      } catch (error) {
+      } catch {
         setHeaders([]);
       }
     }
@@ -157,14 +156,10 @@ function IndividualsUploadDialog({
         : EMPTY_STRING;
 
       coreAlert(errorHeader, errorMessage);
-    } catch (error) {
+    } catch {
       handleClose();
     }
   };
-
-  function enrollmentPageUrl() {
-    return `${modulesManager.getRef('individual.route.enrollment')}`;
-  }
 
   const downloadExampleTemplate = () => {
     downloadTemplate();
