@@ -42,7 +42,7 @@ function GroupMenu({
 
 const mapStateToProps = (state) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
-  workflows: state.socialProtection.workflows,
+  workflows: state.individual.workflows,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

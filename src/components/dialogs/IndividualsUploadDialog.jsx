@@ -144,8 +144,8 @@ function IndividualsUploadDialog({
 
       if (response.ok) {
         coreAlert(
-          formatMessage(intl, 'socialProtection', 'benefitPlan.benefitPlanBeneficiaries.upload.success.title'),
-          formatMessage(intl, 'socialProtection', 'benefitPlan.benefitPlanBeneficiaries.upload.success.message'),
+          formatMessage(intl, 'individual', 'individual.upload.alert.success.title'),
+          formatMessage(intl, 'individual', 'individual.upload.alert.success.message'),
         );
         handleClose();
         return;
@@ -226,7 +226,7 @@ function IndividualsUploadDialog({
                   <Grid>
                     <WorkflowsPicker
                       module={INDIVIDUAL_MODULE_NAME}
-                      label="workflowPicker"
+                      label="upload.workflowPicker"
                       onChange={(value) => handleFieldChange('workflows', 'workflow', value)}
                       // The stored option value ({ name, group }), which the picker matches against.
                       value={forms?.workflows?.workflow ?? null}
@@ -331,7 +331,7 @@ function IndividualsUploadDialog({
 
 const mapStateToProps = (state) => ({
   rights: !!state.core && !!state.core.user && !!state.core.user.i_user ? state.core.user.i_user.rights : [],
-  workflows: state.socialProtection.workflows,
+  workflows: state.individual.workflows,
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
